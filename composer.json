@@ -1,0 +1,28 @@
+{
+    "name": "elfcms/shop",
+    "description": "",
+    "minimum-stability": "stable",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Maxim Klassen",
+            "email": "maximklassen@mail.de"
+        }
+    ],
+    "require": {
+        "php": "^8.0",
+        "elfcms/basic": "^0.12"
+    },
+    "autoload": {
+        "psr-4": {
+            "Elfcms\\Shop\\": "src"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Elfcms\\Shop\\Providers\\ElfShopProvider"
+            ]
+        }
+    }
+}
