@@ -21,7 +21,7 @@ return [
     |
     */
 
-    'basic_package' => '0.12',
+    'basic_package' => '1.1.0',
 
     /*
     |--------------------------------------------------------------------------
@@ -39,6 +39,7 @@ return [
             "route" => "admin.shop.index",
             "parent_route" => "admin.shop.index",
             "icon" => "/vendor/elfcms/shop/admin/images/icons/shop.png",
+            "position" => 110,
             "submenu" => []
         ],
     ],
