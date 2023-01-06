@@ -21,7 +21,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Elfcms\\Shop\\Providers\\ElfShopProvider"
+                "Elfcms\\Shop\\Providers\\ElfModuleProvider"
             ]
         }
     }
