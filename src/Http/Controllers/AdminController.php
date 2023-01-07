@@ -3,12 +3,18 @@
 namespace Elfcms\Shop\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use Elfcms\Shop\Models\ShopCategory;
+use Elfcms\Shop\Models\ShopGoods;
 use Illuminate\Http\Request;
 
 class AdminController extends Controller
 {
     public function shop()
     {
+        $cat = ShopCategory::find(1);
+        dd($cat->goods);
+        //$g = ShopGoods::find(1);
+        //dd($g->category);
         /* $parentMenuData = config('elfcms.blog.menu');
         $menuData = [];
         foreach ($parentMenuData[0]['submenu'] as $key => $data) {

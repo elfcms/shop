@@ -16,9 +16,9 @@ return new class extends Migration
         Schema::create('shop_item_parameter_values', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('parameter_id')->unsigned();
-            $table->foreign('parameter_id')->references('id')->on('shop_goods')->onDelete('cascade');
+            $table->foreign('parameter_id')->references('id')->on('shop_item_parameters')->onDelete('cascade');
             $table->bigInteger('item_id')->unsigned();
-            $table->foreign('item_id')->references('id')->on('shop_goods')->onDelete('cascade');
+            $table->foreign('item_id')->references('id')->on('shop_items')->onDelete('cascade');
             $table->boolean('bool_value')->nullable();
             $table->bigInteger('int_value')->nullable();
             $table->float('float_value')->nullable();

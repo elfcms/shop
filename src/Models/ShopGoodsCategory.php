@@ -8,4 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class ShopGoodsCategory extends Model
 {
     use HasFactory;
+
+    protected $table = 'shop_goods_categories';
 }

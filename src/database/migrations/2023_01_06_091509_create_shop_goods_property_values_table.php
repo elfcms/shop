@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('shop_goods_property_values', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('property_id')->unsigned();
-            $table->foreign('property_id')->references('id')->on('shop_goods')->onDelete('cascade');
+            $table->foreign('property_id')->references('id')->on('shop_item_properties')->onDelete('cascade');
             $table->bigInteger('goods_id')->unsigned();
             $table->foreign('goods_id')->references('id')->on('shop_goods')->onDelete('cascade');
             $table->boolean('bool_value')->nullable();
