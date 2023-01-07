@@ -15,6 +15,11 @@ return new class extends Migration
     {
         Schema::create('shop_item_parameters', function (Blueprint $table) {
             $table->id();
+            $table->bigInteger('data_type_id')->unsigned();
+            $table->foreign('data_type_id')->references('id')->on('data_types')->onDelete('restrict');
+            $table->string('code')->unique();
+            $table->string('name');
+            $table->string('description')->nullable();
             $table->timestamps();
         });
     }

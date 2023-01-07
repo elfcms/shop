@@ -15,6 +15,9 @@ return new class extends Migration
     {
         Schema::create('shop_deliveries', function (Blueprint $table) {
             $table->id();
+            $table->string('code')->unique();
+            $table->string('name');
+            $table->string('icon')->nullable();
             $table->timestamps();
         });
     }

@@ -15,6 +15,15 @@ return new class extends Migration
     {
         Schema::create('shop_invoices', function (Blueprint $table) {
             $table->id();
+            $table->bigInteger('order_id')->unsigned();
+            $table->foreign('order_id')->references('id')->on('shop_orders')->onDelete('restrict');
+            $table->bigInteger('user_id')->unsigned();
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('restrict');
+            $table->bigInteger('invoice_status_id')->unsigned();
+            $table->foreign('invoice_status_id')->references('id')->on('shop_invoice_statuses')->onDelete('restrict');
+            $table->unsignedInteger('start_sum');
+            $table->unsignedInteger('discount_sum')->nullable()->default(0);
+            $table->unsignedInteger('result_sum');
             $table->timestamps();
         });
     }

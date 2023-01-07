@@ -13,8 +13,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('shop_vendors', function (Blueprint $table) {
+        Schema::create('shop_currencies', function (Blueprint $table) {
             $table->id();
+            $table->string('name');
+            $table->string('code');
+            $table->string('symbol')->nullable();
+            $table->string('symbol_code')->nullable();
             $table->timestamps();
         });
     }
@@ -26,6 +30,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('shop_vendors');
+        Schema::dropIfExists('shop_currencies');
     }
 };

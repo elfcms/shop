@@ -15,6 +15,11 @@ return new class extends Migration
     {
         Schema::create('shop_price_types', function (Blueprint $table) {
             $table->id();
+            $table->string('name');
+            $table->bigInteger('tax_id')->unsigned()->nullable();
+            $table->foreign('tax_id')->references('id')->on('shop_taxes')->onDelete('restrict');
+            $table->bigInteger('currency_id')->unsigned()->nullable();
+            $table->foreign('currency_id')->references('id')->on('shop_currencies')->onDelete('set null');
             $table->timestamps();
         });
     }

@@ -15,6 +15,12 @@ return new class extends Migration
     {
         Schema::create('shop_goods', function (Blueprint $table) {
             $table->id();
+            $table->string('slug')->unique();
+            $table->string('title');
+            $table->bigInteger('vendor_id')->unsigned()->nullable();
+            $table->foreign('vendor_id')->references('id')->on('shop_vendors')->onDelete('set null');
+            $table->bigInteger('brand_id')->unsigned()->nullable();
+            $table->foreign('brand_id')->references('id')->on('shop_brands')->onDelete('set null');
             $table->timestamps();
         });
     }

@@ -13,8 +13,14 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('shop_goods_vendors', function (Blueprint $table) {
+        Schema::create('shop_brands', function (Blueprint $table) {
             $table->id();
+            $table->string('slug')->unique();
+            $table->string('name');
+            $table->string('logo')->nullable();
+            $table->string('image')->nullable();
+            $table->string('company')->nullable();
+            $table->text('description')->nullable();
             $table->timestamps();
         });
     }
@@ -26,6 +32,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('shop_goods_vendors');
+        Schema::dropIfExists('shop_brands');
     }
 };

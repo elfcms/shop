@@ -1,12 +1,12 @@
 <?php
 
-namespace Elfcms\Shop\Http\Controllers\Resources;
+namespace Elfcms\Shop\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use Elfcms\Shop\Models\ShopGoodsVendor;
+use Elfcms\Shop\Models\ShopCurrency;
 use Illuminate\Http\Request;
 
-class ShopGoodsVendorController extends Controller
+class ShopCurrencyController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -42,10 +42,10 @@ class ShopGoodsVendorController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\ShopGoodsVendor  $shopGoodsVendor
+     * @param  \App\Models\ShopCurrency  $shopCurrency
      * @return \Illuminate\Http\Response
      */
-    public function show(ShopGoodsVendor $shopGoodsVendor)
+    public function show(ShopCurrency $shopCurrency)
     {
         //
     }
@@ -53,10 +53,10 @@ class ShopGoodsVendorController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\ShopGoodsVendor  $shopGoodsVendor
+     * @param  \App\Models\ShopCurrency  $shopCurrency
      * @return \Illuminate\Http\Response
      */
-    public function edit(ShopGoodsVendor $shopGoodsVendor)
+    public function edit(ShopCurrency $shopCurrency)
     {
         //
     }
@@ -65,10 +65,10 @@ class ShopGoodsVendorController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\ShopGoodsVendor  $shopGoodsVendor
+     * @param  \App\Models\ShopCurrency  $shopCurrency
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, ShopGoodsVendor $shopGoodsVendor)
+    public function update(Request $request, ShopCurrency $shopCurrency)
     {
         //
     }
@@ -76,10 +76,10 @@ class ShopGoodsVendorController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\ShopGoodsVendor  $shopGoodsVendor
+     * @param  \App\Models\ShopCurrency  $shopCurrency
      * @return \Illuminate\Http\Response
      */
-    public function destroy(ShopGoodsVendor $shopGoodsVendor)
+    public function destroy(ShopCurrency $shopCurrency)
     {
         //
     }

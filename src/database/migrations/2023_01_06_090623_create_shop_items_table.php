@@ -15,6 +15,15 @@ return new class extends Migration
     {
         Schema::create('shop_items', function (Blueprint $table) {
             $table->id();
+            $table->bigInteger('goods_id')->unsigned();
+            $table->foreign('goods_id')->references('id')->on('shop_goods')->onDelete('restrict');
+            $table->string('item_number')->unique();
+            $table->string('vendor_item_number')->nullable();
+            $table->string('image')->nullable();
+            $table->text('description')->nullable();
+            $table->string('alternate_name')->nullable();
+            $table->bigInteger('vendor_id')->unsigned()->nullable();
+            $table->foreign('vendor_id')->references('id')->on('shop_vendors')->onDelete('set null');
             $table->timestamps();
         });
     }

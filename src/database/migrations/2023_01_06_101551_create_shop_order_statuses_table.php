@@ -15,6 +15,11 @@ return new class extends Migration
     {
         Schema::create('shop_order_statuses', function (Blueprint $table) {
             $table->id();
+            $table->string('code')->unique();
+            $table->string('name');
+            $table->string('description')->nullable();
+            $table->boolean('is_complited')->nullable()->default(0);
+            $table->unsignedInteger('order')->default(0);
             $table->timestamps();
         });
     }
