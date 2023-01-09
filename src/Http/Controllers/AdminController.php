@@ -5,16 +5,22 @@ namespace Elfcms\Shop\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Elfcms\Shop\Models\ShopCategory;
 use Elfcms\Shop\Models\ShopGoods;
+use Elfcms\Shop\Models\ShopItem;
+use Elfcms\Shop\Models\ShopItemParameter;
 use Illuminate\Http\Request;
 
 class AdminController extends Controller
 {
     public function shop()
     {
-        $cat = ShopCategory::find(1);
-        dd($cat->goods);
+        //$param = ShopItemParameter::with('item_values')->find(1);
+        //dd($param->item_values[0]->value);
+        //$cat = ShopCategory::find(1);
+        //dd($cat->goods);
         //$g = ShopGoods::find(1);
         //dd($g->category);
+        //$item = ShopItem::with('parameters')->find(1);
+        //dd($item->parameters[0]->typeCode);
         /* $parentMenuData = config('elfcms.blog.menu');
         $menuData = [];
         foreach ($parentMenuData[0]['submenu'] as $key => $data) {

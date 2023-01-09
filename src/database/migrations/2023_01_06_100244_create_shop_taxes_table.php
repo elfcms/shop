@@ -17,8 +17,6 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->integer('value');
-            $table->bigInteger('currency_id')->unsigned()->nullable();
-            $table->foreign('currency_id')->references('id')->on('shop_currencies')->onDelete('set null');
             $table->timestamps();
         });
     }

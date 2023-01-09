@@ -8,4 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class ShopTaxesCurrency extends Model
 {
     use HasFactory;
+
+    protected $table = 'shop_taxes_currencies';
+
 }

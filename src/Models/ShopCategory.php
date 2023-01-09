@@ -18,6 +18,16 @@ class ShopCategory extends Model
         'description',
     ];
 
+    /**
+     * Get the route key for the model.
+     *
+     * @return string
+     */
+    public function getRouteKeyName()
+    {
+        return 'slug';
+    }
+
     public function goods ()
     {
         return $this->belongsToMany(ShopGoods::class, 'shop_goods_categories', 'goods_id', 'category_id')->withPivot('is_main');

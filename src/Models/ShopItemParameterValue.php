@@ -8,4 +8,49 @@ use Illuminate\Database\Eloquent\Model;
 class ShopItemParameterValue extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        'parameter_id',
+        'item_id',
+        'bool_value',
+        'int_value',
+        'float_value',
+        'string_value',
+        'text_value',
+        'date_value',
+        'datetime_value',
+        'file_value',
+        'image_value',
+    ];
+
+    public function parameter()
+    {
+        return $this->belongsTo(ShopItemParameter::class, 'parameter_id');
+    }
+
+    public function item()
+    {
+        return $this->belongsTo(ShopItem::class, 'item_id');
+    }
+
+    public function getValueAttribute()
+    {
+        $field = $this->parameter->data_type->code . '_value';
+        return $this->{$field};
+    }
+
+    public function getCodeAttribute()
+    {
+        return $this->parameter->code;
+    }
+
+    public function getNameAttribute()
+    {
+        return $this->parameter->name;
+    }
+
+    public function getTypeCodeAttribute()
+    {
+        return $this->parameter->data_type->code;
+    }
 }

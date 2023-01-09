@@ -8,4 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class ShopItemImage extends Model
 {
     use HasFactory;
+
+    protected $table = 'shop_item_images';
 }

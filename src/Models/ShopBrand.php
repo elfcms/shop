@@ -18,6 +18,16 @@ class ShopBrand extends Model
         'description',
     ];
 
+    /**
+     * Get the route key for the model.
+     *
+     * @return string
+     */
+    public function getRouteKeyName()
+    {
+        return 'slug';
+    }
+
     public function goods ()
     {
         return $this->hasMany(ShopBrand::class, 'brand_id');
