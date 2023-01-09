@@ -40,7 +40,18 @@ return [
             "parent_route" => "admin.shop.index",
             "icon" => "/vendor/elfcms/shop/admin/images/icons/shop.png",
             "position" => 110,
-            "submenu" => []
+            "submenu" => [
+                [
+                    "title" => "Categories",
+                    "lang_title" => "basic::elf.categories",
+                    "route" => "admin.shop.category.index"
+                ],
+                [
+                    "title" => "Goods",
+                    "lang_title" => "shop::elf.goods_pl",
+                    "route" => "admin.shop.goods.index"
+                ],
+            ]
         ],
     ],
 ];
