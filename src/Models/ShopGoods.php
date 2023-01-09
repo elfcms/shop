@@ -2,6 +2,7 @@
 
 namespace Elfcms\Shop\Models;
 
+use App\Models\ShopUnit;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -39,6 +40,11 @@ class ShopGoods extends Model
     public function items()
     {
         return $this->hasMany(ShopItem::class, 'goods_id');
+    }
+
+    public function unit()
+    {
+        return $this->belongsTo(ShopUnit::class, 'unit_id');
     }
 
     public function brand()
