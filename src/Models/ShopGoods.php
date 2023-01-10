@@ -13,8 +13,12 @@ class ShopGoods extends Model
     protected $fillable = [
         'title',
         'slug',
+        'description',
         'vendor_id',
         'brand_id',
+        'active',
+        'meta_keywords',
+        'meta_description',
     ];
 
     /**
@@ -25,6 +29,11 @@ class ShopGoods extends Model
     public function getRouteKeyName()
     {
         return 'slug';
+    }
+
+    public function scopeActive($query)
+    {
+        return $query->where('active',1);
     }
 
     public function categories()

@@ -37,19 +37,34 @@ return [
             "title" => "Shop",
             "lang_title" => "shop::elf.shop",
             "route" => "admin.shop.index",
-            "parent_route" => "admin.shop.index",
+            "parent_route" => "admin.shop",
             "icon" => "/vendor/elfcms/shop/admin/images/icons/shop.png",
             "position" => 110,
             "submenu" => [
                 [
                     "title" => "Categories",
                     "lang_title" => "basic::elf.categories",
-                    "route" => "admin.shop.category.index"
+                    "route" => "admin.shop.category"
                 ],
                 [
                     "title" => "Goods",
                     "lang_title" => "shop::elf.goods_pl",
-                    "route" => "admin.shop.goods.index"
+                    "route" => "admin.shop.goods"
+                ],
+                [
+                    "title" => "Vendors",
+                    "lang_title" => "shop::elf.vendors",
+                    "route" => "admin.shop.vendor"
+                ],
+                [
+                    "title" => "Brands",
+                    "lang_title" => "shop::elf.brands",
+                    "route" => "admin.shop.brand"
+                ],
+                [
+                    "title" => "Units of measurement",
+                    "lang_title" => "shop::elf.units_of_measurement",
+                    "route" => "admin.shop.unit"
                 ],
             ]
         ],

@@ -5,17 +5,49 @@ namespace Elfcms\Shop\Http\Controllers\Resources;
 use App\Http\Controllers\Controller;
 use Elfcms\Shop\Models\ShopBrand;
 use Illuminate\Http\Request;
+use Str;
 
 class ShopBrandController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request  $request)
     {
-        //
+        $trend = 'asc';
+        $order = 'id';
+        if (!empty($request->trend) && $request->trend == 'desc') {
+            $trend = 'desc';
+        }
+        if (!empty($request->order)) {
+            $order = $request->order;
+        }
+        if (!empty($request->count)) {
+            $count = intval($request->count);
+        }
+        if (empty($count)) {
+            $count = 30;
+        }
+        $search = $request->search ?? '';
+
+        if (!empty($search)) {
+            $brands = ShopBrand::where('name','like',"%{$search}%")->orderBy($order, $trend)->paginate($count);
+        }
+        else {
+            $brands = ShopBrand::all();
+        }
+
+        return view('shop::admin.shop.brand.index',[
+            'page' => [
+                'title' => __('shop::elf.brands'),
+                'current' => url()->current(),
+            ],
+            'brands' => $brands,
+            'search' => $search
+        ]);
     }
 
     /**
@@ -25,7 +57,12 @@ class ShopBrandController extends Controller
      */
     public function create()
     {
-        //
+        return view('shop::admin.shop.brand.create',[
+            'page' => [
+                'title' => __('shop::elf.create_brand'),
+                'current' => url()->current(),
+            ],
+        ]);
     }
 
     /**
@@ -36,18 +73,54 @@ class ShopBrandController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->merge([
+            'slug' => Str::slug($request->slug),
+        ]);
+        $validated = $request->validate([
+            'name' => 'required',
+            'slug' => 'required|unique:Elfcms\Shop\Models\ShopBrand,slug',
+            'logo' => 'nullable|file|max:512',
+            'image' => 'nullable|file|max:1024',
+        ]);
+
+        $image_path = '';
+        if (!empty($request->file()['image'])) {
+            $image = $request->file()['image']->store('public/shop/brand/image');
+            $image_path = str_ireplace('public/','/storage/',$image);
+        }
+
+        $logo_path = '';
+        if (!empty($request->file()['logo'])) {
+            $logo = $request->file()['logo']->store('public/shop/brand/logo');
+            $logo_path = str_ireplace('public/','/storage/',$logo);
+        }
+
+        $validated['logo'] = $logo_path;
+        $validated['image'] = $image_path;
+        $validated['company'] = $request->company;
+        $validated['description'] = $request->description;
+        $validated['active'] = empty($request->active) ? 0 : 1;
+
+        $brand = ShopBrand::create($validated);
+
+        return redirect(route('admin.shop.brand'))->with('action_result',__('shop::elf.brand_created_successfully'));
     }
 
     /**
      * Display the specified resource.
      *
+     * @param  \Illuminate\Http\Request  $request
      * @param  \App\Models\ShopBrand  $shopBrand
      * @return \Illuminate\Http\Response
      */
-    public function show(ShopBrand $shopBrand)
+    public function show(Request  $request, ShopBrand $shopBrand)
     {
-        //
+        if ($request->ajax()) {
+            return $shopBrand;
+        }
+        else {
+            abort(404);
+        }
     }
 
     /**
@@ -58,7 +131,21 @@ class ShopBrandController extends Controller
      */
     public function edit(ShopBrand $shopBrand)
     {
-        //
+        $shopBrand->created = '';
+        $shopBrand->updated = '';
+        if (!empty($shopBrand->created_at)) {
+            $shopBrand->created = date('d.m.Y H:i:s',strtotime($shopBrand->created_at));
+        }
+        if (!empty($shopBrand->updated_at)) {
+            $shopBrand->updated = date('d.m.Y H:i:s',strtotime($shopBrand->updated_at));
+        }
+        return view('shop::admin.shop.brand.edit',[
+            'page' => [
+                'title' => __('shop::elf.edit_brand'),
+                'current' => url()->current(),
+            ],
+            'brand' => $shopBrand
+        ]);
     }
 
     /**
@@ -70,7 +157,41 @@ class ShopBrandController extends Controller
      */
     public function update(Request $request, ShopBrand $shopBrand)
     {
-        //
+        $request->merge([
+            'slug' => Str::slug($request->slug),
+        ]);
+        $validated = $request->validate([
+            'name' => 'required',
+            'slug' => 'required',
+            'logo' => 'nullable|file|max:512',
+            'image' => 'nullable|file|max:1024',
+        ]);
+        if (ShopBrand::where('slug',$request->slug)->where('id','<>',$shopBrand->id)->first()) {
+            return redirect(route('admin.shop.category.edit'))->withErrors([
+                'slug' => 'Category already exists'
+            ]);
+        }
+        $logo_path = $request->logo_path;
+        if (!empty($request->file()['logo'])) {
+            $logo = $request->file()['logo']->store('public/shop/brand/logo');
+            $logo_path = str_ireplace('public/','/storage/',$logo);
+        }
+        $image_path = $request->image_path;
+        if (!empty($request->file()['image'])) {
+            $image = $request->file()['image']->store('public/shop/brand/image');
+            $image_path = str_ireplace('public/','/storage/',$image);
+        }
+
+        $shopBrand->name = $validated['name'];
+        $shopBrand->slug = $validated['slug'];
+        $shopBrand->logo = $logo_path;
+        $shopBrand->image = $image_path;
+        $shopBrand->description = $request->description;
+        $shopBrand->active = empty($request->active) ? 0 : 1;
+
+        $shopBrand->save();
+
+        return redirect(route('admin.shop.brand.edit',$shopBrand))->with('action_result',__('shop::elf.brand_edited_successfully'));
     }
 
     /**
@@ -81,6 +202,10 @@ class ShopBrandController extends Controller
      */
     public function destroy(ShopBrand $shopBrand)
     {
-        //
+        if (!$shopBrand->delete()) {
+            return redirect(route('admin.shop.brand'))->withErrors(['branddelerror'=>__('shop::elf.error_of_brand_deleting')]);
+        }
+
+        return redirect(route('admin.shop.brand'))->with('action_result',__('shop::elf.brand16712_deleted_successfully'));
     }
 }

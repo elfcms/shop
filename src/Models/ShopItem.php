@@ -17,8 +17,15 @@ class ShopItem extends Model
         'description',
         'alternate_name',
         'vendor_id',
+        'active',
+        'meta_keywords',
+        'meta_description',
     ];
 
+    public function scopeActive($query)
+    {
+        return $query->where('active',1);
+    }
 
     public function goods()
     {

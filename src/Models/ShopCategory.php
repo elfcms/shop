@@ -16,6 +16,9 @@ class ShopCategory extends Model
         'image',
         'preview',
         'description',
+        'active',
+        'meta_keywords',
+        'meta_description',
     ];
 
     /**
@@ -26,6 +29,11 @@ class ShopCategory extends Model
     public function getRouteKeyName()
     {
         return 'slug';
+    }
+
+    public function scopeActive($query)
+    {
+        return $query->where('active',1);
     }
 
     public function goods ()

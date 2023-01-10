@@ -1,12 +1,9 @@
-@extends('basic::admin.layouts.shop')
+@extends('shop::admin.layouts.shop')
 
 @section('shop-content')
 
-    @if (Session::has('categoryedited'))
-        <div class="alert alert-success">{{ Session::get('categoryedited') }}</div>
-    @endif
-    @if (Session::has('categorycreated  '))
-        <div class="alert alert-success">{{ Session::get('categorycreated') }}</div>
+    @if (Session::has('action_result'))
+        <div class="alert alert-success">{{ Session::get('action_result') }}</div>
     @endif
     @if ($errors->any())
     <div class="alert alert-danger">
@@ -26,7 +23,7 @@
         <div class="date-info update-info">
             {{ __('basic::elf.updated_at') }}: {{ $category->updated }}
         </div>
-        <form action="{{ route('admin.shop.category.update',$category->id) }}" method="POST" enctype="multipart/form-data">
+        <form action="{{ route('admin.shop.category.update',$category) }}" method="POST" enctype="multipart/form-data">
             @csrf
             @method('PUT')
             <div class="colored-rows-box">
@@ -56,26 +53,26 @@
                             <option value="">{{ __('basic::elf.none') }}</option>
                         @foreach ($categories as $item)
                             @if ($item->id != $category->id)
-                                <option value="{{ $item->id }}" @if ($item->active != 1) class="inactive" @endif @if ($item->id == $category->parent_id) selected @endif>{{ $item->name }}@if ($item->active != 1) [{{ __('basic::elf.inactive') }}] @endif</option>
+                                <option value="{{ $item->id }}" @if ($item->active != 1) class="inactive" @endif @if ($item->id == $category->parent_id) selected @endif>{{ $item->title }}@if ($item->active != 1) [{{ __('basic::elf.inactive') }}] @endif</option>
                             @endif
                         @endforeach
                         </select>
                     </div>
                 </div>
                 <div class="input-box colored">
-                    <label for="name">{{ __('basic::elf.name') }}</label>
+                    <label for="title">{{ __('basic::elf.title') }}</label>
                     <div class="input-wrapper">
-                        <input type="text" name="name" id="name" autocomplete="off" value="{{ $category->name }}">
+                        <input type="text" name="title" id="title" value="{{ $category->title }}">
                     </div>
                 </div>
                 <div class="input-box colored">
                     <label for="slug">{{ __('basic::elf.slug') }}</label>
                     <div class="input-wrapper">
-                        <input type="text" name="slug" id="slug" autocomplete="off" value="{{ $category->slug }}">
+                        <input type="text" name="slug" id="slug" value="{{ $category->slug }}">
                     </div>
                     <div class="input-wrapper">
                         <div class="autoslug-wrapper">
-                            <input type="checkbox" data-text-id="name" data-slug-id="slug" class="autoslug" checked>
+                            <input type="checkbox" data-text-id="title" data-slug-id="slug" class="autoslug" checked>
                             <div class="autoslug-button"></div>
                         </div>
                     </div>
@@ -84,30 +81,6 @@
                     <label for="desctiption">{{ __('basic::elf.description') }}</label>
                     <div class="input-wrapper">
                         <textarea name="description" id="description" cols="30" rows="10">{{ $category->description }}</textarea>
-                    </div>
-                </div>
-                <div class="input-box colored">
-                    <label for="preview">{{ __('basic::elf.preview') }}</label>
-                    <div class="input-wrapper">
-                        <input type="hidden" name="preview_path" id="preview_path" value="{{$category->preview}}">
-                        <div class="image-button">
-                            <div class="delete-image @if (empty($category->preview)) hidden @endif">&#215;</div>
-                            <div class="image-button-img">
-                            @if (!empty($category->image))
-                                <img src="{{ asset($category->preview) }}" alt="Preview">
-                            @else
-                                <img src="{{ asset('/vendor/elfcms/shop/admin/images/icons/upload.png') }}" alt="Upload file">
-                            @endif
-                            </div>
-                            <div class="image-button-text">
-                            @if (!empty($category->image))
-                                {{ __('basic::elf.change_file') }}
-                            @else
-                                {{ __('basic::elf.choose_file') }}
-                            @endif
-                            </div>
-                            <input type="file" name="preview" id="preview">
-                        </div>
                     </div>
                 </div>
                 <div class="input-box colored">
@@ -132,20 +105,6 @@
                             </div>
                             <input type="file" name="image" id="image">
                         </div>
-                    </div>
-                </div>
-                <div class="input-box colored">
-                    <label for="public_time">{{ __('basic::elf.public_time') }}</label>
-                    <div class="input-wrapper">
-                        <input type="date" name="public_time[]" id="public_time" autocomplete="off" value="{{ $category->public_time }}">
-                        <input type="time" name="public_time[]" id="public_time_time" autocomplete="off" value="{{ $category->public_time_time }}">
-                    </div>
-                </div>
-                <div class="input-box colored">
-                    <label for="end_time">{{ __('basic::elf.end_time') }}</label>
-                    <div class="input-wrapper">
-                        <input type="date" name="end_time[]" id="end_time" autocomplete="off" value="{{ $category->end_time }}">
-                        <input type="time" name="end_time[]" id="end_time_time" autocomplete="off" value="{{ $category->end_time_time }}">
                     </div>
                 </div>
                 <div class="input-box colored">

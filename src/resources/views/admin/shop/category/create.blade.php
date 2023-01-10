@@ -1,9 +1,9 @@
-@extends('basic::admin.layouts.shop')
+@extends('shop::admin.layouts.shop')
 
 @section('shop-content')
 
-    @if (Session::has('categoryedited'))
-        <div class="alert alert-success">{{ Session::get('categoryedited') }}</div>
+    @if (Session::has('action_result'))
+        <div class="alert alert-success">{{ Session::get('action_result') }}</div>
     @endif
     @if ($errors->any())
     <div class="alert alert-danger">
@@ -43,7 +43,7 @@
                         <select name="parent_id" id="parent_id">
                             <option value="">{{ __('basic::elf.none') }}</option>
                         @foreach ($categories as $item)
-                            <option value="{{ $item->id }}" @if ($item->active != 1) class="inactive" @endif>{{ $item->name }}@if ($item->active != 1) [{{ __('basic::elf.inactive') }}] @endif</option>
+                            <option value="{{ $item->id }}" @if ($item->active != 1) class="inactive" @endif>{{ $item->title }}@if ($item->active != 1) [{{ __('basic::elf.inactive') }}] @endif</option>
                         @endforeach
                         </select>
                     </div>
@@ -51,17 +51,17 @@
                 <div class="input-box colored">
                     <label for="title">{{ __('basic::elf.title') }}</label>
                     <div class="input-wrapper">
-                        <input type="text" name="title" id="title" autocomplete="off">
+                        <input type="text" name="title" id="title">
                     </div>
                 </div>
                 <div class="input-box colored">
                     <label for="slug">{{ __('basic::elf.slug') }}</label>
                     <div class="input-wrapper">
-                        <input type="text" name="slug" id="slug" autocomplete="off">
+                        <input type="text" name="slug" id="slug">
                     </div>
                     <div class="input-wrapper">
                         <div class="autoslug-wrapper">
-                            <input type="checkbox" data-text-id="name" data-slug-id="slug" class="autoslug" checked>
+                            <input type="checkbox" data-text-id="title" data-slug-id="slug" class="autoslug" checked>
                             <div class="autoslug-button"></div>
                         </div>
                     </div>
@@ -89,20 +89,6 @@
                     </div>
                 </div>
                 <div class="input-box colored">
-                    <label for="public_time">{{ __('basic::elf.public_time') }}</label>
-                    <div class="input-wrapper">
-                        <input type="date" name="public_time[]" id="public_time" autocomplete="off">
-                        <input type="time" name="public_time[]" id="public_time_time" autocomplete="off">
-                    </div>
-                </div>
-                <div class="input-box colored">
-                    <label for="end_time">{{ __('basic::elf.end_time') }}</label>
-                    <div class="input-wrapper">
-                        <input type="date" name="end_time[]" id="end_time" autocomplete="off">
-                        <input type="time" name="end_time[]" id="end_time_time" autocomplete="off">
-                    </div>
-                </div>
-                <div class="input-box colored">
                     <label for="meta_keywords">{{ __('basic::elf.meta_keywords') }}</label>
                     <div class="input-wrapper">
                         <textarea name="meta_keywords" id="meta_keywords" cols="30" rows="3"></textarea>
@@ -124,10 +110,6 @@
     const imageInput = document.querySelector('#image')
     if (imageInput) {
         inputFileImg(imageInput)
-    }
-    const previewInput = document.querySelector('#preview')
-    if (previewInput) {
-        inputFileImg(previewInput)
     }
     autoSlug('.autoslug')
     //add editor

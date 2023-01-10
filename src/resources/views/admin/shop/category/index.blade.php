@@ -1,7 +1,11 @@
-@extends('basic::admin.layouts.shop')
+@extends('shop::admin.layouts.shop')
 
 @section('shop-content')
-
+<nav class="pagenav">
+    <div class="abstract-nav-line">
+        <a href="{{ route('admin.shop.category.create') }}" class="default-btn submit-button create-button">{{ __('shop::elf.create_category') }}</a>
+    </div>
+</nav>
     <div class="table-search-box">
         <div class="table-search-result-title">
             @if (!empty($search))
@@ -22,11 +26,8 @@
             </div>
         </form>
     </div>
-    @if (Session::has('categorydeleted'))
-    <div class="alert alert-alternate">{{ Session::get('categorydeleted') }}</div>
-    @endif
-    @if (Session::has('categoryedited'))
-    <div class="alert alert-alternate">{{ Session::get('categoryedited') }}</div>
+    @if (Session::has('action_result'))
+    <div class="alert alert-alternate">{{ Session::get('action_result') }}</div>
     @endif
     @if ($errors->any())
     <div class="alert alert-danger">
@@ -38,7 +39,7 @@
     </div>
     @endif
     <div class="widetable-wrapper">
-        <table class="grid-table categorytable">
+        <table class="grid-table shop-category-table">
             <thead>
                 <tr>
                     <th>
@@ -76,8 +77,8 @@
                 <tr data-id="{{ $category->id }}" class="level-{{ $category->level }}@empty ($category->active) inactive @endempty">
                     <td class="subline-{{ $category->level }}">{{ $category->id }}</td>
                     <td>
-                        <a href="{{ route('admin.shop.category.edit',$category->id) }}">
-                            {{ $category->name }}
+                        <a href="{{ route('admin.shop.category.edit',$category) }}">
+                            {{ $category->title }}
                         </a>
                     </td>
                     <td>{{ $category->slug }}</td>
@@ -100,10 +101,10 @@
                     <td class="button-column non-text-buttons">
                         <form action="{{ route('admin.shop.goods.create') }}" method="GET">
                             <input type="hidden" name="category_id" value="{{ $category->id }}">
-                            <button type="submit" class="default-btn submit-button create-button" title="{{ __('basic::elf.add_post') }}"></button>
+                            <button type="submit" class="default-btn submit-button create-button" title="{{ __('shop::elf.create_goods') }}"></button>
                         </form>
-                        <a href="{{ route('admin.shop.category.edit',$category->id) }}" class="default-btn edit-button" title="{{ __('basic::elf.edit') }}"></a>
-                        <form action="{{ route('admin.shop.category.update',$category->id) }}" method="POST">
+                        <a href="{{ route('admin.shop.category.edit',$category) }}" class="default-btn edit-button" title="{{ __('basic::elf.edit') }}"></a>
+                        <form action="{{ route('admin.shop.category.update',$category) }}" method="POST">
                             @csrf
                             @method('PUT')
                             <input type="hidden" name="id" id="id" value="{{ $category->id }}">
@@ -112,7 +113,7 @@
                             <button type="submit" @if ($category->active == 1) class="default-btn deactivate-button" title="{{__('basic::elf.deactivate') }}" @else class="default-btn activate-button" title="{{ __('basic::elf.activate') }}" @endif>
                             </button>
                         </form>
-                        <form action="{{ route('admin.shop.category.destroy',$category->id) }}" method="POST" data-submit="check">
+                        <form action="{{ route('admin.shop.category.destroy',$category) }}" method="POST" data-submit="check">
                             @csrf
                             @method('DELETE')
                             <input type="hidden" name="id" value="{{ $category->id }}">
@@ -120,17 +121,17 @@
                             <button type="submit" class="default-btn delete-button" title="{{ __('basic::elf.delete') }}"></button>
                         </form>
                         <div class="contextmenu-content-box">
-                            <a href="{{ route('admin.shop.goods',UrlParams::addArr(['category'=>$category->id])) }}" class="contextmenu-item">
-                                {{ __('basic::elf.show_posts') }}
+                            <a href="{{ route('admin.shop.category',UrlParams::addArr(['category'=>$category])) }}" class="contextmenu-item">
+                                {{ __('shop::elf.show_goods_pl') }}
                             </a>
                             <form action="{{ route('admin.shop.goods.create') }}" method="GET">
                                 <input type="hidden" name="category_id" value="{{ $category->id }}">
-                                <button type="submit" class="contextmenu-item">{{ __('basic::elf.add_post') }}</button>
+                                <button type="submit" class="contextmenu-item">{{ __('shop::elf.create_goods') }}</button>
                             </form>
-                            <a href="{{ route('admin.shop.category.edit',$category->id) }}" class="contextmenu-item">{{ __('basic::elf.edit') }}</a>
-                            <form action="{{ route('admin.shop.category.update',$category->id) }}" method="POST">
+                            <a href="{{ route('admin.shop.category.edit',$category) }}" class="contextmenu-item">{{ __('basic::elf.edit') }}</a>
+                            <form action="{{ route('admin.shop.category.update',$category) }}" method="POST">
                                 @csrf
-                                @method('PUT')
+                                @method('PATCH')
                                 <input type="hidden" name="id" id="id" value="{{ $category->id }}">
                                 <input type="hidden" name="active" id="active" value="{{ (int)!(bool)$category->active }}">
                                 <input type="hidden" name="notedit" value="1">
@@ -142,7 +143,7 @@
                                 @endif
                                 </button>
                             </form>
-                            <form action="{{ route('admin.shop.category.destroy',$category->id) }}" method="POST" data-submit="check">
+                            <form action="{{ route('admin.shop.category.destroy',$category) }}" method="POST" data-submit="check">
                                 @csrf
                                 @method('DELETE')
                                 <input type="hidden" name="id" value="{{ $category->id }}">
@@ -229,7 +230,7 @@
 
         setConfirmDelete(checkForms)
 
-        const tablerow = document.querySelectorAll('.categorytable tbody tr');
+        const tablerow = document.querySelectorAll('.shop-category-table tbody tr');
         if (tablerow) {
             tablerow.forEach(row => {
                 row.addEventListener('contextmenu',function(e){

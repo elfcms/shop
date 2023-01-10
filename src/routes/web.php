@@ -11,25 +11,82 @@ Route::group(['middleware'=>['web','cookie','start']],function() use ($adminPath
 
         Route::name('shop.')->group(function() use ($adminPath) {
             Route::get($adminPath . '/shop', [\Elfcms\Shop\Http\Controllers\AdminController::class,'shop'])->name('index');
-            Route::resource($adminPath . '/shop/category', Elfcms\Shop\Http\Controllers\Resources\ShopCategoryController::class);
-            Route::resource($adminPath . '/shop/goods', Elfcms\Shop\Http\Controllers\Resources\ShopGoodsController::class);
-            Route::resource($adminPath . '/shop/item', Elfcms\Shop\Http\Controllers\Resources\ShopItemController::class);
-            Route::resource($adminPath . '/shop/brand', Elfcms\Shop\Http\Controllers\Resources\ShopBrandController::class);
-            Route::resource($adminPath . '/shop/vendor', Elfcms\Shop\Http\Controllers\Resources\ShopVendorController::class);
-            Route::resource($adminPath . '/shop/tag', Elfcms\Shop\Http\Controllers\Resources\ShopTagController::class);
-            Route::resource($adminPath . '/shop/currency', Elfcms\Shop\Http\Controllers\Resources\ShopCurrencyController::class);
-            Route::resource($adminPath . '/shop/tax', Elfcms\Shop\Http\Controllers\Resources\ShopTaxController::class);
-            Route::resource($adminPath . '/shop/price-type', Elfcms\Shop\Http\Controllers\Resources\ShopPriceTypeController::class);
-            Route::resource($adminPath . '/shop/price', Elfcms\Shop\Http\Controllers\Resources\ShopPriceController::class);
-            Route::resource($adminPath . '/shop/discount', Elfcms\Shop\Http\Controllers\Resources\ShopDiscountController::class);
-            Route::resource($adminPath . '/shop/cart', Elfcms\Shop\Http\Controllers\Resources\ShopCartController::class);
-            Route::resource($adminPath . '/shop/order-status', Elfcms\Shop\Http\Controllers\Resources\ShopOrderStatusController::class);
-            Route::resource($adminPath . '/shop/order', Elfcms\Shop\Http\Controllers\Resources\ShopOrderController::class);
-            Route::resource($adminPath . '/shop/invoice-status', Elfcms\Shop\Http\Controllers\Resources\ShopInvoiceStatusController::class);
-            Route::resource($adminPath . '/shop/invoice', Elfcms\Shop\Http\Controllers\Resources\ShopInvoiceController::class);
-            Route::resource($adminPath . '/shop/payment', Elfcms\Shop\Http\Controllers\Resources\ShopPaymentController::class);
-            Route::resource($adminPath . '/shop/delivery', Elfcms\Shop\Http\Controllers\Resources\ShopDeliveryController::class);
-            Route::resource($adminPath . '/shop/coupon', Elfcms\Shop\Http\Controllers\Resources\ShopCouponController::class);
+
+            Route::resource($adminPath . '/shop/category', \Elfcms\Shop\Http\Controllers\Resources\ShopCategoryController::class)
+                ->parameters(['category'=>'shopCategory'])
+                ->names(['index'=>'category']);
+
+            Route::resource($adminPath . '/shop/goods', \Elfcms\Shop\Http\Controllers\Resources\ShopGoodsController::class)
+                ->parameters(['goods'=>'shopGoods'])
+                ->names(['index'=>'goods']);
+
+            Route::resource($adminPath . '/shop/item', \Elfcms\Shop\Http\Controllers\Resources\ShopItemController::class)
+            ->parameters(['item'=>'shopItem'])
+            ->names(['index'=>'item']);
+
+            Route::resource($adminPath . '/shop/brand', \Elfcms\Shop\Http\Controllers\Resources\ShopBrandController::class)
+            ->parameters(['brand'=>'shopBrand'])
+            ->names(['index'=>'brand']);
+
+            Route::resource($adminPath . '/shop/vendor', \Elfcms\Shop\Http\Controllers\Resources\ShopVendorController::class)
+            ->parameters(['vendor'=>'shopVendor'])
+            ->names(['index'=>'vendor']);
+
+            Route::resource($adminPath . '/shop/tag', \Elfcms\Shop\Http\Controllers\Resources\ShopTagController::class)
+            ->parameters(['tag'=>'shopTag'])
+            ->names(['index'=>'tag']);
+
+            //Route::resource($adminPath . '/shop/currency', \Elfcms\Shop\Http\Controllers\Resources\ShopCurrencyController::class);
+
+            Route::resource($adminPath . '/shop/tax', \Elfcms\Shop\Http\Controllers\Resources\ShopTaxController::class)
+            ->parameters(['tax'=>'shopTax'])
+            ->names(['index'=>'tax']);
+
+            Route::resource($adminPath . '/shop/price-type', \Elfcms\Shop\Http\Controllers\Resources\ShopPriceTypeController::class)
+            ->parameters(['price_type'=>'shopPriceType'])
+            ->names(['index'=>'price_type']);
+
+            Route::resource($adminPath . '/shop/price', \Elfcms\Shop\Http\Controllers\Resources\ShopPriceController::class)
+            ->parameters(['price'=>'shopPrice'])
+            ->names(['index'=>'price']);
+
+            Route::resource($adminPath . '/shop/discount', \Elfcms\Shop\Http\Controllers\Resources\ShopDiscountController::class)
+            ->parameters(['discount'=>'shopDiscount'])
+            ->names(['index'=>'discount']);
+
+            Route::resource($adminPath . '/shop/cart', \Elfcms\Shop\Http\Controllers\Resources\ShopCartController::class)
+            ->parameters(['cart'=>'shopCart'])
+            ->names(['index'=>'cart']);
+
+            Route::resource($adminPath . '/shop/order-status', \Elfcms\Shop\Http\Controllers\Resources\ShopOrderStatusController::class)
+            ->parameters(['order_status'=>'shopOrderStatus'])
+            ->names(['index'=>'order_status']);
+
+            Route::resource($adminPath . '/shop/order', \Elfcms\Shop\Http\Controllers\Resources\ShopOrderController::class)
+            ->parameters(['order'=>'shopOrder'])
+            ->names(['index'=>'order']);
+
+            Route::resource($adminPath . '/shop/invoice-status', \Elfcms\Shop\Http\Controllers\Resources\ShopInvoiceStatusController::class)
+            ->parameters(['invoice_status'=>'shopInvoiceStatus'])
+            ->names(['index'=>'invoice_status']);
+
+            Route::resource($adminPath . '/shop/invoice', \Elfcms\Shop\Http\Controllers\Resources\ShopInvoiceController::class)
+            ->parameters(['invoice'=>'shopInvoice'])
+            ->names(['index'=>'invoice']);
+
+            Route::resource($adminPath . '/shop/payment', \Elfcms\Shop\Http\Controllers\Resources\ShopPaymentController::class)
+            ->parameters(['payment'=>'shopPayment'])
+            ->names(['index'=>'payment']);
+
+            Route::resource($adminPath . '/shop/delivery', \Elfcms\Shop\Http\Controllers\Resources\ShopDeliveryController::class)
+            ->parameters(['delivery'=>'shopDelivery'])
+            ->names(['index'=>'delivery']);
+
+            Route::resource($adminPath . '/shop/unit', \Elfcms\Shop\Http\Controllers\Resources\ShopUnitController::class)
+            ->parameters(['unit'=>'shopUnit'])
+            ->names(['index'=>'unit']);
+
+            //Route::resource($adminPath . '/shop/coupon', \Elfcms\Shop\Http\Controllers\Resources\ShopCouponController::class);
         });
         /* Route::get($adminPath . '/ajax/json/simplebox/datatypes',function(Request $request){
             $result = [];
