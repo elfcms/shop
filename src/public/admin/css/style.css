@@ -17,3 +17,84 @@
         minmax(140px, 1.5fr)
         minmax(120px, 1fr);
 }
+.grid-table.vendor-table {
+    grid-template-columns:
+        auto
+        minmax(200px, 2fr)
+        minmax(200px, 2fr)
+        minmax(200px, 2fr)
+        minmax(100px, 1fr);
+}
+.grid-table.unit-table {
+    grid-template-columns:
+        auto
+        minmax(100px, 1fr)
+        minmax(50px, 0.5fr)
+        minmax(50px, 0.5fr)
+        minmax(50px, 0.5fr)
+        minmax(50px, 0.5fr)
+        minmax(100px, 1fr)
+        minmax(100px, 1fr)
+        minmax(100px, 1fr)
+        minmax(50px, 0.5fr);
+}
+.grid-table.unit-table td input {
+    width: 100%;
+}
+.grid-table.unit-table td input:focus {
+    outline: none;
+    box-shadow: 0px 0px 3px 0px rgba(0, 0, 0, 0.3);
+}
+.grid-table.unit-table tr.edited td {
+    background-color: #c0d497; /* 9acd32 */
+}
+.grid-table.unit-table tr.deletable td {
+    text-decoration: line-through #ff6347;
+    background-color: #ffb2a4; /* f3c1b8 */
+}
+
+.shop-table-buttons {
+    position: sticky;
+    bottom: 29px;
+    margin: 0px -20px;
+    padding: 15px 20px;
+    background-color: #ffffff;
+    text-align: center;
+    box-shadow: 0px -4px 4px -4px rgb(0 0 0 / 30%);
+    z-index: 10;
+}
+
+.check-delete-wrapper {
+    position: relative;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.check-delete-wrapper > input[type="checkbox"] {
+    z-index: 2;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    cursor: pointer;
+}
+.check-delete-wrapper > input[type="checkbox"] + i {
+    display: block;
+    width: 100%;
+    height: 100%;
+    background-color: #d3d3d3;
+    border: 1px solid #ffffff;
+    border-radius: 50%;
+    box-shadow: 0px 0px 3px 0px rgba(0, 0, 0, 0.3);
+    background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABEAAAASBAMAAABP1yhnAAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAAAZdEVYdENvbW1lbnQAQ3JlYXRlZCB3aXRoIEdJTVBXgQ4XAAAACXBIWXMAAC4jAAAuIwF4pT92AAAAElBMVEX///9HcEz///////////////84chYNAAAABXRSTlNAAHCUr50tx88AAABGSURBVAjXYxBUDQUBRQEGwSBBIGAOFGAQCACxmAIEGEKhIIBBEAqQxRDqBCGsQBBLIFAgkFyWUKAQlAU3L5gBCFRALJhLAfGFG2fBykJaAAAAAElFTkSuQmCC');
+    background-position: center;
+    background-repeat: no-repeat;
+}
+.check-delete-wrapper > input[type="checkbox"]:hover + i {
+    box-shadow: 0px 0px 8px 0px rgba(255, 99, 71, 0.5);
+}
+.check-delete-wrapper > input[type="checkbox"]:checked + i {
+    background-color: #ff6347; /* ffb2a4 */
+}

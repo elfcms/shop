@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models;
+namespace Elfcms\Shop\Models;
 
 use Elfcms\Shop\Models\ShopGoods;
 use Illuminate\Database\Eloquent\Factories\HasFactory;

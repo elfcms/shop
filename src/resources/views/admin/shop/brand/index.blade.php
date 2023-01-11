@@ -10,7 +10,7 @@
     <div class="table-search-box">
         <div class="table-search-result-title">
             @if (!empty($search))
-                {{ __('basic::elf.search_result_for') }} "{{ $search }}" <a href="{{ route('admin.shop.brands') }}" title="{{ __('basic::elf.reset_search') }}">&#215;</a>
+                {{ __('basic::elf.search_result_for') }} "{{ $search }}" <a href="{{ route('admin.shop.brand') }}" title="{{ __('basic::elf.reset_search') }}">&#215;</a>
             @endif
         </div>
         <form action="{{ route('admin.shop.brand') }}" method="get">

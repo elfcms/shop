@@ -5,17 +5,49 @@ namespace Elfcms\Shop\Http\Controllers\Resources;
 use App\Http\Controllers\Controller;
 use Elfcms\Shop\Models\ShopVendor;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class ShopVendorController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request  $request)
     {
-        //
+        $trend = 'asc';
+        $order = 'id';
+        if (!empty($request->trend) && $request->trend == 'desc') {
+            $trend = 'desc';
+        }
+        if (!empty($request->order)) {
+            $order = $request->order;
+        }
+        if (!empty($request->count)) {
+            $count = intval($request->count);
+        }
+        if (empty($count)) {
+            $count = 30;
+        }
+        $search = $request->search ?? '';
+
+        if (!empty($search)) {
+            $vendors = ShopVendor::where('name','like',"%{$search}%")->orderBy($order, $trend)->paginate($count);
+        }
+        else {
+            $vendors = ShopVendor::all();
+        }
+
+        return view('shop::admin.shop.vendor.index',[
+            'page' => [
+                'title' => __('shop::elf.vendors'),
+                'current' => url()->current(),
+            ],
+            'vendors' => $vendors,
+            'search' => $search
+        ]);
     }
 
     /**
@@ -25,7 +57,12 @@ class ShopVendorController extends Controller
      */
     public function create()
     {
-        //
+        return view('shop::admin.shop.vendor.create',[
+            'page' => [
+                'title' => __('shop::elf.create_vendor'),
+                'current' => url()->current(),
+            ],
+        ]);
     }
 
     /**
@@ -36,18 +73,30 @@ class ShopVendorController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'name' => 'required'
+        ]);
+
+        $vendor = ShopVendor::create($validated);
+
+        return redirect(route('admin.shop.vendor'))->with('action_result',__('shop::elf.vendor_created_successfully'));
     }
 
     /**
      * Display the specified resource.
      *
+     * @param  \Illuminate\Http\Request  $request
      * @param  \App\Models\ShopVendor  $shopVendor
      * @return \Illuminate\Http\Response
      */
-    public function show(ShopVendor $shopVendor)
+    public function show(Request  $request, ShopVendor $shopVendor)
     {
-        //
+        if ($request->ajax()) {
+            return $shopVendor;
+        }
+        else {
+            abort(404);
+        }
     }
 
     /**
@@ -58,7 +107,21 @@ class ShopVendorController extends Controller
      */
     public function edit(ShopVendor $shopVendor)
     {
-        //
+        $shopVendor->created = '';
+        $shopVendor->updated = '';
+        if (!empty($shopVendor->created_at)) {
+            $shopVendor->created = date('d.m.Y H:i:s',strtotime($shopVendor->created_at));
+        }
+        if (!empty($shopVendor->updated_at)) {
+            $shopVendor->updated = date('d.m.Y H:i:s',strtotime($shopVendor->updated_at));
+        }
+        return view('shop::admin.shop.vendor.edit',[
+            'page' => [
+                'title' => __('shop::elf.edit_vendor'),
+                'current' => url()->current(),
+            ],
+            'vendor' => $shopVendor
+        ]);
     }
 
     /**
@@ -70,7 +133,15 @@ class ShopVendorController extends Controller
      */
     public function update(Request $request, ShopVendor $shopVendor)
     {
-        //
+        $validated = $request->validate([
+            'name' => 'required',
+        ]);
+
+        $shopVendor->name = $validated['name'];
+
+        $shopVendor->save();
+
+        return redirect(route('admin.shop.vendor.edit',$shopVendor))->with('action_result',__('shop::elf.vendor_edited_successfully'));
     }
 
     /**
@@ -81,6 +152,10 @@ class ShopVendorController extends Controller
      */
     public function destroy(ShopVendor $shopVendor)
     {
-        //
+        if (!$shopVendor->delete()) {
+            return redirect(route('admin.shop.vendor'))->withErrors(['vendordelerror'=>__('shop::elf.error_of_vendor_deleting')]);
+        }
+
+        return redirect(route('admin.shop.vendor'))->with('action_result',__('shop::elf.vendor16712_deleted_successfully'));
     }
 }

@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('shop_units', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('name_plural');
+            $table->string('name_plural')->nullable();
             $table->string('abbr');
             $table->string('lang_name')->nullable();
             $table->string('lang_name_plural')->nullable();

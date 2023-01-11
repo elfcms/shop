@@ -1,6 +1,6 @@
 <?php
 
-namespace Elfcms\Shop\Http\Controllers;
+namespace Elfcms\Shop\Http\Controllers\Resources;
 
 use App\Http\Controllers\Controller;
 use Elfcms\Shop\Models\ShopCoupon;

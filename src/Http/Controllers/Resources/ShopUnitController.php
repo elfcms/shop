@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace Elfcms\Shop\Http\Controllers\Resources;
 
-use App\Models\ShopUnit;
+use App\Http\Controllers\Controller;
+use Elfcms\Shop\Models\ShopUnit;
 use Illuminate\Http\Request;
 
 class ShopUnitController extends Controller
@@ -14,7 +15,14 @@ class ShopUnitController extends Controller
      */
     public function index()
     {
-        //
+        $units = ShopUnit::all();
+        return view('shop::admin.shop.unit.index',[
+            'page' => [
+                'title' => __('shop::elf.units_of_measurement'),
+                'current' => url()->current(),
+            ],
+            'units' => $units,
+        ]);
     }
 
     /**
