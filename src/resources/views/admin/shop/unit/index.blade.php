@@ -13,34 +13,21 @@
         </ul>
     </div>
     @endif
-    <div class="data-table-box">
+<form name="unitform" class="data-table-box" method="post" action="{{ route('admin.shop.ajax.unit.fullsave') }}">
+    @csrf
     <div class="widetable-wrapper">
         <table class="grid-table unit-table">
             <thead>
                 <tr>
-                    <th>
-                        ID
-                        {{-- <a href="{{ route('admin.shop.unit',UrlParams::addArr(['order'=>'id','trend'=>['desc','asc']])) }}" class="ordering @if (UrlParams::case('order',['id'=>true])) {{UrlParams::case('trend',['desc'=>'desc'],'asc')}} @endif"></a> --}}
-                    </th>
-                    <th>
-                        {{ __('basic::elf.name') }}
-                        {{-- <a href="{{ route('admin.shop.unit',UrlParams::addArr(['order'=>'name','trend'=>['desc','asc']])) }}" class="ordering @if (UrlParams::case('order',['name'=>true])) {{UrlParams::case('trend',['desc'=>'desc'],'asc')}} @endif"></a> --}}
-                    </th>{{--
-                    <th>
-                        {{ __('basic::elf.created') }}
-                        <a href="{{ route('admin.shop.unit',UrlParams::addArr(['order'=>'created_at','trend'=>['desc','asc']])) }}" class="ordering @if (UrlParams::case('order',['created_at'=>true])) {{UrlParams::case('trend',['desc'=>'desc'],'asc')}} @endif"></a>
-                    </th>
-                    <th>
-                        {{ __('basic::elf.updated') }}
-                        <a href="{{ route('admin.shop.unit',UrlParams::addArr(['order'=>'updated_at','trend'=>['desc','asc']])) }}" class="ordering @if (UrlParams::case('order',['updated_at'=>true])) {{UrlParams::case('trend',['desc'=>'desc'],'asc')}} @endif"></a>
-                    </th> --}}
-                    <th>{{ __('basic::elf.abbr') }}</th>
-                    <th>{{ __('basic::elf.step') }}</th>
-                    <th>{{ __('basic::elf.max') }}</th>
-                    <th>{{ __('basic::elf.min') }}</th>
-                    <th>{{ __('basic::elf.name_plural') }}</th>
-                    <th>{{ __('basic::elf.lang_name') }}</th>
-                    <th>{{ __('basic::elf.lang_name_plural') }}</th>
+                    <th>ID</th>
+                    <th>{{ __('basic::elf.name') }}</th>
+                    <th>{{ __('shop::elf.abbr') }}</th>
+                    <th>{{ __('shop::elf.step') }}</th>
+                    <th>{{ __('shop::elf.max') }}</th>
+                    <th>{{ __('shop::elf.min') }}</th>
+                    <th>{{ __('shop::elf.name_plural') }}</th>
+                    <th>{{ __('shop::elf.lang_name') }}</th>
+                    <th>{{ __('shop::elf.lang_name_plural') }}</th>
                     <th></th>
                 </tr>
             </thead>
@@ -51,23 +38,27 @@
     </div>
     <div class="shop-table-buttons">
         <button class="default-btn alternate-button" title="{{__('shop::elf.add_unit_of_measurement')}}" data-action="additem">{{ __('shop::elf.add') }}</button>
-        <button class="default-btn submit-button" disabled="">{{ __('basic::elf.save') }}</button>
+        {{-- <button class="default-btn" title="{{__('basic::elf.reset_button')}}" data-action="reset">{{ __('basic::elf.reset_button') }}</button> --}}
+        <button type="submit" class="default-btn submit-button" disabled="" data-action="save">{{ __('basic::elf.save') }}</button>
     </div>
-</div>
+</form>
     <script>
+        const inputs = document.querySelectorAll('tr[data-id] td input[data-name]');
+        const addButton = document.querySelector('button[data-action="additem"]');
+        const saveButton = document.querySelector('button[data-action="save"]');
+        const form = document.querySelector('form[name="unitform"]');
         let emptyItem;
+        let unitListData;
+        let controlData = {};
+        let newItemId = 0;
+
         async function getEmptyItem() {
-            /* if (emptyItem !== null && emptyItem !== '') {
-                return emptyItem;
-            } */
             let response = await fetch('{{ route("admin.shop.ajax.unit.empty-item") }}',{headers: {'X-Requested-With': 'XMLHttpRequest'}});
             emptyItem = await response.text();
 
             return emptyItem;
         }
-        getEmptyItem();
 
-        let unitListData;
         async function getUnitList () {
             if (unitListData !== null && typeof unitListData == 'object') {
                 return unitListData;
@@ -76,15 +67,9 @@
             unitListData = await response.json();
             return unitListData;
         }
-        getUnitList();
-
-        let controlData = {};
-
-        //let editedFields = {};
 
         setTimeout(() => {
             for (let key in unitListData.data) {
-                //editedFields[key] = false;
                 let subdata = {};
                 for (let subkey in unitListData.data[key]){
                     subdata[subkey] = unitListData.data[key][subkey];
@@ -93,68 +78,120 @@
             }
         }, 1000);
 
-        let editedFields = {};
-/*
-        function objectCompare(obj1, obj2) {
-            if (typeof obj1 != 'object' || typeof obj2 != 'object') {
-                return null
-            }
-            for (let key in obj1) {
-                if ((!obj2[key] && obj1[key]) || (obj2[key] && !obj1[key]) || obj1[key] != obj2[key]) {
-                    return false;
-                }
-            }
-            return true;
-        } */
-
-        const inputs = document.querySelectorAll('tr[data-id] td input[data-name]');
         if (inputs) {
             inputs.forEach(input => {
                 input.addEventListener('input',function(){
-                    checkChange(this);
+                    checkUnitChange(this);
                 });
             });
         }
-/*
-        function setRowDelete(th) {
-            console.log(th);
-            const row = th.closest('tr[data-id]');
-            if (row) {
-                const id = row.dataset.id;
-                const name = th.dataset.name;
-                const editInput = row.querySelector('input[name="unit['+id+'][edited]"]');
-                if (id && name) {
-                    controlData[id][name] = th.value == '' ? null : th.value;
-                    if (objectCompare(controlData[id],unitListData.data[id])) {
-                        row.classList.remove('edited');
-                        if (editInput) {
-                            editInput.value="0";
-                        }
-                    }
-                    else {
-                        row.classList.add('edited');
-                        if (editInput) {
-                            editInput.value="1";
-                        }
-                    }
-                }
-            }
-        } */
 
-        let newItemId = 0;
-/*
-        function addItem() {
-            const container = document.querySelector('table.unit-table tbody');
-            if (container) {
-                let itemString = emptyItem.replaceAll('id="newunit"','id="new_'+newItemId+'"').replaceAll('unit[newunit]','newunit['+newItemId+']').replaceAll('unit_newunit','newunit_'+newItemId).replaceAll('<span>newunit</span>','');
-                container.insertAdjacentHTML('beforeend',itemString);
-                const newRow = container.lastElementChild;
-                if (newRow) {
-                    newRow.classList.add('edited');
-                }
-                newItemId++;
-            }
-        } */
+        if (addButton) {
+            addButton.addEventListener('click',addUnitItem);
+        }
+
+        if (form) {
+            form.addEventListener('submit',function(e){
+                e.preventDefault();
+
+            });
+        }
+
+        if (saveButton) {
+            saveButton.addEventListener('click',function(e){
+                e.preventDefault();
+                const formData = new FormData(form);
+                const itemsBox = form.querySelector('tbody');
+                let preloader = preloadSet('.big-container');
+                fetch(form.action,{
+                    method: 'POST',
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest',
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                    },
+                    credentials: 'same-origin',
+                    body: formData
+                }).then(
+                    (result) => result.json()
+                ).then (
+                    (data) => {
+                        if (data.result && data.result == 'success') {
+                            itemsBox.innerHTML = '';
+                            itemsBox.insertAdjacentHTML('beforeend',data.data);
+                            const reInputs = itemsBox.querySelectorAll('tr[data-id] td input[data-name]');
+                            if (reInputs) {
+                                reInputs.forEach(input => {
+                                    input.addEventListener('input',function(){
+                                        checkUnitChange(this);
+                                    });
+                                });
+                            }
+                            popup({
+                                title:'{{__("gallery::elf.edit_gallery")}}',
+                                content:'{{__("gallery::elf.gallery_edited_successfully")}}',
+                                buttons:[
+                                    {
+                                        title:'OK',
+                                        class:'default-btn submit-button',
+                                        callback:'close'
+                                    }
+                                ],
+                                class:'submit'
+                            });
+                        }
+                        else {
+                            if ((data.error || (data.result && data.result == 'error')) && data.message) {
+                                popup({
+                                    title:'{{__("gallery::elf.error")}}',
+                                    content:data.message,
+                                    buttons:[
+                                        {
+                                            title:'OK',
+                                            class:'default-btn submit-button',
+                                            callback:'close'
+                                        }
+                                    ],
+                                    class:'danger'
+                                });
+                            }
+                        }
+                        preloadUnset(preloader);
+                    }
+                ).catch(error => {
+                    preloadUnset(preloader);
+                });
+            });
+        }
+
+        getUnitList();
+        getEmptyItem();
+
+
+
+function preloadSet(element) {
+    if (typeof element === 'string') {
+        element = document.querySelector(element);
+    }
+    if (!(element instanceof HTMLElement) && element !== document) {
+        return false;
+    }
+    const preloader = document.createElement('div')
+    preloader.classList.add('preload-wrapper');
+    preloader.insertAdjacentHTML('beforeend','<div class="preload-box"><div></div><div></div><div></div></div>');
+    element.append(preloader);
+
+    return preloader;
+}
+
+function preloadUnset(preloader) {
+    if (typeof preloader === 'string') {
+        preloader = document.querySelector(preloader);
+    }
+    if (!(preloader instanceof HTMLElement)) {
+        return false;
+    }
+    preloader.remove();
+}
     </script>
 
 @endsection

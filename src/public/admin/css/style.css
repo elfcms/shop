@@ -53,10 +53,17 @@
     background-color: #ffb2a4; /* f3c1b8 */
 }
 
+main:has(.shop-table-buttons) {
+    overflow: initial;
+}
+.big-container:has(.shop-table-buttons) {
+    padding-bottom: 0;
+}
+
 .shop-table-buttons {
     position: sticky;
     bottom: 29px;
-    margin: 0px -20px;
+    /* margin: 0px -20px; */
     padding: 15px 20px;
     background-color: #ffffff;
     text-align: center;

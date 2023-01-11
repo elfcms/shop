@@ -88,6 +88,7 @@ Route::group(['middleware'=>['web','cookie','start']],function() use ($adminPath
 
             Route::get($adminPath . '/shop/ajax/unit/list/{byId?}', [\Elfcms\Shop\Http\Controllers\ShopUnitController::class, 'list'])->name('ajax.unit.list');
             Route::get($adminPath . '/shop/ajax/unit/empty-item', [\Elfcms\Shop\Http\Controllers\ShopUnitController::class, 'emptyItem'])->name('ajax.unit.empty-item');
+            Route::post($adminPath . '/shop/ajax/unit/fullsave', [\Elfcms\Shop\Http\Controllers\ShopUnitController::class, 'save'])->name('ajax.unit.fullsave');
 
             //Route::resource($adminPath . '/shop/coupon', \Elfcms\Shop\Http\Controllers\Resources\ShopCouponController::class);
         });

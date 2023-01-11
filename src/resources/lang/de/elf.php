@@ -85,4 +85,20 @@ return [
 
     'item' => 'Artikel',
     'items' => 'Artikeln',
+
+    'abbr' => 'Abk.',
+    'abbreviation' => 'Abkürzung',
+    'step' => 'Schritt',
+    'max' => 'Max',
+    'min' => 'Min',
+    'name_plural' => 'Name pl.',
+    'lang_name' => 'Sprachcode von Name',
+    'lang_name_plural' => 'Sprachcode von Name pl.',
+
+    'method_must_be' => 'Die Anforderungsmethode muss :method sein',
+    'error_of_deleting' => 'Fehler bei der Entfernung',
+    'error_of_saving_id' => 'Fehler beim Speichern des Elements ID :id',
+    'error_of_creating_element_with_name' => 'Fehler beim Erstellen des Elements mit dem Namen ":name"',
+    'view_not_found' => 'Ansicht nicht gefunden',
+    'data_saved_successfully' => 'Daten erfolgreich gespeichert',
 ];

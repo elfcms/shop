@@ -85,4 +85,21 @@ return [
 
     'item' => 'Item',
     'items' => 'Items',
+
+    'abbr' => 'Abbr.',
+    'abbreviation' => 'Abbreviation',
+    'step' => 'Step',
+    'max' => 'Max',
+    'min' => 'Min',
+    'name_plural' => 'Name pl.',
+    'lang_name' => 'Language code of Name',
+    'lang_name_plural' => 'Language code of Name pl.',
+
+    'method_must_be' => 'The request method must be :method',
+    'error_of_deleting' => 'Error of deleting',
+    'error_of_saving_id' => 'Error of saving element id :id',
+    'error_of_creating_element_with_name' => 'Error of creating element with name ":name"',
+    'view_not_found' => 'View not found',
+    'data_saved_successfully' => 'Data saved successfully',
+
 ];

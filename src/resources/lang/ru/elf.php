@@ -85,4 +85,20 @@ return [
 
     'item' => 'Артикул',
     'items' => 'Артикулы',
+
+    'abbr' => 'Аббр.',
+    'abbreviation' => 'Аббревиатура',
+    'step' => 'Шаг',
+    'max' => 'Максимум',
+    'min' => 'Тинимум',
+    'name_plural' => 'Название в мн.ч.',
+    'lang_name' => 'Языковой код названия',
+    'lang_name_plural' => 'Языковой код названия в мн.ч.',
+
+    'method_must_be' => 'Метод запроса должен быть :method',
+    'error_of_deleting' => 'Ошибка удаления',
+    'error_of_saving_id' => 'Ощибка сохранения элемента с ID :id',
+    'error_of_creating_element_with_name' => 'Ошибка создания элемента c именем ":name"',
+    'view_not_found' => 'Представление не найдено',
+    'data_saved_successfully' => 'Данные успешно сохранены',
 ];
