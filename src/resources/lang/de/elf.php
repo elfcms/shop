@@ -101,4 +101,10 @@ return [
     'error_of_creating_element_with_name' => 'Fehler beim Erstellen des Elements mit dem Namen ":name"',
     'view_not_found' => 'Ansicht nicht gefunden',
     'data_saved_successfully' => 'Daten erfolgreich gespeichert',
+    'error' => 'Fehler',
+    'done' => 'Fertig',
+    'warning' => 'Warnung',
+    'do_you_want_to_save_your_changes' => 'Möchten Sie Ihre Änderungen zu speichern?',
+    'marked_items_will_be_removed' => 'Markierte Elemente werden entfernt',
+    'are_you_sure' => 'Sind Sie sicher?',
 ];

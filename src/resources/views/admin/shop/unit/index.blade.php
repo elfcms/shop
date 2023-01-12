@@ -68,13 +68,19 @@
             return unitListData;
         }
 
-        setTimeout(() => {
-            for (let key in unitListData.data) {
-                let subdata = {};
-                for (let subkey in unitListData.data[key]){
-                    subdata[subkey] = unitListData.data[key][subkey];
+        let startPreload = preloadSet('form[name="unitform"]');
+
+        let dataLoadInterval = setInterval(() => {
+            if (typeof unitListData === 'object') {
+                for (let key in unitListData.data) {
+                    let subdata = {};
+                    for (let subkey in unitListData.data[key]){
+                        subdata[subkey] = unitListData.data[key][subkey];
+                    }
+                    controlData[key] = subdata;
                 }
-                controlData[key] = subdata;
+                clearInterval(dataLoadInterval);
+                preloadUnset(startPreload);
             }
         }, 1000);
 
@@ -100,66 +106,88 @@
         if (saveButton) {
             saveButton.addEventListener('click',function(e){
                 e.preventDefault();
-                const formData = new FormData(form);
-                const itemsBox = form.querySelector('tbody');
-                let preloader = preloadSet('.big-container');
-                fetch(form.action,{
-                    method: 'POST',
-                    headers: {
-                        'X-Requested-With': 'XMLHttpRequest',
-                        'X-CSRF-TOKEN': '{{ csrf_token() }}',
-                    },
-                    credentials: 'same-origin',
-                    body: formData
-                }).then(
-                    (result) => result.json()
-                ).then (
-                    (data) => {
-                        if (data.result && data.result == 'success') {
-                            itemsBox.innerHTML = '';
-                            itemsBox.insertAdjacentHTML('beforeend',data.data);
-                            const reInputs = itemsBox.querySelectorAll('tr[data-id] td input[data-name]');
-                            if (reInputs) {
-                                reInputs.forEach(input => {
-                                    input.addEventListener('input',function(){
-                                        checkUnitChange(this);
-                                    });
-                                });
-                            }
-                            popup({
-                                title:'{{__("gallery::elf.edit_gallery")}}',
-                                content:'{{__("gallery::elf.gallery_edited_successfully")}}',
-                                buttons:[
-                                    {
-                                        title:'OK',
-                                        class:'default-btn submit-button',
-                                        callback:'close'
-                                    }
-                                ],
-                                class:'submit'
-                            });
+                popup({
+                    title: '{{__("shop::elf.are_you_sure")}}',
+                    content: '{{__("shop::elf.do_you_want_to_save_your_changes")}}',
+                    buttons:[
+                        {
+                            title:'OK',
+                            class:'default-btn alternate-button',
+                            callback: [
+                                saveForm,
+                                'close'
+                            ]
+                        },
+                        {
+                            title:'{{__("basic::elf.cancel")}}',
+                            class:'default-btn cancel-button',
+                            callback:'close'
                         }
-                        else {
-                            if ((data.error || (data.result && data.result == 'error')) && data.message) {
+                    ],
+                    class:'alternate'
+                });
+                function saveForm() {
+                    const formData = new FormData(form);
+                    const itemsBox = form.querySelector('tbody');
+                    let preloader = preloadSet('.big-container');
+                    fetch(form.action,{
+                        method: 'POST',
+                        headers: {
+                            'X-Requested-With': 'XMLHttpRequest',
+                            'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                        },
+                        credentials: 'same-origin',
+                        body: formData
+                    }).then(
+                        (result) => result.json()
+                    ).then (
+                        (data) => {
+                            if (data.result && data.result == 'success') {
+                                itemsBox.innerHTML = '';
+                                itemsBox.insertAdjacentHTML('beforeend',data.data);
+                                const reInputs = itemsBox.querySelectorAll('tr[data-id] td input[data-name]');
+                                if (reInputs) {
+                                    reInputs.forEach(input => {
+                                        input.addEventListener('input',function(){
+                                            checkUnitChange(this);
+                                        });
+                                    });
+                                }
                                 popup({
-                                    title:'{{__("gallery::elf.error")}}',
-                                    content:data.message,
+                                    title: '{{__("shop::elf.done")}}',
+                                    content: data.message,
                                     buttons:[
                                         {
                                             title:'OK',
-                                            class:'default-btn submit-button',
+                                            class:'default-btn alternate-button',
                                             callback:'close'
                                         }
                                     ],
-                                    class:'danger'
+                                    class:'alternate'
                                 });
                             }
+                            else {
+                                if ((data.error || (data.result && data.result == 'error')) && data.message) {
+                                    popup({
+                                        title:'{{__("shop::elf.error")}}',
+                                        content:data.message,
+                                        buttons:[
+                                            {
+                                                title:'OK',
+                                                class:'default-btn delete-button',
+                                                callback:'close'
+                                            }
+                                        ],
+                                        class:'danger'
+                                    });
+                                }
+                            }
+                            preloadUnset(preloader);
                         }
+                    ).catch(error => {
                         preloadUnset(preloader);
-                    }
-                ).catch(error => {
-                    preloadUnset(preloader);
-                });
+                    });
+                }
             });
         }
 
@@ -168,30 +196,6 @@
 
 
 
-function preloadSet(element) {
-    if (typeof element === 'string') {
-        element = document.querySelector(element);
-    }
-    if (!(element instanceof HTMLElement) && element !== document) {
-        return false;
-    }
-    const preloader = document.createElement('div')
-    preloader.classList.add('preload-wrapper');
-    preloader.insertAdjacentHTML('beforeend','<div class="preload-box"><div></div><div></div><div></div></div>');
-    element.append(preloader);
-
-    return preloader;
-}
-
-function preloadUnset(preloader) {
-    if (typeof preloader === 'string') {
-        preloader = document.querySelector(preloader);
-    }
-    if (!(preloader instanceof HTMLElement)) {
-        return false;
-    }
-    preloader.remove();
-}
     </script>
 
 @endsection

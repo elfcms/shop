@@ -101,4 +101,10 @@ return [
     'error_of_creating_element_with_name' => 'Ошибка создания элемента c именем ":name"',
     'view_not_found' => 'Представление не найдено',
     'data_saved_successfully' => 'Данные успешно сохранены',
+    'error' => 'Ошибка',
+    'done' => 'Готово',
+    'warning' => 'Предупреждение',
+    '' => 'Сохранить внесенные изменения?',
+    'marked_items_will_be_removed' => 'Отмеченные элементы будут удалены',
+    'are_you_sure' => 'Вы уверены?',
 ];

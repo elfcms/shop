@@ -89,7 +89,7 @@ class ShopUnitController extends Controller
             'data' => null
         ];
         if (!$request->isMethod('POST')) {
-            $result['message'] = 'Method must be POST';
+            $result['message'] = __('shop::elf.method_must_be',['method'=>'POST']);
             return $result;
         }
 
@@ -135,7 +135,7 @@ class ShopUnitController extends Controller
         if (!empty($unitDelete)) {
             $deleted = ShopUnit::destroy($unitDelete);
             if (!$deleted) {
-                $result['message'] = 'Error of deleting';
+                $result['message'] = __('shop::elf.error_of_deleting');
 
                 return $result;
             }
@@ -155,7 +155,7 @@ class ShopUnitController extends Controller
                     $unitItem->lang_name_plural = $unit['lang_name_plural'];
                     $saved = $unitItem->save();
                     if (!$saved) {
-                        $result['message'] = 'Error of saving element id '. $id;
+                        $result['message'] =  __('shop::elf.error_of_saving_id',['id'=>$id]);
 
                         return $result;
                     }
@@ -167,7 +167,7 @@ class ShopUnitController extends Controller
             foreach ($data['newunit'] as $newunit) {
                 $created = ShopUnit::create($newunit);
                 if (!$created) {
-                    $result['message'] = 'Error of creating element with name "'. $newunit['name'] .'"';
+                    $result['message'] = __('shop::elf.error_of_creating_element_with_name',['name'=>$newunit['name']]);
 
                     return $result;
                 }
@@ -182,11 +182,11 @@ class ShopUnitController extends Controller
             ]
         )->render();
         if (!$view) {
-            $result['message'] = 'View not found';
+            $result['message'] = __('shop::elf.view_not_found');
             return $result;
         }
         $result['result'] = 'success';
-        $result['message'] = 'Data saved';
+        $result['message'] = __('shop::elf.data_saved_successfully');
         $result['data'] = $view;
 
         return $result;
