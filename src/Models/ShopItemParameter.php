@@ -15,6 +15,7 @@ class ShopItemParameter extends Model
         'name',
         'code',
         'description',
+        'is_filter',
     ];
 
     public function data_type()

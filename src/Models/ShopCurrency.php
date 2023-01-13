@@ -14,6 +14,8 @@ class ShopCurrency extends Model
         'code',
         'symbol',
         'symbol_code',
+        'symbol_html',
+        'default',
     ];
 
     public function price_types()

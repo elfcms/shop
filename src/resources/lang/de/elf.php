@@ -89,6 +89,23 @@ return [
     'property_deleted_successfully' => 'Eigenschaft erfolgreich gelöscht',
     'error_of_property_deleting' => 'Fehler bei der Eigenschaft-Entfernung',
 
+    'currency' => 'Währung',
+    'currencies' => 'Währungen',
+    'create_currency' => 'Währung erstellen',
+    'add_currency' => 'Währung hinzufügen',
+    'edit_currency' => 'Währung bearbeiten',
+    'currency_created_successfully' => 'Währung erfolgreich erstellt',
+    'error_of_currency_created' => 'Fehler beim Erstellen der Währung',
+    'currency_edited_successfully' => 'Währung erfolgreich bearbeitet',
+    'error_of_currency_edited' => 'Fehler bei der Währung-Bearbeitung',
+    'currency_deleted_successfully' => 'Währung erfolgreich gelöscht',
+    'error_of_currency_deleting' => 'Fehler bei der Währung-Entfernung',
+
+    'symbol' => 'Symbol',
+    'symbol_code' => 'Unicode-Symbol',
+    'symbol_html' => 'HTML-Symbol',
+    'default' => 'Default',
+
     'active' => 'Aktiv',
     'not_active' => 'Nicht aktiv',
     'inactive' => 'inaktiv',

@@ -76,6 +76,11 @@ return [
                     "lang_title" => "shop::elf.properties",
                     "route" => "admin.shop.property"
                 ],
+                [
+                    "title" => "Currencies",
+                    "lang_title" => "shop::elf.currencies",
+                    "route" => "admin.shop.currency"
+                ],
             ]
         ],
     ],

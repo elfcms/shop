@@ -172,7 +172,10 @@
                                 });
                             }
                             else {
-                                if ((data.error || (data.result && data.result == 'error')) && data.message) {
+                                if ((data.error || (data.result && data.result == 'error'))) {
+                                    if (!data.message) {
+                                        data.message = '{{ __("shop::elf.error") }}';
+                                    }
                                     popup({
                                         title:'{{__("shop::elf.error")}}',
                                         content:data.message,

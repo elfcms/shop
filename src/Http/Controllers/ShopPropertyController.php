@@ -163,6 +163,12 @@ class ShopPropertyController extends Controller
 
         if (!empty($data['newproperty'])) {
             foreach ($data['newproperty'] as $newproperty) {
+                if (empty($newproperty['is_filter'])) {
+                    $newproperty['is_filter'] = 0;
+                }
+                else {
+                    $newproperty['is_filter'] = 1;
+                }
                 $created = ShopItemProperty::create($newproperty);
                 if (!$created) {
                     $result['message'] = __('shop::elf.error_of_creating_element_with_name',['name'=>$newproperty['name']]);

@@ -1,5 +1,3 @@
-console.log('shop init')
-
 function setCheckClosePage(check=true) {
     if (check) {
         window.addEventListener('beforeunload',checkClosePage);
@@ -114,6 +112,23 @@ function addPropertyItem() {
     }
 }
 
+function addCurrencyItem() {
+    if (!emptyItem) return false;
+    if (!newItemId && newItemId !== 0) return false;
+    const container = document.querySelector('table.currency-table tbody');
+    if (container) {
+        let itemString = emptyItem.replaceAll('id="newcurrency"','id="new_'+newItemId+'"').replaceAll('currency[newcurrency]','newcurrency['+newItemId+']').replaceAll('currency_newcurrency','newcurrency_'+newItemId).replaceAll('<span>newcurrency</span>','');
+        container.insertAdjacentHTML('beforeend',itemString);
+        const newRow = container.lastElementChild;
+        if (newRow) {
+            newRow.classList.add('edited');
+        }
+        newItemId++;
+        autoSlug(newRow.querySelectorAll('.autoslug'));
+        setSaveEnabled();
+    }
+}
+
 function isEditedUnits() {
     const editedRows = document.querySelectorAll('tr[data-id].edited');
     if (editedRows && editedRows.length) {
@@ -132,10 +147,7 @@ function isDeletableUnits() {
 
 function setSaveEnabled() {
     const saveButton = document.querySelector('button[data-action="save"]');
-    console.log(saveButton)
     if (saveButton) {
-        console.log(isDeletableUnits());
-        console.log(isEditedUnits());
         if (isDeletableUnits() || isEditedUnits()) {
             saveButton.disabled = false;
         }

@@ -89,6 +89,23 @@ return [
     'property_deleted_successfully' => 'Property deleted successfully',
     'error_of_property_deleting' => 'Error of property deleting',
 
+    'currency' => 'Currency',
+    'currencies' => 'Currencies',
+    'create_currency' => 'Create currency',
+    'add_currency' => 'Add currency',
+    'edit_currency' => 'Edit currency',
+    'currency_created_successfully' => 'Currency created successfully',
+    'error_of_currency_created' => 'Error of currency creating',
+    'currency_edited_successfully' => 'Currency edited successfully',
+    'error_of_currency_edited' => 'Error of currency editing',
+    'currency_deleted_successfully' => 'Currency deleted successfully',
+    'error_of_currency_deleting' => 'Error of currency deleting',
+
+    'symbol' => 'Symbol',
+    'symbol_code' => 'Unicode symbol',
+    'symbol_html' => 'HTML symbol',
+    'default' => 'Default',
+
     'active' => 'Active',
     'not_active' => 'Not active',
     'inactive' => 'inactive',

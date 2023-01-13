@@ -28,7 +28,10 @@
         <input type="text" name="property[{{$property->id}}][description]" id="property_{{$property->id}}_description" value="{{ $property->description }}" data-name="description">
     </td>
     <td>
-        <input type="checkbox" name="property[{{$property->id}}][is_filter]" id="property_{{$property->id}}_is_filter" value="1" data-name="is_filter" @if($property->is_filter) checked @endif>
+        <div class="checkbox-switch">
+            <input type="checkbox" name="property[{{$property->id}}][is_filter]" id="property_{{$property->id}}_is_filter" value="1" data-name="is_filter" @if($property->is_filter) checked @endif>
+            <i></i>
+        </div>
     </td>
     <td class="button-column non-text-buttons">
         <div class="check-delete-wrapper">

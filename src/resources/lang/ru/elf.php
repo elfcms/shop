@@ -89,6 +89,23 @@ return [
     'propertydeleted_successfully' => 'Свойство успешно удалено',
     'error_of_propertydeleting' => 'Ошибка удаления свойства',
 
+    'currency' => 'Валюта',
+    'currencies' => 'Валюта',
+    'create_currency' => 'Создать валюту',
+    'add_currency' => 'Добавить валюту',
+    'edit_currency' => 'Изменить валюту',
+    'currencycreated_successfully' => 'Валюта успешно создана',
+    'error_of_currencycreated' => 'Ошибка создания валюты',
+    'currencyedited_successfully' => 'Валюта успешно изменена',
+    'error_of_currencyedited' => 'Ошибка редактирования валюты',
+    'currencydeleted_successfully' => 'Валюта успешно удалена',
+    'error_of_currencydeleting' => 'Ошибка удаления валюты',
+
+    'symbol' => 'Символ',
+    'symbol_code' => 'Код символа Unicode',
+    'symbol_html' => 'Код символа HTML',
+    'default' => 'По умолчанию',
+
     'active' => 'Активный',
     'not_active' => 'Неактивный',
     'inactive' => 'Неактивный',

@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::table('shop_item_properties', function (Blueprint $table) {
-            $table->boolean('is_filter')->default(1)->after('description');
+            $table->boolean('is_filter')->default(0)->after('description');
         });
     }
 

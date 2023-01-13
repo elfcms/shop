@@ -163,6 +163,12 @@ class ShopParameterController extends Controller
 
         if (!empty($data['newparameter'])) {
             foreach ($data['newparameter'] as $newparameter) {
+                if (empty($newparameter['is_filter'])) {
+                    $newparameter['is_filter'] = 0;
+                }
+                else {
+                    $newparameter['is_filter'] = 1;
+                }
                 $created = ShopItemParameter::create($newparameter);
                 if (!$created) {
                     $result['message'] = __('shop::elf.error_of_creating_element_with_name',['name'=>$newparameter['name']]);

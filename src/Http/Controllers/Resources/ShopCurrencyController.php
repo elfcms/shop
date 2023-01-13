@@ -15,7 +15,14 @@ class ShopCurrencyController extends Controller
      */
     public function index()
     {
-        //
+        $currencies = ShopCurrency::all();
+        return view('shop::admin.shop.currency.index',[
+            'page' => [
+                'title' => __('shop::elf.currencies'),
+                'current' => url()->current(),
+            ],
+            'currencies' => $currencies,
+        ]);
     }
 
     /**
