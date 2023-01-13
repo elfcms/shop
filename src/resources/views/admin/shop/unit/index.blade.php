@@ -16,7 +16,7 @@
 <form name="unitform" class="data-table-box" method="post" action="{{ route('admin.shop.ajax.unit.fullsave') }}">
     @csrf
     <div class="widetable-wrapper">
-        <table class="grid-table unit-table">
+        <table class="grid-table unit-table itemstable">
             <thead>
                 <tr>
                     <th>ID</th>

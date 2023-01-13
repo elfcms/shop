@@ -3,6 +3,7 @@
 namespace Elfcms\Shop\Http\Controllers\Resources;
 
 use App\Http\Controllers\Controller;
+use Elfcms\Basic\Models\DataType;
 use Elfcms\Shop\Models\ShopItemParameter;
 use Illuminate\Http\Request;
 
@@ -15,7 +16,16 @@ class ShopItemParameterController extends Controller
      */
     public function index()
     {
-        //
+        $dataTypes = DataType::all();
+        $parameters = ShopItemParameter::all();
+        return view('shop::admin.shop.parameter.index',[
+            'page' => [
+                'title' => __('shop::elf.parameters'),
+                'current' => url()->current(),
+            ],
+            'parameters' => $parameters,
+            'data_types' => $dataTypes,
+        ]);
     }
 
     /**

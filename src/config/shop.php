@@ -66,6 +66,16 @@ return [
                     "lang_title" => "shop::elf.units_of_measurement",
                     "route" => "admin.shop.unit"
                 ],
+                [
+                    "title" => "Parameters",
+                    "lang_title" => "shop::elf.parameters",
+                    "route" => "admin.shop.parameter"
+                ],
+                [
+                    "title" => "Properties",
+                    "lang_title" => "shop::elf.properties",
+                    "route" => "admin.shop.property"
+                ],
             ]
         ],
     ],

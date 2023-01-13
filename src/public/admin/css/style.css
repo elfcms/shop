@@ -29,26 +29,38 @@
     grid-template-columns:
         auto
         minmax(100px, 1fr)
-        minmax(50px, 0.5fr)
-        minmax(50px, 0.5fr)
-        minmax(50px, 0.5fr)
-        minmax(50px, 0.5fr)
+        minmax(90px, 0.4fr)
+        minmax(90px, 0.4fr)
+        minmax(90px, 0.4fr)
+        minmax(90px, 0.4fr)
         minmax(100px, 1fr)
         minmax(100px, 1fr)
         minmax(100px, 1fr)
-        minmax(50px, 0.5fr);
+        minmax(90px, 0.2fr);
 }
-.grid-table.unit-table td input {
+.grid-table.parameter-table,
+.grid-table.property-table {
+    grid-template-columns:
+        auto
+        minmax(100px, 1fr)
+        minmax(50px, 0.15fr)
+        minmax(100px, 1fr)
+        minmax(50px, 0.5fr)
+        minmax(100px, 1fr)
+        minmax(50px, 0.15fr)
+        minmax(90px, 0.2fr)
+}
+.grid-table.itemstable td input {
     width: 100%;
 }
-.grid-table.unit-table td input:focus {
+.grid-table.itemstable td input:focus {
     outline: none;
     box-shadow: 0px 0px 3px 0px rgba(0, 0, 0, 0.3);
 }
-.grid-table.unit-table tr.edited td {
+.grid-table.itemstable tr.edited td {
     background-color: #c0d497; /* 9acd32 */
 }
-.grid-table.unit-table tr.deletable td {
+.grid-table.itemstable tr.deletable td {
     text-decoration: line-through #ff6347;
     background-color: #ffb2a4; /* f3c1b8 */
 }

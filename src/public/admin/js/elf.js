@@ -34,7 +34,19 @@ function checkUnitChange(th) {
         const name = th.dataset.name;
         const editInput = row.querySelector('input[name="unit['+id+'][edited]"]');
         if (id && name) {
-            controlData[id][name] = th.value == '' ? null : th.value;
+            let value = th.value;
+            if (th.type == 'checkbox') {
+                if (th.checked) {
+                    value = 1;
+                }
+                else {
+                    value = 0;
+                }
+            }
+            if (value === '') {
+                value = null;
+            }
+            controlData[id][name] = value;
             if (objectCompare(controlData[id],unitListData.data[id])) {
                 row.classList.remove('edited');
                 if (editInput) {
@@ -64,6 +76,40 @@ function addUnitItem() {
             newRow.classList.add('edited');
         }
         newItemId++;
+        setSaveEnabled();
+    }
+}
+
+function addParameterItem() {
+    if (!emptyItem) return false;
+    if (!newItemId && newItemId !== 0) return false;
+    const container = document.querySelector('table.parameter-table tbody');
+    if (container) {
+        let itemString = emptyItem.replaceAll('id="newparameter"','id="new_'+newItemId+'"').replaceAll('parameter[newparameter]','newparameter['+newItemId+']').replaceAll('parameter_newparameter','newparameter_'+newItemId).replaceAll('<span>newparameter</span>','');
+        container.insertAdjacentHTML('beforeend',itemString);
+        const newRow = container.lastElementChild;
+        if (newRow) {
+            newRow.classList.add('edited');
+        }
+        newItemId++;
+        autoSlug(newRow.querySelectorAll('.autoslug'));
+        setSaveEnabled();
+    }
+}
+
+function addPropertyItem() {
+    if (!emptyItem) return false;
+    if (!newItemId && newItemId !== 0) return false;
+    const container = document.querySelector('table.property-table tbody');
+    if (container) {
+        let itemString = emptyItem.replaceAll('id="newproperty"','id="new_'+newItemId+'"').replaceAll('property[newproperty]','newproperty['+newItemId+']').replaceAll('property_newproperty','newproperty_'+newItemId).replaceAll('<span>newproperty</span>','');
+        container.insertAdjacentHTML('beforeend',itemString);
+        const newRow = container.lastElementChild;
+        if (newRow) {
+            newRow.classList.add('edited');
+        }
+        newItemId++;
+        autoSlug(newRow.querySelectorAll('.autoslug'));
         setSaveEnabled();
     }
 }

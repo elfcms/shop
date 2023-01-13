@@ -36,7 +36,9 @@ Route::group(['middleware'=>['web','cookie','start']],function() use ($adminPath
             ->parameters(['tag'=>'shopTag'])
             ->names(['index'=>'tag']);
 
-            //Route::resource($adminPath . '/shop/currency', \Elfcms\Shop\Http\Controllers\Resources\ShopCurrencyController::class);
+            Route::resource($adminPath . '/shop/currency', \Elfcms\Shop\Http\Controllers\Resources\ShopCurrencyController::class)
+            ->parameters(['currency'=>'shopCurrency'])
+            ->names(['index'=>'currency']);
 
             Route::resource($adminPath . '/shop/tax', \Elfcms\Shop\Http\Controllers\Resources\ShopTaxController::class)
             ->parameters(['tax'=>'shopTax'])
@@ -86,9 +88,27 @@ Route::group(['middleware'=>['web','cookie','start']],function() use ($adminPath
             ->parameters(['unit'=>'shopUnit'])
             ->names(['index'=>'unit']);
 
+            Route::resource($adminPath . '/shop/parameter', \Elfcms\Shop\Http\Controllers\Resources\ShopItemParameterController::class)
+            ->parameters(['parameter'=>'shopItemParameter'])
+            ->names(['index'=>'parameter']);
+
+            Route::resource($adminPath . '/shop/property', \Elfcms\Shop\Http\Controllers\Resources\ShopItemPropertyController::class)
+            ->parameters(['property'=>'shopItemProperty'])
+            ->names(['index'=>'property']);
+
+            Route::get($adminPath . '/shop/ajax/csrf', [\Elfcms\Shop\Http\Controllers\AdminController::class, 'csrf'])->name('ajax.csrf');
+
             Route::get($adminPath . '/shop/ajax/unit/list/{byId?}', [\Elfcms\Shop\Http\Controllers\ShopUnitController::class, 'list'])->name('ajax.unit.list');
             Route::get($adminPath . '/shop/ajax/unit/empty-item', [\Elfcms\Shop\Http\Controllers\ShopUnitController::class, 'emptyItem'])->name('ajax.unit.empty-item');
             Route::post($adminPath . '/shop/ajax/unit/fullsave', [\Elfcms\Shop\Http\Controllers\ShopUnitController::class, 'save'])->name('ajax.unit.fullsave');
+
+            Route::get($adminPath . '/shop/ajax/parameter/list/{byId?}', [\Elfcms\Shop\Http\Controllers\ShopParameterController::class, 'list'])->name('ajax.parameter.list');
+            Route::get($adminPath . '/shop/ajax/parameter/empty-parameter', [\Elfcms\Shop\Http\Controllers\ShopParameterController::class, 'emptyItem'])->name('ajax.parameter.empty-item');
+            Route::post($adminPath . '/shop/ajax/parameter/fullsave', [\Elfcms\Shop\Http\Controllers\ShopParameterController::class, 'save'])->name('ajax.parameter.fullsave');
+
+            Route::get($adminPath . '/shop/ajax/property/list/{byId?}', [\Elfcms\Shop\Http\Controllers\ShopPropertyController::class, 'list'])->name('ajax.property.list');
+            Route::get($adminPath . '/shop/ajax/property/empty-property', [\Elfcms\Shop\Http\Controllers\ShopPropertyController::class, 'emptyItem'])->name('ajax.property.empty-item');
+            Route::post($adminPath . '/shop/ajax/property/fullsave', [\Elfcms\Shop\Http\Controllers\ShopPropertyController::class, 'save'])->name('ajax.property.fullsave');
 
             //Route::resource($adminPath . '/shop/coupon', \Elfcms\Shop\Http\Controllers\Resources\ShopCouponController::class);
         });

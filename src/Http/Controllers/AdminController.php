@@ -8,9 +8,34 @@ use Elfcms\Shop\Models\ShopGoods;
 use Elfcms\Shop\Models\ShopItem;
 use Elfcms\Shop\Models\ShopItemParameter;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class AdminController extends Controller
 {
+    public function csrf(Request $request)
+    {
+        if (!$request->ajax()) {
+            abort(403);
+        }
+        if (!Auth::check() || !Auth::user()->isAdmin()) {
+            return response()->json(
+                [
+                    'result' => 'error',
+                    'message' => 'Forbidden',
+                    'data' => null
+                ],
+                403
+            );
+        }
+        return [
+            'result' => 'success',
+            'message' => 'CSRF-token received successfully',
+            'data' => [
+                'token' => csrf_token()
+            ]
+        ];
+    }
+
     public function shop()
     {
         //$param = ShopItemParameter::with('item_values')->find(1);
