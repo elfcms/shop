@@ -61,6 +61,9 @@
         minmax(80px, 0.1fr)
         minmax(90px, 0.2fr)
 }
+.grid-table.shop-goods-table {
+    grid-template-columns: auto auto;
+}
 .grid-table.itemstable td input {
     width: 100%;
 }

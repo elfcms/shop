@@ -68,12 +68,12 @@ class ShopGoods extends Model
 
     public function parameters()
     {
-        return $this->hasMany(ShopItemParameterValue::class, 'item_id');
+        return $this->hasMany(ShopGoodsParameterValue::class, 'goods_id');
     }
 
     public function properties()
     {
-        return $this->hasMany(ShopItemPropertyValue::class, 'item_id');
+        return $this->hasMany(ShopGoodsPropertyValue::class, 'goods_id');
     }
 
     public function tags()
