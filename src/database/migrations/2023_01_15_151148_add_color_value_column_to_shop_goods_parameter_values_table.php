@@ -27,7 +27,7 @@ return new class extends Migration
     public function down()
     {
         Schema::table('shop_goods_parameter_values', function (Blueprint $table) {
-            $table->dropForeign('color_value');
+            $table->dropForeign('shop_goods_parameter_values_color_value_foreign');
             $table->dropColumn('color_value');
         });
     }

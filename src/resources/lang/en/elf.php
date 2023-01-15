@@ -89,6 +89,18 @@ return [
     'property_deleted_successfully' => 'Property deleted successfully',
     'error_of_property_deleting' => 'Error of property deleting',
 
+    'color' => 'Color',
+    'colors' => 'Colors',
+    'create_color' => 'Create color',
+    'add_color' => 'Add color',
+    'edit_color' => 'Edit color',
+    'color_created_successfully' => 'Color created successfully',
+    'error_of_color_created' => 'Error of color creating',
+    'color_edited_successfully' => 'Color edited successfully',
+    'error_of_color_edited' => 'Error of color editing',
+    'color_deleted_successfully' => 'Color deleted successfully',
+    'error_of_color_deleting' => 'Error of color deleting',
+
     'currency' => 'Currency',
     'currencies' => 'Currencies',
     'create_currency' => 'Create currency',

@@ -19,7 +19,7 @@
         <input type="text" name="currency[{{$currency->id}}][symbol_html]" id="currency_{{$currency->id}}_symbol_html" value="{{ $currency->symbol_html }}" data-name="symbol_html">
     </td>
     <td>
-        <div class="checkbox-switch">
+        <div class="checkbox-switch green">
             <input type="checkbox" name="currency[{{$currency->id}}][default]" id="currency_{{$currency->id}}_default" value="1" data-name="default" @if($currency->default) checked @endif>
             <i></i>
         </div>

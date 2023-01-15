@@ -98,6 +98,8 @@ Route::group(['middleware'=>['web','cookie','start']],function() use ($adminPath
             ->parameters(['currency'=>'shopCurrency'])
             ->names(['index'=>'currency']);
 
+            Route::get($adminPath . '/shop/color', [\Elfcms\Shop\Http\Controllers\ShopColorController::class,'index'])->name('color');
+
             Route::get($adminPath . '/shop/ajax/csrf', [\Elfcms\Shop\Http\Controllers\AdminController::class, 'csrf'])->name('ajax.csrf');
 
             Route::get($adminPath . '/shop/ajax/unit/list/{byId?}', [\Elfcms\Shop\Http\Controllers\ShopUnitController::class, 'list'])->name('ajax.unit.list');
@@ -115,6 +117,10 @@ Route::group(['middleware'=>['web','cookie','start']],function() use ($adminPath
             Route::get($adminPath . '/shop/ajax/currency/list/{byId?}', [\Elfcms\Shop\Http\Controllers\ShopCurrencyController::class, 'list'])->name('ajax.currency.list');
             Route::get($adminPath . '/shop/ajax/currency/empty-currency', [\Elfcms\Shop\Http\Controllers\ShopCurrencyController::class, 'emptyItem'])->name('ajax.currency.empty-item');
             Route::post($adminPath . '/shop/ajax/currency/fullsave', [\Elfcms\Shop\Http\Controllers\ShopCurrencyController::class, 'save'])->name('ajax.currency.fullsave');
+
+            Route::get($adminPath . '/shop/ajax/color/list/{byId?}', [\Elfcms\Shop\Http\Controllers\ShopColorController::class, 'list'])->name('ajax.color.list');
+            Route::get($adminPath . '/shop/ajax/color/empty-color', [\Elfcms\Shop\Http\Controllers\ShopColorController::class, 'emptyItem'])->name('ajax.color.empty-item');
+            Route::post($adminPath . '/shop/ajax/color/fullsave', [\Elfcms\Shop\Http\Controllers\ShopColorController::class, 'save'])->name('ajax.color.fullsave');
 
             //Route::resource($adminPath . '/shop/coupon', \Elfcms\Shop\Http\Controllers\Resources\ShopCouponController::class);
         });

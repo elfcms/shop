@@ -89,6 +89,18 @@ return [
     'propertydeleted_successfully' => 'Свойство успешно удалено',
     'error_of_propertydeleting' => 'Ошибка удаления свойства',
 
+    'color' => 'Цвет',
+    'colors' => 'Цвета',
+    'create_color' => 'Создать цвет',
+    'add_color' => 'Добавить цвет',
+    'edit_color' => 'Изменить цвет',
+    'colorcreated_successfully' => 'Цвет успешно создан',
+    'error_of_colorcreated' => 'Ошибка создания цвета',
+    'coloredited_successfully' => 'Цвет успешно изменен',
+    'error_of_coloredited' => 'Ошибка редактирования цвета',
+    'colordeleted_successfully' => 'Цвет успешно удален',
+    'error_of_colordeleting' => 'Ошибка удаления цвета',
+
     'currency' => 'Валюта',
     'currencies' => 'Валюта',
     'create_currency' => 'Создать валюту',

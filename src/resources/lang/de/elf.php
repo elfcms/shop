@@ -89,6 +89,18 @@ return [
     'property_deleted_successfully' => 'Eigenschaft erfolgreich gelöscht',
     'error_of_property_deleting' => 'Fehler bei der Eigenschaft-Entfernung',
 
+    'color' => 'Farbe',
+    'colors' => 'Farben',
+    'create_color' => 'Farbe erstellen',
+    'add_color' => 'Farbe hinzufügen',
+    'edit_color' => 'Farbe bearbeiten',
+    'color_created_successfully' => 'Farbe erfolgreich erstellt',
+    'error_of_color_created' => 'Fehler beim Erstellen der Farbe',
+    'color_edited_successfully' => 'Farbe erfolgreich bearbeitet',
+    'error_of_color_edited' => 'Fehler bei der Farbe-Bearbeitung',
+    'color_deleted_successfully' => 'Farbe erfolgreich gelöscht',
+    'error_of_color_deleting' => 'Fehler bei der Farbe-Entfernung',
+
     'currency' => 'Währung',
     'currencies' => 'Währungen',
     'create_currency' => 'Währung erstellen',

@@ -28,7 +28,7 @@
         <input type="text" name="parameter[{{$parameter->id}}][description]" id="parameter_{{$parameter->id}}_description" value="{{ $parameter->description }}" data-name="description">
     </td>
     <td>
-        <div class="checkbox-switch">
+        <div class="checkbox-switch green">
             <input type="checkbox" name="parameter[{{$parameter->id}}][is_filter]" id="parameter_{{$parameter->id}}_is_filter" value="1" data-name="is_filter" @if($parameter->is_filter) checked @endif>
             <i></i>
         </div>

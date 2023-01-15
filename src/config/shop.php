@@ -77,6 +77,11 @@ return [
                     "route" => "admin.shop.property"
                 ],
                 [
+                    "title" => "Colors",
+                    "lang_title" => "shop::elf.colors",
+                    "route" => "admin.shop.color"
+                ],
+                [
                     "title" => "Currencies",
                     "lang_title" => "shop::elf.currencies",
                     "route" => "admin.shop.currency"

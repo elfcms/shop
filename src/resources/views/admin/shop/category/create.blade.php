@@ -22,8 +22,8 @@
             @method('POST')
             <div class="colored-rows-box">
                 <div class="input-box colored">
-                    <div class="checkbox-wrapper">
-                        <div class="checkbox-inner">
+                    <div class="checkbox-switch-wrapper">
+                        <div class="checkbox-switch blue">
                             <input
                                 type="checkbox"
                                 name="active"
@@ -31,10 +31,10 @@
                                 checked
                             >
                             <i></i>
-                            <label for="active">
-                                {{ __('basic::elf.active') }}
-                            </label>
                         </div>
+                        <label for="active">
+                            {{ __('basic::elf.active') }}
+                        </label>
                     </div>
                 </div>
                 <div class="input-box colored">
