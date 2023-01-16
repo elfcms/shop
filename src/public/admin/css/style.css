@@ -48,7 +48,7 @@
         minmax(50px, 0.5fr)
         minmax(100px, 1fr)
         minmax(70px, 0.15fr)
-        minmax(90px, 0.2fr)
+        minmax(90px, 0.2fr);
 }
 .grid-table.currency-table {
     grid-template-columns:
@@ -59,7 +59,7 @@
         minmax(90px, 0.6fr)
         minmax(90px, 0.6fr)
         minmax(80px, 0.1fr)
-        minmax(90px, 0.2fr)
+        minmax(90px, 0.2fr);
 }
 .grid-table.color-table {
     grid-template-columns:
@@ -67,11 +67,41 @@
         minmax(100px, 1fr)
         minmax(100px, 0.5fr)
         minmax(80px, 0.1fr)
-        minmax(90px, 0.2fr)
+        minmax(90px, 0.2fr);
 }
 .grid-table.shop-goods-table {
-    grid-template-columns: auto auto;
+    grid-template-columns:
+        auto
+        minmax(100px, 1fr)
+        minmax(100px, 1fr)
+        minmax(90px, 0.3fr)
+        minmax(90px, 0.3fr);
 }
+.shop-goods-table .subtable-head th {
+    background: #80aacf;
+    padding: 8px 15px;
+    font-size: .9em;
+    text-shadow: 1px 1px 1px rgb(0,0,0,0.3);
+}
+.shop-goods-table .subtable-row > td {
+    grid-column-start: 1;
+    grid-column-end: 6;
+    background: #ecf4f9 !important;
+}
+.shop-goods-table .subtable-row .empty-row > td {
+    grid-column-start: 1;
+    grid-column-end: 6;
+}
+/* .shop-goods-table .subtable-row td {
+
+}
+.shop-goods-table .subtable-row:nth-child(odd) td {
+
+}
+.shop-goods-table .subtable-row:nth-child(even) td {
+
+} */
+
 .grid-table.itemstable td input {
     width: 100%;
 }
@@ -254,4 +284,34 @@ input[type="color"]::-webkit-color-swatch {
     height: 0;
     padding: 0;
     overflow: hidden;
+}
+
+.align-center {
+    text-align: center;
+    justify-content: center;
+}
+
+.icon-checkbox-round {
+    display: block;
+    position: relative;
+    width: 1em;
+    height: 1em;
+    border-radius: 50%;
+    border: .15em solid currentColor;
+    color: #6a6a6a;
+}
+.icon-checkbox-round.checked {
+    color: #a8c176;
+}
+.icon-checkbox-round.checked::after {
+    content: '';
+    display: block;
+    position: absolute;
+    top: -10%;
+    left: 10%;
+    rotate: -45deg;
+    border-left: .15em solid currentColor;
+    border-bottom: .15em solid currentColor;
+    width: 1em;
+    height: 0.45em;
 }

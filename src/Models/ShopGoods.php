@@ -2,7 +2,6 @@
 
 namespace Elfcms\Shop\Models;
 
-use App\Models\ShopUnit;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 

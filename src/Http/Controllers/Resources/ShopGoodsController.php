@@ -53,8 +53,11 @@ class ShopGoodsController extends Controller
         if ($request->props) {
             $props = $request->props;
         }
-
-        $goodsCollection = ShopGoods::with('items.parameters')
+        if (empty($search) && empty($props) && empty($params)) {
+            $goodsCollection = ShopGoods::with('items')->get();
+        }
+        else {
+            $goodsCollection = ShopGoods::with('items.parameters')
             ->with('items.properties')
             ->with('parameters')
             ->with('properties')
@@ -159,6 +162,9 @@ class ShopGoodsController extends Controller
             })
             ->orderBy($order,$trend)
             ->get();
+        }
+
+
             //->toSql();
 
         //dd($goodsCollection);

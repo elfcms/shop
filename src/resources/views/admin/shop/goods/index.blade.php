@@ -48,6 +48,13 @@
                     <th>{{ __('shop::elf.unit_of_measurement') }}</th>
                     <th>{{ __('shop::elf.active') }}</th>
                 </tr>
+                <tr class="subtable-head">
+                    <th>ID</th>
+                    <th>{{ __('shop::elf.alternate_name') }}</th>
+                    <th>{{ __('shop::elf.item_number') }}</th>
+                    <th class="align-center">{{ __('shop::elf.balance') }}</th>
+                    <th>{{ __('shop::elf.active') }}</th>
+                </tr>
             </thead>
             <tbody>
             @foreach ($goodsCollection as $goods)
@@ -65,6 +72,35 @@
                         {{ $goods->unit->title }}
                     </td>
                     <td></td>
+                </tr>
+                <tr class="subtable-row">
+                    <td colspan="5">
+                        <table class="grid-table shop-goods-table">
+                            @forelse ($goods->items as $item)
+                            <tr>
+                                <td>
+                                    {{ $item->id }}
+                                </td>
+                                <td>
+                                    {{ $item->alternate_name }}
+                                </td>
+                                <td>
+                                    {{ $item->item_number }}
+                                </td>
+                                <td class="align-center">
+                                    {{ $item->balance }}
+                                </td>
+                                <td>
+                                    <i class="icon-checkbox-round"></i>
+                                </td>
+                            </tr>
+                            @empty
+                            <tr class="empty-row">
+                                <td>{{ __('basic::elf.nothing_was_found') }}</td>
+                            </tr>
+                            @endforelse
+                        </table>
+                    </td>
                 </tr>
             @endforeach
             </tbody>
@@ -141,10 +177,10 @@
             }
         }
 
-        setConfirmDelete(checkForms)
+        //setConfirmDelete(checkForms)
 
         const tablerow = document.querySelectorAll('.shop-goods-table tbody tr');
-        if (tablerow) {
+        /* if (tablerow) {
             tablerow.forEach(row => {
                 row.addEventListener('contextmenu',function(e){
                     e.preventDefault()
@@ -154,7 +190,7 @@
                     contextPopup(content,{'left':e.x,'top':e.y})
                 })
             })
-        }
+        } */
     </script>
 
 @endsection

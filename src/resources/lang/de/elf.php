@@ -138,6 +138,13 @@ return [
 
     'item' => 'Artikel',
     'items' => 'Artikeln',
+    'alternate_name' => 'Alternativer Name',
+    'item_number' => 'Artikelnummer',
+    'balance' => 'Bilanz',
+    'remainder' => 'Rest',
+    'quantity' => 'Quantität',
+    'amount' => 'Menge',
+    'number' => 'Anzahl',
 
     'abbr' => 'Abk.',
     'abbreviation' => 'Abkürzung',
