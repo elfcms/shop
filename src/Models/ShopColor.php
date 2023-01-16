@@ -11,6 +11,8 @@ class ShopColor extends Model
 
     protected $fillable = [
         'code',
-        'name'
+        'name',
+        'transparent',
+        'picture',
     ];
 }

@@ -26,4 +26,16 @@ class ShopUnit extends Model
         return $this->hasMany(ShopGoods::class, 'unit_id');
     }
 
+    public function getTitleAttribute()
+    {
+        $title = $this->name;
+        if (!empty($this->lang_name)) {
+            $lang_title = __('shop::elf.' . $this->lang_name);
+            if ($lang_title != 'shop::elf.' . $this->lang_name) {
+                $title = $lang_title;
+            }
+        }
+        return $title;
+    }
+
 }

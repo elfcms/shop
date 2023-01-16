@@ -42,17 +42,27 @@
         <table class="grid-table shop-goods-table">
             <thead>
                 <tr>
-                    <th>
-                        __
-                    </th>
-                    <th></th>
+                    <th>ID</th>
+                    <th>{{ __('basic::elf.title') }}</th>
+                    <th>{{ __('basic::elf.slug') }}</th>
+                    <th>{{ __('shop::elf.unit_of_measurement') }}</th>
+                    <th>{{ __('shop::elf.active') }}</th>
                 </tr>
             </thead>
             <tbody>
             @foreach ($goodsCollection as $goods)
                 <tr data-id="{{ $goods->id }}" @empty ($goods->active) inactive @endempty">
                     <td>
+                        {{ $goods->id }}
+                    </td>
+                    <td>
                         {{ $goods->title }}
+                    </td>
+                    <td>
+                        {{ $goods->slug }}
+                    </td>
+                    <td>
+                        {{ $goods->unit->title }}
                     </td>
                     <td></td>
                 </tr>

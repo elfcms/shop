@@ -74,10 +74,8 @@ class ShopColorController extends Controller
             'id' => 'newcolor',
             'code' => null,
             'name' => null,
-            'symbol' => null,
-            'symbol_code' => null,
-            'symbol_html' => null,
-            'default' => 0
+            'picture' => null,
+            'transparent' => 0
         ];
         return view(
             'shop::admin.shop.color.content.item',
@@ -124,6 +122,7 @@ class ShopColorController extends Controller
             }
         }
         $data = $request->except($except);
+        //return $data;
         $validator = Validator::make($data, [
             '*color.*.name' => 'required',
             '*color.*.code' => 'required',
@@ -156,6 +155,18 @@ class ShopColorController extends Controller
                     $colorItem->name = $color['name'];
                     $colorItem->code = $color['code'];
                     $colorItem->default = empty($color['default']) ? 0 : 1;
+                    if ($colorItem->code_text == 'transparent') {
+                        $colorItem->transparent = 1;
+                    }
+                    else {
+                        $colorItem->transparent = 0;
+                    }
+                    $picture_path = $color['picture_path'];
+                    if (!empty($request->file()['color'][$id]['picture'])) {
+                        $picture = $request->file()['color'][$id]['picture']->store('public/shop/color/picture');
+                        $picture_path = str_ireplace('public/','/storage/',$picture);
+                    }
+                    $colorItem->picture = $picture_path;
                     $saved = $colorItem->save();
                     if (!$saved) {
                         $result['message'] =  __('shop::elf.error_of_saving_id',['id'=>$id]);
@@ -167,12 +178,21 @@ class ShopColorController extends Controller
         }
 
         if (!empty($data['newcolor'])) {
-            foreach ($data['newcolor'] as $newcolor) {
+            foreach ($data['newcolor'] as $id => $newcolor) {
                 if (empty($newcolor['default'])) {
                     $newcolor['default'] = 0;
                 }
                 else {
                     $newcolor['default'] = 1;
+                }
+                $picture_path = '';
+                if (!empty($request->file()['newcolor'][$id]['picture'])) {
+                    $picture = $request->file()['newcolor'][$id]['picture']->store('public/shop/color/picture');
+                    $picture_path = str_ireplace('public/','/storage/',$picture);
+                }
+                $newcolor['picture'] = $picture_path;
+                if ($newcolor['code_text'] == 'transparent') {
+                    $newcolor['transparent'] = 1;
                 }
                 $created = ShopColor::create($newcolor);
                 if (!$created) {

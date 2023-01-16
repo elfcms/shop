@@ -66,7 +66,7 @@
         auto
         minmax(100px, 1fr)
         minmax(100px, 0.5fr)
-        minmax(10px, 0.1fr)
+        minmax(80px, 0.1fr)
         minmax(90px, 0.2fr)
 }
 .grid-table.shop-goods-table {
@@ -213,6 +213,21 @@ main:has(.shop-table-buttons) {
     left: calc(100% - 21px);
 }
 
+.color-pointer-wrapper {
+    display: flex;
+    height: 30px;
+}
+.color-pointer-wrapper input[type="text"] {
+    border-right: 0;
+    border-radius: 3px 0px 0px 3px;
+    padding: 0px 8px;
+    height: 100%;
+}
+.color-pointer-wrapper input[type="color"] {
+    border-radius: 0px 3px 3px 0px;
+    height: 100%;
+}
+
 input[type="color"] {
     padding: 0;
     overflow: hidden;
@@ -222,4 +237,21 @@ input[type="color"]::-webkit-color-swatch-wrapper {
 }
 input[type="color"]::-webkit-color-swatch {
     border: 0;
+}
+
+.color-picture-wrapper .image-button {
+    width: 40px;
+    height: 40px;
+}
+.color-picture-wrapper .image-button .image-button-img {
+    width: 40px;
+    height: 40px;
+}
+.color-picture-wrapper .image-button .image-button-img img {
+    height: initial;
+}
+.color-picture-wrapper .image-button .image-button-text {
+    height: 0;
+    padding: 0;
+    overflow: hidden;
 }

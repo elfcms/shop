@@ -7,14 +7,40 @@
         <input type="text" name="color[{{$color->id}}][name]" id="color_{{$color->id}}_name" value="{{ $color->name }}" data-name="name">
     </td>
     <td>
-        <input type="color" name="color[{{$color->id}}][code]" id="color_{{$color->id}}_code" value="{{ $color->code }}" data-name="code">
+        <div class="color-pointer-wrapper">
+            <input type="text" name="color[{{$color->id}}][code_text]" id="color_{{$color->id}}_code_text" data-name="code_text" value="{{ $color->code }}"">
+            <input type="color" name="color[{{$color->id}}][code]" id="color_{{$color->id}}_code" value="{{ $color->code ?? '#ffffff' }}" data-name="code">
+        </div>
     </td>
     <td>
-        {{-- <div class="checkbox-switch">
+        <div class="input-wrapper color-picture-wrapper">
+            <input type="hidden" name="color[{{$color->id}}][picture_path]" id="color_{{$color->id}}_picture_path" value="{{$color->picture}}">
+            <div class="image-button">
+                <div class="delete-image @if (empty($color->picture)) hidden @endif">&#215;</div>
+                <div class="image-button-img">
+                @if (!empty($color->picture))
+                    <img src="{{ asset($color->picture) }}" alt="Image">
+                @else
+                    <img src="{{ asset('/vendor/elfcms/shop/admin/images/icons/upload.png') }}" alt="Upload file">
+                @endif
+                </div>
+                <div class="image-button-text">
+                @if (!empty($color->picture))
+                    {{ __('basic::elf.change_file') }}
+                @else
+                    {{ __('basic::elf.choose_file') }}
+                @endif
+                </div>
+                <input type="file" name="color[{{$color->id}}][picture]" id="color_{{$color->id}}_picture" data-name="picture">
+            </div>
+        </div>
+    </td>
+    {{-- <td>
+        <div class="checkbox-switch">
             <input type="checkbox" name="color[{{$color->id}}][default]" id="color_{{$color->id}}_default" value="1" data-name="default" @if($color->default) checked @endif>
             <i></i>
-        </div> --}}
-    </td>
+        </div>
+    </td> --}}
     <td class="button-column non-text-buttons">
         <div class="check-delete-wrapper">
             <input type="checkbox" name="color[{{$color->id}}][delete]" id="color_{{$color->id}}_delete" value="1" data-id="{{ $color->id }}" title="{{ __('basic::elf.delete') }}" onclick="setUnitRowDelete(this)">

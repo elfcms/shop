@@ -27,6 +27,7 @@ function setUnitRowDelete(th) {
 
 function checkUnitChange(th) {
     const row = th.closest('tr[data-id]');
+    console.log(row);
     if (row) {
         const id = row.dataset.id;
         const name = th.dataset.name;
@@ -118,23 +119,6 @@ function addCurrencyItem() {
     const container = document.querySelector('table.currency-table tbody');
     if (container) {
         let itemString = emptyItem.replaceAll('id="newcurrency"','id="new_'+newItemId+'"').replaceAll('currency[newcurrency]','newcurrency['+newItemId+']').replaceAll('currency_newcurrency','newcurrency_'+newItemId).replaceAll('<span>newcurrency</span>','');
-        container.insertAdjacentHTML('beforeend',itemString);
-        const newRow = container.lastElementChild;
-        if (newRow) {
-            newRow.classList.add('edited');
-        }
-        newItemId++;
-        autoSlug(newRow.querySelectorAll('.autoslug'));
-        setSaveEnabled();
-    }
-}
-
-function addColorItem() {
-    if (!emptyItem) return false;
-    if (!newItemId && newItemId !== 0) return false;
-    const container = document.querySelector('table.color-table tbody');
-    if (container) {
-        let itemString = emptyItem.replaceAll('id="newcolor"','id="new_'+newItemId+'"').replaceAll('color[newcolor]','newcolor['+newItemId+']').replaceAll('color_newcolor','newcolor_'+newItemId).replaceAll('<span>newcolor</span>','');
         container.insertAdjacentHTML('beforeend',itemString);
         const newRow = container.lastElementChild;
         if (newRow) {

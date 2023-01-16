@@ -22,7 +22,8 @@
                     <th>ID</th>
                     <th>{{ __('basic::elf.name') }}</th>
                     <th>{{ __('basic::elf.code') }}</th>
-                    <th>{{-- {{ __('shop::elf.default') }} --}}</th>
+                    <th>{{ __('shop::elf.image') }}</th>
+                    {{-- <th>{{ __('shop::elf.default') }}</th> --}}
                     <th></th>
                 </tr>
             </thead>
@@ -38,6 +39,8 @@
     </div>
 </form>
     <script>
+        const colorPointers = document.querySelectorAll('.color-pointer-wrapper');
+        const colorPictures = document.querySelectorAll('.color-picture-wrapper input[type="file"]');
         const inputs = document.querySelectorAll('tr[data-id] td [data-name]');
         const addButton = document.querySelector('button[data-action="additem"]');
         const saveButton = document.querySelector('button[data-action="save"]');
@@ -46,6 +49,61 @@
         let unitListData;
         let controlData = {};
         let newItemId = 0;
+
+        function setPictureButton(element) {
+            console.log(element);
+            if (typeof element == 'string') {
+            console.log('str');
+                element = document.querySelector(element);
+            }
+            if (!(element instanceof HTMLElement)) {
+                return false;
+            }
+            console.log('el');
+            inputFileImg(element);
+            const delButton = element.closest('.image-button').querySelector('.delete-image');
+            if (delButton) {
+                delButton.addEventListener('click',function(){
+                    checkUnitChange(element);
+                });
+            }
+        }
+
+        if (colorPictures) {
+            colorPictures.forEach(element => {
+                setPictureButton(element);
+            });
+        }
+
+
+
+        function setColorPoint(wrapper) {
+            if (!wrapper) return false;
+            if (typeof wrapper == 'string') {
+                wrapper = document.querySelector(wrapper);
+            }
+            if (!(wrapper instanceof HTMLElement)) {
+                return false;
+            }
+            const text = wrapper.querySelector('input[type="text"]');
+            const color = wrapper.querySelector('input[type="color"]');
+            if (text && color) {
+                text.addEventListener('input',function(){
+                    if (this.value.match( /#[a-f0-9]{6}\b/gi )) {
+                        color.value = this.value;
+                    }
+                });
+                color.addEventListener('input',function(){
+                    text.value = this.value;
+                });
+            }
+        }
+
+        if (colorPointers) {
+            colorPointers.forEach(wrapper => {
+                setColorPoint(wrapper);
+            });
+        }
 
         async function getEmptyItem() {
             let response = await fetch('{{ route("admin.shop.ajax.color.empty-item") }}',{headers: {'X-Requested-With': 'XMLHttpRequest'}});
@@ -88,6 +146,37 @@
                     checkUnitChange(this);
                 }); */
             });
+        }
+
+
+
+        function addColorItem() {
+            if (!emptyItem) return false;
+            if (!newItemId && newItemId !== 0) return false;
+            const container = document.querySelector('table.color-table tbody');
+            if (container) {
+                let itemString = emptyItem.replaceAll('id="newcolor"','id="new_'+newItemId+'"').replaceAll('color[newcolor]','newcolor['+newItemId+']').replaceAll('color_newcolor','newcolor_'+newItemId).replaceAll('<span>newcolor</span>','');
+                container.insertAdjacentHTML('beforeend',itemString);
+                const newRow = container.lastElementChild;
+                if (newRow) {
+                    newRow.classList.add('edited');
+                    const colors = newRow.querySelectorAll('.color-pointer-wrapper');
+                    if (colors) {
+                        colors.forEach(wrapper => {
+                            setColorPoint(wrapper);
+                        });
+                    }
+                    const files = newRow.querySelectorAll('input[type="file"]');
+                    if (files) {
+                        files.forEach(file => {
+                            setPictureButton(file);
+                        });
+                    }
+                }
+                newItemId++;
+                autoSlug(newRow.querySelectorAll('.autoslug'));
+                setSaveEnabled();
+            }
         }
 
         if (addButton) {
@@ -140,10 +229,12 @@
                         (result) => result.json()
                     ).then (
                         (data) => {
+                            console.log(data);
                             if (data.result && data.result == 'success') {
                                 itemsBox.innerHTML = '';
                                 itemsBox.insertAdjacentHTML('beforeend',data.data);
                                 const reInputs = itemsBox.querySelectorAll('tr[data-id] td [data-name]');
+                                const fileInputs = itemsBox.querySelectorAll('tr[data-id] td input[type="file"]');
                                 if (reInputs) {
                                     reInputs.forEach(input => {
                                         input.addEventListener('input',function(){
@@ -153,6 +244,11 @@
                                             checkUnitChange(this);
                                         }); */
                                         autoSlug('.autoslug');
+                                    });
+                                }
+                                if (fileInputs) {
+                                    fileInputs.forEach(fileInput => {
+                                        setPictureButton(fileInput);
                                     });
                                 }
                                 popup({
@@ -167,6 +263,7 @@
                                     ],
                                     class:'alternate'
                                 });
+                                saveButton.disabled = true;
                             }
                             else {
                                 if ((data.error || (data.result && data.result == 'error'))) {
