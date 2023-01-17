@@ -71,11 +71,19 @@
 }
 .grid-table.shop-goods-table {
     grid-template-columns:
-        auto
+        60px
         minmax(100px, 1fr)
         minmax(100px, 1fr)
         minmax(90px, 0.3fr)
-        minmax(90px, 0.3fr);
+        90px;
+}
+.subtable-row .grid-table.shop-goods-table {
+    grid-template-columns:
+        50px
+        minmax(100px, 1fr)
+        minmax(100px, 1fr)
+        minmax(90px, 0.3fr)
+        80px;
 }
 .shop-goods-table .subtable-head th {
     background: #80aacf;
@@ -87,6 +95,8 @@
     grid-column-start: 1;
     grid-column-end: 6;
     background: #ecf4f9 !important;
+    border-bottom: 1px solid #80aacf;
+    padding: 10px;
 }
 .shop-goods-table .subtable-row .empty-row > td {
     grid-column-start: 1;
@@ -314,4 +324,8 @@ input[type="color"]::-webkit-color-swatch {
     border-bottom: .15em solid currentColor;
     width: 1em;
     height: 0.45em;
+}
+
+.context-popup .context-popup-content .contextmenu-content-box .contextmenu-item.warning {
+    color: #941b05;
 }

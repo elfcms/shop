@@ -71,7 +71,37 @@
                     <td>
                         {{ $goods->unit->title }}
                     </td>
-                    <td></td>
+                    <td>
+                        <i @class(['icon-checkbox-round', 'checked' => $goods->active])></i>
+                        <div class="contextmenu-content-box">
+                            <a href="{{ route('admin.shop.goods.edit',$goods) }}" class="contextmenu-item">{{ __('basic::elf.edit') }}</a>
+                            <form action="{{ route('admin.shop.goods.update',$goods) }}" method="POST">
+                                @csrf
+                                @method('PATCH')
+                                <input type="hidden" name="id" id="id" value="{{ $goods->id }}">
+                                <input type="hidden" name="active" id="active" value="{{ (int)!(bool)$goods->active }}">
+                                <input type="hidden" name="notedit" value="1">
+                                <button type="submit" class="contextmenu-item">
+                                @if ($goods->active == 1)
+                                    {{ __('basic::elf.deactivate') }}
+                                @else
+                                    {{ __('basic::elf.activate') }}
+                                @endif
+                                </button>
+                            </form>
+                            <form action="{{ route('admin.shop.goods.destroy',$goods) }}" method="POST" data-submit="check">
+                                @csrf
+                                @method('DELETE')
+                                <input type="hidden" name="id" value="{{ $goods->id }}">
+                                <input type="hidden" name="name" value="{{ $goods->title }}">
+                                <button type="submit" class="contextmenu-item warning">{{ __('basic::elf.delete') }}</button>
+                            </form>
+                            <form action="{{ route('admin.shop.item.create') }}" method="GET">
+                                <input type="hidden" name="goods_id" value="{{ $goods->id }}">
+                                <button type="submit" class="contextmenu-item">{{ __('shop::elf.add_item') }}</button>
+                            </form>
+                        </div>
+                    </td>
                 </tr>
                 <tr class="subtable-row">
                     <td colspan="5">
@@ -87,16 +117,46 @@
                                 <td>
                                     {{ $item->item_number }}
                                 </td>
-                                <td class="align-center">
+                                <td>
                                     {{ $item->balance }}
                                 </td>
                                 <td>
-                                    <i class="icon-checkbox-round"></i>
+                                    <i @class(['icon-checkbox-round', 'checked' => $item->active])></i>
+                                    <div class="contextmenu-content-box">
+                                        <a href="{{ route('admin.shop.item.edit',$item) }}" class="contextmenu-item">{{ __('basic::elf.edit') }}</a>
+                                        <form action="{{ route('admin.shop.item.update',$item) }}" method="POST">
+                                            @csrf
+                                            @method('PATCH')
+                                            <input type="hidden" name="id" id="id" value="{{ $item->id }}">
+                                            <input type="hidden" name="active" id="active" value="{{ (int)!(bool)$item->active }}">
+                                            <input type="hidden" name="notedit" value="1">
+                                            <button type="submit" class="contextmenu-item">
+                                            @if ($item->active == 1)
+                                                {{ __('basic::elf.deactivate') }}
+                                            @else
+                                                {{ __('basic::elf.activate') }}
+                                            @endif
+                                            </button>
+                                        </form>
+                                        <form action="{{ route('admin.shop.item.destroy',$item) }}" method="POST" data-submit="check">
+                                            @csrf
+                                            @method('DELETE')
+                                            <input type="hidden" name="id" value="{{ $item->id }}">
+                                            <input type="hidden" name="name" value="{{ $item->item_number }}">
+                                            <button type="submit" class="contextmenu-item warning">{{ __('basic::elf.delete') }}</button>
+                                        </form>
+                                    </div>
                                 </td>
                             </tr>
                             @empty
                             <tr class="empty-row">
-                                <td>{{ __('basic::elf.nothing_was_found') }}</td>
+                                <td>
+                                    {{-- {{ __('basic::elf.nothing_was_found') }} --}}
+                                    <form action="{{ route('admin.shop.item.create') }}" method="GET">
+                                        <input type="hidden" name="goods_id" value="{{ $goods->id }}">
+                                        <button type="submit" class="default-btn submit-button">{{ __('shop::elf.add_item') }}</button>
+                                    </form>
+                                </td>
                             </tr>
                             @endforelse
                         </table>
@@ -115,7 +175,7 @@
     <script>
         const checkForms = document.querySelectorAll('form[data-submit="check"]')
 
-        /* if (checkForms) {
+        if (checkForms) {
             checkForms.forEach(form => {
                 form.addEventListener('submit',function(e){
                     e.preventDefault();
@@ -143,7 +203,7 @@
                     })
                 })
             })
-        } */
+        }
 
         function setConfirmDelete(forms) {
             if (forms) {
@@ -177,10 +237,10 @@
             }
         }
 
-        //setConfirmDelete(checkForms)
+        setConfirmDelete(checkForms)
 
-        const tablerow = document.querySelectorAll('.shop-goods-table tbody tr');
-        /* if (tablerow) {
+        const tablerow = document.querySelectorAll('.shop-goods-table tbody tr:has(.contextmenu-content-box):not(.subtable-row)');
+        if (tablerow) {
             tablerow.forEach(row => {
                 row.addEventListener('contextmenu',function(e){
                     e.preventDefault()
@@ -190,7 +250,7 @@
                     contextPopup(content,{'left':e.x,'top':e.y})
                 })
             })
-        } */
+        }
     </script>
 
 @endsection
