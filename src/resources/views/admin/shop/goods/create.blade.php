@@ -16,14 +16,14 @@
     @endif
 
     <div class="item-form">
-        <h3>{{ __('basic::elf.create_category') }}</h3>
-        <form action="{{ route('admin.shop.category.store') }}" method="POST" enctype="multipart/form-data">
+        <h3>{{ __('shop::elf.create_goods') }}</h3>
+        <form action="{{ route('admin.shop.goods.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
             @method('POST')
             <div class="colored-rows-box">
                 <div class="input-box colored">
-                    <div class="checkbox-wrapper">
-                        <div class="checkbox-inner">
+                    <div class="checkbox-switch-wrapper">
+                        <div class="checkbox-switch blue">
                             <input
                                 type="checkbox"
                                 name="active"
@@ -31,19 +31,18 @@
                                 checked
                             >
                             <i></i>
-                            <label for="active">
-                                {{ __('basic::elf.active') }}
-                            </label>
                         </div>
+                        <label for="active">
+                            {{ __('basic::elf.active') }}
+                        </label>
                     </div>
                 </div>
                 <div class="input-box colored">
-                    <label for="parent_id">{{ __('basic::elf.parent') }}</label>
+                    <label for="category_id">{{ __('shop::elf.categories') }}</label>
                     <div class="input-wrapper">
-                        <select name="parent_id" id="parent_id">
-                            <option value="">{{ __('basic::elf.none') }}</option>
-                        @foreach ($categories as $item)
-                            <option value="{{ $item->id }}" @if ($item->active != 1) class="inactive" @endif>{{ $item->title }}@if ($item->active != 1) [{{ __('basic::elf.inactive') }}] @endif</option>
+                        <select name="category_id[]" id="category_id" multiple required>
+                        @foreach ($categories as $category)
+                            <option value="{{ $category->id }}">{{ $category->title }}</option>
                         @endforeach
                         </select>
                     </div>
@@ -51,13 +50,13 @@
                 <div class="input-box colored">
                     <label for="title">{{ __('basic::elf.title') }}</label>
                     <div class="input-wrapper">
-                        <input type="text" name="title" id="title">
+                        <input type="text" name="title" id="title" required>
                     </div>
                 </div>
                 <div class="input-box colored">
                     <label for="slug">{{ __('basic::elf.slug') }}</label>
                     <div class="input-wrapper">
-                        <input type="text" name="slug" id="slug">
+                        <input type="text" name="slug" id="slug" required>
                     </div>
                     <div class="input-wrapper">
                         <div class="autoslug-wrapper">
@@ -73,19 +72,35 @@
                     </div>
                 </div>
                 <div class="input-box colored">
-                    <label for="image">{{ __('basic::elf.image') }}</label>
+                    <label for="unit_id">{{ __('shop::elf.unit_of_measurement') }}</label>
                     <div class="input-wrapper">
-                        <input type="hidden" name="image_path" id="image_path">
-                        <div class="image-button">
-                            <div class="delete-image hidden">&#215;</div>
-                            <div class="image-button-img">
-                                <img src="{{ asset('/vendor/elfcms/shop/admin/images/icons/upload.png') }}" alt="Upload file">
-                            </div>
-                            <div class="image-button-text">
-                                {{ __('basic::elf.choose_file') }}
-                            </div>
-                            <input type="file" name="image" id="image">
-                        </div>
+                        <select name="unit_id" id="unit_id">
+                        @foreach ($units as $unit)
+                            <option value="{{ $unit->id }}">{{ $unit->title }}</option>
+                        @endforeach
+                        </select>
+                    </div>
+                </div>
+                <div class="input-box colored">
+                    <label for="brand_id">{{ __('shop::elf.brand') }}</label>
+                    <div class="input-wrapper">
+                        <select name="brand_id" id="brand_id">
+                            <option value="">{{ __('basic::elf.none') }}</option>
+                        @foreach ($brands as $brand)
+                            <option value="{{ $brand->id }}">{{ $brand->name }}</option>
+                        @endforeach
+                        </select>
+                    </div>
+                </div>
+                <div class="input-box colored">
+                    <label for="vendor_id">{{ __('shop::elf.vendor') }}</label>
+                    <div class="input-wrapper">
+                        <select name="vendor_id" id="vendor_id">
+                            <option value="">{{ __('basic::elf.none') }}</option>
+                        @foreach ($vendors as $vendor)
+                            <option value="{{ $vendor->id }}">{{ $vendor->name }}</option>
+                        @endforeach
+                        </select>
                     </div>
                 </div>
                 <div class="input-box colored">

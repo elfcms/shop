@@ -3,12 +3,17 @@
 namespace Elfcms\Shop\Http\Controllers\Resources;
 
 use App\Http\Controllers\Controller;
+use Elfcms\Shop\Models\ShopBrand;
+use Elfcms\Shop\Models\ShopCategory;
 use Elfcms\Shop\Models\ShopGoods;
 use Elfcms\Shop\Models\ShopItem;
 use Elfcms\Shop\Models\ShopItemParameter;
 use Elfcms\Shop\Models\ShopItemProperty;
+use Elfcms\Shop\Models\ShopUnit;
+use Elfcms\Shop\Models\ShopVendor;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
+use Str;
 
 class ShopGoodsController extends Controller
 {
@@ -188,7 +193,21 @@ class ShopGoodsController extends Controller
      */
     public function create()
     {
-        //
+        $categories = ShopCategory::active()->get();
+        $units = ShopUnit::all();
+        $brands = ShopBrand::all();
+        $vendors = ShopVendor::all();
+        //dd($vendors);
+        return view('shop::admin.shop.goods.create',[
+            'page' => [
+                'title' => __('shop::elf.create_goods'),
+                'current' => url()->current(),
+            ],
+            'categories' => $categories,
+            'units' => $units,
+            'brands' => $brands,
+            'vendors' => $vendors,
+        ]);
     }
 
     /**
@@ -199,7 +218,33 @@ class ShopGoodsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->merge([
+            'slug' => Str::slug($request->slug),
+        ]);
+        $validated = $request->validate([
+            'title' => 'required',
+            'slug' => 'required|unique:Elfcms\Shop\Models\ShopGoods,slug',
+            'category_id' => 'required',
+        ]);
+
+        //dd($request->unit_id);
+        $validated['description'] = $request->description;
+        $validated['active'] = empty($request->active) ? 0 : 1;
+        //$validated['parent_id'] = $request->parent_id;
+        $validated['unit_id'] = (int)$request->unit_id;
+        $validated['brand_id'] = $request->brand_id;
+        $validated['vendor_id'] = $request->vendor_id;
+        $validated['meta_keywords'] = $request->meta_keywords;
+        $validated['meta_description'] = $request->meta_description;
+        //dd($validated);
+
+        $goods = ShopGoods::create($validated);
+
+        if (!empty($request->category_id)) {
+            $goods->categories()->attach($request->category_id);
+        }
+
+        return redirect(route('admin.shop.goods.edit',$goods))->with('action_result',__('shop::elf.goods_created_successfully'));
     }
 
     /**
@@ -221,7 +266,30 @@ class ShopGoodsController extends Controller
      */
     public function edit(ShopGoods $shopGoods)
     {
-        //
+        //dd($shopGoods->categories()->select('category_id')->get()->toArray());
+        $categories = ShopCategory::active()->get();
+        $units = ShopUnit::all();
+        $brands = ShopBrand::all();
+        $vendors = ShopVendor::all();
+        //$goodsCategories = $shopGoods->categories()->select('category_id')->get();
+        $goodsCategories = [];
+        foreach ($shopGoods->categories as $category) {
+            $goodsCategories[] = $category->id;
+        }
+        //dd($goodsCategories);
+        //dd($vendors);
+        return view('shop::admin.shop.goods.edit',[
+            'page' => [
+                'title' => __('shop::elf.edit_goods'),
+                'current' => url()->current(),
+            ],
+            'categories' => $categories,
+            'units' => $units,
+            'brands' => $brands,
+            'vendors' => $vendors,
+            'goodsCategories' => $goodsCategories,
+            'goods' => $shopGoods,
+        ]);
     }
 
     /**

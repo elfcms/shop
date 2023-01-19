@@ -15,6 +15,7 @@ class ShopGoods extends Model
         'description',
         'vendor_id',
         'brand_id',
+        'unit_id',
         'active',
         'meta_keywords',
         'meta_description',

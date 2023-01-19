@@ -16,45 +16,35 @@
     @endif
 
     <div class="item-form">
-        <h3>{{ __('basic::elf.edit_category') }}{{ $category->id }}</h3>
-        <div class="date-info create-info">
-            {{ __('basic::elf.created_at') }}: {{ $category->created }}
-        </div>
-        <div class="date-info update-info">
-            {{ __('basic::elf.updated_at') }}: {{ $category->updated }}
-        </div>
-        <form action="{{ route('admin.shop.category.update',$category) }}" method="POST" enctype="multipart/form-data">
+        <h3>{{ __('shop::elf.create_goods') }}</h3>
+        <form action="{{ route('admin.shop.goods.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
-            @method('PUT')
+            @method('POST')
             <div class="colored-rows-box">
-                <input type="hidden" name="id" id="id" value="{{ $category->id }}">
                 <div class="input-box colored">
-                    <div class="checkbox-wrapper">
-                        <div class="checkbox-inner">
+                    <div class="checkbox-switch-wrapper">
+                        <div class="checkbox-switch blue">
                             <input
                                 type="checkbox"
                                 name="active"
                                 id="active"
-                                @if ($category->active == 1)
+                                @if ($goods->active == 1)
                                 checked
                                 @endif
                             >
                             <i></i>
-                            <label for="active">
-                                {{ __('basic::elf.active') }}
-                            </label>
                         </div>
+                        <label for="active">
+                            {{ __('basic::elf.active') }}
+                        </label>
                     </div>
                 </div>
                 <div class="input-box colored">
-                    <label for="parent_id">{{ __('basic::elf.parent') }}</label>
+                    <label for="category_id">{{ __('shop::elf.categories') }}</label>
                     <div class="input-wrapper">
-                        <select name="parent_id" id="parent_id">
-                            <option value="">{{ __('basic::elf.none') }}</option>
-                        @foreach ($categories as $item)
-                            @if ($item->id != $category->id)
-                                <option value="{{ $item->id }}" @if ($item->active != 1) class="inactive" @endif @if ($item->id == $category->parent_id) selected @endif>{{ $item->title }}@if ($item->active != 1) [{{ __('basic::elf.inactive') }}] @endif</option>
-                            @endif
+                        <select name="category_id[]" id="category_id" multiple required>
+                        @foreach ($categories as $category)
+                            <option value="{{ $category->id }}" @if (in_array($category->id,$goodsCategories)) selected @endif>{{ $category->title }}</option>
                         @endforeach
                         </select>
                     </div>
@@ -62,13 +52,13 @@
                 <div class="input-box colored">
                     <label for="title">{{ __('basic::elf.title') }}</label>
                     <div class="input-wrapper">
-                        <input type="text" name="title" id="title" value="{{ $category->title }}">
+                        <input type="text" name="title" id="title" required value="{{ $goods->title }}">
                     </div>
                 </div>
                 <div class="input-box colored">
                     <label for="slug">{{ __('basic::elf.slug') }}</label>
                     <div class="input-wrapper">
-                        <input type="text" name="slug" id="slug" value="{{ $category->slug }}">
+                        <input type="text" name="slug" id="slug" required value="{{ $goods->slug }}">
                     </div>
                     <div class="input-wrapper">
                         <div class="autoslug-wrapper">
@@ -80,43 +70,51 @@
                 <div class="input-box colored">
                     <label for="desctiption">{{ __('basic::elf.description') }}</label>
                     <div class="input-wrapper">
-                        <textarea name="description" id="description" cols="30" rows="10">{{ $category->description }}</textarea>
+                        <textarea name="description" id="description" cols="30" rows="10">{{ $goods->description }}</textarea>
                     </div>
                 </div>
                 <div class="input-box colored">
-                    <label for="image">{{ __('basic::elf.image') }}</label>
+                    <label for="unit_id">{{ __('shop::elf.unit_of_measurement') }}</label>
                     <div class="input-wrapper">
-                        <input type="hidden" name="image_path" id="image_path" value="{{$category->image}}">
-                        <div class="image-button">
-                            <div class="delete-image @if (empty($category->image)) hidden @endif">&#215;</div>
-                            <div class="image-button-img">
-                            @if (!empty($category->image))
-                                <img src="{{ asset($category->image) }}" alt="Image">
-                            @else
-                                <img src="{{ asset('/vendor/elfcms/shop/admin/images/icons/upload.png') }}" alt="Upload file">
-                            @endif
-                            </div>
-                            <div class="image-button-text">
-                            @if (!empty($category->image))
-                                {{ __('basic::elf.change_file') }}
-                            @else
-                                {{ __('basic::elf.choose_file') }}
-                            @endif
-                            </div>
-                            <input type="file" name="image" id="image">
-                        </div>
+                        <select name="unit_id" id="unit_id">
+                        @foreach ($units as $unit)
+                            <option value="{{ $unit->id }}" @if(!empty($goods->unit->id) && $unit->id == $goods->unit->id) selected @endif>{{ $unit->title }}</option>
+                        @endforeach
+                        </select>
+                    </div>
+                </div>
+                <div class="input-box colored">
+                    <label for="brand_id">{{ __('shop::elf.brand') }}</label>
+                    <div class="input-wrapper">
+                        <select name="brand_id" id="brand_id">
+                            <option value="">{{ __('basic::elf.none') }}</option>
+                        @foreach ($brands as $brand)
+                            <option value="{{ $brand->id }}" @if(!empty($goods->brand->id) && $brand->id == $goods->brand->id) selected @endif>{{ $brand->name }}</option>
+                        @endforeach
+                        </select>
+                    </div>
+                </div>
+                <div class="input-box colored">
+                    <label for="vendor_id">{{ __('shop::elf.vendor') }}</label>
+                    <div class="input-wrapper">
+                        <select name="vendor_id" id="vendor_id">
+                            <option value="">{{ __('basic::elf.none') }}</option>
+                        @foreach ($vendors as $vendor)
+                            <option value="{{ $vendor->id }}" @if(!empty($goods->vendor->id) && $vendor->id == $goods->vendor->id) selected @endif>{{ $vendor->name }}</option>
+                        @endforeach
+                        </select>
                     </div>
                 </div>
                 <div class="input-box colored">
                     <label for="meta_keywords">{{ __('basic::elf.meta_keywords') }}</label>
                     <div class="input-wrapper">
-                        <textarea name="meta_keywords" id="meta_keywords" cols="30" rows="3">{{ $category->meta_keywords }}</textarea>
+                        <textarea name="meta_keywords" id="meta_keywords" cols="30" rows="3">{{ $goods->meta_keywords }}</textarea>
                     </div>
                 </div>
                 <div class="input-box colored">
                     <label for="meta_description">{{ __('basic::elf.meta_description') }}</label>
                     <div class="input-wrapper">
-                        <textarea name="meta_description" id="meta_description" cols="30" rows="3">{{ $category->meta_description }}</textarea>
+                        <textarea name="meta_description" id="meta_description" cols="30" rows="3">{{ $goods->meta_description }}</textarea>
                     </div>
                 </div>
             </div>
@@ -130,11 +128,6 @@
     if (imageInput) {
         inputFileImg(imageInput)
     }
-    const previewInput = document.querySelector('#preview')
-    if (previewInput) {
-        inputFileImg(previewInput)
-    }
-
     autoSlug('.autoslug')
     //add editor
     runEditor('#description')
