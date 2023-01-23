@@ -89,6 +89,8 @@ return [
     'property_deleted_successfully' => 'Eigenschaft erfolgreich gelöscht',
     'error_of_property_deleting' => 'Fehler bei der Eigenschaft-Entfernung',
 
+    'general' => 'Allgemeines',
+
     'color' => 'Farbe',
     'colors' => 'Farben',
     'create_color' => 'Farbe erstellen',
@@ -129,11 +131,11 @@ return [
     'goods' => 'Ware',
     'goods_pl' => 'Waren',
     'create_goods' => 'Ware erstellen',
-    'edit_goods' => 'Kategorie bearbeiten',
-    'goods_created_successfully' => 'Kategorie bearbeiten',
-    'error_of_goods_created' => 'Fehler beim Erstellen der Kategorie',
-    'goods_edited_successfully' => 'Kategorie erfolgreich bearbeitet',
-    'error_of_goods_edited' => 'Fehler bei der Kategorie-Bearbeitung',
+    'edit_goods' => 'Ware bearbeiten',
+    'goods_created_successfully' => 'Ware bearbeiten',
+    'error_of_goods_created' => 'Fehler beim Erstellen der Ware',
+    'goods_edited_successfully' => 'Ware erfolgreich bearbeitet',
+    'error_of_goods_edited' => 'Fehler bei der Ware-Bearbeitung',
     'show_goods_pl' => 'Waren zeigen',
 
     'item' => 'Artikel',

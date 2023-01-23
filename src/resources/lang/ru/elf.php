@@ -89,6 +89,8 @@ return [
     'propertydeleted_successfully' => 'Свойство успешно удалено',
     'error_of_propertydeleting' => 'Ошибка удаления свойства',
 
+    'general' => 'Общее',
+
     'color' => 'Цвет',
     'colors' => 'Цвета',
     'create_color' => 'Создать цвет',

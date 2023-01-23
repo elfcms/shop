@@ -250,12 +250,18 @@ class ShopGoodsController extends Controller
     /**
      * Display the specified resource.
      *
+     * @param  \Illuminate\Http\Request  $request
      * @param  \App\Models\ShopGoods  $shopGoods
      * @return \Illuminate\Http\Response
      */
-    public function show(ShopGoods $shopGoods)
+    public function show(Request  $request, ShopGoods $shopGoods)
     {
-        //
+        if ($request->ajax()) {
+            return $shopGoods;
+        }
+        else {
+            abort(404);
+        }
     }
 
     /**
@@ -276,6 +282,13 @@ class ShopGoodsController extends Controller
         foreach ($shopGoods->categories as $category) {
             $goodsCategories[] = $category->id;
         }
+
+        $parameters = ShopItemParameter::all();
+        /* foreach ($parameters as $parameter) {
+
+            dd($parameter->data_type->field);
+            dd($parameter->goods_values(7)->get()[0][$parameter->data_type->code . '_value']);
+        } */
         //dd($goodsCategories);
         //dd($vendors);
         return view('shop::admin.shop.goods.edit',[
@@ -289,6 +302,7 @@ class ShopGoodsController extends Controller
             'vendors' => $vendors,
             'goodsCategories' => $goodsCategories,
             'goods' => $shopGoods,
+            'parameters' => $parameters,
         ]);
     }
 
@@ -301,7 +315,63 @@ class ShopGoodsController extends Controller
      */
     public function update(Request $request, ShopGoods $shopGoods)
     {
-        //
+        if ($request->notedit && $request->notedit == 1) {
+            $shopGoods->active = empty($request->active) ? 0 : 1;
+
+            $shopGoods->save();
+
+            return redirect(route('admin.shop.goods'))->with('action_result',__('shop::elf.goods_edited_successfully'));
+        }
+        else {
+            $request->merge([
+                'slug' => Str::slug($request->slug),
+            ]);
+            $validated = $request->validate([
+                'title' => 'required',
+                'slug' => 'required',
+                'category_id' => 'required',
+            ]);
+            if (ShopGoods::where('slug',$request->slug)->where('id','<>',$shopGoods->id)->first()) {
+                return redirect(route('admin.shop.goods.edit'))->withErrors([
+                    'slug' => 'Goods already exists'
+                ]);
+            }
+
+            $shopGoods->title = $validated['title'];
+            $shopGoods->slug = $validated['slug'];
+            $shopGoods->unit_id = $request->unit_id;
+            $shopGoods->brand_id = $request->brand_id;
+            $shopGoods->vendor_id = $request->vendor_id;
+            $shopGoods->description = $request->description;
+            $shopGoods->active = empty($request->active) ? 0 : 1;
+            $shopGoods->meta_keywords = $request->meta_keywords;
+            $shopGoods->meta_description = $request->meta_description;
+
+            $existCategories = $shopGoods->categories->toArray();
+
+            $newCategories = $request->category_id ? $request->category_id : [];
+
+            if (!empty($existCategories)) {
+                foreach ($existCategories as $existTag) {
+                    if (!in_array($existTag['id'],$newCategories)) {
+                        $shopGoods->categories()->detach($existTag['id']);
+                    }
+                    else {
+                        $key = array_search($existTag['id'],$newCategories);
+                        unset($newCategories[$key]);
+                    }
+                }
+            }
+            if (!empty($newCategories)) {
+                foreach ($newCategories as $tagId) {
+                    $shopGoods->categories()->attach($tagId);
+                }
+            }
+
+            $shopGoods->save();
+
+            return redirect(route('admin.shop.goods.edit',$shopGoods))->with('action_result',__('shop::elf.goods_edited_successfully'));
+        }
     }
 
     /**

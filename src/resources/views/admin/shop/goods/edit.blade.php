@@ -16,11 +16,16 @@
     @endif
 
     <div class="item-form">
-        <h3>{{ __('shop::elf.create_goods') }}</h3>
-        <form action="{{ route('admin.shop.goods.store') }}" method="POST" enctype="multipart/form-data">
+        <h3>{{ __('shop::elf.edit_goods') }}</h3>
+        <form action="{{ route('admin.shop.goods.update',$goods) }}" method="POST" enctype="multipart/form-data">
             @csrf
-            @method('POST')
-            <div class="colored-rows-box">
+            @method('PUT')
+            <div class="tab-head">
+                <div class="tab-title selected" data-tab="general">{{ __('shop::elf.general') }}</div>
+                <div class="tab-title" data-tab="parameters">{{ __('shop::elf.parameters') }}</div>
+                <div class="tab-title" data-tab="properties">{{ __('shop::elf.properties') }}</div>
+            </div>
+            <div class="colored-rows-box tab-box showed" id="general">
                 <div class="input-box colored">
                     <div class="checkbox-switch-wrapper">
                         <div class="checkbox-switch blue">
@@ -69,7 +74,7 @@
                 </div>
                 <div class="input-box colored">
                     <label for="desctiption">{{ __('basic::elf.description') }}</label>
-                    <div class="input-wrapper">
+                    <div class="input-wrapper wide-editor-wrapper">
                         <textarea name="description" id="description" cols="30" rows="10">{{ $goods->description }}</textarea>
                     </div>
                 </div>
@@ -118,12 +123,28 @@
                     </div>
                 </div>
             </div>
+            <div class="colored-rows-box tab-box" id="parameters">
+                @foreach ($parameters as $parameter)
+                <div class="input-box colored">
+                    <input type="checkbox" name="used_parameter[{{$parameter->id}}]" id="used_parameter_{{$parameter->id}}">
+                    <label for="parameter_{{$parameter->id}}">{{ $parameter->name }}</label>
+                    <div class="input-wrapper">
+
+                        {{-- <input type="text" name="parameter[{{$parameter->id}}]" id="parameter_{{$parameter->id}}" value="{{ $parameter->goods_values($goods->id)[$parameter->data_type->code . '_value'] }}"> --}}
+                    </div>
+                </div>
+                @endforeach
+            </div>
+            <div class="colored-rows-box tab-box" id="properties">
+                222
+            </div>
             <div class="button-box single-box">
                 <button type="submit" class="default-btn submit-button">{{ __('basic::elf.submit') }}</button>
             </div>
         </form>
     </div>
     <script>
+    tabsInit();
     const imageInput = document.querySelector('#image')
     if (imageInput) {
         inputFileImg(imageInput)

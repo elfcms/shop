@@ -134,6 +134,10 @@ main:has(.shop-table-buttons) {
     padding-bottom: 0;
 }
 
+.input-wrapper.wide-editor-wrapper .gnommy-editor-field-box {
+    height: 120px;
+}
+
 .shop-table-buttons {
     position: sticky;
     bottom: 29px;

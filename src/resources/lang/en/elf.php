@@ -89,6 +89,8 @@ return [
     'property_deleted_successfully' => 'Property deleted successfully',
     'error_of_property_deleting' => 'Error of property deleting',
 
+    'general' => 'General',
+
     'color' => 'Color',
     'colors' => 'Colors',
     'create_color' => 'Create color',

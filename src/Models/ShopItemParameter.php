@@ -23,13 +23,21 @@ class ShopItemParameter extends Model
         return $this->belongsTo(DataType::class, 'data_type_id');
     }
 
-    public function goods_values()
+    public function goods_values(int|null $goodsId = null)
     {
-        return $this->hasMany(ShopGoodsParameterValue::class, 'parameter_id');
+        $result = $this->hasMany(ShopGoodsParameterValue::class, 'parameter_id');
+        if (!empty($goodsId) && is_numeric($goodsId)) {
+            $result = $result->where('goods_id', $goodsId)->get();
+        }
+        return $result;
     }
 
-    public function item_values()
+    public function item_values(int|null $itemId = null)
     {
-        return $this->hasMany(ShopItemParameterValue::class, 'parameter_id');
+        $result =  $this->hasMany(ShopItemParameterValue::class, 'parameter_id');
+        if (!empty($itemId) && is_numeric($itemId)) {
+            $result = $result->where('item_id', $itemId)->get();
+        }
+        return $result;
     }
 }
