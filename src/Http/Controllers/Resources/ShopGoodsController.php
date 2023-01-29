@@ -3,9 +3,11 @@
 namespace Elfcms\Shop\Http\Controllers\Resources;
 
 use App\Http\Controllers\Controller;
+use Elfcms\Basic\Models\FileCatalog;
 use Elfcms\Shop\Models\ShopBrand;
 use Elfcms\Shop\Models\ShopCategory;
 use Elfcms\Shop\Models\ShopGoods;
+use Elfcms\Shop\Models\ShopGoodsParameterValue;
 use Elfcms\Shop\Models\ShopItem;
 use Elfcms\Shop\Models\ShopItemParameter;
 use Elfcms\Shop\Models\ShopItemProperty;
@@ -273,6 +275,7 @@ class ShopGoodsController extends Controller
     public function edit(ShopGoods $shopGoods)
     {
         //dd($shopGoods->categories()->select('category_id')->get()->toArray());
+        //dd([time(),(int)(microtime(true)*10000)]);
         $categories = ShopCategory::active()->get();
         $units = ShopUnit::all();
         $brands = ShopBrand::all();
@@ -284,13 +287,15 @@ class ShopGoodsController extends Controller
         }
 
         $parameters = ShopItemParameter::all();
-        /* foreach ($parameters as $parameter) {
+        $properties = ShopItemProperty::all();
+        /* $p = ShopItemParameter::find(9);
+        dd($p->options); */
+        foreach ($parameters as $parameter) {
+            //if ($parameter->id == 9) dd($parameter->goods_values($shopGoods->id));
+            $parameter->value = $parameter->goods_values($shopGoods->id);
+            //if ($parameter->id == 9) dd($parameter->value);
+        }
 
-            dd($parameter->data_type->field);
-            dd($parameter->goods_values(7)->get()[0][$parameter->data_type->code . '_value']);
-        } */
-        //dd($goodsCategories);
-        //dd($vendors);
         return view('shop::admin.shop.goods.edit',[
             'page' => [
                 'title' => __('shop::elf.edit_goods'),
@@ -303,6 +308,7 @@ class ShopGoodsController extends Controller
             'goodsCategories' => $goodsCategories,
             'goods' => $shopGoods,
             'parameters' => $parameters,
+            'properties' => $properties,
         ]);
     }
 
@@ -315,6 +321,8 @@ class ShopGoodsController extends Controller
      */
     public function update(Request $request, ShopGoods $shopGoods)
     {
+        //dd($request->parameter);
+        //dd($request->file()['parameter'][10]['file']->getClientOriginalName());
         if ($request->notedit && $request->notedit == 1) {
             $shopGoods->active = empty($request->active) ? 0 : 1;
 
@@ -352,23 +360,87 @@ class ShopGoodsController extends Controller
             $newCategories = $request->category_id ? $request->category_id : [];
 
             if (!empty($existCategories)) {
-                foreach ($existCategories as $existTag) {
-                    if (!in_array($existTag['id'],$newCategories)) {
-                        $shopGoods->categories()->detach($existTag['id']);
+                foreach ($existCategories as $existCategory) {
+                    if (!in_array($existCategory['id'],$newCategories)) {
+                        $shopGoods->categories()->detach($existCategory['id']);
                     }
                     else {
-                        $key = array_search($existTag['id'],$newCategories);
+                        $key = array_search($existCategory['id'],$newCategories);
                         unset($newCategories[$key]);
                     }
                 }
             }
             if (!empty($newCategories)) {
-                foreach ($newCategories as $tagId) {
-                    $shopGoods->categories()->attach($tagId);
+                foreach ($newCategories as $categoryId) {
+                    $shopGoods->categories()->attach($categoryId);
                 }
             }
 
             $shopGoods->save();
+
+            if (!empty($request->parameter)) {
+                foreach($request->parameter as $id => $paramValue) {
+                    $parameter = ShopItemParameter::find($id);
+                    if (is_array($paramValue)) {
+                        //dd($paramValue);
+                        if (!empty($request->file()['parameter'][$id]['file'])) {
+                            continue;
+                        }
+                        if ($parameter->data_type->code != 'file' && $parameter->data_type->code != 'image') {
+                            continue;
+                        }
+                        $paramValue = $paramValue['path'];
+                    }
+                    if ($parameter->data_type->code == 'list') {
+                        if (empty($paramValue)) {
+                            $paramValue = [];
+                        }
+                        if (!is_array($paramValue)) {
+                            $paramValue = [$paramValue];
+                        }
+                        $paramValue = json_encode($paramValue);
+                        //dd([$parameter->data_type->code,$paramValue]);
+                    }
+                    //if ($parameter->data_type->code == 'file') {
+                        //dd($request->file()['parameter']);
+                        /* $image_path = $request->image_path;
+                        if (!empty($request->file()['image'])) {
+                            $image = $request->file()['image']->store('public/shop/categories/image');
+                            $image_path = str_ireplace('public/','/storage/',$image);
+                        } */
+                    //}
+                    /* $parameterValue = ShopGoodsParameterValue::where('goods_id',$shopGoods->id)->where('parameter_id',$id)->first();
+                    if ($parameterValue) {
+                        $parameterValue[$parameter->data_type->code . '_value'] = $paramValue;
+                        $parameterValue->save();
+                    } */
+                    $parameterValue = ShopGoodsParameterValue::updateOrCreate(
+                        ['goods_id' => $shopGoods->id, 'parameter_id' => $id],
+                        [$parameter->data_type->code . '_value' => $paramValue]
+                    );
+
+                }
+            }
+            if (!empty($request->file()['parameter'])) {
+                foreach($request->file()['parameter'] as $id => $paramValue) {
+                    $parameter = ShopItemParameter::find($id);
+                    if ($parameter->data_type->code != 'file' && $parameter->data_type->code != 'image') {
+                        continue;
+                    }
+                    $originalName = $paramValue[$parameter->data_type->code]->getClientOriginalName();
+                    //dd($paramValue[$parameter->data_type->code]);
+                    $file_path = $request->parameter[$id]['path'];
+                    $file = $paramValue[$parameter->data_type->code]->store('public/shop/parameters/goods/' . $parameter->data_type->code . 's');
+                    $file_path = str_ireplace('public/','/storage/',$file);
+                    //$fileCatalog = new FileCatalog();
+                    //dd($file_path);
+                    FileCatalog::set($file_path,$originalName);
+                    $parameterValue = ShopGoodsParameterValue::updateOrCreate(
+                        ['goods_id' => $shopGoods->id, 'parameter_id' => $id],
+                        [$parameter->data_type->code . '_value' => $file_path]
+                    );
+                }
+            }
 
             return redirect(route('admin.shop.goods.edit',$shopGoods))->with('action_result',__('shop::elf.goods_edited_successfully'));
         }

@@ -3,6 +3,7 @@
 namespace Elfcms\Shop\Models;
 
 use Elfcms\Basic\Models\DataType;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -16,18 +17,36 @@ class ShopItemParameter extends Model
         'code',
         'description',
         'is_filter',
+        'multiple',
+        'options',
     ];
+
+    public $value;
 
     public function data_type()
     {
         return $this->belongsTo(DataType::class, 'data_type_id');
     }
 
+    /* public function setValueAttribute()
+    {
+        if (!isset($this->value)) {
+            return null;
+        }
+        return $this->value;
+    } */
+
     public function goods_values(int|null $goodsId = null)
     {
         $result = $this->hasMany(ShopGoodsParameterValue::class, 'parameter_id');
         if (!empty($goodsId) && is_numeric($goodsId)) {
-            $result = $result->where('goods_id', $goodsId)->get();
+            $result = $result->where('goods_id', $goodsId)->get()->toArray();
+            if (!empty($result)) {
+                $result = $result[0][$this->data_type->code . '_value'];
+            }
+            else {
+                $result = null;
+            }
         }
         return $result;
     }
@@ -36,8 +55,31 @@ class ShopItemParameter extends Model
     {
         $result =  $this->hasMany(ShopItemParameterValue::class, 'parameter_id');
         if (!empty($itemId) && is_numeric($itemId)) {
-            $result = $result->where('item_id', $itemId)->get();
+            $result = $result->where('item_id', $itemId)->get()->toArray();
+            if (!empty($result)) {
+                $result = $result[0][$this->data_type->code . '_value'];
+            }
+            else {
+                $result = null;
+            }
         }
         return $result;
+    }
+
+    /* public function getOptionsAttribute($value)
+    {
+        return json_decode($value,true);
+    } */
+
+    /**
+     * Get the user's first name.
+     *
+     * @return \Illuminate\Database\Eloquent\Casts\Attribute
+     */
+    protected function options(): Attribute
+    {
+        return Attribute::make(
+            get: fn ($value) => json_decode($value, true),
+        );
     }
 }

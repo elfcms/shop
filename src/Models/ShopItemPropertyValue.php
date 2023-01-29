@@ -2,6 +2,7 @@
 
 namespace Elfcms\Shop\Models;
 
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -21,6 +22,9 @@ class ShopItemPropertyValue extends Model
         'datetime_value',
         'file_value',
         'image_value',
+        'list_value',
+        'json_value',
+        'time_value',
     ];
 
     public function property()
@@ -52,5 +56,17 @@ class ShopItemPropertyValue extends Model
     public function getTypeCodeAttribute()
     {
         return $this->property->data_type->code;
+    }
+
+    /**
+     * Get the user's first name.
+     *
+     * @return \Illuminate\Database\Eloquent\Casts\Attribute
+     */
+    protected function listValue(): Attribute
+    {
+        return Attribute::make(
+            get: fn ($value) => json_decode($value, true),
+        );
     }
 }
