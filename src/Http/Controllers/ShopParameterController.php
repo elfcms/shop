@@ -67,6 +67,8 @@ class ShopParameterController extends Controller
             'name' => null,
             'description' => null,
             'is_filter' => 0,
+            'multiple' => 0,
+            'data_type' => (object)['code'=>null],
         ];
         return view(
             'shop::admin.shop.parameter.content.item',
@@ -146,11 +148,22 @@ class ShopParameterController extends Controller
             foreach ($data['parameter'] as $id => $parameter) {
                 $parameterItem = ShopItemParameter::find($id);
                 if ($parameterItem) {
+                    $options = [];
+                    if (!empty($parameter['options']) && is_array($parameter['options'])) {
+                        foreach ($parameter['options'] as $option) {
+                            if (!empty($option['delete']) || (empty($option['key']) && empty($option['value']))) {
+                                continue;
+                            }
+                            $options[$option['key']] = $option['value'];
+                        }
+                    }
                     $parameterItem->name = $parameter['name'];
                     $parameterItem->code = $parameter['code'];
                     $parameterItem->data_type_id = $parameter['data_type_id'];
                     $parameterItem->description = $parameter['description'];
                     $parameterItem->is_filter = empty($parameter['is_filter']) ? 0 : 1;
+                    $parameterItem->multiple = empty($parameter['multiple']) ? 0 : 1;
+                    $parameterItem->options = json_encode($options);
                     $saved = $parameterItem->save();
                     if (!$saved) {
                         $result['message'] =  __('shop::elf.error_of_saving_id',['id'=>$id]);
@@ -163,11 +176,27 @@ class ShopParameterController extends Controller
 
         if (!empty($data['newparameter'])) {
             foreach ($data['newparameter'] as $newparameter) {
+                if (empty($newparameter['multiple'])) {
+                    $newparameter['multiple'] = 0;
+                }
+                else {
+                    $newparameter['multiple'] = 1;
+                }
                 if (empty($newparameter['is_filter'])) {
                     $newparameter['is_filter'] = 0;
                 }
                 else {
                     $newparameter['is_filter'] = 1;
+                }
+                $options = [];
+                if (!empty($newparameter['options']) && is_array($newparameter['options'])) {
+                    foreach ($newparameter['options'] as $option) {
+                        if (!empty($option['delete']) || (empty($option['key']) && empty($option['value']))) {
+                            continue;
+                        }
+                        $options[$option['key']] = $option['value'];
+                    }
+                    $newparameter['options'] = json_encode($options);
                 }
                 $created = ShopItemParameter::create($newparameter);
                 if (!$created) {

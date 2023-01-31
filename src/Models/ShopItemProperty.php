@@ -21,6 +21,8 @@ class ShopItemProperty extends Model
         'options',
     ];
 
+    public $value, $colorData;
+
     public function data_type()
     {
         return $this->belongsTo(DataType::class, 'data_type_id');

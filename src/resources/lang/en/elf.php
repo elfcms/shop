@@ -166,6 +166,12 @@ return [
     'lang_name' => 'Language code of Name',
     'lang_name_plural' => 'Language code of Name pl.',
 
+    'option' => 'Option',
+    'options' => 'Options',
+    'key' => 'Key',
+    'value' => 'Value',
+    'multiple' => 'Multiple',
+
     'method_must_be' => 'The request method must be :method',
     'error_of_deleting' => 'Error of deleting',
     'error_of_saving_id' => 'Error of saving element id :id',

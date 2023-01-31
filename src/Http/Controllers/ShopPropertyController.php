@@ -67,6 +67,8 @@ class ShopPropertyController extends Controller
             'name' => null,
             'description' => null,
             'is_filter' => 0,
+            'multiple' => 0,
+            'data_type' => (object)['code'=>null],
         ];
         return view(
             'shop::admin.shop.property.content.item',
@@ -146,11 +148,22 @@ class ShopPropertyController extends Controller
             foreach ($data['property'] as $id => $property) {
                 $propertyItem = ShopItemProperty::find($id);
                 if ($propertyItem) {
+                    $options = [];
+                    if (!empty($property['options']) && is_array($property['options'])) {
+                        foreach ($property['options'] as $option) {
+                            if (!empty($option['delete']) || (empty($option['key']) && empty($option['value']))) {
+                                continue;
+                            }
+                            $options[$option['key']] = $option['value'];
+                        }
+                    }
                     $propertyItem->name = $property['name'];
                     $propertyItem->code = $property['code'];
                     $propertyItem->data_type_id = $property['data_type_id'];
                     $propertyItem->description = $property['description'];
                     $propertyItem->is_filter = empty($property['is_filter']) ? 0 : 1;
+                    $propertyItem->multiple = empty($parameter['multiple']) ? 0 : 1;
+                    $propertyItem->options = json_encode($options);
                     $saved = $propertyItem->save();
                     if (!$saved) {
                         $result['message'] =  __('shop::elf.error_of_saving_id',['id'=>$id]);
@@ -163,11 +176,27 @@ class ShopPropertyController extends Controller
 
         if (!empty($data['newproperty'])) {
             foreach ($data['newproperty'] as $newproperty) {
+                if (empty($newproperty['multiple'])) {
+                    $newproperty['multiple'] = 0;
+                }
+                else {
+                    $newproperty['multiple'] = 1;
+                }
                 if (empty($newproperty['is_filter'])) {
                     $newproperty['is_filter'] = 0;
                 }
                 else {
                     $newproperty['is_filter'] = 1;
+                }
+                $options = [];
+                if (!empty($newproperty['options']) && is_array($newproperty['options'])) {
+                    foreach ($newproperty['options'] as $option) {
+                        if (!empty($option['delete']) || (empty($option['key']) && empty($option['value']))) {
+                            continue;
+                        }
+                        $options[$option['key']] = $option['value'];
+                    }
+                    $newproperty['options'] = json_encode($options);
                 }
                 $created = ShopItemProperty::create($newproperty);
                 if (!$created) {

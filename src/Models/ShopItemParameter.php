@@ -21,7 +21,7 @@ class ShopItemParameter extends Model
         'options',
     ];
 
-    public $value;
+    public $value, $colorData;
 
     public function data_type()
     {

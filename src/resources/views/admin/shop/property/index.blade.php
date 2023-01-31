@@ -66,6 +66,69 @@
             return unitListData;
         }
 
+        function showOptions(element) {
+            if (typeof element === 'string') {
+                element = document.querySelector(element);
+            }
+            if (!element || !(element instanceof HTMLSelectElement)) {
+                return false;
+            }
+            const row = element.closest('tr[data-id="' + element.dataset.id + '"]');
+            if (row) {
+                const subrow = row.querySelector('.table-subrow');
+                if (subrow) {
+                    if (element.options[element.selectedIndex].dataset.code == 'list') {
+                        subrow.classList.add('showed');
+                    }
+                    else {
+                        subrow.classList.remove('showed');
+                    }
+                }
+            }
+        }
+
+        function addOption(button,isnew=true) {
+            if (typeof button === 'string') {
+                button = document.querySelector(button);
+            }
+            if (!button || !(button instanceof HTMLElement)) {
+                return false;
+            }
+            let newprop = 'new';
+            if (!isnew) {
+                newprop = '';
+            }
+            const table = button.closest('.shop-option-table');
+            //const parent = button.closest('tr[data-id]');
+            if (table) {
+                const box = table.querySelector('.shop-option-table-body');
+                if (box) {
+                    let i = 0;
+                    const rows = box.querySelectorAll('.shop-option-table-row');
+                    if (rows && rows.length && rows.length > 0) {
+                        i = rows.length;
+                    }
+                    const rowString = `
+                    <div class="shop-option-table-row">
+                        <div class="shop-option-table-column">
+                            <input type="text" name="${newprop}property[${button.dataset.id}][options][${i}][key]" value="" oninput="checkOptionChange(this)" data-loop="${i}" data-name="key">
+                        </div>
+                        <div class="shop-option-table-column">
+                            <input type="text" name="${newprop}property[${button.dataset.id}][options][${i}][value]" value="" oninput="checkOptionChange(this)" data-loop="${i}" data-name="value">
+                        </div>
+                        <div class="shop-option-table-column">
+                            <div class="checkbox-switch red">
+                                <input type="checkbox" name="${newprop}property[${button.dataset.id}][options][${i}][delete]" value="1" oninput="checkOptionChange(this)" data-loop="${i}" data-name="delete">
+                                <i></i>
+                            </div>
+                        </div>
+                    </div>
+                    `;
+                    box.insertAdjacentHTML('beforeend',rowString);
+                }
+            }
+        }
+
         let startPreload = preloadSet('form[name="propertyform"]');
 
         let dataLoadInterval = setInterval(() => {
@@ -85,7 +148,7 @@
         if (inputs) {
             inputs.forEach(input => {
                 input.addEventListener('input',function(){
-                    checkUnitChange(this);
+                    checkParamChange(this,true);
                 });
                 /* input.addEventListener('change',function(){
                     checkUnitChange(this);
@@ -150,7 +213,7 @@
                                 if (reInputs) {
                                     reInputs.forEach(input => {
                                         input.addEventListener('input',function(){
-                                            checkUnitChange(this);
+                                            checkParamChange(this,true);
                                         });
                                         /* input.addEventListener('change',function(){
                                             checkUnitChange(this);

@@ -2,18 +2,20 @@
 
 @section('shop-content')
 
-    @if (Session::has('action_result'))
-        <div class="alert alert-success">{{ Session::get('action_result') }}</div>
-    @endif
-    @if ($errors->any())
-    <div class="alert alert-danger">
-        <ul class="errors-list">
-            @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-            @endforeach
-        </ul>
-    </div>
-    @endif
+@if (Session::has('action_result'))
+    <div class="alert alert-success">{{ Session::get('action_result') }}</div>
+@endif
+@if ($errors->any())
+<div class="alert alert-danger">
+    <ul class="errors-list">
+        @foreach ($errors->all() as $error)
+            <li>{{ $error }}</li>
+        @endforeach
+    </ul>
+</div>
+@endif
+
+<div class="shop-goods-container">
 
     <div class="item-form">
         <h3>{{ __('shop::elf.edit_goods') }}</h3>
@@ -132,17 +134,17 @@
                         @if ($parameter->data_type->code == 'text' || $parameter->data_type->code == 'json')
                         <textarea name="parameter[{{$parameter->id}}]" id="parameter_{{$parameter->id}}">{{ $parameter->value }}</textarea>
                         @elseif ($parameter->data_type->code == 'list')
-                        @if (!empty($parameter->options))
                         <select name="parameter[{{$parameter->id}}]" id="parameter_{{$parameter->id}}" @if($parameter->multiple) multiple @endif>
                             <option value="">{{ __('shop::elf.none') }}</option>
+                            @if (!empty($parameter->options))
                             @foreach ($parameter->options as $value => $text)
                             <option value="{{$value}}"
-                            @if (is_array($parameter->value) && in_array($value,$parameter->value))
-                            selected
-                            @endif>{{$text}}</option>
+                                @if (is_array($parameter->value) && in_array($value,$parameter->value))
+                                selected
+                                @endif>{{$text}}</option>
                             @endforeach
+                            @endif
                         </select>
-                        @endif
 
                         @elseif ($parameter->data_type->code == 'image')
                         <input type="hidden" name="parameter[{{$parameter->id}}][path]" id="parameter_{{$parameter->id}}_path" value="{{ $parameter->value }}">
@@ -165,19 +167,9 @@
                             <input type="file" name="parameter[{{$parameter->id}}][image]" id="parameter_{{$parameter->id}}_image">
                         </div>
                         @elseif ($parameter->data_type->code == 'file')
-                        {{-- <div class="file-button">
-                            <input type="hidden" name="parameter[{{$parameter->id}}][path]" id="parameter_{{$parameter->id}}_path" value="{{ $parameter->value }}">
-                            <input type="file" name="parameter[{{$parameter->id}}][file]" id="parameter_{{$parameter->id}}_file">
-                            @if (!empty($parameter->value))
-                            <div class="file-wrapper">
-                                <a href="{{ $parameter->value }}" class="file-link" target="_blank" rel="noopener noreferrer">{{ basename($parameter->value) }}</a>
-                                <div class="delete-file">&#215;</div>
-                            </div>
-                            @endif
-                        </div> --}}
                         <x-basic::anonymous.button.file name="parameter[{{$parameter->id}}]" value="{{ $parameter->value }}" id="parameter_{{$parameter->id}}" />
                         @elseif ($parameter->data_type->code == 'color')
-
+                        <x-shop::anonymous.picker.color :list="$colors" name="parameter[{{$parameter->id}}]" :default="$parameter->colorData" id="parameter_{{$parameter->id}}" />
                         {{-- @elseif ($parameter->data_type->code == 'string')
                         <input type="text" name="parameter[{{$parameter->id}}]" id="parameter_{{$parameter->id}}" value="{{ $parameter->value }}">
                         @elseif ($parameter->data_type->code == 'int')
@@ -195,25 +187,55 @@
             <div class="colored-rows-box tab-box" id="properties">
                 @foreach ($properties as $property)
                 <div class="input-box colored">
-                    <input type="checkbox" name="used_property[{{$property->id}}]" id="used_property_{{$property->id}}">
                     <label for="property_{{$property->id}}">{{ $property->name }}</label>
                     <div class="input-wrapper">
                         @if ($property->data_type->code == 'text' || $property->data_type->code == 'json')
-                        <textarea name="property[{{$property->id}}]" id="property_{{$property->id}}">{{ $property->goods_values($goods->id) }}</textarea>
+                        <textarea name="property[{{$property->id}}]" id="property_{{$property->id}}">{{ $property->value }}</textarea>
                         @elseif ($property->data_type->code == 'list')
-
-                        {{-- @elseif ($property->data_type->code == 'image')
-
-                        @elseif ($property->data_type->code == 'color') --}}
+                        <select name="property[{{$property->id}}]" id="property_{{$property->id}}" @if($property->multiple) multiple @endif>
+                            <option value="">{{ __('shop::elf.none') }}</option>
+                            @if (!empty($property->options))
+                            @foreach ($property->options as $value => $text)
+                            <option value="{{$value}}"
+                                @if (is_array($property->value) && in_array($value,$property->value))
+                                selected
+                                @endif>{{$text}}</option>
+                            @endforeach
+                            @endif
+                        </select>
+                        @elseif ($property->data_type->code == 'image')
+                        <input type="hidden" name="property[{{$property->id}}][path]" id="property_{{$property->id}}_path" value="{{ $property->value }}">
+                        <div class="image-button">
+                            <div class="delete-image @if (empty($property->value)) hidden @endif">&#215;</div>
+                            <div class="image-button-img">
+                            @if (!empty($property->value))
+                                <img src="{{ asset($property->value) }}" alt="Image">
+                            @else
+                                <img src="{{ asset('/vendor/elfcms/shop/admin/images/icons/upload.png') }}" alt="Upload file">
+                            @endif
+                            </div>
+                            <div class="image-button-text">
+                            @if (!empty($property->value))
+                                {{ __('basic::elf.change_file') }}
+                            @else
+                                {{ __('basic::elf.choose_file') }}
+                            @endif
+                            </div>
+                            <input type="file" name="property[{{$property->id}}][image]" id="property_{{$property->id}}_image">
+                        </div>
+                        @elseif ($property->data_type->code == 'file')
+                        <x-basic::anonymous.button.file name="property[{{$property->id}}]" value="{{ $property->value }}" id="property_{{$property->id}}" />
+                        @elseif ($property->data_type->code == 'color')
+                        <x-shop::anonymous.picker.color :list="$colors" name="property[{{$property->id}}]" :default="$property->colorData" id="property_{{$property->id}}" />
 
                         {{-- @elseif ($property->data_type->code == 'string')
                         <input type="text" name="property[{{$property->id}}]" id="property_{{$property->id}}" value="{{ $property->goods_values($goods->id) }}">
                         @elseif ($property->data_type->code == 'int')
                         <input type="number" name="property[{{$property->id}}]" id="property_{{$property->id}}" value="{{ $property->goods_values($goods->id) }}" step="1"> --}}
                         @elseif ($property->data_type->code == 'bool')
-                        <input type="checkbox" name="property[{{$property->id}}]" id="property_{{$property->id}}" @if ($property->goods_values($goods->id)) checked @endif value="1">
+                        <input type="checkbox" name="property[{{$property->id}}]" id="property_{{$property->id}}" @if ($property->value) checked @endif value="1">
                         @else
-                        <input type="{{ $property->data_type->field[0] }}" name="property[{{$property->id}}]" id="property_{{$property->id}}" value="{{ $property->goods_values($goods->id) }}">
+                        <input type="{{ $property->data_type->field[0] }}" name="property[{{$property->id}}]" id="property_{{$property->id}}" value="{{ $property->value }}">
                         @endif
                     </div>
                 </div>
@@ -224,6 +246,26 @@
             </div>
         </form>
     </div>
+
+    <div class="item-form">
+        <h3>{{ __('shop::elf.items') }}</h3>
+        <div class="top-button-box">
+            <form action="{{ route('admin.shop.item.create') }}" method="GET">
+                <input type="hidden" name="goods_id" value="{{$goods->id}}">
+                <button type="submit" class="default-btn submit-button">{{ __('shop::elf.add_item') }}</button>
+            </form>
+        </div>
+        <div class="colored-rows-box">
+        @foreach ($goods->items as $item)
+            <div class="input-box colored">
+                {{$item->item_number}}
+            </div>
+        @endforeach
+        </div>
+    </div>
+
+</div>
+
     <script>
     tabsInit();
     const imageInputs = document.querySelectorAll('.image-button input[type="file"]')

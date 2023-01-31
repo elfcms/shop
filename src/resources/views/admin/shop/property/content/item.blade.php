@@ -18,9 +18,9 @@
         <input type="text" name="property[{{$property->id}}][code]" id="property_{{$property->id}}_code" value="{{ $property->code }}" data-name="code">
     </td>
     <td>
-        <select name="property[{{$property->id}}][data_type_id]" id="property_{{$property->id}}_data_type_id" data-name="data_type_id">
+        <select name="property[{{$property->id}}][data_type_id]" id="property_{{$property->id}}_data_type_id" data-name="data_type_id" data-id="{{$property->id}}" onchange="showOptions(this)">
             @foreach ($data_types as $data_type)
-            <option value="{{ $data_type->id }}" @if ($property->data_type_id==$data_type->id) selected @endif>{{ $data_type->name }}</option>
+            <option value="{{ $data_type->id }}" data-code="{{ $data_type->code }}" @if ($property->data_type_id==$data_type->id) selected @endif>{{ $data_type->name }}</option>
             @endforeach
         </select>
     </td>
@@ -37,6 +37,57 @@
         <div class="check-delete-wrapper">
             <input type="checkbox" name="property[{{$property->id}}][delete]" id="property_{{$property->id}}_delete" value="1" data-id="{{ $property->id }}" title="{{ __('basic::elf.delete') }}" onclick="setUnitRowDelete(this)">
             <i></i>
+        </div>
+    </td>
+
+    <td @class(['table-subrow','showed' => $property->data_type->code=='list'])>
+        <div class="shop-option-box">
+            <div class="shop-option-multiple-line">
+                <div class="checkbox-switch green" data-column="multiple">
+                    <input type="checkbox" name="property[{{$property->id}}][multiple]" id="property_{{$property->id}}_multiple" value="1" data-name="multiple" @if($property->multiple) checked @endif>
+                    <i></i>
+                </div>
+                <label for="property_{{$property->id}}_multiple">{{ __('shop::elf.multiple') }}</label>
+            </div>
+            <div class="shop-option-box-label">
+                {{ __('shop::elf.options') }}
+            </div>
+            <div class="shop-option-table">
+                <div class="shop-option-table-head">
+                    <div class="shop-option-table-column">
+                        {{ __('shop::elf.key') }}
+                    </div>
+                    <div class="shop-option-table-column">
+                        {{ __('shop::elf.value') }}
+                    </div>
+                    <div class="shop-option-table-column">
+                        {{ __('basic::elf.delete') }}
+                    </div>
+                </div>
+                <div class="shop-option-table-body">
+                @if (!empty($property->options))
+                    @foreach ($property->options as $key => $value)
+                    <div class="shop-option-table-row">
+                        <div class="shop-option-table-column">
+                            <input type="text" name="property[{{$property->id}}][options][{{$loop->index}}][key]" value="{{ $key }}" oninput="checkOptionChange(this)" data-loop="{{$loop->index}}" data-name="key">
+                        </div>
+                        <div class="shop-option-table-column">
+                            <input type="text" name="property[{{$property->id}}][options][{{$loop->index}}][value]" value="{{ $value }}" oninput="checkOptionChange(this)" data-loop="{{$loop->index}}" data-name="value">
+                        </div>
+                        <div class="shop-option-table-column">
+                            <div class="checkbox-switch red">
+                                <input type="checkbox" name="property[{{$property->id}}][options][{{$loop->index}}][delete]" value="1" oninput="checkOptionChange(this)" data-loop="{{$loop->index}}" data-name="delete">
+                                <i></i>
+                            </div>
+                        </div>
+                    </div>
+                    @endforeach
+                @endif
+                </div>
+                <div class="shop-option-table-add">
+                    <button class="default-btn" data-id="{{$property->id}}" onclick="addOption(this{{!$property->code ? '' : ',false' }})">{{ __('basic::elf.add_option') }}</button>
+                </div>
+            </div>
         </div>
     </td>
 </tr>

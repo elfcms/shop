@@ -166,6 +166,12 @@ return [
     'lang_name' => 'Sprachcode von Name',
     'lang_name_plural' => 'Sprachcode von Name pl.',
 
+    'option' => 'Option',
+    'options' => 'Optionen',
+    'key' => 'Schlüssel',
+    'value' => 'Werte',
+    'multiple' => 'Pluralisch',
+
     'method_must_be' => 'Die Anforderungsmethode muss :method sein',
     'error_of_deleting' => 'Fehler bei der Entfernung',
     'error_of_saving_id' => 'Fehler beim Speichern des Elements ID :id',

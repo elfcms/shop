@@ -6,8 +6,10 @@ use App\Http\Controllers\Controller;
 use Elfcms\Basic\Models\FileCatalog;
 use Elfcms\Shop\Models\ShopBrand;
 use Elfcms\Shop\Models\ShopCategory;
+use Elfcms\Shop\Models\ShopColor;
 use Elfcms\Shop\Models\ShopGoods;
 use Elfcms\Shop\Models\ShopGoodsParameterValue;
+use Elfcms\Shop\Models\ShopGoodsPropertyValue;
 use Elfcms\Shop\Models\ShopItem;
 use Elfcms\Shop\Models\ShopItemParameter;
 use Elfcms\Shop\Models\ShopItemProperty;
@@ -180,7 +182,7 @@ class ShopGoodsController extends Controller
         //$goodsCollection = ShopGoods::all();
         return view('shop::admin.shop.goods.index',[
             'page' => [
-                'title' => __('shop::elf.goods'),
+                'title' => __('shop::elf.goods_pl'),
                 'current' => url()->current(),
             ],
             'goodsCollection' => $goodsCollection,
@@ -288,11 +290,26 @@ class ShopGoodsController extends Controller
 
         $parameters = ShopItemParameter::all();
         $properties = ShopItemProperty::all();
+        $colors = ShopColor::all();
+
+        //dd($colors);
         /* $p = ShopItemParameter::find(9);
         dd($p->options); */
         foreach ($parameters as $parameter) {
             //if ($parameter->id == 9) dd($parameter->goods_values($shopGoods->id));
             $parameter->value = $parameter->goods_values($shopGoods->id);
+            if ($parameter->data_type->code == 'color') {
+                $parameter->colorData = ShopColor::find($parameter->value);
+            }
+            //if ($parameter->id == 9) dd($parameter->value);
+        }
+        foreach ($properties as $property) {
+            //if ($parameter->id == 9) dd($parameter->goods_values($shopGoods->id));
+            $property->value = $property->goods_values($shopGoods->id);
+            if ($property->data_type->code == 'color') {
+                //dd($property->value);
+                $property->colorData = ShopColor::find($property->value);
+            }
             //if ($parameter->id == 9) dd($parameter->value);
         }
 
@@ -309,6 +326,7 @@ class ShopGoodsController extends Controller
             'goods' => $shopGoods,
             'parameters' => $parameters,
             'properties' => $properties,
+            'colors' => $colors,
         ]);
     }
 
@@ -321,7 +339,7 @@ class ShopGoodsController extends Controller
      */
     public function update(Request $request, ShopGoods $shopGoods)
     {
-        //dd($request->parameter);
+        //dd($request->all());
         //dd($request->file()['parameter'][10]['file']->getClientOriginalName());
         if ($request->notedit && $request->notedit == 1) {
             $shopGoods->active = empty($request->active) ? 0 : 1;
@@ -378,6 +396,7 @@ class ShopGoodsController extends Controller
 
             $shopGoods->save();
 
+            /* Parameters */
             if (!empty($request->parameter)) {
                 foreach($request->parameter as $id => $paramValue) {
                     $parameter = ShopItemParameter::find($id);
@@ -441,6 +460,56 @@ class ShopGoodsController extends Controller
                     );
                 }
             }
+            /* /Parameters */
+
+            /* Properties */
+            if (!empty($request->property)) {
+                foreach($request->property as $id => $paramValue) {
+                    $property = ShopItemProperty::find($id);
+                    if (is_array($paramValue)) {
+                        if (!empty($request->file()['property'][$id]['file'])) {
+                            continue;
+                        }
+                        if ($property->data_type->code != 'file' && $property->data_type->code != 'image') {
+                            continue;
+                        }
+                        $paramValue = $paramValue['path'];
+                    }
+                    if ($property->data_type->code == 'list') {
+                        if (empty($paramValue)) {
+                            $paramValue = [];
+                        }
+                        if (!is_array($paramValue)) {
+                            $paramValue = [$paramValue];
+                        }
+                        $paramValue = json_encode($paramValue);
+                    }
+
+                    $propertyValue = ShopGoodsPropertyValue::updateOrCreate(
+                        ['goods_id' => $shopGoods->id, 'property_id' => $id],
+                        [$property->data_type->code . '_value' => $paramValue]
+                    );
+
+                }
+            }
+            if (!empty($request->file()['property'])) {
+                foreach($request->file()['property'] as $id => $paramValue) {
+                    $property = ShopItemProperty::find($id);
+                    if ($property->data_type->code != 'file' && $property->data_type->code != 'image') {
+                        continue;
+                    }
+                    $originalName = $paramValue[$property->data_type->code]->getClientOriginalName();
+                    $file_path = $request->property[$id]['path'];
+                    $file = $paramValue[$property->data_type->code]->store('public/shop/properties/goods/' . $property->data_type->code . 's');
+                    $file_path = str_ireplace('public/','/storage/',$file);
+                    FileCatalog::set($file_path,$originalName);
+                    $propertyValue = ShopGoodsPropertyValue::updateOrCreate(
+                        ['goods_id' => $shopGoods->id, 'property_id' => $id],
+                        [$property->data_type->code . '_value' => $file_path]
+                    );
+                }
+            }
+            /* /Properties */
 
             return redirect(route('admin.shop.goods.edit',$shopGoods))->with('action_result',__('shop::elf.goods_edited_successfully'));
         }

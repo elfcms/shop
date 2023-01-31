@@ -50,6 +50,65 @@
         minmax(70px, 0.15fr)
         minmax(90px, 0.2fr);
 }
+.grid-table.parameter-table .table-subrow,
+.grid-table.property-table .table-subrow {
+    display: none;
+    grid-column-start: 1;
+    grid-column-end: 9;
+}
+.grid-table.parameter-table .table-subrow.showed,
+.grid-table.property-table .table-subrow.showed {
+    display: initial;
+}
+.shop-option-box {
+    display: grid;
+    grid-template-columns: 90px auto;
+}
+.shop-option-multiple-line {
+    grid-column-start: 1;
+    grid-column-end: 3;
+    display: flex;
+    align-items: center;
+    padding: 5px 10px;
+}
+.shop-option-multiple-line label {
+    padding: 0px 10px;
+}
+.shop-option-box-label {
+    /* width: 80px; */
+    font-weight: 500;
+    padding: 5px 10px;
+}
+.shop-option-table {
+    /* width: calc(100% - 80px); */
+    display: grid;
+    grid-template-columns: 3fr 3fr 1fr;
+    column-gap: 2px;
+    padding: 5px 10px;
+}
+.shop-option-table-head,
+.shop-option-table-body,
+.shop-option-table-row {
+    display: contents;
+}
+.shop-option-table-head .shop-option-table-column {
+    background-color: #d8e2e9;
+    color: #425870;
+    text-align: center;
+    padding: 5px 10px;
+}
+.shop-option-table-body  .shop-option-table-column {
+    padding: 5px 2px;
+}
+.shop-option-table-head .shop-option-table-column .checkbox-switch {
+    margin: auto;
+}
+.shop-option-table-add {
+    grid-column-start: 1;
+    grid-column-end: 3;
+    padding: 5px 2px;
+}
+
 .grid-table.currency-table {
     grid-template-columns:
         auto
@@ -332,4 +391,119 @@ input[type="color"]::-webkit-color-swatch {
 
 .context-popup .context-popup-content .contextmenu-content-box .contextmenu-item.warning {
     color: #941b05;
+}
+
+/* Color picker */
+/* .item-form:has(.shop-color-picker-box) {
+    overflow: visible;
+} */
+.shop-color-picker-box {
+    position: relative;
+    background-color: #dbe4ea;
+    border: 1px solid #8ba6bb;
+    border-radius: 3px;
+}
+.shop-color-picker-button,
+.shop-color-picker-button label {
+    cursor: pointer;
+}
+.shop-color-picker-list {
+    position: absolute;
+    top: -1px;
+    left: -1px;
+    background-color: #dbe4ea;
+    border: 1px solid #8ba6bb;
+    border-radius: 3px;
+    display: grid;
+    grid-template-columns: repeat(4, 60px);
+    z-index: 10;
+    padding: 3px;
+    column-gap: 3px;
+    box-shadow: 0px 0px 8px 0px rgba(0, 0, 0, 0.3);
+}
+.shop-color-picker-list.closed {
+    display: none;
+}
+.shop-color-picker-head {
+    grid-column: 1/5;
+    display: flex;
+    justify-content: end;
+}
+.shop-color-picker-close {
+    font-size: 20px;
+    font-weight: 500;
+    cursor: pointer;
+}
+.shop-color-picker-button .shop-color-picker-item {
+    display: flex;
+    align-items: center;
+}
+.shop-color-picker-list .shop-color-picker-item {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    height: 80px;
+}
+.shop-color-picker-list .shop-color-picker-item label {
+    font-size: 13px;
+    text-align: center;
+    color: #425870;
+    display: flex;
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    width: 60px;
+    min-width: auto;
+    padding: 0px 0px 3px;
+    align-items: flex-end;
+    justify-content: center;
+    box-sizing: border-box;
+    text-shadow: 1px 1px 1px white, -1px -1px 1px white, -1px 1px 1px white, 1px -1px 1px white;
+}
+.shop-color-picker-list .shop-color-picker-item input[type="radio"]:hover + label {
+    box-shadow: 0px 0px 3px 0px rgba(0, 0, 0, 0.3);
+}
+.shop-color-picker-list .shop-color-picker-item input[type="radio"]:checked + label {
+    outline: 2px solid #8ba6bb;
+}
+.shop-color-picker-list .shop-color-picker-item input[type="radio"] {
+    opacity: 0;
+    z-index: 11;
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+}
+.shop-color-picker-image {
+    width: 60px;
+    height: 60px;
+    background-color: currentColor;
+}
+.shop-color-picker-image.empty  {
+    box-sizing: border-box;
+    border: 1px solid #425870;
+}
+.shop-color-picker-image img {
+
+}
+/* /Color picker */
+
+.shop-goods-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+/* .shop-goods-container .item-form + .item-form {
+    margin-left: 15px;
+} */
+.shop-goods-container .item-form {
+    flex: 1 0;
+    min-width: min-content;
+    max-width: 800px;
+}
+.shop-goods-container .item-form .top-button-box {
+    padding: 0px 15px 15px;
 }

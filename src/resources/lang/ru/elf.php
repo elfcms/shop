@@ -166,6 +166,12 @@ return [
     'lang_name' => 'Языковой код названия',
     'lang_name_plural' => 'Языковой код названия в мн.ч.',
 
+    'option' => 'Опция',
+    'options' => 'Опции',
+    'key' => 'Ключ',
+    'value' => 'Значение',
+    'multiple' => 'Множественное',
+
     'method_must_be' => 'Метод запроса должен быть :method',
     'error_of_deleting' => 'Ошибка удаления',
     'error_of_saving_id' => 'Ощибка сохранения элемента с ID :id',

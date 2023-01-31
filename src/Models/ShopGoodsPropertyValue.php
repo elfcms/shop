@@ -25,6 +25,7 @@ class ShopGoodsPropertyValue extends Model
         'list_value',
         'json_value',
         'time_value',
+        'color_value',
     ];
 
     public function property()
