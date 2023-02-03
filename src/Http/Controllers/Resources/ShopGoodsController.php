@@ -420,6 +420,11 @@ class ShopGoodsController extends Controller
                         $paramValue = json_encode($paramValue);
                         //dd([$parameter->data_type->code,$paramValue]);
                     }
+                    if ($parameter->data_type->code == 'color') {
+                        if ($paramValue == 0) {
+                            $paramValue = null;
+                        }
+                    }
                     //if ($parameter->data_type->code == 'file') {
                         //dd($request->file()['parameter']);
                         /* $image_path = $request->image_path;
@@ -483,6 +488,11 @@ class ShopGoodsController extends Controller
                             $paramValue = [$paramValue];
                         }
                         $paramValue = json_encode($paramValue);
+                    }
+                    if ($property->data_type->code == 'color') {
+                        if ($paramValue == 0) {
+                            $paramValue = null;
+                        }
                     }
 
                     $propertyValue = ShopGoodsPropertyValue::updateOrCreate(

@@ -507,3 +507,116 @@ input[type="color"]::-webkit-color-swatch {
 .shop-goods-container .item-form .top-button-box {
     padding: 0px 15px 15px;
 }
+.shop-goods-container .item-form .shop-item-column {
+    padding: 15px;
+    box-sizing: border-box;
+}
+.shop-item-table {
+    min-width: 300px;
+}
+.shop-item-table-head {
+    background-color: #8ba6bb;
+}
+.shop-item-table .input-box {
+    flex-wrap: nowrap;
+}
+.shop-item-column.shop-item-column-id {
+    min-width: 50px;
+    width: 10%;
+    max-width: 80px;
+}
+.shop-item-column.shop-item-column-number {
+    min-width: 150px;
+    width: 25%;
+    max-width: 200px;
+}
+.shop-item-column.shop-item-column-buttons {
+    width: 120px;
+    display: flex;
+}
+.shop-item-column.shop-item-column-buttons .shop-item-column-button {
+    padding: 0px 7px;
+}
+.shop-item-column.shop-item-column-buttons form {
+    padding: 0;
+}
+.shop-item-column.shop-item-column-buttons .icon-item {
+    font-size: 18px;
+    color: #425870;
+    cursor: pointer;
+}
+.shop-item-column.shop-item-column-buttons .icon-item:hover {
+    color: #074ca5;
+}
+.shop-item-column.shop-item-column-note {
+    min-width: 150px;
+    width: calc(65% - 120px);
+    max-width: calc(100% - 320px);
+}
+
+
+/* icons */
+.icon-item {
+    display: inline-block;
+    position: relative;
+    border: 0;
+    background: none;
+    padding: 0;
+}
+.icon-pencil {
+
+}
+.icon-pencil::before {
+    content: '';
+    display: block;
+    height: .5em;
+    width: 1em;
+    box-sizing: border-box;
+    border: .1em solid currentColor;
+    border-left: 0;
+    rotate: -45deg;
+    translate: 0 0.25em;
+}
+.icon-pencil::after {
+    content: '';
+    display: block;
+    height: 0;
+    width: 0;
+    border: 0;
+    border-right: 0.3em solid currentColor;
+    border-left: 0;
+    border-top: 0.25em solid transparent;
+    border-bottom: 0.25em solid transparent;
+    rotate: -45deg;
+    translate: -0.15em 0.25em;
+}
+
+.icon-copy {
+
+}
+.icon-copy::before {
+    content: '';
+    display: block;
+    height: 1em;
+    width: 0.8em;
+    box-sizing: border-box;
+    border: 0.1em solid currentColor;
+    border-radius: 0.15em;
+}
+.icon-copy::after {
+    content: '';
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 1em;
+    width: 0.8em;
+    box-sizing: border-box;
+    border-right: 0.1em solid currentColor;
+    border-top: 0.1em solid currentColor;
+    border-bottom: 0;
+    border-left: 0;
+    border-radius: 0.15em;
+    translate: 0.15em -0.15em;
+}
+/* /icons */

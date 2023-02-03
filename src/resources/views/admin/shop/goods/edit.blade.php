@@ -255,10 +255,41 @@
                 <button type="submit" class="default-btn submit-button">{{ __('shop::elf.add_item') }}</button>
             </form>
         </div>
-        <div class="colored-rows-box">
+        <div class="colored-rows-box shop-item-table">
+            <div class="input-box shop-item-table-head">
+                <div class="shop-item-column shop-item-column-id">
+                    ID
+                </div>
+                <div class="shop-item-column shop-item-column-number">
+                    {{ __('shop::elf.item_number') }}
+                </div>
+                <div class="shop-item-column shop-item-column-note">
+                    {{ __('shop::elf.note') }}/{{ __('shop::elf.additional_name') }}
+                </div>
+                <div class="shop-item-column shop-item-column-buttons"></div>
+            </div>
         @foreach ($goods->items as $item)
             <div class="input-box colored">
-                {{$item->item_number}}
+                <div class="shop-item-column shop-item-column-id">
+                    {{ $item->id }}
+                </div>
+                <div class="shop-item-column shop-item-column-number">
+                    {{ $item->item_number }}
+                </div>
+                <div class="shop-item-column shop-item-column-note">
+                    {{ $item->note ?? $item->additional_name ?? $item->alternate_name }}
+                </div>
+                <div class="shop-item-column shop-item-column-buttons">
+                    <div class="shop-item-column-button">
+                        <a href="{{ route('admin.shop.item.edit',$item) }}" class="icon-item icon-pencil" title="{{ __('shop::elf.edit_item') }}"></a>
+                    </div>
+                    <div class="shop-item-column-button">
+                        <form action="{{ route('admin.shop.item.create') }}" method="GET">
+                            <input type="hidden" name="copy_id" value="{{$item->id}}">
+                            <button type="submit" class="icon-item icon-copy" title="{{ __('shop::elf.copy') }}"></button>
+                        </form>
+                    </div>
+                </div>
             </div>
         @endforeach
         </div>
