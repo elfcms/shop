@@ -533,6 +533,10 @@ class ShopGoodsController extends Controller
      */
     public function destroy(ShopGoods $shopGoods)
     {
-        //
+        if (!$shopGoods->delete()) {
+            return redirect(route('admin.shop.goods'))->withErrors(['action_result'=>__('shop::elf.error_of_goods_deleting')]);
+        }
+
+        return redirect(route('admin.shop.goods'))->with('action_result',__('shop::elf.goods_deleted_successfully'));
     }
 }

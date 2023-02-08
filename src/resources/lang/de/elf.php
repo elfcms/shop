@@ -6,6 +6,8 @@ return [
     'categories' => 'Kategorien',
     'are_you_sure_to_deleting_category' => 'Möchten Sie die Kategorie wirklich löschen?',
     'are_you_sure_to_deleting_post' => 'Möchten Sie den Beitrag wirklich löschen?',
+    'are_you_sure_to_deleting_goods' => 'Möchten Sie die Ware wirklich löschen?',
+    'are_you_sure_to_deleting_item' => 'Möchten Sie den Artikel wirklich löschen?',
     'edit_category' => 'Kategorie bearbeiten #',
     'created_at' => 'Erstellt am',
     'updated_at' => 'Aktualisiert am',
@@ -136,6 +138,8 @@ return [
     'error_of_goods_created' => 'Fehler beim Erstellen der Ware',
     'goods_edited_successfully' => 'Ware erfolgreich bearbeitet',
     'error_of_goods_edited' => 'Fehler bei der Ware-Bearbeitung',
+    'goods_deleted_successfully' => 'Ware erfolgreich gelöscht',
+    'error_of_goods_deleting' => 'Fehler bei der Ware-Entfernung',
     'show_goods_pl' => 'Waren zeigen',
 
     'item' => 'Artikel',

@@ -6,6 +6,8 @@ return [
     'categories' => 'Категории',
     'are_you_sure_to_deleting_category' => 'Вы уверены, что хотите удалить категорию',
     'are_you_sure_to_deleting_post' => 'Вы уверены, что хотите удалить пост',
+    'are_you_sure_to_deleting_goods' => 'Вы уверены, что хотите удалить товар',
+    'are_you_sure_to_deleting_item' => 'Вы уверены, что хотите удалить артикул',
     'edit_category' => 'Изменить категорию #',
     'created_at' => 'Создано',
     'updated_at' => 'Изменено',
@@ -136,6 +138,8 @@ return [
     'error_of_category_created' => 'Ошибка создания товара',
     'category_edited_successfully' => 'Товар успешно изменен',
     'error_of_category_edited' => 'Ошибка редактирования товара',
+    'goods_deleted_successfully' => 'Товар успешно удален',
+    'error_of_goods_deleting' => 'Ошибка удаления товара',
     'show_goods_pl' => 'Показать товары',
 
     'item' => 'Артикул',

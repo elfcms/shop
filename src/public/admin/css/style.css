@@ -1,3 +1,29 @@
+:root {
+    /* Default */
+    --icon-turnon: url('/vendor/elfcms/shop/admin/images/icons/turnon.png');
+    --icon-edit: url('/vendor/elfcms/shop/admin/images/icons/edit.png');
+    --icon-delete: url('/vendor/elfcms/shop/admin/images/icons/delete.png');
+    --icon-copy: url('/vendor/elfcms/shop/admin/images/icons/copy.png');
+    --icon-search: url('/vendor/elfcms/shop/admin/images/icons/search.png');
+    --icon-add: url('/vendor/elfcms/shop/admin/images/icons/add.png');
+
+    /* Dark */
+    --icon-turnon-dark: url('/vendor/elfcms/shop/admin/images/icons/turnon.png');
+    --icon-edit-dark: url('/vendor/elfcms/shop/admin/images/icons/edit.png');
+    --icon-delete-dark: url('/vendor/elfcms/shop/admin/images/icons/delete.png');
+    --icon-copy-dark: url('/vendor/elfcms/shop/admin/images/icons/copy.png');
+    --icon-search-dark: url('/vendor/elfcms/shop/admin/images/icons/search.png');
+    --icon-add-dark: url('/vendor/elfcms/shop/admin/images/icons/add.png');
+
+    /* Light */
+    --icon-turnon-light: url('/vendor/elfcms/shop/admin/images/icons/turnon_light.png');
+    --icon-edit-light: url('/vendor/elfcms/shop/admin/images/icons/edit_light.png');
+    --icon-delete-light: url('/vendor/elfcms/shop/admin/images/icons/delete_light.png');
+    --icon-copy-light: url('/vendor/elfcms/shop/admin/images/icons/copy_light.png');
+    --icon-search-light: url('/vendor/elfcms/shop/admin/images/icons/search_light.png');
+    --icon-add-light: url('/vendor/elfcms/shop/admin/images/icons/add_light.png');
+}
+
 .grid-table.shop-category-table {
     grid-template-columns:
         auto
@@ -512,7 +538,7 @@ input[type="color"]::-webkit-color-swatch {
     box-sizing: border-box;
 }
 .shop-item-table {
-    min-width: 300px;
+    min-width: 330px;
 }
 .shop-item-table-head {
     background-color: #8ba6bb;
@@ -531,7 +557,7 @@ input[type="color"]::-webkit-color-swatch {
     max-width: 200px;
 }
 .shop-item-column.shop-item-column-buttons {
-    width: 120px;
+    width: 150px;
     display: flex;
 }
 .shop-item-column.shop-item-column-buttons .shop-item-column-button {
@@ -553,6 +579,56 @@ input[type="color"]::-webkit-color-swatch {
     width: calc(65% - 120px);
     max-width: calc(100% - 320px);
 }
+
+.item-button {
+    display: inline-block;
+    position: relative;
+    border: 0;
+    background: none;
+    padding: 0;
+    width: 30px;
+    height: 30px;
+    background-position: center;
+    background-repeat: no-repeat;
+    cursor: pointer;
+}
+.item-button-edit {
+    background-image: var(--icon-edit);
+}
+.item-button-add {
+    background-image: var(--icon-add);
+}
+.item-button-copy {
+    background-image: var(--icon-copy);
+}
+.item-button-delete {
+    background-image: var(--icon-delete);
+}
+.item-button-turnon {
+    background-image: var(--icon-turnon);
+}
+.item-button-search {
+    background-image: var(--icon-search);
+}
+.item-button-edit_light {
+    background-image: var(--icon-edit-light);
+}
+.item-button-add_light {
+    background-image: var(--icon-add-light);
+}
+.item-button-copy_light {
+    background-image: var(--icon-copy-light);
+}
+.item-button-delete_light {
+    background-image: var(--icon-delete-light);
+}
+.item-button-turnon_light {
+    background-image: var(--icon-turnon-light);
+}
+.item-button-search_light {
+    background-image: var(--icon-search-light);
+}
+
 
 
 /* icons */

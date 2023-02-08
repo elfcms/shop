@@ -143,6 +143,7 @@
                                             @method('DELETE')
                                             <input type="hidden" name="id" value="{{ $item->id }}">
                                             <input type="hidden" name="name" value="{{ $item->item_number }}">
+                                            <input type="hidden" name="is_item" value="1">
                                             <button type="submit" class="contextmenu-item warning">{{ __('basic::elf.delete') }}</button>
                                         </form>
                                     </div>
@@ -175,17 +176,23 @@
     <script>
         const checkForms = document.querySelectorAll('form[data-submit="check"]')
 
-        if (checkForms) {
+        /* if (checkForms) {
             checkForms.forEach(form => {
                 form.addEventListener('submit',function(e){
                     e.preventDefault();
                     let goodsId = this.querySelector('[name="id"]').value,
                         goodsName = this.querySelector('[name="name"]').value,
-                        self = this
+                        isItem = this.querySelector('[name="is_item"]'),
+                        self = this,
+                        text = "{{ __('shop::elf.are_you_sure_to_deleting_goods') }}"
+
+                    if (isItem) {
+                        text = "{{ __('shop::elf.are_you_sure_to_deleting_item') }}";
+                    }
                     popup({
-                        title:'{{ __('basic::elf.deleting_of_element') }}' + goodsId,
-                        content:'<p>{{ __('basic::elf.are_you_sure_to_deleting_goods') }} "' + goodsName + '" (ID ' + goodsId + ')?</p>',
-                        buttons:[
+                        title: '{{ __('basic::elf.deleting_of_element') }}' + goodsId,
+                        content: text + '"' + goodsName + '" (ID ' + goodsId + ')?</p>',
+                        buttons: [
                             {
                                 title:'{{ __('basic::elf.delete') }}',
                                 class:'default-btn delete-button',
@@ -203,7 +210,7 @@
                     })
                 })
             })
-        }
+        } */
 
         function setConfirmDelete(forms) {
             if (forms) {
@@ -212,11 +219,17 @@
                         e.preventDefault();
                         let goodsId = this.querySelector('[name="id"]').value,
                             goodsName = this.querySelector('[name="name"]').value,
-                            self = this
+                            isItem = this.querySelector('[name="is_item"]'),
+                            self = this,
+                            text = "{{ __('shop::elf.are_you_sure_to_deleting_goods') }}"
+
+                        if (isItem) {
+                            text = "{{ __('shop::elf.are_you_sure_to_deleting_item') }}";
+                        }
                         popup({
-                            title:'{{ __('basic::elf.deleting_of_element') }}' + goodsId,
-                            content:'<p>{{ __('basic::elf.are_you_sure_to_deleting_goods') }} "' + goodsName + '" (ID ' + goodsId + ')?</p>',
-                            buttons:[
+                            title: '{{ __('basic::elf.deleting_of_element') }}' + goodsId,
+                            content: text,
+                            buttons: [
                                 {
                                     title:'{{ __('basic::elf.delete') }}',
                                     class:'default-btn delete-button',

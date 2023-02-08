@@ -6,6 +6,8 @@ return [
     'categories' => 'Categories',
     'are_you_sure_to_deleting_category' => 'Are you sure to deleting category',
     'are_you_sure_to_deleting_post' => 'Are you sure to deleting post',
+    'are_you_sure_to_deleting_goods' => 'Are you sure to deleting goods',
+    'are_you_sure_to_deleting_item' => 'Are you sure to deleting item',
     'edit_category' => 'Edit category #',
     'created_at' => 'Created at',
     'updated_at' => 'Updated at',
@@ -136,6 +138,8 @@ return [
     'error_of_goods_created' => 'Error of goods creating',
     'goods_edited_successfully' => 'Goods edited successfully',
     'error_of_goods_edited' => 'Error of goods editing',
+    'goods_deleted_successfully' => 'Goods deleted successfully',
+    'error_of_goods_deleting' => 'Error of goods deleting',
     'show_goods_pl' => 'Show goods',
 
     'item' => 'Item',

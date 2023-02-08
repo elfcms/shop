@@ -24,7 +24,7 @@ class ShopItemController extends Controller
      */
     public function index()
     {
-        //
+        abort(404);
     }
 
     /**
@@ -271,12 +271,18 @@ class ShopItemController extends Controller
     /**
      * Display the specified resource.
      *
+     * @param  \Illuminate\Http\Request  $request
      * @param  \App\Models\ShopItem  $shopItem
      * @return \Illuminate\Http\Response
      */
-    public function show(ShopItem $shopItem)
+    public function show(Request  $request, ShopItem $shopItem)
     {
-        //
+        if ($request->ajax()) {
+            return $shopItem;
+        }
+        else {
+            abort(404);
+        }
     }
 
     /**
@@ -521,6 +527,10 @@ class ShopItemController extends Controller
      */
     public function destroy(ShopItem $shopItem)
     {
-        //
+        if (!$shopItem->delete()) {
+            return redirect()->back()->withErrors(['action_result'=>__('shop::elf.error_of_item_deleting')]);
+        }
+
+        return redirect()->back()->with('action_result',__('shop::elf.item_deleted_successfully'));
     }
 }

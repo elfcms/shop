@@ -281,12 +281,22 @@
                 </div>
                 <div class="shop-item-column shop-item-column-buttons">
                     <div class="shop-item-column-button">
-                        <a href="{{ route('admin.shop.item.edit',$item) }}" class="icon-item icon-pencil" title="{{ __('shop::elf.edit_item') }}"></a>
+                        <a href="{{ route('admin.shop.item.edit',$item) }}" class="item-button item-button-edit" title="{{ __('shop::elf.edit_item') }}"></a>
                     </div>
                     <div class="shop-item-column-button">
                         <form action="{{ route('admin.shop.item.create') }}" method="GET">
                             <input type="hidden" name="copy_id" value="{{$item->id}}">
-                            <button type="submit" class="icon-item icon-copy" title="{{ __('shop::elf.copy') }}"></button>
+                            <button type="submit" class="item-button item-button-copy" title="{{ __('shop::elf.copy') }}"></button>
+                        </form>
+                    </div>
+                    <div class="shop-item-column-button">
+                        <form action="{{ route('admin.shop.item.destroy',$item) }}" method="POST" data-submit="check">
+                            @csrf
+                            @method('DELETE')
+                            <input type="hidden" name="id" value="{{ $item->id }}">
+                            <input type="hidden" name="name" value="{{ $item->item_number }}">
+                            <input type="hidden" name="is_item" value="1">
+                            <button type="submit" class="item-button item-button-delete" title="{{ __('basic::elf.delete') }}"></button>
                         </form>
                     </div>
                 </div>
@@ -302,12 +312,52 @@
     const imageInputs = document.querySelectorAll('.image-button input[type="file"]')
     if (imageInputs) {
         imageInputs.forEach(imageInput => {
-            inputFileImg(imageInput)
+            inputFileImg(imageInput);
         });
     }
-    autoSlug('.autoslug')
+    const checkForms = document.querySelectorAll('form[data-submit="check"]');
+    function setConfirmDelete(forms) {
+        if (forms) {
+            forms.forEach(form => {
+                form.addEventListener('submit',function(e){
+                    e.preventDefault();
+                    let categoryId = this.querySelector('[name="id"]').value,
+                        categoryName = this.querySelector('[name="name"]').value,
+                        isItem = this.querySelector('[name="is_item"]'),
+                        self = this,
+                            text = "{{ __('shop::elf.are_you_sure_to_deleting_goods') }}"
+
+                        if (isItem) {
+                            text = "{{ __('shop::elf.are_you_sure_to_deleting_item') }}";
+                        }
+                    popup({
+                        title:'{{ __('basic::elf.deleting_of_element') }}' + categoryId,
+                        content: text,
+                        buttons:[
+                            {
+                                title:'{{ __('basic::elf.delete') }}',
+                                class:'default-btn delete-button',
+                                callback: function(){
+                                    self.submit()
+                                }
+                            },
+                            {
+                                title:'{{ __('basic::elf.cancel') }}',
+                                class:'default-btn cancel-button',
+                                callback:'close'
+                            }
+                        ],
+                        class:'danger'
+                    })
+                })
+            })
+        }
+    }
+
+    setConfirmDelete(checkForms);
+    autoSlug('.autoslug');
     //add editor
-    runEditor('#description')
+    runEditor('#description');
     </script>
 
 @endsection
