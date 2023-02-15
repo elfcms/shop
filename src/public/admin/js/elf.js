@@ -264,30 +264,6 @@ function objectCompare(obj1, obj2) {
     return true;
 }
 
-function preloadSet(element) {
-    if (typeof element === 'string') {
-        element = document.querySelector(element);
-    }
-    if (!(element instanceof HTMLElement) && element !== document) {
-        return false;
-    }
-    const preloader = document.createElement('div')
-    preloader.classList.add('preload-wrapper');
-    preloader.insertAdjacentHTML('beforeend','<div class="preload-box"><div></div><div></div><div></div></div>');
-    element.append(preloader);
-
-    return preloader;
-}
-
-function preloadUnset(preloader) {
-    if (typeof preloader === 'string') {
-        preloader = document.querySelector(preloader);
-    }
-    if (!(preloader instanceof HTMLElement)) {
-        return false;
-    }
-    preloader.remove();
-}
 
 
 function openPickerColor(button, container = document)  {
