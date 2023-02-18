@@ -13,8 +13,9 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('shop_goods', function (Blueprint $table) {
-            $table->text('description')->nullable()->after('title');
+        Schema::table('shop_products', function (Blueprint $table) {
+            $table->bigInteger('unit_id')->unsigned()->after('title');
+            $table->foreign('unit_id')->references('id')->on('shop_units')->onDelete('restrict');
         });
     }
 
@@ -25,8 +26,9 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('shop_goods', function (Blueprint $table) {
-            $table->dropColumn('description');
+        Schema::table('shop_products', function (Blueprint $table) {
+            $table->dropForeign('unit_id');
+            $table->dropColumn('unit_id');
         });
     }
 };

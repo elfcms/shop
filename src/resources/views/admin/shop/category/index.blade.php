@@ -99,9 +99,9 @@
                     @endif
                     </td>
                     <td class="button-column non-text-buttons">
-                        <form action="{{ route('admin.shop.goods.create') }}" method="GET">
+                        <form action="{{ route('admin.shop.product.create') }}" method="GET">
                             <input type="hidden" name="category_id" value="{{ $category->id }}">
-                            <button type="submit" class="default-btn submit-button create-button" title="{{ __('shop::elf.create_goods') }}"></button>
+                            <button type="submit" class="default-btn submit-button create-button" title="{{ __('shop::elf.create_product') }}"></button>
                         </form>
                         <a href="{{ route('admin.shop.category.edit',$category) }}" class="default-btn edit-button" title="{{ __('basic::elf.edit') }}"></a>
                         <form action="{{ route('admin.shop.category.update',$category) }}" method="POST">
@@ -122,11 +122,11 @@
                         </form>
                         <div class="contextmenu-content-box">
                             <a href="{{ route('admin.shop.category',UrlParams::addArr(['category'=>$category])) }}" class="contextmenu-item">
-                                {{ __('shop::elf.show_goods_pl') }}
+                                {{ __('shop::elf.show_products') }}
                             </a>
-                            <form action="{{ route('admin.shop.goods.create') }}" method="GET">
+                            <form action="{{ route('admin.shop.product.create') }}" method="GET">
                                 <input type="hidden" name="category_id" value="{{ $category->id }}">
-                                <button type="submit" class="contextmenu-item">{{ __('shop::elf.create_goods') }}</button>
+                                <button type="submit" class="contextmenu-item">{{ __('shop::elf.create_product') }}</button>
                             </form>
                             <a href="{{ route('admin.shop.category.edit',$category) }}" class="contextmenu-item">{{ __('basic::elf.edit') }}</a>
                             <form action="{{ route('admin.shop.category.update',$category) }}" method="POST">

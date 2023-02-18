@@ -13,8 +13,9 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('shop_goods_categories', function (Blueprint $table) {
-            $table->boolean('is_main')->default(0)->after('category_id');
+        Schema::table('shop_products', function (Blueprint $table) {
+            $table->string('meta_description')->nullable()->after('active');
+            $table->string('meta_keywords')->nullable()->after('active');
         });
     }
 
@@ -25,8 +26,9 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('shop_goods_categories', function (Blueprint $table) {
-            $table->dropColumn('is_main');
+        Schema::table('shop_products', function (Blueprint $table) {
+            $table->dropColumn('meta_description');
+            $table->dropColumn('meta_keywords');
         });
     }
 };

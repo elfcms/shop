@@ -48,8 +48,8 @@ return [
                 ],
                 [
                     "title" => "Goods",
-                    "lang_title" => "shop::elf.goods_pl",
-                    "route" => "admin.shop.goods"
+                    "lang_title" => "shop::elf.products",
+                    "route" => "admin.shop.product"
                 ],
                 [
                     "title" => "Vendors",

@@ -3,10 +3,10 @@
 namespace Elfcms\Shop\Http\Controllers\Resources;
 
 use App\Http\Controllers\Controller;
-use Elfcms\Shop\Models\ShopGoodsCategory;
+use Elfcms\Shop\Models\ShopProductTag;
 use Illuminate\Http\Request;
 
-class ShopGoodsCategoryController extends Controller
+class ShopProductTagController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -42,10 +42,10 @@ class ShopGoodsCategoryController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\ShopGoodsCategory  $shopGoodsCategory
+     * @param  \App\Models\ShopProductTag  $shopProductTag
      * @return \Illuminate\Http\Response
      */
-    public function show(ShopGoodsCategory $shopGoodsCategory)
+    public function show(ShopProductTag $shopProductTag)
     {
         //
     }
@@ -53,10 +53,10 @@ class ShopGoodsCategoryController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\ShopGoodsCategory  $shopGoodsCategory
+     * @param  \App\Models\ShopProductTag  $shopProductTag
      * @return \Illuminate\Http\Response
      */
-    public function edit(ShopGoodsCategory $shopGoodsCategory)
+    public function edit(ShopProductTag $shopProductTag)
     {
         //
     }
@@ -65,10 +65,10 @@ class ShopGoodsCategoryController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\ShopGoodsCategory  $shopGoodsCategory
+     * @param  \App\Models\ShopProductTag  $shopProductTag
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, ShopGoodsCategory $shopGoodsCategory)
+    public function update(Request $request, ShopProductTag $shopProductTag)
     {
         //
     }
@@ -76,10 +76,10 @@ class ShopGoodsCategoryController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\ShopGoodsCategory  $shopGoodsCategory
+     * @param  \App\Models\ShopProductTag  $shopProductTag
      * @return \Illuminate\Http\Response
      */
-    public function destroy(ShopGoodsCategory $shopGoodsCategory)
+    public function destroy(ShopProductTag $shopProductTag)
     {
         //
     }

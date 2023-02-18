@@ -17,7 +17,7 @@
 
     <nav class="pagenav">
         <div class="abstract-nav-line">
-            <a href="{{ route('admin.shop.goods.edit', $isCopy->goods ?? $item->goods ) }}" class="default-btn alternate-button">{{ $isCopy->goods->title ?? $item->goods->title }}</a>
+            <a href="{{ route('admin.shop.product.edit', $isCopy->product ?? $item->product ) }}" class="default-btn alternate-button">{{ $isCopy->product->title ?? $item->product->title }}</a>
         </div>
     </nav>
 
@@ -49,11 +49,11 @@
                     </div>
                 </div>
                 <div class="input-box colored">
-                    <label for="goods_id">{{ __('shop::elf.goods') }}</label>
+                    <label for="product_id">{{ __('shop::elf.product') }}</label>
                     <div class="input-wrapper">
-                        <select name="goods_id" id="goods_id" required>
-                        @foreach ($goodsCollection as $goods)
-                            <option value="{{ $goods->id }}" @if($item->goods_id == $goods->id) selected @endif>{{ $goods->title }}</option>
+                        <select name="product_id" id="product_id" required>
+                        @foreach ($products as $product)
+                            <option value="{{ $product->id }}" @if($item->product_id == $product->id) selected @endif>{{ $product->title }}</option>
                         @endforeach
                         </select>
                     </div>
@@ -253,9 +253,9 @@
                         <x-shop::anonymous.picker.color :list="$colors" name="property[{{$property->id}}]" :default="$property->colorData" id="property_{{$property->id}}" />
 
                         {{-- @elseif ($property->data_type->code == 'string')
-                        <input type="text" name="property[{{$property->id}}]" id="property_{{$property->id}}" value="{{ $property->goods_values($goods->id) }}">
+                        <input type="text" name="property[{{$property->id}}]" id="property_{{$property->id}}" value="{{ $property->product_values($product->id) }}">
                         @elseif ($property->data_type->code == 'int')
-                        <input type="number" name="property[{{$property->id}}]" id="property_{{$property->id}}" value="{{ $property->goods_values($goods->id) }}" step="1"> --}}
+                        <input type="number" name="property[{{$property->id}}]" id="property_{{$property->id}}" value="{{ $property->product_values($product->id) }}" step="1"> --}}
                         @elseif ($property->data_type->code == 'bool')
                         <input type="checkbox" name="property[{{$property->id}}]" id="property_{{$property->id}}" @if ($property->value) checked @endif value="1">
                         @else

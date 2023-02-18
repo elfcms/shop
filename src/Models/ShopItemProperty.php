@@ -33,9 +33,9 @@ class ShopItemProperty extends Model
         return null;
     }
 /*
-    public function goods_values()
+    public function product_values()
     {
-        return $this->hasMany(ShopGoodsPropertyValue::class, 'property_id');
+        return $this->hasMany(ShopProductPropertyValue::class, 'property_id');
     }
 
     public function item_values()
@@ -44,11 +44,11 @@ class ShopItemProperty extends Model
     }
  */
 
-    public function goods_values(int|null $goodsId = null)
+    public function product_values(int|null $productId = null)
     {
-        $result = $this->hasMany(ShopGoodsPropertyValue::class, 'property_id');
-        if (!empty($goodsId) && is_numeric($goodsId)) {
-            $result = $result->where('goods_id', $goodsId)->get()->toArray();
+        $result = $this->hasMany(ShopProductPropertyValue::class, 'property_id');
+        if (!empty($productId) && is_numeric($productId)) {
+            $result = $result->where('product_id', $productId)->get()->toArray();
             if (!empty($result)) {
                 $result = $result[0][$this->data_type->code . '_value'];
             }

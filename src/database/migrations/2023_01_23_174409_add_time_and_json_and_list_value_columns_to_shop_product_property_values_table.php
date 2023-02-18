@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('shop_goods_parameter_values', function (Blueprint $table) {
+        Schema::table('shop_product_property_values', function (Blueprint $table) {
             $table->time('time_value')->nullable()->after('date_value');
             $table->json('list_value')->nullable()->after('file_value');
             $table->json('json_value')->nullable()->after('file_value');
@@ -27,7 +27,7 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('shop_goods_parameter_values', function (Blueprint $table) {
+        Schema::table('shop_product_property_values', function (Blueprint $table) {
             $table->dropColumn('time_value');
             $table->dropColumn('json_value');
             $table->dropColumn('list_value');

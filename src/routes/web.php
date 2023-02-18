@@ -16,9 +16,9 @@ Route::group(['middleware'=>['web','cookie','start']],function() use ($adminPath
                 ->parameters(['category'=>'shopCategory'])
                 ->names(['index'=>'category']);
 
-            Route::resource($adminPath . '/shop/goods', \Elfcms\Shop\Http\Controllers\Resources\ShopGoodsController::class)
-                ->parameters(['goods'=>'shopGoods'])
-                ->names(['index'=>'goods']);
+            Route::resource($adminPath . '/shop/product', \Elfcms\Shop\Http\Controllers\Resources\ShopProductController::class)
+                ->parameters(['product'=>'shopProduct'])
+                ->names(['index'=>'product']);
 
             Route::resource($adminPath . '/shop/item', \Elfcms\Shop\Http\Controllers\Resources\ShopItemController::class)
             ->parameters(['item'=>'shopItem'])
@@ -133,6 +133,10 @@ Route::group(['middleware'=>['web','cookie','start']],function() use ($adminPath
             return $result;
         }); */
 
+    });
+
+    Route::get('/shop',function() {
+        return 'OK';
     });
 
 });

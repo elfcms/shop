@@ -38,11 +38,11 @@
                     </div>
                 </div>
                 <div class="input-box colored">
-                    <label for="goods_id">{{ __('shop::elf.goods') }}</label>
+                    <label for="product_id">{{ __('shop::elf.product') }}</label>
                     <div class="input-wrapper">
-                        <select name="goods_id" id="goods_id" required>
-                        @foreach ($goodsCollection as $goods)
-                            <option value="{{ $goods->id }}" @if(!empty($goods_id) && $goods_id == $goods->id) selected @endif>{{ $goods->title }}</option>
+                        <select name="product_id" id="product_id" required>
+                        @foreach ($products as $product)
+                            <option value="{{ $product->id }}" @if(!empty($product_id) && $product_id == $product->id) selected @endif>{{ $product->title }}</option>
                         @endforeach
                         </select>
                     </div>

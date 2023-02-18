@@ -13,12 +13,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('shop_goods_property_values', function (Blueprint $table) {
+        Schema::create('shop_product_property_values', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('property_id')->unsigned();
             $table->foreign('property_id')->references('id')->on('shop_item_properties')->onDelete('cascade');
-            $table->bigInteger('goods_id')->unsigned();
-            $table->foreign('goods_id')->references('id')->on('shop_goods')->onDelete('cascade');
+            $table->bigInteger('product_id')->unsigned();
+            $table->foreign('product_id')->references('id')->on('shop_products')->onDelete('cascade');
             $table->boolean('bool_value')->nullable();
             $table->bigInteger('int_value')->nullable();
             $table->float('float_value')->nullable();
@@ -39,6 +39,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('shop_goods_property_values');
+        Schema::dropIfExists('shop_product_property_values');
     }
 };

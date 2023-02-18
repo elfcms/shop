@@ -13,9 +13,8 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('shop_goods', function (Blueprint $table) {
-            $table->bigInteger('unit_id')->unsigned()->after('title');
-            $table->foreign('unit_id')->references('id')->on('shop_units')->onDelete('restrict');
+        Schema::table('shop_product_categories', function (Blueprint $table) {
+            $table->boolean('is_main')->default(0)->after('category_id');
         });
     }
 
@@ -26,9 +25,8 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('shop_goods', function (Blueprint $table) {
-            $table->dropForeign('unit_id');
-            $table->dropColumn('unit_id');
+        Schema::table('shop_product_categories', function (Blueprint $table) {
+            $table->dropColumn('is_main');
         });
     }
 };

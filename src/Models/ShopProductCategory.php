@@ -5,9 +5,9 @@ namespace Elfcms\Shop\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class ShopGoodsCategory extends Model
+class ShopProductCategory extends Model
 {
     use HasFactory;
 
-    protected $table = 'shop_goods_categories';
+    protected $table = 'shop_product_categories';
 }

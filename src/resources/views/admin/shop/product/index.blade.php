@@ -3,16 +3,16 @@
 @section('shop-content')
 <nav class="pagenav">
     <div class="abstract-nav-line">
-        <a href="{{ route('admin.shop.goods.create') }}" class="default-btn submit-button create-button">{{ __('shop::elf.create_goods') }}</a>
+        <a href="{{ route('admin.shop.product.create') }}" class="default-btn submit-button create-button">{{ __('shop::elf.create_product') }}</a>
     </div>
 </nav>
     <div class="table-search-box">
         <div class="table-search-result-title">
             @if (!empty($search))
-                {{ __('basic::elf.search_result_for') }} "{{ $search }}" <a href="{{ route('admin.shop.goods') }}" title="{{ __('basic::elf.reset_search') }}">&#215;</a>
+                {{ __('basic::elf.search_result_for') }} "{{ $search }}" <a href="{{ route('admin.shop.product') }}" title="{{ __('basic::elf.reset_search') }}">&#215;</a>
             @endif
         </div>
-        <form action="{{ route('admin.shop.goods') }}" method="get">
+        <form action="{{ route('admin.shop.product') }}" method="get">
             <div class="input-box">
                 <label for="search">
                     {{ __('basic::elf.search') }}
@@ -39,7 +39,7 @@
     </div>
     @endif
     <div class="widetable-wrapper">
-        <table class="grid-table shop-goods-table">
+        <table class="grid-table shop-products-table">
             <thead>
                 <tr>
                     <th>ID</th>
@@ -57,47 +57,47 @@
                 </tr>
             </thead>
             <tbody>
-            @foreach ($goodsCollection as $goods)
-                <tr data-id="{{ $goods->id }}" @empty ($goods->active) inactive @endempty">
+            @foreach ($products as $product)
+                <tr data-id="{{ $product->id }}" @empty ($product->active) inactive @endempty">
                     <td>
-                        {{ $goods->id }}
+                        {{ $product->id }}
                     </td>
                     <td>
-                        {{ $goods->title }}
+                        {{ $product->title }}
                     </td>
                     <td>
-                        {{ $goods->slug }}
+                        {{ $product->slug }}
                     </td>
                     <td>
-                        {{ $goods->unit->title }}
+                        {{ $product->unit->title }}
                     </td>
                     <td>
-                        <i @class(['icon-checkbox-round', 'checked' => $goods->active])></i>
+                        <i @class(['icon-checkbox-round', 'checked' => $product->active])></i>
                         <div class="contextmenu-content-box">
-                            <a href="{{ route('admin.shop.goods.edit',$goods) }}" class="contextmenu-item">{{ __('basic::elf.edit') }}</a>
-                            <form action="{{ route('admin.shop.goods.update',$goods) }}" method="POST">
+                            <a href="{{ route('admin.shop.product.edit',$product) }}" class="contextmenu-item">{{ __('basic::elf.edit') }}</a>
+                            <form action="{{ route('admin.shop.product.update',$product) }}" method="POST">
                                 @csrf
                                 @method('PATCH')
-                                <input type="hidden" name="id" id="id" value="{{ $goods->id }}">
-                                <input type="hidden" name="active" id="active" value="{{ (int)!(bool)$goods->active }}">
+                                <input type="hidden" name="id" id="id" value="{{ $product->id }}">
+                                <input type="hidden" name="active" id="active" value="{{ (int)!(bool)$product->active }}">
                                 <input type="hidden" name="notedit" value="1">
                                 <button type="submit" class="contextmenu-item">
-                                @if ($goods->active == 1)
+                                @if ($product->active == 1)
                                     {{ __('basic::elf.deactivate') }}
                                 @else
                                     {{ __('basic::elf.activate') }}
                                 @endif
                                 </button>
                             </form>
-                            <form action="{{ route('admin.shop.goods.destroy',$goods) }}" method="POST" data-submit="check">
+                            <form action="{{ route('admin.shop.product.destroy',$product) }}" method="POST" data-submit="check">
                                 @csrf
                                 @method('DELETE')
-                                <input type="hidden" name="id" value="{{ $goods->id }}">
-                                <input type="hidden" name="name" value="{{ $goods->title }}">
+                                <input type="hidden" name="id" value="{{ $product->id }}">
+                                <input type="hidden" name="name" value="{{ $product->title }}">
                                 <button type="submit" class="contextmenu-item warning">{{ __('basic::elf.delete') }}</button>
                             </form>
                             <form action="{{ route('admin.shop.item.create') }}" method="GET">
-                                <input type="hidden" name="goods_id" value="{{ $goods->id }}">
+                                <input type="hidden" name="product_id" value="{{ $product->id }}">
                                 <button type="submit" class="contextmenu-item">{{ __('shop::elf.add_item') }}</button>
                             </form>
                         </div>
@@ -105,8 +105,8 @@
                 </tr>
                 <tr class="subtable-row">
                     <td colspan="5">
-                        <table class="grid-table shop-goods-table">
-                            @forelse ($goods->items as $item)
+                        <table class="grid-table shop-products-table">
+                            @forelse ($product->items as $item)
                             <tr>
                                 <td>
                                     {{ $item->id }}
@@ -154,7 +154,7 @@
                                 <td>
                                     {{-- {{ __('basic::elf.nothing_was_found') }} --}}
                                     <form action="{{ route('admin.shop.item.create') }}" method="GET">
-                                        <input type="hidden" name="goods_id" value="{{ $goods->id }}">
+                                        <input type="hidden" name="product_id" value="{{ $product->id }}">
                                         <button type="submit" class="default-btn submit-button">{{ __('shop::elf.add_item') }}</button>
                                     </form>
                                 </td>
@@ -166,7 +166,7 @@
             @endforeach
             </tbody>
         </table>
-        @if (empty(count($goodsCollection)))
+        @if (empty(count($products)))
             <div class="no-results-box">
                 {{ __('basic::elf.nothing_was_found') }}
             </div>
@@ -180,18 +180,18 @@
             checkForms.forEach(form => {
                 form.addEventListener('submit',function(e){
                     e.preventDefault();
-                    let goodsId = this.querySelector('[name="id"]').value,
-                        goodsName = this.querySelector('[name="name"]').value,
+                    let productId = this.querySelector('[name="id"]').value,
+                        productName = this.querySelector('[name="name"]').value,
                         isItem = this.querySelector('[name="is_item"]'),
                         self = this,
-                        text = "{{ __('shop::elf.are_you_sure_to_deleting_goods') }}"
+                        text = "{{ __('shop::elf.are_you_sure_to_deleting_product') }}"
 
                     if (isItem) {
                         text = "{{ __('shop::elf.are_you_sure_to_deleting_item') }}";
                     }
                     popup({
-                        title: '{{ __('basic::elf.deleting_of_element') }}' + goodsId,
-                        content: text + '"' + goodsName + '" (ID ' + goodsId + ')?</p>',
+                        title: '{{ __('basic::elf.deleting_of_element') }}' + productId,
+                        content: text + '"' + productName + '" (ID ' + productId + ')?</p>',
                         buttons: [
                             {
                                 title:'{{ __('basic::elf.delete') }}',
@@ -217,17 +217,17 @@
                 forms.forEach(form => {
                     form.addEventListener('submit',function(e){
                         e.preventDefault();
-                        let goodsId = this.querySelector('[name="id"]').value,
-                            goodsName = this.querySelector('[name="name"]').value,
+                        let productId = this.querySelector('[name="id"]').value,
+                            productName = this.querySelector('[name="name"]').value,
                             isItem = this.querySelector('[name="is_item"]'),
                             self = this,
-                            text = "{{ __('shop::elf.are_you_sure_to_deleting_goods') }}"
+                            text = "{{ __('shop::elf.are_you_sure_to_deleting_product') }}"
 
                         if (isItem) {
                             text = "{{ __('shop::elf.are_you_sure_to_deleting_item') }}";
                         }
                         popup({
-                            title: '{{ __('basic::elf.deleting_of_element') }}' + goodsId,
+                            title: '{{ __('basic::elf.deleting_of_element') }}' + productId,
                             content: text,
                             buttons: [
                                 {
@@ -252,7 +252,7 @@
 
         setConfirmDelete(checkForms)
 
-        const tablerow = document.querySelectorAll('.shop-goods-table tbody tr:has(.contextmenu-content-box):not(.subtable-row)');
+        const tablerow = document.querySelectorAll('.shop-products-table tbody tr:has(.contextmenu-content-box):not(.subtable-row)');
         if (tablerow) {
             tablerow.forEach(row => {
                 row.addEventListener('contextmenu',function(e){

@@ -16,8 +16,8 @@
     @endif
 
     <div class="item-form">
-        <h3>{{ __('shop::elf.create_goods') }}</h3>
-        <form action="{{ route('admin.shop.goods.store') }}" method="POST" enctype="multipart/form-data">
+        <h3>{{ __('shop::elf.create_product') }}</h3>
+        <form action="{{ route('admin.shop.product.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
             @method('POST')
             <div class="colored-rows-box">

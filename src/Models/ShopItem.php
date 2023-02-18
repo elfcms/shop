@@ -10,7 +10,7 @@ class ShopItem extends Model
     use HasFactory;
 
     protected $fillable = [
-        'goods_id',
+        'product_id',
         'item_number',
         'vendor_item_number',
         'image',
@@ -29,9 +29,9 @@ class ShopItem extends Model
         return $query->where('active',1);
     }
 
-    public function goods()
+    public function product()
     {
-        return $this->belongsTo(ShopGoods::class, 'goods_id');
+        return $this->belongsTo(ShopProduct::class, 'product_id');
     }
 
     public function vendor()

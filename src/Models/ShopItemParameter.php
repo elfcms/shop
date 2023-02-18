@@ -36,11 +36,11 @@ class ShopItemParameter extends Model
         return $this->value;
     } */
 
-    public function goods_values(int|null $goodsId = null)
+    public function product_values(int|null $productId = null)
     {
-        $result = $this->hasMany(ShopGoodsParameterValue::class, 'parameter_id');
-        if (!empty($goodsId) && is_numeric($goodsId)) {
-            $result = $result->where('goods_id', $goodsId)->get()->toArray();
+        $result = $this->hasMany(ShopProductParameterValue::class, 'parameter_id');
+        if (!empty($productId) && is_numeric($productId)) {
+            $result = $result->where('product_id', $productId)->get()->toArray();
             if (!empty($result)) {
                 $result = $result[0][$this->data_type->code . '_value'];
             }

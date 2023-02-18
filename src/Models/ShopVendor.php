@@ -13,9 +13,9 @@ class ShopVendor extends Model
         'name',
     ];
 
-    public function goods()
+    public function products()
     {
-        return $this->hasMany(ShopGoods::class, 'vendor_id');
+        return $this->hasMany(ShopProduct::class, 'vendor_id');
     }
 
     public function items()

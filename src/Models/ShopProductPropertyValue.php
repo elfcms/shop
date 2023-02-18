@@ -6,13 +6,13 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class ShopGoodsPropertyValue extends Model
+class ShopProductPropertyValue extends Model
 {
     use HasFactory;
 
     protected $fillable = [
         'property_id',
-        'goods_id',
+        'product_id',
         'bool_value',
         'int_value',
         'float_value',
@@ -33,9 +33,9 @@ class ShopGoodsPropertyValue extends Model
         return $this->belongsTo(ShopItemProperty::class, 'property_id');
     }
 
-    public function goods()
+    public function product()
     {
-        return $this->belongsTo(ShopGoods::class, 'goods_id');
+        return $this->belongsTo(ShopProduct::class, 'product_id');
     }
 
     public function getValueAttribute()

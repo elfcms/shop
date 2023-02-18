@@ -154,7 +154,7 @@
         minmax(80px, 0.1fr)
         minmax(90px, 0.2fr);
 }
-.grid-table.shop-goods-table {
+.grid-table.shop-products-table {
     grid-template-columns:
         60px
         minmax(100px, 1fr)
@@ -162,7 +162,7 @@
         minmax(90px, 0.3fr)
         90px;
 }
-.subtable-row .grid-table.shop-goods-table {
+.subtable-row .grid-table.shop-products-table {
     grid-template-columns:
         50px
         minmax(100px, 1fr)
@@ -170,30 +170,30 @@
         minmax(90px, 0.3fr)
         80px;
 }
-.shop-goods-table .subtable-head th {
+.shop-products-table .subtable-head th {
     background: #80aacf;
     padding: 8px 15px;
     font-size: .9em;
     text-shadow: 1px 1px 1px rgb(0,0,0,0.3);
 }
-.shop-goods-table .subtable-row > td {
+.shop-products-table .subtable-row > td {
     grid-column-start: 1;
     grid-column-end: 6;
     background: #ecf4f9 !important;
     border-bottom: 1px solid #80aacf;
     padding: 10px;
 }
-.shop-goods-table .subtable-row .empty-row > td {
+.shop-products-table .subtable-row .empty-row > td {
     grid-column-start: 1;
     grid-column-end: 6;
 }
-/* .shop-goods-table .subtable-row td {
+/* .shop-products-table .subtable-row td {
 
 }
-.shop-goods-table .subtable-row:nth-child(odd) td {
+.shop-products-table .subtable-row:nth-child(odd) td {
 
 }
-.shop-goods-table .subtable-row:nth-child(even) td {
+.shop-products-table .subtable-row:nth-child(even) td {
 
 } */
 
@@ -517,23 +517,23 @@ input[type="color"]::-webkit-color-swatch {
 }
 /* /Color picker */
 
-.shop-goods-container {
+.shop-products-container {
     display: flex;
     flex-wrap: wrap;
     gap: 15px;
 }
-/* .shop-goods-container .item-form + .item-form {
+/* .shop-products-container .item-form + .item-form {
     margin-left: 15px;
 } */
-.shop-goods-container .item-form {
+.shop-products-container .item-form {
     flex: 1 0;
     min-width: min-content;
     max-width: 800px;
 }
-.shop-goods-container .item-form .top-button-box {
+.shop-products-container .item-form .top-button-box {
     padding: 0px 15px 15px;
 }
-.shop-goods-container .item-form .shop-item-column {
+.shop-products-container .item-form .shop-item-column {
     padding: 15px;
     box-sizing: border-box;
 }

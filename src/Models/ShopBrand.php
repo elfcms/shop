@@ -28,7 +28,7 @@ class ShopBrand extends Model
         return 'slug';
     }
 
-    public function goods ()
+    public function products ()
     {
         return $this->hasMany(ShopBrand::class, 'brand_id');
     }

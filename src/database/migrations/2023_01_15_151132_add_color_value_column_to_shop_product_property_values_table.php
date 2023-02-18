@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('shop_goods_property_values', function (Blueprint $table) {
+        Schema::table('shop_product_property_values', function (Blueprint $table) {
             $table->bigInteger('color_value')->unsigned()->after('text_value')->nullable();
             $table->foreign('color_value')->references('id')->on('shop_colors')->onDelete('restrict');
         });
@@ -26,8 +26,8 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('shop_goods_property_values', function (Blueprint $table) {
-            $table->dropForeign('shop_goods_property_values_color_value_foreign');
+        Schema::table('shop_product_property_values', function (Blueprint $table) {
+            $table->dropForeign('shop_product_property_values_color_value_foreign');
             $table->dropColumn('color_value');
         });
     }

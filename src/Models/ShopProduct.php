@@ -5,7 +5,7 @@ namespace Elfcms\Shop\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class ShopGoods extends Model
+class ShopProduct extends Model
 {
     use HasFactory;
 
@@ -38,7 +38,7 @@ class ShopGoods extends Model
 
     public function categories()
     {
-        return $this->belongsToMany(ShopCategory::class, 'shop_goods_categories', 'goods_id', 'category_id')->withPivot('is_main');
+        return $this->belongsToMany(ShopCategory::class, 'shop_product_categories', 'product_id', 'category_id')->withPivot('is_main');
     }
 
     public function category()
@@ -48,7 +48,7 @@ class ShopGoods extends Model
 
     public function items()
     {
-        return $this->hasMany(ShopItem::class, 'goods_id');
+        return $this->hasMany(ShopItem::class, 'product_id');
     }
 
     public function unit()
@@ -68,17 +68,17 @@ class ShopGoods extends Model
 
     public function parameters()
     {
-        return $this->hasMany(ShopGoodsParameterValue::class, 'goods_id');
+        return $this->hasMany(ShopProductParameterValue::class, 'product_id');
     }
 
     public function properties()
     {
-        return $this->hasMany(ShopGoodsPropertyValue::class, 'goods_id');
+        return $this->hasMany(ShopProductPropertyValue::class, 'product_id');
     }
 
     public function tags()
     {
-        return $this->belongsToMany(ShopTag::class, 'shop_goods_tags', 'goods_id', 'tag_id');
+        return $this->belongsToMany(ShopTag::class, 'shop_product_tags', 'product_id', 'tag_id');
     }
 
 }

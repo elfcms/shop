@@ -13,8 +13,8 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('shop_goods', function (Blueprint $table) {
-            $table->boolean('active')->default(1)->after('brand_id');
+        Schema::table('shop_products', function (Blueprint $table) {
+            $table->text('description')->nullable()->after('title');
         });
     }
 
@@ -25,8 +25,8 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('shop_goods', function (Blueprint $table) {
-            $table->dropColumn('active');
+        Schema::table('shop_products', function (Blueprint $table) {
+            $table->dropColumn('description');
         });
     }
 };

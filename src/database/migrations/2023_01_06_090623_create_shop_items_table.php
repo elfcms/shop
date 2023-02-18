@@ -15,8 +15,8 @@ return new class extends Migration
     {
         Schema::create('shop_items', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('goods_id')->unsigned();
-            $table->foreign('goods_id')->references('id')->on('shop_goods')->onDelete('restrict');
+            $table->bigInteger('product_id')->unsigned();
+            $table->foreign('product_id')->references('id')->on('shop_products')->onDelete('restrict');
             $table->string('item_number')->unique();
             $table->string('vendor_item_number')->nullable();
             $table->string('image')->nullable();

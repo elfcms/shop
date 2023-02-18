@@ -15,11 +15,11 @@
 </div>
 @endif
 
-<div class="shop-goods-container">
+<div class="shop-products-container">
 
     <div class="item-form">
-        <h3>{{ __('shop::elf.edit_goods') }}</h3>
-        <form action="{{ route('admin.shop.goods.update',$goods) }}" method="POST" enctype="multipart/form-data">
+        <h3>{{ __('shop::elf.edit_product') }}</h3>
+        <form action="{{ route('admin.shop.product.update',$product) }}" method="POST" enctype="multipart/form-data">
             @csrf
             @method('PUT')
             <div class="tab-head">
@@ -35,7 +35,7 @@
                                 type="checkbox"
                                 name="active"
                                 id="active"
-                                @if ($goods->active == 1)
+                                @if ($product->active == 1)
                                 checked
                                 @endif
                             >
@@ -51,7 +51,7 @@
                     <div class="input-wrapper">
                         <select name="category_id[]" id="category_id" multiple required>
                         @foreach ($categories as $category)
-                            <option value="{{ $category->id }}" @if (in_array($category->id,$goodsCategories)) selected @endif>{{ $category->title }}</option>
+                            <option value="{{ $category->id }}" @if (in_array($category->id,$productCategories)) selected @endif>{{ $category->title }}</option>
                         @endforeach
                         </select>
                     </div>
@@ -59,13 +59,13 @@
                 <div class="input-box colored">
                     <label for="title">{{ __('basic::elf.title') }}</label>
                     <div class="input-wrapper">
-                        <input type="text" name="title" id="title" required value="{{ $goods->title }}">
+                        <input type="text" name="title" id="title" required value="{{ $product->title }}">
                     </div>
                 </div>
                 <div class="input-box colored">
                     <label for="slug">{{ __('basic::elf.slug') }}</label>
                     <div class="input-wrapper">
-                        <input type="text" name="slug" id="slug" required value="{{ $goods->slug }}">
+                        <input type="text" name="slug" id="slug" required value="{{ $product->slug }}">
                     </div>
                     <div class="input-wrapper">
                         <div class="autoslug-wrapper">
@@ -77,7 +77,7 @@
                 <div class="input-box colored">
                     <label for="desctiption">{{ __('basic::elf.description') }}</label>
                     <div class="input-wrapper wide-editor-wrapper">
-                        <textarea name="description" id="description" cols="30" rows="10">{{ $goods->description }}</textarea>
+                        <textarea name="description" id="description" cols="30" rows="10">{{ $product->description }}</textarea>
                     </div>
                 </div>
                 <div class="input-box colored">
@@ -85,7 +85,7 @@
                     <div class="input-wrapper">
                         <select name="unit_id" id="unit_id">
                         @foreach ($units as $unit)
-                            <option value="{{ $unit->id }}" @if(!empty($goods->unit->id) && $unit->id == $goods->unit->id) selected @endif>{{ $unit->title }}</option>
+                            <option value="{{ $unit->id }}" @if(!empty($product->unit->id) && $unit->id == $product->unit->id) selected @endif>{{ $unit->title }}</option>
                         @endforeach
                         </select>
                     </div>
@@ -96,7 +96,7 @@
                         <select name="brand_id" id="brand_id">
                             <option value="">{{ __('basic::elf.none') }}</option>
                         @foreach ($brands as $brand)
-                            <option value="{{ $brand->id }}" @if(!empty($goods->brand->id) && $brand->id == $goods->brand->id) selected @endif>{{ $brand->name }}</option>
+                            <option value="{{ $brand->id }}" @if(!empty($product->brand->id) && $brand->id == $product->brand->id) selected @endif>{{ $brand->name }}</option>
                         @endforeach
                         </select>
                     </div>
@@ -107,7 +107,7 @@
                         <select name="vendor_id" id="vendor_id">
                             <option value="">{{ __('basic::elf.none') }}</option>
                         @foreach ($vendors as $vendor)
-                            <option value="{{ $vendor->id }}" @if(!empty($goods->vendor->id) && $vendor->id == $goods->vendor->id) selected @endif>{{ $vendor->name }}</option>
+                            <option value="{{ $vendor->id }}" @if(!empty($product->vendor->id) && $vendor->id == $product->vendor->id) selected @endif>{{ $vendor->name }}</option>
                         @endforeach
                         </select>
                     </div>
@@ -115,13 +115,13 @@
                 <div class="input-box colored">
                     <label for="meta_keywords">{{ __('basic::elf.meta_keywords') }}</label>
                     <div class="input-wrapper">
-                        <textarea name="meta_keywords" id="meta_keywords" cols="30" rows="3">{{ $goods->meta_keywords }}</textarea>
+                        <textarea name="meta_keywords" id="meta_keywords" cols="30" rows="3">{{ $product->meta_keywords }}</textarea>
                     </div>
                 </div>
                 <div class="input-box colored">
                     <label for="meta_description">{{ __('basic::elf.meta_description') }}</label>
                     <div class="input-wrapper">
-                        <textarea name="meta_description" id="meta_description" cols="30" rows="3">{{ $goods->meta_description }}</textarea>
+                        <textarea name="meta_description" id="meta_description" cols="30" rows="3">{{ $product->meta_description }}</textarea>
                     </div>
                 </div>
             </div>
@@ -229,9 +229,9 @@
                         <x-shop::anonymous.picker.color :list="$colors" name="property[{{$property->id}}]" :default="$property->colorData" id="property_{{$property->id}}" />
 
                         {{-- @elseif ($property->data_type->code == 'string')
-                        <input type="text" name="property[{{$property->id}}]" id="property_{{$property->id}}" value="{{ $property->goods_values($goods->id) }}">
+                        <input type="text" name="property[{{$property->id}}]" id="property_{{$property->id}}" value="{{ $property->product_values($product->id) }}">
                         @elseif ($property->data_type->code == 'int')
-                        <input type="number" name="property[{{$property->id}}]" id="property_{{$property->id}}" value="{{ $property->goods_values($goods->id) }}" step="1"> --}}
+                        <input type="number" name="property[{{$property->id}}]" id="property_{{$property->id}}" value="{{ $property->product_values($product->id) }}" step="1"> --}}
                         @elseif ($property->data_type->code == 'bool')
                         <input type="checkbox" name="property[{{$property->id}}]" id="property_{{$property->id}}" @if ($property->value) checked @endif value="1">
                         @else
@@ -251,7 +251,7 @@
         <h3>{{ __('shop::elf.items') }}</h3>
         <div class="top-button-box">
             <form action="{{ route('admin.shop.item.create') }}" method="GET">
-                <input type="hidden" name="goods_id" value="{{$goods->id}}">
+                <input type="hidden" name="product_id" value="{{$product->id}}">
                 <button type="submit" class="default-btn submit-button">{{ __('shop::elf.add_item') }}</button>
             </form>
         </div>
@@ -268,7 +268,7 @@
                 </div>
                 <div class="shop-item-column shop-item-column-buttons"></div>
             </div>
-        @foreach ($goods->items as $item)
+        @foreach ($product->items as $item)
             <div class="input-box colored">
                 <div class="shop-item-column shop-item-column-id">
                     {{ $item->id }}
@@ -325,7 +325,7 @@
                         categoryName = this.querySelector('[name="name"]').value,
                         isItem = this.querySelector('[name="is_item"]'),
                         self = this,
-                            text = "{{ __('shop::elf.are_you_sure_to_deleting_goods') }}"
+                            text = "{{ __('shop::elf.are_you_sure_to_deleting_product') }}"
 
                         if (isItem) {
                             text = "{{ __('shop::elf.are_you_sure_to_deleting_item') }}";

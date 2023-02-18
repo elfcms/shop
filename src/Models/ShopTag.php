@@ -18,9 +18,9 @@ class ShopTag extends Model
         return $this->belongsToMany(ShopItem::class, 'shop_item_tags', 'item_id', 'tag_id');
     }
 
-    public function goods()
+    public function products()
     {
-        return $this->belongsToMany(ShopGoods::class, 'shop_item_tags', 'goods_id', 'tag_id');
+        return $this->belongsToMany(ShopProduct::class, 'shop_item_tags', 'product_id', 'tag_id');
     }
 
 }

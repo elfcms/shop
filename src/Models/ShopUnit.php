@@ -2,7 +2,7 @@
 
 namespace Elfcms\Shop\Models;
 
-use Elfcms\Shop\Models\ShopGoods;
+use Elfcms\Shop\Models\ShopProduct;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -21,9 +21,9 @@ class ShopUnit extends Model
         'max',
     ];
 
-    public function goods()
+    public function products()
     {
-        return $this->hasMany(ShopGoods::class, 'unit_id');
+        return $this->hasMany(ShopProduct::class, 'unit_id');
     }
 
     public function getTitleAttribute()

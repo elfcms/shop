@@ -5,7 +5,7 @@ namespace Elfcms\Shop\Http\Controllers\Resources;
 use App\Http\Controllers\Controller;
 use Elfcms\Basic\Models\FileCatalog;
 use Elfcms\Shop\Models\ShopColor;
-use Elfcms\Shop\Models\ShopGoods;
+use Elfcms\Shop\Models\ShopProduct;
 use Elfcms\Shop\Models\ShopItem;
 use Elfcms\Shop\Models\ShopItemParameter;
 use Elfcms\Shop\Models\ShopItemParameterValue;
@@ -36,12 +36,12 @@ class ShopItemController extends Controller
     public function create(Request $request)
     {
 
-        $goodsCollection = ShopGoods::active()->get();
+        $products = ShopProduct::active()->get();
         $vendors = ShopVendor::all();
         //dd($vendors);
-        $goods_id = null;
-        if (!empty($request->goods_id)) {
-            $goods_id = $request->goods_id;
+        $product_id = null;
+        if (!empty($request->product_id)) {
+            $product_id = $request->product_id;
         }
         $copy_id = null;
         if (!empty($request->copy_id)) {
@@ -73,7 +73,7 @@ class ShopItemController extends Controller
                         'title' => __('shop::elf.create_item'),
                         'current' => url()->current(),
                     ],
-                    'goodsCollection' => $goodsCollection,
+                    'products' => $products,
                     'vendors' => $vendors,
                     'item' => $copyItem,
                     'parameters' => $parameters,
@@ -89,9 +89,9 @@ class ShopItemController extends Controller
                 'title' => __('shop::elf.create_item'),
                 'current' => url()->current(),
             ],
-            'goodsCollection' => $goodsCollection,
+            'products' => $products,
             'vendors' => $vendors,
-            'goods_id' => $goods_id,
+            'product_id' => $product_id,
             'copy_id' => $copy_id,
         ]);
     }
@@ -107,7 +107,7 @@ class ShopItemController extends Controller
         //dd($request->all());
         $validated = $request->validate([
             'item_number' => 'required|unique:Elfcms\Shop\Models\ShopItem,item_number',
-            'goods_id' => 'required',
+            'product_id' => 'required',
             'image' => 'nullable|file|max:1024',
         ]);
 
@@ -121,7 +121,7 @@ class ShopItemController extends Controller
 
         $validated['description'] = $request->description;
         $validated['active'] = empty($request->active) ? 0 : 1;
-        $validated['goods_id'] = $request->goods_id;
+        $validated['product_id'] = $request->product_id;
         $validated['unit_id'] = (int)$request->unit_id;
         $validated['brand_id'] = $request->brand_id;
         $validated['vendor_id'] = $request->vendor_id;
@@ -176,7 +176,7 @@ class ShopItemController extends Controller
                             $image_path = str_ireplace('public/','/storage/',$image);
                         } */
                     //}
-                    /* $parameterValue = ShopGoodsParameterValue::where('goods_id',$shopItem->id)->where('parameter_id',$id)->first();
+                    /* $parameterValue = ShopProductParameterValue::where('product_id',$shopItem->id)->where('parameter_id',$id)->first();
                     if ($parameterValue) {
                         $parameterValue[$parameter->data_type->code . '_value'] = $paramValue;
                         $parameterValue->save();
@@ -265,7 +265,7 @@ class ShopItemController extends Controller
             /* /Properties */
         }
 
-        return redirect(route('admin.shop.goods.edit',$shopItem->goods))->with('action_result',__('shop::elf.item_created_successfully'));
+        return redirect(route('admin.shop.product.edit',$shopItem->product))->with('action_result',__('shop::elf.item_created_successfully'));
     }
 
     /**
@@ -293,7 +293,7 @@ class ShopItemController extends Controller
      */
     public function edit(ShopItem $shopItem)
     {
-        $goods = ShopGoods::active()->get();
+        $products = ShopProduct::active()->get();
         $vendors = ShopVendor::all();
         $parameters = ShopItemParameter::all();
         $properties = ShopItemProperty::all();
@@ -303,7 +303,7 @@ class ShopItemController extends Controller
         /* $p = ShopItemParameter::find(9);
         dd($p->options); */
         foreach ($parameters as $parameter) {
-            //if ($parameter->id == 9) dd($parameter->goods_values($shopItem->id));
+            //if ($parameter->id == 9) dd($parameter->product_values($shopItem->id));
             $parameter->value = $parameter->item_values($shopItem->id);
             if ($parameter->data_type->code == 'color') {
                 $parameter->colorData = ShopColor::find($parameter->value);
@@ -311,7 +311,7 @@ class ShopItemController extends Controller
             //if ($parameter->id == 9) dd($parameter->value);
         }
         foreach ($properties as $property) {
-            //if ($parameter->id == 9) dd($parameter->goods_values($shopItem->id));
+            //if ($parameter->id == 9) dd($parameter->product_values($shopItem->id));
             $property->value = $property->item_values($shopItem->id);
             if ($property->data_type->code == 'color') {
                 //dd($property->value);
@@ -325,7 +325,7 @@ class ShopItemController extends Controller
                 'title' => __('shop::elf.edit_item'),
                 'current' => url()->current(),
             ],
-            'goodsCollection' => $goods,
+            'products' => $products,
             'vendors' => $vendors,
             'item' => $shopItem,
             'parameters' => $parameters,
@@ -348,7 +348,7 @@ class ShopItemController extends Controller
 
             $shopItem->save();
 
-            return redirect(route('admin.shop.goods'))->with('action_result',__('shop::elf.goods_edited_successfully'));
+            return redirect(route('admin.shop.product'))->with('action_result',__('shop::elf.product_edited_successfully'));
         } */
         //else {
             /* $request->merge([
@@ -356,7 +356,7 @@ class ShopItemController extends Controller
             ]); */
             $validated = $request->validate([
                 'item_number' => 'required',
-                'goods_id' => 'required',
+                'product_id' => 'required',
                 'image' => 'nullable|file|max:1024',
             ]);
             if (ShopItem::where('item_number',$request->item_number)->where('id','<>',$shopItem->id)->first()) {
@@ -372,7 +372,7 @@ class ShopItemController extends Controller
             }
 
             $shopItem->item_number = $validated['item_number'];
-            $shopItem->goods_id = $request->goods_id;
+            $shopItem->product_id = $request->product_id;
             $shopItem->vendor_item_number = $request->vendor_item_number;
             $shopItem->vendor_id = $request->vendor_id;
             $shopItem->description = $request->description;
@@ -426,7 +426,7 @@ class ShopItemController extends Controller
                                 $image_path = str_ireplace('public/','/storage/',$image);
                             } */
                         //}
-                        /* $parameterValue = ShopGoodsParameterValue::where('goods_id',$shopItem->id)->where('parameter_id',$id)->first();
+                        /* $parameterValue = ShopProductParameterValue::where('product_id',$shopItem->id)->where('parameter_id',$id)->first();
                         if ($parameterValue) {
                             $parameterValue[$parameter->data_type->code . '_value'] = $paramValue;
                             $parameterValue->save();
@@ -514,7 +514,7 @@ class ShopItemController extends Controller
                 }
                 /* /Properties */
 
-                return redirect(route('admin.shop.goods.edit',$shopItem->goods))->with('action_result',__('shop::elf.item_edited_successfully'));
+                return redirect(route('admin.shop.product.edit',$shopItem->product))->with('action_result',__('shop::elf.item_edited_successfully'));
             }
         //}
     }
