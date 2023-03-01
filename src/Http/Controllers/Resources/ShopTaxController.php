@@ -15,7 +15,14 @@ class ShopTaxController extends Controller
      */
     public function index()
     {
-        //
+        $taxes = ShopTax::all();
+        return view('shop::admin.shop.tax.index',[
+            'page' => [
+                'title' => __('shop::elf.taxes'),
+                'current' => url()->current(),
+            ],
+            'taxes' => $taxes,
+        ]);
     }
 
     /**

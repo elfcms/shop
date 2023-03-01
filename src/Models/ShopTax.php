@@ -12,6 +12,8 @@ class ShopTax extends Model
     protected $fillable = [
         'name',
         'value',
+        'title',
+        'description'
     ];
 
     public function taxes()

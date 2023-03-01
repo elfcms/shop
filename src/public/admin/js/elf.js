@@ -221,6 +221,40 @@ function addCurrencyItem() {
     }
 }
 
+function addTaxItem() {
+    if (!emptyItem) return false;
+    if (!newItemId && newItemId !== 0) return false;
+    const container = document.querySelector('table.tax-table tbody');
+    if (container) {
+        let itemString = emptyItem.replaceAll('id="newtax"','id="new_'+newItemId+'"').replaceAll('tax[newtax]','newtax['+newItemId+']').replaceAll('tax_newtax','newtax_'+newItemId).replaceAll('<span>newtax</span>','');
+        container.insertAdjacentHTML('beforeend',itemString);
+        const newRow = container.lastElementChild;
+        if (newRow) {
+            newRow.classList.add('edited');
+        }
+        newItemId++;
+        autoSlug(newRow.querySelectorAll('.autoslug'));
+        setSaveEnabled();
+    }
+}
+
+function addPriceTypeItem() {
+    if (!emptyItem) return false;
+    if (!newItemId && newItemId !== 0) return false;
+    const container = document.querySelector('table.price_type-table tbody');
+    if (container) {
+        let itemString = emptyItem.replaceAll('id="newpricetype"','id="new_'+newItemId+'"').replaceAll('price_type[newpricetype]','newpricetype['+newItemId+']').replaceAll('price_type_newpricetype','newpricetype_'+newItemId).replaceAll('<span>newpricetype</span>','');
+        container.insertAdjacentHTML('beforeend',itemString);
+        const newRow = container.lastElementChild;
+        if (newRow) {
+            newRow.classList.add('edited');
+        }
+        newItemId++;
+        autoSlug(newRow.querySelectorAll('.autoslug'));
+        setSaveEnabled();
+    }
+}
+
 function isEditedUnits() {
     const editedRows = document.querySelectorAll('tr[data-id].edited');
     if (editedRows && editedRows.length) {

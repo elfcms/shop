@@ -98,6 +98,14 @@ Route::group(['middleware'=>['web','cookie','start']],function() use ($adminPath
             ->parameters(['currency'=>'shopCurrency'])
             ->names(['index'=>'currency']);
 
+            Route::resource($adminPath . '/shop/tax', \Elfcms\Shop\Http\Controllers\Resources\ShopTaxController::class)
+            ->parameters(['tax'=>'shopTax'])
+            ->names(['index'=>'tax']);
+
+            Route::resource($adminPath . '/shop/price-type', \Elfcms\Shop\Http\Controllers\Resources\ShopPriceTypeController::class)
+            ->parameters(['priceType'=>'shopPriceType'])
+            ->names(['index'=>'price-type']);
+
             Route::get($adminPath . '/shop/color', [\Elfcms\Shop\Http\Controllers\ShopColorController::class,'index'])->name('color');
 
             Route::get($adminPath . '/shop/ajax/csrf', [\Elfcms\Shop\Http\Controllers\AdminController::class, 'csrf'])->name('ajax.csrf');
@@ -122,6 +130,14 @@ Route::group(['middleware'=>['web','cookie','start']],function() use ($adminPath
             Route::get($adminPath . '/shop/ajax/color/empty-color', [\Elfcms\Shop\Http\Controllers\ShopColorController::class, 'emptyItem'])->name('ajax.color.empty-item');
             Route::post($adminPath . '/shop/ajax/color/fullsave', [\Elfcms\Shop\Http\Controllers\ShopColorController::class, 'save'])->name('ajax.color.fullsave');
 
+            Route::get($adminPath . '/shop/ajax/tax/list/{byId?}', [\Elfcms\Shop\Http\Controllers\ShopTaxController::class, 'list'])->name('ajax.tax.list');
+            Route::get($adminPath . '/shop/ajax/tax/empty-tax', [\Elfcms\Shop\Http\Controllers\ShopTaxController::class, 'emptyItem'])->name('ajax.tax.empty-item');
+            Route::post($adminPath . '/shop/ajax/tax/fullsave', [\Elfcms\Shop\Http\Controllers\ShopTaxController::class, 'save'])->name('ajax.tax.fullsave');
+
+            Route::get($adminPath . '/shop/ajax/price-type/list/{byId?}', [\Elfcms\Shop\Http\Controllers\ShopPriceTypeController::class, 'list'])->name('ajax.price-type.list');
+            Route::get($adminPath . '/shop/ajax/price-type/empty-price-type', [\Elfcms\Shop\Http\Controllers\ShopPriceTypeController::class, 'emptyItem'])->name('ajax.price-type.empty-item');
+            Route::post($adminPath . '/shop/ajax/price-type/fullsave', [\Elfcms\Shop\Http\Controllers\ShopPriceTypeController::class, 'save'])->name('ajax.price-type.fullsave');
+
             //Route::resource($adminPath . '/shop/coupon', \Elfcms\Shop\Http\Controllers\Resources\ShopCouponController::class);
         });
         /* Route::get($adminPath . '/ajax/json/simplebox/datatypes',function(Request $request){
@@ -135,8 +151,6 @@ Route::group(['middleware'=>['web','cookie','start']],function() use ($adminPath
 
     });
 
-    Route::get('/shop',function() {
-        return 'OK';
-    });
+    Route::get('/shop',\Elfcms\Shop\Http\Controllers\PublicController::class);
 
 });

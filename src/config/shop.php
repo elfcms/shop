@@ -10,7 +10,7 @@ return [
     |
     */
 
-    'version' => '0.5',
+    'version' => '0.6',
 
     /*
     |--------------------------------------------------------------------------
@@ -85,6 +85,16 @@ return [
                     "title" => "Currencies",
                     "lang_title" => "shop::elf.currencies",
                     "route" => "admin.shop.currency"
+                ],
+                [
+                    "title" => "Taxes",
+                    "lang_title" => "shop::elf.taxes",
+                    "route" => "admin.shop.tax"
+                ],
+                [
+                    "title" => "Price types",
+                    "lang_title" => "shop::elf.price_types",
+                    "route" => "admin.shop.price-type"
                 ],
             ]
         ],

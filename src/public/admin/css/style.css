@@ -135,6 +135,22 @@
     padding: 5px 2px;
 }
 
+.grid-table.price_type-table {
+    grid-template-columns:
+        auto
+        minmax(100px, 1fr)
+        minmax(100px, 1fr)
+        minmax(90px, 0.2fr);
+}
+.grid-table.tax-table {
+    grid-template-columns:
+        auto
+        minmax(100px, 1fr)
+        minmax(100px, 1fr)
+        minmax(100px, 1fr)
+        minmax(100px, 1fr)
+        minmax(90px, 0.2fr);
+}
 .grid-table.currency-table {
     grid-template-columns:
         auto

@@ -4,6 +4,7 @@ namespace Elfcms\Shop\Http\Controllers\Resources;
 
 use App\Http\Controllers\Controller;
 use Elfcms\Shop\Models\ShopPriceType;
+use Elfcms\Shop\Models\ShopTax;
 use Illuminate\Http\Request;
 
 class ShopPriceTypeController extends Controller
@@ -15,7 +16,16 @@ class ShopPriceTypeController extends Controller
      */
     public function index()
     {
-        //
+        $price_types = ShopPriceType::all();
+        $taxes = ShopTax::all();
+        return view('shop::admin.shop.price-type.index',[
+            'page' => [
+                'title' => __('shop::elf.price_types'),
+                'current' => url()->current(),
+            ],
+            'price_types' => $price_types,
+            'taxes' => $taxes,
+        ]);
     }
 
     /**
