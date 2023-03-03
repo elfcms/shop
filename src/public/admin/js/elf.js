@@ -359,3 +359,25 @@ function setPickerColor(item, container = document) {
         }
     }
 }
+
+
+async function getShopAjaxText(url, params) {
+    const response = await fetch(url + '?' + new URLSearchParams(params),{headers: {'X-Requested-With': 'XMLHttpRequest'}});
+    const data = await response.text();
+
+    return data;
+}
+
+function inputMoney(input) {
+    if (!input.value || input.value == '') {
+        input.value = 0;
+    }
+    //input.value =  parseFloat(input.value.replace(',','.').replace(/^\.|[^\d\.]|\.(?=.*\.)|^0+(?=\d)/g,'')).toFixed(2);
+    input.value =  input.value.replace(',','.').replace(/^\.|[^\d\.]|\.(?=.*\.)|^0+(?=\d)/g,'');
+}
+function changeMoney(input) {
+    if (!input.value || input.value == '') {
+        input.value = 0;
+    }
+    input.value =  parseFloat(input.value).toFixed(2);
+}

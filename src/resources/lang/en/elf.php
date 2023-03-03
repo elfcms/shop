@@ -129,6 +129,7 @@ return [
     'text' => 'Text',
     'image' => 'Image',
     'preview' => 'Preview',
+    'old' => 'Old',
 
     'product' => 'Product',
     'products' => 'Products',

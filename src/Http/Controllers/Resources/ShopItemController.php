@@ -5,12 +5,15 @@ namespace Elfcms\Shop\Http\Controllers\Resources;
 use App\Http\Controllers\Controller;
 use Elfcms\Basic\Models\FileCatalog;
 use Elfcms\Shop\Models\ShopColor;
+use Elfcms\Shop\Models\ShopCurrency;
 use Elfcms\Shop\Models\ShopProduct;
 use Elfcms\Shop\Models\ShopItem;
 use Elfcms\Shop\Models\ShopItemParameter;
 use Elfcms\Shop\Models\ShopItemParameterValue;
 use Elfcms\Shop\Models\ShopItemProperty;
 use Elfcms\Shop\Models\ShopItemPropertyValue;
+use Elfcms\Shop\Models\ShopPrice;
+use Elfcms\Shop\Models\ShopPriceType;
 use Elfcms\Shop\Models\ShopVendor;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -320,6 +323,11 @@ class ShopItemController extends Controller
             //if ($parameter->id == 9) dd($parameter->value);
         }
 
+        $price_types = ShopPriceType::all();
+        $currencies = ShopCurrency::all();
+
+        //dd($shopItem->prices);
+
         return view('shop::admin.shop.item.edit',[
             'page' => [
                 'title' => __('shop::elf.edit_item'),
@@ -331,6 +339,9 @@ class ShopItemController extends Controller
             'parameters' => $parameters,
             'properties' => $properties,
             'colors' => $colors,
+            'price_types' => $price_types,
+            'currencies' => $currencies,
+            'exists' => true,
         ]);
     }
 
@@ -343,6 +354,7 @@ class ShopItemController extends Controller
      */
     public function update(Request $request, ShopItem $shopItem)
     {
+        //dd($request->price['exists']);
         /* if ($request->notedit && $request->notedit == 1) {
             $shopItem->active = empty($request->active) ? 0 : 1;
 
@@ -389,6 +401,58 @@ class ShopItemController extends Controller
             $shopItem->save();
 
             if ($shopItem) {
+                /* Prices */
+
+                if (!empty($request->price)) {
+                    if (!empty($request->price['exists'])) {
+                        foreach($request->price['exists'] as $id => $price) {
+                            $priceItem = ShopPrice::where('id',$id)->where('item_id',$shopItem->id)->first();
+                            if ($priceItem) {
+                                if (empty($price['current'])) {
+                                    $priceItem->current = 0;
+                                }
+                                else {
+                                    $priceItem->current = 1;
+                                }
+                                if (empty($price['old'])) {
+                                    $priceItem->old = 0;
+                                }
+                                else {
+                                    $priceItem->old = 1;
+                                }
+                                $priceItem->price_type_id = $price['price_type_id'];
+                                $priceItem->currency_id = $price['currency_id'];
+                                $priceItem->value = $price['value'] * 100;
+
+                                $priceItem->save();
+                            }
+                        }
+                    }
+
+                    if (!empty($request->price['new'])) {
+                        foreach($request->price['new'] as $price) {
+                            if (empty($price['current'])) {
+                                $price['current'] = 0;
+                            }
+                            else {
+                                $price['current'] = 1;
+                            }
+                            if (empty($price['old'])) {
+                                $price['old'] = 0;
+                            }
+                            else {
+                                $price['old'] = 1;
+                            }
+                            $price['value'] = $price['value'] * 100;
+
+                            $priceItem = new ShopPrice($price);
+                            $shopItem->prices()->save($priceItem);
+                        }
+                    }
+                }
+
+                /* /Prices */
+
                 /* Parameters */
                 if (!empty($request->parameter)) {
                     foreach($request->parameter as $id => $paramValue) {

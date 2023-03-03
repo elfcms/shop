@@ -138,6 +138,8 @@ Route::group(['middleware'=>['web','cookie','start']],function() use ($adminPath
             Route::get($adminPath . '/shop/ajax/price-type/empty-price-type', [\Elfcms\Shop\Http\Controllers\ShopPriceTypeController::class, 'emptyItem'])->name('ajax.price-type.empty-item');
             Route::post($adminPath . '/shop/ajax/price-type/fullsave', [\Elfcms\Shop\Http\Controllers\ShopPriceTypeController::class, 'save'])->name('ajax.price-type.fullsave');
 
+            Route::get($adminPath . '/shop/ajax/itemprice/empty-price', [\Elfcms\Shop\Http\Controllers\ShopPriceController::class, 'emptyItem'])->name('ajax.itemprice.empty-item');
+
             //Route::resource($adminPath . '/shop/coupon', \Elfcms\Shop\Http\Controllers\Resources\ShopCouponController::class);
         });
         /* Route::get($adminPath . '/ajax/json/simplebox/datatypes',function(Request $request){

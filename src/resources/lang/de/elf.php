@@ -129,6 +129,7 @@ return [
     'text' => 'Text',
     'image' => 'Bild',
     'preview' => 'Vorschau',
+    'old' => 'Alt',
 
     'product' => 'Ware',
     'products' => 'Waren',

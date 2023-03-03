@@ -30,6 +30,126 @@
                 <div class="tab-title selected" data-tab="general">{{ __('shop::elf.general') }}</div>
                 <div class="tab-title" data-tab="parameters">{{ __('shop::elf.parameters') }}</div>
                 <div class="tab-title" data-tab="properties">{{ __('shop::elf.properties') }}</div>
+                <div class="tab-title" data-tab="prices">{{ __('shop::elf.prices') }}</div>
+            </div>
+
+            <div class="colored-rows-box tab-box" id="prices">
+                <div class="shop-item-pricelist" id="pricelist">
+                    <div class="shop-item-pricelist-head">
+                        <div class="shop-item-column">
+                            ID
+                        </div>
+                        <div class="shop-item-column">
+                            {{ __('shop::elf.price_type') }}
+                        </div>
+                        <div class="shop-item-column">
+                            {{ __('shop::elf.value') }}
+                        </div>
+                        <div class="shop-item-column">
+                            {{ __('shop::elf.currency') }}
+                        </div>
+                        <div class="shop-item-column">
+                            {{ __('shop::elf.default') }}
+                        </div>
+                        <div class="shop-item-column">
+                            {{ __('shop::elf.old') }}
+                        </div>
+                        <div class="shop-item-column"></div>
+                    </div>
+                    @forelse ($item->prices as $price)
+                        @include('shop::admin.shop.item.content.priceitem')
+                    @empty
+                        {{ __('shop::elf.none') }}
+                    @endforelse
+                </div>
+                <div class="button-box single-box">
+                    <button type="button" class="default-btn alternate-button" id="priceaddbutton">{{ __('shop::elf.add_price') }}</button>
+                </div>
+                <script>
+                const priceAddButton = document.querySelector('#priceaddbutton');
+                const priceList = document.querySelector('#pricelist');
+                let newId = 1;
+                if (priceList) {
+                    const priceExistValues = priceList.querySelectorAll('.shop-item-pricelist-row [data-inputname="value"]');
+                    const checkboxExistsList = document.querySelectorAll('.shop-item-pricelist-row input[type="checkbox"]');
+                    if (priceExistValues) {
+                        priceExistValues.forEach(input => {
+                            input.addEventListener('input',function(e){
+                                inputMoney(e.target);
+                            });
+                            input.addEventListener('change',function(e){
+                                changeMoney(e.target);
+                            });
+                        });
+                    }
+                    if (checkboxExistsList) {
+                        checkboxExistsList.forEach(element => {
+                            element.addEventListener('click',function(e){
+                                checkDefault(e.target);
+                            });
+                        });
+                    }
+                    if (priceAddButton) {
+                        priceAddButton.addEventListener('click',function(){
+                            getShopAjaxText('{{ route("admin.shop.ajax.itemprice.empty-item") }}', {
+                                id: newId,
+                            }).then((data) => {
+                                priceList.insertAdjacentHTML('beforeend',data)
+
+                            }).finally(()=>{
+                                const valueInput = document.querySelector('[name="price[new]['+newId+'][value]"]');
+                                const checkboxList = document.querySelectorAll('.shop-item-pricelist-row input[type="checkbox"][data-inputrow="new_'+newId+'"]');
+                                valueInput.addEventListener('input',function(e){
+                                    inputMoney(e.target);
+                                });
+                                valueInput.addEventListener('change',function(e){
+                                    changeMoney(e.target);
+                                });
+                                if (checkboxList) {
+                                    checkboxList.forEach(element => {
+                                        element.addEventListener('click',function(e){
+                                            checkDefault(e.target);
+                                        });
+                                    });
+                                }
+                                newId++;
+                            })
+                        });
+                    }
+                }
+                function setRowDelete(checkbox, inverse = false) {
+                    const row = document.querySelector('.shop-item-pricelist-row[data-inputrow="'+checkbox.dataset.inputrow+'"]');
+                    if (row) {
+                        if (checkbox.checked && !inverse || !checkbox.checked && inverse) {
+                            row.classList.add('deletable');
+                        }
+                        else {
+                            row.classList.remove('deletable');
+                        }
+                    }
+                }
+                function checkDefault(checkbox) {
+                    if (checkbox.checked) {
+                        const checkboxList = document.querySelectorAll('.shop-item-pricelist-row input[type="checkbox"]');
+                        if (checkboxList) {
+                            checkboxList.forEach(element => {
+                                if (element === checkbox) {
+                                    return;
+                                }
+                                if (element.dataset.inputrow == checkbox.dataset.inputrow) {
+                                    element.checked = false;
+                                }
+                                else {
+                                    if (checkbox.dataset.inputname != 'delete' && element.dataset.inputname == checkbox.dataset.inputname) {
+                                        element.checked = false;
+                                    }
+                                }
+                            });
+                        }
+                    }
+                    setRowDelete(checkbox,checkbox.dataset.inputname != 'delete');
+                }
+                </script>
             </div>
             <div class="colored-rows-box tab-box showed" id="general">
                 <div class="input-box colored">

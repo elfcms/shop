@@ -203,6 +203,50 @@
     grid-column-start: 1;
     grid-column-end: 6;
 }
+
+.shop-item-pricelist {
+    display: grid;
+    grid-template-columns:
+        50px
+        minmax(100px, 1fr)
+        minmax(100px, 1fr)
+        minmax(90px, .9fr)
+        90px
+        90px
+        90px;
+}
+
+.shop-item-pricelist-head {
+    display: contents;
+}
+.shop-item-pricelist-head .shop-item-column {
+    background-color: #8ba6bb;
+    padding: 8px;
+}
+.shop-item-pricelist-row {
+    display: contents;
+}
+
+.shop-item-pricelist-row .input-wrapper {
+    padding: 8px;
+}
+.shop-item-pricelist-row.deletable .input-wrapper {
+    text-decoration: line-through #ff6347;
+    background-color: #ffb2a4;
+}
+.shop-item-pricelist-row:only-child(even) .input-wrapper {
+    background-color: #f4f8fb;
+}
+
+.shop-item-pricelist-row .input-wrapper input[type="text"],
+.shop-item-pricelist-row .input-wrapper input[type="number"] {
+    width: 120px;
+}
+.shop-item-pricelist-row.deleted .input-wrapper {
+    background-color: #ffb2a4;
+}
+
+
 /* .shop-products-table .subtable-row td {
 
 }
