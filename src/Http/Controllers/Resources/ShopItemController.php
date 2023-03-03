@@ -408,6 +408,10 @@ class ShopItemController extends Controller
                         foreach($request->price['exists'] as $id => $price) {
                             $priceItem = ShopPrice::where('id',$id)->where('item_id',$shopItem->id)->first();
                             if ($priceItem) {
+                                if (!empty($price['delete'])) {
+                                    $priceItem->delete();
+                                    continue;
+                                }
                                 if (empty($price['current'])) {
                                     $priceItem->current = 0;
                                 }
@@ -431,6 +435,9 @@ class ShopItemController extends Controller
 
                     if (!empty($request->price['new'])) {
                         foreach($request->price['new'] as $price) {
+                            if (!empty($price['delete'])) {
+                                continue;
+                            }
                             if (empty($price['current'])) {
                                 $price['current'] = 0;
                             }
