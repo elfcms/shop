@@ -48,7 +48,7 @@ class ShopProduct extends Model
 
     public function items()
     {
-        return $this->hasMany(ShopItem::class, 'product_id');
+        return $this->hasMany(ShopItem::class, 'product_id')->with('prices');
     }
 
     public function unit()

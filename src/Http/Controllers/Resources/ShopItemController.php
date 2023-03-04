@@ -303,6 +303,7 @@ class ShopItemController extends Controller
         $colors = ShopColor::all();
 
         //dd($colors);
+        //dd($shopItem->publicPrices);
         /* $p = ShopItemParameter::find(9);
         dd($p->options); */
         foreach ($parameters as $parameter) {

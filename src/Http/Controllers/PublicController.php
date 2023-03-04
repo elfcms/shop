@@ -10,7 +10,7 @@ class PublicController extends Controller
     public function __invoke()
     {
         $products = ShopProduct::with('items')->get();
-        //dd($products);
+        //dd($products[0]->items[1]->publicPrices->first->currencySymbol);
         return view(
             'shop::public.index',
             [

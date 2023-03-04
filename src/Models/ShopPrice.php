@@ -18,9 +18,30 @@ class ShopPrice extends Model
         'old',
     ];
 
+    protected $appends = [
+        'currencySymbol',
+        'currencyName',
+        'currencyCode'
+    ];
+
     public function getValueAttribute()
     {
         return $this->attributes['value'] / 100;
+    }
+
+    public function getCurrencySymbolAttribute()
+    {
+        return $this->currency->symbol ?? $this->currency->symbol_html;
+    }
+
+    public function getCurrencyNameAttribute()
+    {
+        return $this->currency->name;
+    }
+
+    public function getCurrencyCodeAttribute()
+    {
+        return $this->currency->code;
     }
 
     public function price_type()

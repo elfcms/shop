@@ -131,7 +131,10 @@
                                 {{ $product->title }}
                             </div>
                             <div class="product-item-prices">
-                                <div class="product-item-price old" data-currency="€">19,99</div>
+                                <div @class(['product-item-price', $item->publicPrices->isOld => 'old']) data-currency="{{ $item->publicPrices->first->currencySymbol ?? '' }}">{{ $item->publicPrices->first->value ?? '' }}</div>
+                                @if ($item->publicPrices->second)
+                                <div class="product-item-new-price" data-currency="€">{{ $item->publicPrices->second->value ?? '' }}</div>
+                                @endif
                             </div>
                         </a>
                     </div>

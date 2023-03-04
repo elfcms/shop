@@ -24,9 +24,36 @@ class ShopItem extends Model
         'meta_description',
     ];
 
+    protected $appends = [
+        'publicPrices'
+    ];
+
     public function scopeActive($query)
     {
         return $query->where('active',1);
+    }
+
+    public function getPublicPricesAttribute()
+    {
+        $old = $this->prices()->where('old',1)->first();
+        $current = $this->prices()->where('current',1)->first();
+        $default = $this->prices()->first();
+
+        $first = $current;
+        $second = null;
+        if (!empty($old)) {
+            $first = $old;
+            $second = $current;
+        }
+
+        return (object)[
+            'old' => $old->value ?? null,
+            'current' => $current->value ?? null,
+            'default' => $default->value ?? null,
+            'first' => $first,
+            'second' => $second,
+            'isOld' => !empty($second)
+        ];
     }
 
     public function product()
@@ -41,8 +68,18 @@ class ShopItem extends Model
 
     public function prices()
     {
-        return $this->hasMany(ShopPrice::class, 'item_id');
+        return $this->hasMany(ShopPrice::class, 'item_id')->with('currency');
     }
+
+    /* public function oldPrice()
+    {
+        return $this->prices()->where('old',1);
+    }
+
+    public function currentPrice()
+    {
+        return $this->prices()->where('current',1);
+    } */
 
     public function carts()
     {

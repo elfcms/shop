@@ -289,6 +289,10 @@ input.filter-price {
     margin-right: .2em;
 }
 
+.product-item-price:empty::before {
+    content: '';
+}
+
 .product-item-colors {
     display: flex;
     gap: 10px;

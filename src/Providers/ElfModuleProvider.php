@@ -5,6 +5,7 @@ namespace Elfcms\Shop\Providers;
 use Elfcms\Basic\Http\Middleware\AccountUser;
 use Elfcms\Basic\Http\Middleware\AdminUser;
 use Elfcms\Basic\Http\Middleware\CookieCheck;
+use Elfcms\Shop\Http\Middleware\ApiAuthenticate;
 use Illuminate\Routing\Router;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\File;
@@ -80,6 +81,10 @@ class ElfModuleProvider extends ServiceProvider
 
         $router->middlewareGroup('cookie', array(
             CookieCheck::class
+        ));
+
+        $router->middlewareGroup('api_auth', array(
+            ApiAuthenticate::class
         ));
     }
 }
