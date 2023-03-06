@@ -6,6 +6,7 @@ use Elfcms\Basic\Http\Middleware\AccountUser;
 use Elfcms\Basic\Http\Middleware\AdminUser;
 use Elfcms\Basic\Http\Middleware\CookieCheck;
 use Elfcms\Shop\Http\Middleware\ApiAuthenticate;
+use Elfcms\Shop\Http\Middleware\ApiJson;
 use Illuminate\Routing\Router;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\File;
@@ -31,6 +32,7 @@ class ElfModuleProvider extends ServiceProvider
     public function boot(Router $router)
     {
         $this->loadRoutesFrom(__DIR__.'/../routes/web.php');
+        $this->loadRoutesFrom(__DIR__.'/../routes/api_v1.php');
         $this->loadViewsFrom(__DIR__.'/../resources/views', 'shop');
         $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
         $this->loadTranslationsFrom(__DIR__.'/../resources/lang', 'shop');
@@ -85,6 +87,10 @@ class ElfModuleProvider extends ServiceProvider
 
         $router->middlewareGroup('api_auth', array(
             ApiAuthenticate::class
+        ));
+
+        $router->middlewareGroup('api_json', array(
+            ApiJson::class
         ));
     }
 }

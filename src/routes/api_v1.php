@@ -1,0 +1,30 @@
+<?php
+
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
+
+/*
+|--------------------------------------------------------------------------
+| API Routes
+|--------------------------------------------------------------------------
+|
+| Here is where you can register API routes for your application. These
+| routes are loaded by the RouteServiceProvider within a group which
+| is assigned the "api" middleware group. Enjoy building your API!
+|
+*/
+
+/* Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+    return $request->user();
+}); */
+$apiPath = '/api/v1';
+
+Route::group(['middleware'=>['api_auth','api_json']],function() use ($apiPath) {
+    Route::get($apiPath . '/products',[Elfcms\Shop\Http\Controllers\Api\V1\ProductsController::class, 'getProducts']);
+    Route::get($apiPath . '/products/{id}',[Elfcms\Shop\Http\Controllers\Api\V1\ProductsController::class, 'getProduct']);
+
+    Route::get($apiPath . '/items',[Elfcms\Shop\Http\Controllers\Api\V1\ItemsController::class, 'getItems']);
+    Route::get($apiPath . '/items/{id}',[Elfcms\Shop\Http\Controllers\Api\V1\ItemsController::class, 'getItem']);
+
+    Route::get($apiPath . '/{any}',[Elfcms\Shop\Http\Controllers\Api\V1\ApiController::class, 'notFound'])->where('any', '.*');
+});
