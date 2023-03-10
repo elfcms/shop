@@ -37,4 +37,20 @@ class ShopCurrency extends Model
     {
         return $this->belongsToMany(ShopTax::class, 'shop_taxes_currencies', 'currency_id', 'tax_id');
     }
+
+    public static function default()
+    {
+        return self::where('default',1)->first();
+    }
+
+    public static function defaultOrFirst()
+    {
+        $result = self::default();
+
+        if (!$result) {
+            $result = self::first();
+        }
+
+        return $result;
+    }
 }

@@ -3,6 +3,7 @@
 namespace Elfcms\Shop\Http\Controllers\Api\V1;
 
 use Elfcms\Basic\Models\Setting;
+use Elfcms\Shop\Models\ShopCurrency;
 use Elfcms\Shop\Models\ShopItem;
 use Elfcms\Shop\Models\ShopProduct;
 use Illuminate\Http\File;
@@ -95,7 +96,7 @@ class ItemsController extends ApiController
      */
     public function getItem(Request $request, $id)
     {
-        dd(parse_url('http://dfdf.df/my/path/image.jpg'));
+        dd(ShopCurrency::defaultOrFirst());
         if (!empty($request->byId) && $request->byId == 'true') {
             $item = ShopItem::find($id);
         }
@@ -121,6 +122,9 @@ class ItemsController extends ApiController
 
     public function setItem(Request $request, int $id)
     {
+
+        return $request->item['prices'];
+
         $product = ShopProduct::find($id);
 
         if (empty($product)) {
