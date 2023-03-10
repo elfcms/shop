@@ -4,6 +4,8 @@ namespace Elfcms\Shop\Http\Controllers\Api\V1;
 
 use Elfcms\Shop\Models\ShopProduct;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
 
 class ProductsController extends ApiController
 {
@@ -29,14 +31,14 @@ class ProductsController extends ApiController
             if (!empty($request->order) && in_array($request->order, $fillable)) {
                 $order = $request->order;
             }
-            if (!empty($request->count)) {
-                $count = intval($request->count);
+            if (!empty($request->limit)) {
+                $limit = intval($request->limit);
             }
-            if (empty($count)) {
-                $count = 100;
+            if (empty($limit)) {
+                $limit = 100;
             }
             if (!empty($request->page)) {
-                $offset = (intval($request->page) - 1) * $count;
+                $offset = (intval($request->page) - 1) * $limit;
             }
             if (empty($offset)) {
                 $offset = 0;
@@ -44,7 +46,7 @@ class ProductsController extends ApiController
             //$search = $request->search ?? '';
 
             //$products = ShopProduct::with('items')->orderBy($order, $trend)->offset($offset)->limit($count)->get();
-            $query = ShopProduct::orderBy($order, $trend)->offset($offset)->limit($count);
+            $query = ShopProduct::orderBy($order, $trend)->offset($offset)->limit($limit);
             if (!empty($request->items) && $request->items == 'true') {
                 $query = $query->with('items');
             }
@@ -62,6 +64,8 @@ class ProductsController extends ApiController
                 $result['message'] = $resultCount . ' elements were found';
                 $result['count'] = $resultCount;
                 $result['data'] = $products;
+                $result['offset'] = $offset;
+                $result['limit'] = $limit;
             //}
 
             //dd($products->count);
@@ -93,5 +97,17 @@ class ProductsController extends ApiController
         }
 
         return $result;
+    }
+
+    public function setProduct(Request $request)
+    {
+        $request->merge([
+            'slug' => Str::slug($request->slug),
+        ]);
+        $validated = Validator::make($request->all(),[
+            'title' => 'required',
+            'slug' => 'required|unique:Elfcms\Shop\Models\ShopProduct,slug',
+            'category_id' => 'required',
+        ]);
     }
 }

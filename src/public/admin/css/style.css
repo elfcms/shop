@@ -246,6 +246,10 @@
     background-color: #ffb2a4;
 }
 
+.shop-item-pricelist .none-price {
+    padding: 8px;
+    grid-column: 1/8;
+}
 
 /* .shop-products-table .subtable-row td {
 

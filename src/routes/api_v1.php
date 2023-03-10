@@ -19,12 +19,19 @@ use Illuminate\Support\Facades\Route;
 }); */
 $apiPath = '/api/v1';
 
-Route::group(['middleware'=>['api_auth','api_json']],function() use ($apiPath) {
-    Route::get($apiPath . '/products',[Elfcms\Shop\Http\Controllers\Api\V1\ProductsController::class, 'getProducts']);
-    Route::get($apiPath . '/products/{id}',[Elfcms\Shop\Http\Controllers\Api\V1\ProductsController::class, 'getProduct']);
+Route::group(['middleware'=>['api_json']],function() use ($apiPath) {
 
-    Route::get($apiPath . '/items',[Elfcms\Shop\Http\Controllers\Api\V1\ItemsController::class, 'getItems']);
-    Route::get($apiPath . '/items/{id}',[Elfcms\Shop\Http\Controllers\Api\V1\ItemsController::class, 'getItem']);
+    Route::get($apiPath . '/health',[Elfcms\Shop\Http\Controllers\Api\V1\ApiController::class, 'health']);
+    Route::get($apiPath . '/version',[Elfcms\Shop\Http\Controllers\Api\V1\ApiController::class, 'version']);
 
-    Route::get($apiPath . '/{any}',[Elfcms\Shop\Http\Controllers\Api\V1\ApiController::class, 'notFound'])->where('any', '.*');
+    Route::group(['middleware'=>['api_auth']],function() use ($apiPath) {
+        Route::get($apiPath . '/products',[Elfcms\Shop\Http\Controllers\Api\V1\ProductsController::class, 'getProducts']);
+        Route::get($apiPath . '/products/{id}',[Elfcms\Shop\Http\Controllers\Api\V1\ProductsController::class, 'getProduct']);
+        Route::post($apiPath . '/products/{id}',[Elfcms\Shop\Http\Controllers\Api\V1\ItemsController::class, 'setItem']);
+
+        Route::get($apiPath . '/items',[Elfcms\Shop\Http\Controllers\Api\V1\ItemsController::class, 'getItems']);
+        Route::get($apiPath . '/items/{id}',[Elfcms\Shop\Http\Controllers\Api\V1\ItemsController::class, 'getItem']);
+    });
+
+    Route::get($apiPath . '/{any}',[Elfcms\Shop\Http\Controllers\Api\V1\ApiController::class, 'pageNotFound'])->where('any', '.*');
 });

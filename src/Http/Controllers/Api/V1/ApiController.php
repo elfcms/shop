@@ -23,13 +23,38 @@ class ApiController extends Controller
         'status' => 500,
     ];
 
-    public function notFound()
+    public function notFound($message = null)
     {
         $result = $this->error;
-        $result['message'] = 'URL not found';
+        $result['message'] = $message ?? 'URL not found';
         $result['status'] = 404;
 
         return response()->json($result, 404);
+    }
+
+    public function error($status, $message = '')
+    {
+        if (!empty($message)) {
+            $this->error['message'] =  $message;
+            $this->error['status'] =  $status;
+        }
+
+        return response()->json($this->error, $status);
+    }
+
+    public function pageNotFound()
+    {
+        return $this->notFound('URL not found');
+    }
+
+    public function health()
+    {
+        return response()->json(['result'=>'success','message'=>'OK','status'=>200], 200);
+    }
+
+    public function version()
+    {
+        return response()->json(['result'=>'success','message'=>'1.0','data'=>'Version 1.0','status'=>200], 200);
     }
 
 }

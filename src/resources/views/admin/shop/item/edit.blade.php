@@ -59,7 +59,7 @@
                     @forelse ($item->prices as $price)
                         @include('shop::admin.shop.item.content.priceitem')
                     @empty
-                        {{ __('shop::elf.none') }}
+                    <div class="none-price">{{ __('shop::elf.none') }}</div>
                     @endforelse
                 </div>
                 <div class="button-box single-box">
@@ -97,6 +97,10 @@
                                 priceList.insertAdjacentHTML('beforeend',data)
 
                             }).finally(()=>{
+                                const nonePrice = document.querySelector('.none-price');
+                                if (nonePrice) {
+                                    nonePrice.remove();
+                                }
                                 const valueInput = document.querySelector('[name="price[new]['+newId+'][value]"]');
                                 const checkboxList = document.querySelectorAll('.shop-item-pricelist-row input[type="checkbox"][data-inputrow="new_'+newId+'"]');
                                 valueInput.addEventListener('input',function(e){

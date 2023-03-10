@@ -4,6 +4,7 @@ namespace Elfcms\Shop\Http\Controllers\Resources;
 
 use App\Http\Controllers\Controller;
 use Elfcms\Basic\Models\FileCatalog;
+use Elfcms\Basic\Models\Setting;
 use Elfcms\Shop\Models\ShopColor;
 use Elfcms\Shop\Models\ShopCurrency;
 use Elfcms\Shop\Models\ShopProduct;
@@ -116,9 +117,11 @@ class ShopItemController extends Controller
 
         //dd($request->unit_id);
 
+        $path = Setting::value('shop_image_path') ?? '/shop/item/image';
+
         $image_path = '';
         if (!empty($request->file()['image'])) {
-            $image = $request->file()['image']->store('public/shop/category/image');
+            $image = $request->file()['image']->store('public' . $path);
             $image_path = str_ireplace('public/','/storage/',$image);
         }
 
@@ -378,9 +381,11 @@ class ShopItemController extends Controller
                 ]);
             }
 
+            $path = Setting::value('shop_image_path') ?? '/shop/item/image';
+
             $image_path = $request->image_path;
             if (!empty($request->file()['image'])) {
-                $image = $request->file()['image']->store('public/shop/item/image');
+                $image = $request->file()['image']->store('public' . $path);
                 $image_path = str_ireplace('public/','/storage/',$image);
             }
 

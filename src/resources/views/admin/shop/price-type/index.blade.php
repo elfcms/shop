@@ -21,7 +21,7 @@
                 <tr>
                     <th>ID</th>
                     <th>{{ __('basic::elf.name') }}</th>
-                    <th>{{ __('shop::elf.price_type') }}</th>
+                    <th>{{ __('shop::elf.tax') }}</th>
                     <th></th>
                 </tr>
             </thead>
