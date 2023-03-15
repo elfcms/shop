@@ -2,11 +2,11 @@
 
 namespace Elfcms\Shop\Http\Controllers\Api\V1;
 
-use App\Http\Controllers\Controller;
+use Elfcms\Shop\Http\Controllers\ShopController;
 use Elfcms\Shop\Models\ShopProduct;
 use Illuminate\Http\Request;
 
-class ApiController extends Controller
+class ApiController extends ShopController
 {
 
     protected $empty = [

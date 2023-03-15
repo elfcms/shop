@@ -11,7 +11,9 @@ class ShopPriceType extends Model
 
     protected $fillable = [
         'name',
+        'code',
         'tax_id',
+        'default'
     ];
 
     public function prices()
@@ -27,5 +29,21 @@ class ShopPriceType extends Model
     public function currencies()
     {
         return $this->belongsToMany(ShopCurrency::class, 'shop_price_type_currencies', 'currency_id', 'price_type_id');
+    }
+
+    public static function default()
+    {
+        return self::where('default',1)->first();
+    }
+
+    public static function defaultOrFirst()
+    {
+        $result = self::default();
+
+        if (!$result) {
+            $result = self::first();
+        }
+
+        return $result;
     }
 }

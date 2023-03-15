@@ -102,12 +102,30 @@ class ProductsController extends ApiController
     public function setProduct(Request $request)
     {
         $request->merge([
-            'slug' => Str::slug($request->slug),
+            'slug' => Str::slug($request->product['slug'] ?? $request->product['title'] ?? ''),
         ]);
         $validated = Validator::make($request->all(),[
             'title' => 'required',
             'slug' => 'required|unique:Elfcms\Shop\Models\ShopProduct,slug',
             'category_id' => 'required',
         ]);
+        if ($validated->fails()) {
+            $errorsData = $validated->errors()->messages();
+            $errorsMessages = [];
+            foreach ($errorsData as $message) {
+                $errorsMessages[] = $message[0];
+            }
+            $errors = implode('. ', $errorsMessages);
+
+            return $this->error(400, $errors);
+        }
+    }
+
+    public function setNewBrand(Request $request)
+    {
+        if (!empty($request->brand)) {
+            return $this->setBrand($request->brand);
+        }
+        return $request->all();
     }
 }

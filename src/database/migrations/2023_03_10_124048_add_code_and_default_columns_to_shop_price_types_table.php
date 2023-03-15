@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::table('shop_price_types', function (Blueprint $table) {
             $table->string('code')->nullable()->unique()->after('name');
-            $table->boolean('is_default')->nullable()->after('tax_id');
+            $table->boolean('default')->nullable()->after('tax_id');
         });
     }
 
