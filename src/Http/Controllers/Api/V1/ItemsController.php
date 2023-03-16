@@ -121,7 +121,7 @@ class ItemsController extends ApiController
         return $result;
     }
 
-    public function setItem(Request $request, int|ShopProduct $id, bool|int $createParam = false)
+    public function setItem(Request $request, int|ShopProduct $id, bool|null $createParam = null)
     {
         $product = null;
 
@@ -278,6 +278,15 @@ class ItemsController extends ApiController
             }
             /* /Prices */
 
+            if ($createParam === null && !empty($request->createParam)) {
+                if ($request->createParam == 'true') {
+                    $createParam = true;
+                }
+                elseif ($request->createParam == 'false') {
+                    $createParam = false;
+                }
+            }
+
             /* Parameters */
             if (!empty($request->item['parameters'])) {
                 foreach ($request->item['parameters'] as $parameterItem) {
@@ -286,71 +295,7 @@ class ItemsController extends ApiController
                         continue;
                     }
 
-                    if (empty($parameterItem['name'])) {
-                        $parameterItem['name'] = null;
-                    }
-                    if (empty($parameterItem['code'])) {
-                        $parameterItem['code'] = null;
-                    }
-
-                    $query = ShopItemParameter::with('data_type');
-
-                    if (!empty($parameterItem['id'])) {
-                        $query->where('id', $parameterItem['id']);
-                    } elseif (!empty($parameterItem['code'])) {
-                        $query->where('code', $parameterItem['code']);
-                    } elseif (empty($parameterItem['id']) && empty($parameterItem['code'] && !empty($parameterItem['name']))) {
-                        $code = Str::slug($parameterItem['name'] ?? '');
-                        $query->where('code', $code);
-                    }
-
-                    $parameter = $query->first();
-                    $dataType = null;
-
-                    /* Create parameter */
-                    if (empty($parameter) && empty($parameterItem['id']) && !empty($parameterItem['name']) && (!empty($createParam) || (!empty($request->createParam) || $request->createParam == 'true'))) {
-                        $dataTypeId = null;
-                        $dataTypeCode = null;
-                        if (!empty($parameterItem['data_type']) || !empty($parameterItem['data_type_id'])) {
-                            if (!empty($parameterItem['data_type_id'])) {
-                                $dataTypeId = $parameterItem['data_type_id'];
-                            } elseif (is_numeric($parameterItem['data_type'])) {
-                                $dataTypeId = $parameterItem['data_type'];
-                            } elseif (!empty($parameterItem['data_type']['id'])) {
-                                $dataTypeId = $parameterItem['data_type']['id'];
-                            }
-                            if (!empty($dataTypeId)) {
-                                $dataType = DataType::find($dataTypeId);
-                            }
-                            if (empty($dataType)) {
-                                if (is_string($parameterItem['data_type'])) {
-                                    $dataTypeCode = $parameterItem['data_type'];
-                                } elseif (!empty($parameterItem['data_type']['code'])) {
-                                    $dataTypeCode = $parameterItem['data_type']['code'];
-                                }
-                                if (!empty($dataTypeCode)) {
-                                    $dataType = DataType::where('code', $dataTypeCode)->first();
-                                }
-                            }
-                        }
-                        if (!empty($dataType)) {
-                            $parameterData = [
-                                'data_type_id' => $dataType->id,
-                                'name' => $parameterItem['name'],
-                                'code' => $parameterItem['code'] ?? Str::slug($parameterItem['name']),
-                                'description' => $parameterItem['description'] ?? null,
-                                'is_filter' => $parameterItem['is_filter'] ?? 0,
-                                'multiple' => $parameterItem['multiple'] ?? 0,
-                                'options' => $parameterItem['options'] ?? null,
-                            ];
-                            try {
-                                $parameter = ShopItemParameter::create($parameterData);
-                            } catch (\Exception $e) {
-                                //
-                            }
-                        }
-                    }
-                    /* /Create parameter */
+                    $parameter = $this->setParameter($parameterItem, $createParam);
 
                     if (empty($parameter) || !is_object($parameter) || !($parameter instanceof ShopItemParameter)) {
                         continue;
@@ -372,42 +317,6 @@ class ItemsController extends ApiController
                         } */
                     }
                     if ($parameter->data_type->code == 'file' || $parameter->data_type->code == 'image') {
-                        /* $image_path = null;
-                        try {
-                            $file = file_get_contents($parameterItem['value']);
-                            if ($file) {
-                                //return $file;
-                                $path = Setting::value('shop_parameter_path') ?? '/shop/item/parameters';
-                                //$image = Storage::putFile($path, new File($parameterItem['value']));
-                                //return $image;
-                                $pathinfo = pathinfo($parameterItem['value']);
-                                $filename = uniqid();//time();//$pathinfo['basename'];
-                                if (!empty($pathinfo['extension'])) {
-                                    $filename .= '.' . $pathinfo['extension'];
-                                }
-                                else {
-                                    $filename .= '.jpg';
-                                }
-                                //return $path . '/' . $filename;
-                                //$uploaded_file = new UploadedFile(urlencode($parameterItem['value']), $filename);
-                                //return $uploaded_file;
-                                $image = Storage::put('/public' . $path . '/' . $filename , $file);
-                                //Storage::put('/public' . $path . '/' . $filename, file_get_contents($parameterItem['value']));
-                                if ($image){
-                                    $image_path = '/storage' . $path . '/' . $filename;
-                                }
-                            }
-                        }
-                        catch (\Exception $e) {
-                            $imageUploadError = [
-                                'code' => $e->getCode(),
-                                'message' => $e->getMessage(),
-                                'file' => $e->getFile(),
-                                'line' => $e->getLine(),
-                                'trace' => $e->getTraceAsString()
-                            ];
-                            //$itemData['errorMessage'] = 'File "' . $request->item['image'] . '" could not be uploaded';
-                        } */
                         $parameterItem['value'] = $this->setFileByLink($parameterItem['value'], Setting::value('shop_parameter_path') ?? '/shop/item/parameters');
                     }
 
@@ -427,73 +336,7 @@ class ItemsController extends ApiController
                         continue;
                     }
 
-                    if (empty($propertyItem['name'])) {
-                        $propertyItem['name'] = null;
-                    }
-                    if (empty($propertyItem['code'])) {
-                        $propertyItem['code'] = null;
-                    }
-
-                    $query = ShopItemProperty::with('data_type');
-
-                    if (!empty($propertyItem['id'])) {
-                        $query->where('id', $propertyItem['id']);
-                    }
-                    if (!empty($propertyItem['code'])) {
-                        $query->where('code', $propertyItem['code']);
-                    }
-                    if (empty($propertyItem['id']) && empty($propertyItem['code'] && !empty($propertyItem['name']))) {
-                        $code = Str::slug($propertyItem['name']);
-                        $query->where('code', $code);
-                    }
-
-                    $property = $query->first();
-                    $dataType = null;
-
-                    /* Create property */
-                    if (empty($property) && empty($propertyItem['id']) && !empty($propertyItem['name']) && (!empty($createParam) || (!empty($request->createParam) || $request->createParam == 'true'))) {
-                        $dataTypeId = null;
-                        $dataTypeCode = null;
-                        if (!empty($propertyItem['data_type']) || !empty($propertyItem['data_type_id'])) {
-                            if (!empty($propertyItem['data_type_id'])) {
-                                $dataTypeId = $propertyItem['data_type_id'];
-                            } elseif (is_numeric($propertyItem['data_type'])) {
-                                $dataTypeId = $propertyItem['data_type'];
-                            } elseif (!empty($propertyItem['data_type']['id'])) {
-                                $dataTypeId = $propertyItem['data_type']['id'];
-                            }
-                            if (!empty($dataTypeId)) {
-                                $dataType = DataType::find($dataTypeId);
-                            }
-                            if (empty($dataType)) {
-                                if (is_string($propertyItem['data_type'])) {
-                                    $dataTypeCode = $propertyItem['data_type'];
-                                } elseif (!empty($propertyItem['data_type']['code'])) {
-                                    $dataTypeCode = $propertyItem['data_type']['code'];
-                                }
-                                if (!empty($dataTypeCode)) {
-                                    $dataType = DataType::where('code', $dataTypeCode)->first();
-                                }
-                            }
-                        }
-                        if (!empty($dataType)) {
-                            $propertyData = [
-                                'data_type_id' => $dataType->id,
-                                'name' => $propertyItem['name'],
-                                'code' => $propertyItem['code'] ?? Str::slug($propertyItem['name']),
-                                'description' => $propertyItem['description'] ?? null,
-                                'is_filter' => $propertyItem['is_filter'] ?? 0,
-                                'multiple' => $propertyItem['multiple'] ?? 0,
-                                'options' => $propertyItem['options'] ?? null,
-                            ];
-                            try {
-                                $property = ShopItemProperty::create($propertyData);
-                            } catch (\Exception $e) {
-                                //
-                            }
-                        }
-                    }
-                    /* /Create property */
+                    $property = $this->setProperty($propertyItem, $createParam);
 
                     if (empty($property) || !is_object($property) || !($property instanceof ShopItemProperty)) {
                         continue;
@@ -515,43 +358,6 @@ class ItemsController extends ApiController
                         } */
                     }
                     if ($property->data_type->code == 'file' || $property->data_type->code == 'image') {
-                        /* $image_path = null;
-                        try {
-                            $file = file_get_contents($propertyItem['value']);
-                            if ($file) {
-                                //return $file;
-                                $path = Setting::value('shop_property_path') ?? '/shop/item/properties';
-                                //$image = Storage::putFile($path, new File($propertyItem['value']));
-                                //return $image;
-                                $pathinfo = pathinfo($propertyItem['value']);
-                                $filename = uniqid();//time();//$pathinfo['basename'];
-                                if (!empty($pathinfo['extension'])) {
-                                    $filename .= '.' . $pathinfo['extension'];
-                                }
-                                else {
-                                    $filename .= '.jpg';
-                                }
-                                //return $path . '/' . $filename;
-                                //$uploaded_file = new UploadedFile(urlencode($propertyItem['value']), $filename);
-                                //return $uploaded_file;
-                                $image = Storage::put('/public' . $path . '/' . $filename , $file);
-                                //Storage::put('/public' . $path . '/' . $filename, file_get_contents($propertyItem['value']));
-                                if ($image){
-                                    $image_path = '/storage' . $path . '/' . $filename;
-                                }
-                            }
-                        }
-                        catch (\Exception $e) {
-                            $imageUploadError = [
-                                'code' => $e->getCode(),
-                                'message' => $e->getMessage(),
-                                'file' => $e->getFile(),
-                                'line' => $e->getLine(),
-                                'trace' => $e->getTraceAsString()
-                            ];
-                            //$itemData['errorMessage'] = 'File "' . $request->item['image'] . '" could not be uploaded';
-                        }
-                        $propertyItem['value'] = $image_path; */
                         $propertyItem['value'] = $this->setFileByLink($propertyItem['value'], Setting::value('shop_property_path') ?? '/shop/item/properties');
                     }
 
@@ -588,6 +394,6 @@ class ItemsController extends ApiController
             'image' => $image_path,
         ]; */
 
-        return $itemData;
+        //return $itemData;
     }
 }

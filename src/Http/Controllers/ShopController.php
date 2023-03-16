@@ -3,10 +3,12 @@
 namespace Elfcms\Shop\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use Elfcms\Basic\Models\DataType;
 use Elfcms\Basic\Models\Setting;
 use Elfcms\Shop\Models\ShopBrand;
 use Elfcms\Shop\Models\ShopCategory;
 use Elfcms\Shop\Models\ShopItem;
+use Elfcms\Shop\Models\ShopItemParameter;
 use Elfcms\Shop\Models\ShopItemProperty;
 use Elfcms\Shop\Models\ShopProduct;
 use Elfcms\Shop\Models\ShopUnit;
@@ -17,16 +19,191 @@ use Illuminate\Support\Str;
 
 class ShopController extends Controller
 {
-    private array|null $lastError = null;
+    public array|null $lastError = null;
 
     public function __construct()
     {
         $this->lastError = null;
     }
 
-    public function setPropertyValue(ShopItem $item, ShopItemProperty|null $property = null, bool $create = false)
+    public function setProperty(array|string $property, bool $create = true)
     {
-        //
+        $result = null;
+        $data_type = null;
+        $name = null;
+        $code = null;
+        $description = null;
+        $is_filter = 0;
+        $multiple = 0;
+        $options = null;
+
+        if(is_numeric($property)) {
+            $result = ShopItemProperty::find($property);
+        }
+        elseif (is_string($property)) {
+            $result = ShopItemProperty::where('code',$property)->orWhere('name',$property)->first();
+        }
+        elseif (is_array($property)) {
+            if (!empty($property['name'])) {
+                $name = $property['name'];
+            }
+            if (!empty($property['code'])) {
+                $code = $property['code'];
+            }
+
+            if (!empty($code) || !empty($name)) {
+                $result = ShopItemProperty::where('code',$code)->orWhere('name',$name)->first();
+            }
+
+            if (empty($result) && $create) {
+                if (!empty($property['data_type'])) {
+                    if (is_numeric($property['data_type'])) {
+                        $data_type = DataType::find($property['data_type']);
+                    }
+                    elseif (is_string($property['data_type'])) {
+                        $data_type = DataType::where('code',$property['data_type'])->orWhere('name',$property['data_type'])->first();
+                    }
+                }
+                if (!empty($property['description'])) {
+                    $description = $property['description'];
+                }
+                if (!empty($property['is_filter'])) {
+                    $is_filter = 1;
+                }
+                if (!empty($property['options'])) {
+                    $options = 1;
+                }
+                if (!empty($property['options'])) {
+                    $options = $property['options'];
+                    if (is_array($options)) {
+                        $options = json_encode($options);
+                    }
+                }
+
+                if (!empty($data_type) && !empty($data_type->id) && !empty($name)) {
+                    if (empty($code)) {
+                        $code = Str::slug($name);
+                    }
+                    $propertyData = [
+                        'data_type_id' => $data_type->id,
+                        'name' => $name,
+                        'code' => $code,
+                        'description' => $description,
+                        'is_filter' => $is_filter,
+                        'multiple' => $multiple,
+                        'options' => $options
+                    ];
+
+                    try {
+                        $result = ShopItemProperty::create($propertyData);
+                    }
+                    catch (\Exception $e) {
+                        $this->lastError = [
+                            'message' => $e->getMessage(),
+                            'exception' => [
+                                'code' => $e->getCode(),
+                                'message' => $e->getMessage(),
+                                'file' => $e->getFile(),
+                                'line' => $e->getLine(),
+                                'trace' => $e->getTraceAsString()
+                            ]
+                        ];
+                    }
+                }
+            }
+        }
+
+        return $result;
+    }
+
+    public function setParameter(array|string $parameter, bool $create = true)
+    {
+        $result = null;
+        $data_type = null;
+        $name = null;
+        $code = null;
+        $description = null;
+        $is_filter = 0;
+        $multiple = 0;
+        $options = null;
+
+        if(is_numeric($parameter)) {
+            $result = ShopItemParameter::find($parameter);
+        }
+        elseif (is_string($parameter)) {
+            $result = ShopItemParameter::where('code',$parameter)->orWhere('name',$parameter)->first();
+        }
+        elseif (is_array($parameter)) {
+            if (!empty($parameter['name'])) {
+                $name = $parameter['name'];
+            }
+            if (!empty($parameter['code'])) {
+                $code = $parameter['code'];
+            }
+
+            if (!empty($code) || !empty($name)) {
+                $result = ShopItemParameter::where('code',$code)->orWhere('name',$name)->first();
+            }
+
+            if (empty($result) && $create) {
+                if (!empty($parameter['data_type'])) {
+                    if (is_numeric($parameter['data_type'])) {
+                        $data_type = DataType::find($parameter['data_type']);
+                    }
+                    elseif (is_string($parameter['data_type'])) {
+                        $data_type = DataType::where('code',$parameter['data_type'])->orWhere('name',$parameter['data_type'])->first();
+                    }
+                }
+                if (!empty($parameter['description'])) {
+                    $description = $parameter['description'];
+                }
+                if (!empty($parameter['is_filter'])) {
+                    $is_filter = 1;
+                }
+                if (!empty($parameter['options'])) {
+                    $options = 1;
+                }
+                if (!empty($parameter['options'])) {
+                    $options = $parameter['options'];
+                    if (is_array($options)) {
+                        $options = json_encode($options);
+                    }
+                }
+
+                if (!empty($data_type) && !empty($data_type->id) && !empty($name)) {
+                    if (empty($code)) {
+                        $code = Str::slug($name);
+                    }
+                    $parameterData = [
+                        'data_type_id' => $data_type->id,
+                        'name' => $name,
+                        'code' => $code,
+                        'description' => $description,
+                        'is_filter' => $is_filter,
+                        'multiple' => $multiple,
+                        'options' => $options
+                    ];
+
+                    try {
+                        $result = ShopItemParameter::create($parameterData);
+                    }
+                    catch (\Exception $e) {
+                        $this->lastError = [
+                            'message' => $e->getMessage(),
+                            'exception' => [
+                                'code' => $e->getCode(),
+                                'message' => $e->getMessage(),
+                                'file' => $e->getFile(),
+                                'line' => $e->getLine(),
+                                'trace' => $e->getTraceAsString()
+                            ]
+                        ];
+                    }
+                }
+            }
+        }
+
+        return $result;
     }
 
     public function setUnit(string|array $unit)
