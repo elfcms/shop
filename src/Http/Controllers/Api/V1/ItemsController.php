@@ -50,8 +50,7 @@ class ItemsController extends ApiController
             }
             if (!empty($request->offset)) {
                 $offset = intval($request->offset);
-            }
-            elseif (!empty($request->page)) {
+            } elseif (!empty($request->page)) {
                 $offset = (intval($request->page) - 1) * $limit;
             }
             if (empty($offset)) {
@@ -75,24 +74,22 @@ class ItemsController extends ApiController
 
 
             //if ($products && $resultCount > 0) {
-                $result['message'] = $resultCount . ' elements were found';
-                $result['count'] = $resultCount;
-                $result['data'] = $items;
-                $result['offset'] = $offset;
-                $result['limit'] = $limit;
+            $result['message'] = $resultCount . ' elements were found';
+            $result['count'] = $resultCount;
+            $result['data'] = $items;
+            $result['offset'] = $offset;
+            $result['limit'] = $limit;
             //}
 
             //dd($products->count);
 
             return $result;
-        }
-        catch (\Exception $e) {
+        } catch (\Exception $e) {
             //dd($e->getMessage());
             //throw new HttpException(500, $e->getMessage());
             //$result = $this->error;
             return response()->json($this->error, 500);
         }
-
     }
 
     /**
@@ -105,9 +102,8 @@ class ItemsController extends ApiController
     {
         if (!empty($request->byId) && $request->byId == 'true') {
             $item = ShopItem::find($id);
-        }
-        else {
-            $item = ShopItem::where('item_number',$id)->first();
+        } else {
+            $item = ShopItem::where('item_number', $id)->first();
         }
 
         $result = $this->empty;
@@ -117,8 +113,7 @@ class ItemsController extends ApiController
             $result['message'] = 'Element was found';
             $result['count'] = 1;
             $result['data'] = $item;
-        }
-        else {
+        } else {
             $result = $this->notFound();
         }
 
@@ -132,8 +127,7 @@ class ItemsController extends ApiController
 
         if (is_object($id) && ($id instanceof ShopProduct)) {
             $product = $id;
-        }
-        elseif (is_numeric($id)) {
+        } elseif (is_numeric($id)) {
             $product = ShopProduct::find($id);
         }
 
@@ -147,7 +141,7 @@ class ItemsController extends ApiController
             return $this->error(400, 'Item data not found');
         }
 
-        $validated = Validator::make($request->item,[
+        $validated = Validator::make($request->item, [
             'item_number' => 'required|unique:Elfcms\Shop\Models\ShopItem,item_number',
             //'product_id' => 'required',
             'image' => 'nullable|max:1024',
@@ -166,51 +160,7 @@ class ItemsController extends ApiController
 
         $itemData = $request->item;
 
-        $imageUploadError = [];
-
-        $image = null;
-        $image_path = '';
-        /* Check image */
-
-        if (!empty($request->item['image'])) {
-            try {
-                $file = file_get_contents($request->item['image']);
-                if ($file) {
-                    //return $file;
-                    $path = Setting::value('shop_image_path') ?? '/shop/item/images';
-                    //$image = Storage::putFile($path, new File($request->item['image']));
-                    //return $image;
-                    $pathinfo = pathinfo($request->item['image']);
-                    $filename = uniqid();//time();//$pathinfo['basename'];
-                    if (!empty($pathinfo['extension'])) {
-                        $filename .= '.' . $pathinfo['extension'];
-                    }
-                    else {
-                        $filename .= '.jpg';
-                    }
-                    //return $path . '/' . $filename;
-                    //$uploaded_file = new UploadedFile(urlencode($request->item['image']), $filename);
-                    //return $uploaded_file;
-                    $image = Storage::put('/public' . $path . '/' . $filename , $file);
-                    //Storage::put('/public' . $path . '/' . $filename, file_get_contents($request->item['image']));
-                    if ($image){
-                        $image_path = '/storage' . $path . '/' . $filename;
-                    }
-                }
-            }
-            catch (\Exception $e) {
-                $imageUploadError = [
-                    'code' => $e->getCode(),
-                    'message' => $e->getMessage(),
-                    'file' => $e->getFile(),
-                    'line' => $e->getLine(),
-                    'trace' => $e->getTraceAsString()
-                ];
-                //$itemData['errorMessage'] = 'File "' . $request->item['image'] . '" could not be uploaded';
-            }
-        }
-
-        $itemData['image'] = $image_path;
+        $itemData['image'] = !empty($request->item['image']) ? $this->setFileByLink($request->item['image'], Setting::value('shop_image_path') ?? '/shop/item/images') : null;
 
         $item =  $product->items()->create($itemData);
 
@@ -226,8 +176,7 @@ class ItemsController extends ApiController
                 $prices = [];
                 if (!empty($request->item['prices']['value'])) {
                     $prices[] = $request->item['prices'];
-                }
-                elseif (!empty($request->item['prices'][0])) {
+                } elseif (!empty($request->item['prices'][0])) {
                     $prices = $request->item['prices'];
                 }
 
@@ -247,21 +196,19 @@ class ItemsController extends ApiController
                                     $priceType = ShopPriceType::find($price['priceType']['id']);
                                 }
                                 if (empty($priceType) && !empty($price['priceType']['code'])) {
-                                    $priceType = ShopPriceType::where('code',$price['priceType']['code'])->first();
+                                    $priceType = ShopPriceType::where('code', $price['priceType']['code'])->first();
                                 }
                                 if (empty($priceType) && !empty($price['priceType']['name'])) {
-                                    $priceType = ShopPriceType::where('name',$price['priceType']['name'])->first();
+                                    $priceType = ShopPriceType::where('name', $price['priceType']['name'])->first();
                                 }
-                            }
-                            else {
+                            } else {
                                 if (is_numeric($price['priceType'])) {
                                     $priceType = ShopPriceType::find($price['priceType']['id']);
-                                }
-                                else {
-                                    $priceType = ShopPriceType::where('code',$price['priceType'])->first();
+                                } else {
+                                    $priceType = ShopPriceType::where('code', $price['priceType'])->first();
                                 }
                                 if (empty($priceType)) {
-                                    $priceType = ShopPriceType::where('name',$price['priceType'])->first();
+                                    $priceType = ShopPriceType::where('name', $price['priceType'])->first();
                                 }
                             }
                         }
@@ -276,21 +223,19 @@ class ItemsController extends ApiController
                                     $currency = ShopCurrency::find($price['currency']['id']);
                                 }
                                 if (empty($currency) && !empty($price['currency']['code'])) {
-                                    $currency = ShopCurrency::where('code',$price['currency']['code'])->first();
+                                    $currency = ShopCurrency::where('code', $price['currency']['code'])->first();
                                 }
                                 if (empty($currency) && !empty($price['currency']['name'])) {
-                                    $currency = ShopCurrency::where('name',$price['currency']['name'])->first();
+                                    $currency = ShopCurrency::where('name', $price['currency']['name'])->first();
                                 }
-                            }
-                            else {
+                            } else {
                                 if (is_numeric($price['currency'])) {
                                     $currency = ShopCurrency::find($price['currency']);
-                                }
-                                else {
-                                    $currency = ShopCurrency::where('code',$price['currency'])->first();
+                                } else {
+                                    $currency = ShopCurrency::where('code', $price['currency'])->first();
                                 }
                                 if (empty($currency)) {
-                                    $currency = ShopCurrency::where('name',$price['currency'])->first();
+                                    $currency = ShopCurrency::where('name', $price['currency'])->first();
                                 }
                             }
                         }
@@ -301,7 +246,7 @@ class ItemsController extends ApiController
                             continue;
                         }
                         $priceData = [
-                            'value' => intval(floatval(str_replace(',','.',$price['value'])) * 100),
+                            'value' => intval(floatval(str_replace(',', '.', $price['value'])) * 100),
                             'price_type_id' => $priceType->id,
                             'currency_id' => $currency->id,
                             'current' => !empty($price['current']) && !$isCurrent ? 1 : 0,
@@ -316,8 +261,7 @@ class ItemsController extends ApiController
                         }
 
                         $item->prices()->create($priceData);
-                    }
-                    catch (\Exception $e) {
+                    } catch (\Exception $e) {
                         //dd($e->getMessage());
                         //throw new HttpException(500, $e->getMessage());
                         //$result = $this->error;
@@ -336,7 +280,7 @@ class ItemsController extends ApiController
 
             /* Parameters */
             if (!empty($request->item['parameters'])) {
-                foreach($request->item['parameters'] as $parameterItem) {
+                foreach ($request->item['parameters'] as $parameterItem) {
 
                     if (empty($parameterItem['value'])) {
                         continue;
@@ -352,14 +296,12 @@ class ItemsController extends ApiController
                     $query = ShopItemParameter::with('data_type');
 
                     if (!empty($parameterItem['id'])) {
-                        $query->where('id',$parameterItem['id']);
-                    }
-                    elseif (!empty($parameterItem['code'])) {
-                        $query->where('code',$parameterItem['code']);
-                    }
-                    elseif (empty($parameterItem['id']) && empty($parameterItem['code'] && !empty($parameterItem['name']))) {
+                        $query->where('id', $parameterItem['id']);
+                    } elseif (!empty($parameterItem['code'])) {
+                        $query->where('code', $parameterItem['code']);
+                    } elseif (empty($parameterItem['id']) && empty($parameterItem['code'] && !empty($parameterItem['name']))) {
                         $code = Str::slug($parameterItem['name'] ?? '');
-                        $query->where('code',$code);
+                        $query->where('code', $code);
                     }
 
                     $parameter = $query->first();
@@ -372,11 +314,9 @@ class ItemsController extends ApiController
                         if (!empty($parameterItem['data_type']) || !empty($parameterItem['data_type_id'])) {
                             if (!empty($parameterItem['data_type_id'])) {
                                 $dataTypeId = $parameterItem['data_type_id'];
-                            }
-                            elseif (is_numeric($parameterItem['data_type'])) {
+                            } elseif (is_numeric($parameterItem['data_type'])) {
                                 $dataTypeId = $parameterItem['data_type'];
-                            }
-                            elseif (!empty($parameterItem['data_type']['id'])) {
+                            } elseif (!empty($parameterItem['data_type']['id'])) {
                                 $dataTypeId = $parameterItem['data_type']['id'];
                             }
                             if (!empty($dataTypeId)) {
@@ -385,12 +325,11 @@ class ItemsController extends ApiController
                             if (empty($dataType)) {
                                 if (is_string($parameterItem['data_type'])) {
                                     $dataTypeCode = $parameterItem['data_type'];
-                                }
-                                elseif (!empty($parameterItem['data_type']['code'])) {
+                                } elseif (!empty($parameterItem['data_type']['code'])) {
                                     $dataTypeCode = $parameterItem['data_type']['code'];
                                 }
                                 if (!empty($dataTypeCode)) {
-                                    $dataType = DataType::where('code',$dataTypeCode)->first();
+                                    $dataType = DataType::where('code', $dataTypeCode)->first();
                                 }
                             }
                         }
@@ -406,12 +345,10 @@ class ItemsController extends ApiController
                             ];
                             try {
                                 $parameter = ShopItemParameter::create($parameterData);
-                            }
-                            catch(\Exception $e) {
+                            } catch (\Exception $e) {
                                 //
                             }
                         }
-
                     }
                     /* /Create parameter */
 
@@ -434,8 +371,8 @@ class ItemsController extends ApiController
                             $parameterItem['value'] = null;
                         } */
                     }
-                    if ($parameter->data_type->code == 'file' || $parameter->data_type->code == 'image')  {
-                        $image_path = null;
+                    if ($parameter->data_type->code == 'file' || $parameter->data_type->code == 'image') {
+                        /* $image_path = null;
                         try {
                             $file = file_get_contents($parameterItem['value']);
                             if ($file) {
@@ -470,8 +407,8 @@ class ItemsController extends ApiController
                                 'trace' => $e->getTraceAsString()
                             ];
                             //$itemData['errorMessage'] = 'File "' . $request->item['image'] . '" could not be uploaded';
-                        }
-                        $parameterItem['value'] = $image_path;
+                        } */
+                        $parameterItem['value'] = $this->setFileByLink($parameterItem['value'], Setting::value('shop_parameter_path') ?? '/shop/item/parameters');
                     }
 
                     $parameterValue = ShopItemParameterValue::updateOrCreate(
@@ -484,7 +421,7 @@ class ItemsController extends ApiController
 
             /* Properties */
             if (!empty($request->item['properties'])) {
-                foreach($request->item['properties'] as $propertyItem) {
+                foreach ($request->item['properties'] as $propertyItem) {
 
                     if (empty($propertyItem['value'])) {
                         continue;
@@ -500,14 +437,14 @@ class ItemsController extends ApiController
                     $query = ShopItemProperty::with('data_type');
 
                     if (!empty($propertyItem['id'])) {
-                        $query->where('id',$propertyItem['id']);
+                        $query->where('id', $propertyItem['id']);
                     }
                     if (!empty($propertyItem['code'])) {
-                        $query->where('code',$propertyItem['code']);
+                        $query->where('code', $propertyItem['code']);
                     }
                     if (empty($propertyItem['id']) && empty($propertyItem['code'] && !empty($propertyItem['name']))) {
                         $code = Str::slug($propertyItem['name']);
-                        $query->where('code',$code);
+                        $query->where('code', $code);
                     }
 
                     $property = $query->first();
@@ -520,11 +457,9 @@ class ItemsController extends ApiController
                         if (!empty($propertyItem['data_type']) || !empty($propertyItem['data_type_id'])) {
                             if (!empty($propertyItem['data_type_id'])) {
                                 $dataTypeId = $propertyItem['data_type_id'];
-                            }
-                            elseif (is_numeric($propertyItem['data_type'])) {
+                            } elseif (is_numeric($propertyItem['data_type'])) {
                                 $dataTypeId = $propertyItem['data_type'];
-                            }
-                            elseif (!empty($propertyItem['data_type']['id'])) {
+                            } elseif (!empty($propertyItem['data_type']['id'])) {
                                 $dataTypeId = $propertyItem['data_type']['id'];
                             }
                             if (!empty($dataTypeId)) {
@@ -533,12 +468,11 @@ class ItemsController extends ApiController
                             if (empty($dataType)) {
                                 if (is_string($propertyItem['data_type'])) {
                                     $dataTypeCode = $propertyItem['data_type'];
-                                }
-                                elseif (!empty($propertyItem['data_type']['code'])) {
+                                } elseif (!empty($propertyItem['data_type']['code'])) {
                                     $dataTypeCode = $propertyItem['data_type']['code'];
                                 }
                                 if (!empty($dataTypeCode)) {
-                                    $dataType = DataType::where('code',$dataTypeCode)->first();
+                                    $dataType = DataType::where('code', $dataTypeCode)->first();
                                 }
                             }
                         }
@@ -554,12 +488,10 @@ class ItemsController extends ApiController
                             ];
                             try {
                                 $property = ShopItemProperty::create($propertyData);
-                            }
-                            catch(\Exception $e) {
+                            } catch (\Exception $e) {
                                 //
                             }
                         }
-
                     }
                     /* /Create property */
 
@@ -582,8 +514,8 @@ class ItemsController extends ApiController
                             $propertyItem['value'] = null;
                         } */
                     }
-                    if ($property->data_type->code == 'file' || $property->data_type->code == 'image')  {
-                        $image_path = null;
+                    if ($property->data_type->code == 'file' || $property->data_type->code == 'image') {
+                        /* $image_path = null;
                         try {
                             $file = file_get_contents($propertyItem['value']);
                             if ($file) {
@@ -619,7 +551,8 @@ class ItemsController extends ApiController
                             ];
                             //$itemData['errorMessage'] = 'File "' . $request->item['image'] . '" could not be uploaded';
                         }
-                        $propertyItem['value'] = $image_path;
+                        $propertyItem['value'] = $image_path; */
+                        $propertyItem['value'] = $this->setFileByLink($propertyItem['value'], Setting::value('shop_property_path') ?? '/shop/item/properties');
                     }
 
                     $propertyValue = ShopItemPropertyValue::updateOrCreate(
@@ -656,7 +589,5 @@ class ItemsController extends ApiController
         ]; */
 
         return $itemData;
-
     }
-
 }

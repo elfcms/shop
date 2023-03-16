@@ -119,12 +119,30 @@ class ProductsController extends ApiController
 
             return $this->error(400, $errors);
         }
+
+        $productData = $request->product;
     }
 
     public function setNewBrand(Request $request)
     {
         if (!empty($request->brand)) {
             return $this->setBrand($request->brand);
+        }
+        return $request->all();
+    }
+
+    public function setNewUnit(Request $request)
+    {
+        if (!empty($request->unit)) {
+            return $this->setUnit($request->unit);
+        }
+        return $request->all();
+    }
+
+    public function setNewCategory(Request $request)
+    {
+        if (!empty($request->category)) {
+            return $this->setCategory($request->category);
         }
         return $request->all();
     }

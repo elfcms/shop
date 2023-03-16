@@ -33,7 +33,7 @@ Route::group(['middleware'=>['api_json']],function() use ($apiPath) {
         Route::get($apiPath . '/items/{id}',[Elfcms\Shop\Http\Controllers\Api\V1\ItemsController::class, 'getItem']);
 
 
-        Route::post($apiPath . '/brands',[Elfcms\Shop\Http\Controllers\Api\V1\ProductsController::class, 'setNewBrand']);
+        Route::post($apiPath . '/category',[Elfcms\Shop\Http\Controllers\Api\V1\ProductsController::class, 'setNewCategory']);
     });
 
     Route::get($apiPath . '/{any}',[Elfcms\Shop\Http\Controllers\Api\V1\ApiController::class, 'pageNotFound'])->where('any', '.*');
