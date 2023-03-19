@@ -7,10 +7,14 @@ use Elfcms\Basic\Models\DataType;
 use Elfcms\Basic\Models\Setting;
 use Elfcms\Shop\Models\ShopBrand;
 use Elfcms\Shop\Models\ShopCategory;
+use Elfcms\Shop\Models\ShopColor;
+use Elfcms\Shop\Models\ShopCurrency;
 use Elfcms\Shop\Models\ShopItem;
 use Elfcms\Shop\Models\ShopItemParameter;
 use Elfcms\Shop\Models\ShopItemProperty;
+use Elfcms\Shop\Models\ShopPriceType;
 use Elfcms\Shop\Models\ShopProduct;
+use Elfcms\Shop\Models\ShopTax;
 use Elfcms\Shop\Models\ShopUnit;
 use Elfcms\Shop\Models\ShopVendor;
 use Illuminate\Http\Request;
@@ -26,7 +30,274 @@ class ShopController extends Controller
         $this->lastError = null;
     }
 
-    public function setProperty(array|string $property, bool $create = true)
+    public function setColor(array|string|int $color, bool $create = true)
+    {
+        $result = null;
+        $name = null;
+        $code = null;
+        $picture = null;
+        $transparent = null;
+        $storagePath = '/shop/colors';
+        if (is_array($color)) {
+            if (!empty($color['id'])) {
+                $result = ShopColor::find($color['id']);
+            }
+            if (!empty($color['code'])) {
+                $code = $color['code'];
+                if (empty($result)) {
+                    $result = ShopColor::where('code', $color['code'])->first();
+                }
+            }
+            if (!empty($color['name'])) {
+                $name = $color['name'];
+                if (empty($result)) {
+                    $result = ShopColor::where('name', $color['name'])->first();
+                }
+            }
+            if (!empty($color['picture'])) {
+                $picture = $this->setFileByLink($color['picture'], $storagePath);
+            }
+            if (!empty($color['transparent'])) {
+                $transparent = $color['transparent'];
+            }
+        }
+        elseif (is_numeric($color)) {
+            $result = ShopColor::find($color);
+        } elseif (is_string($color)) {
+            $name = $color;
+            $result = ShopColor::where('name', $color)->first();
+        }
+
+        if ($create && empty($result) && !empty($name)) {
+            if (empty($code)) {
+                $code = Str::slug($name);
+            }
+            try {
+                $result = ShopColor::create([
+                    'name' => $name,
+                    'code' => $code,
+                    'picture' => $picture,
+                    'transparent' => !empty($transparent) ? 1 : 0,
+                ]);
+            }
+            catch (\Exception $e) {
+                $this->lastError = [
+                    'message' => $e->getMessage(),
+                    'exception' => [
+                        'code' => $e->getCode(),
+                        'message' => $e->getMessage(),
+                        'file' => $e->getFile(),
+                        'line' => $e->getLine(),
+                        'trace' => $e->getTraceAsString()
+                    ]
+                ];
+            }
+        }
+
+        return $result;
+    }
+
+    public function setCurrency(array|string|int $currency, bool $create = true)
+    {
+        $result = null;
+        $name = null;
+        $code = null;
+        $symbol = null;
+        $symbol_code = null;
+        $symbol_html = null;
+        if (is_array($currency)) {
+            if (!empty($currency['id'])) {
+                $result = ShopCurrency::find($currency['id']);
+            }
+            if (!empty($currency['code'])) {
+                $code = $currency['code'];
+                if (empty($result)) {
+                    $result = ShopCurrency::where('code', $currency['code'])->first();
+                }
+            }
+            if (!empty($currency['name'])) {
+                $name = $currency['name'];
+                if (empty($result)) {
+                    $result = ShopCurrency::where('name', $currency['name'])->first();
+                }
+            }
+            if (!empty($currency['symbol'])) {
+                $symbol = $currency['symbol'];
+            }
+            if (!empty($currency['symbol_code'])) {
+                $symbol_code = $currency['symbol_code'];
+            }
+            if (!empty($currency['symbol_html'])) {
+                $symbol_html = $currency['symbol_html'];
+            }
+        }
+        elseif (is_numeric($currency)) {
+            $result = ShopCurrency::find($currency);
+        } elseif (is_string($currency)) {
+            $name = $currency;
+            $result = ShopCurrency::where('name', $currency)->first();
+        }
+
+        if ($create && empty($result) && !empty($name)) {
+            if (empty($code)) {
+                $code = Str::slug($name);
+            }
+            try {
+                $result = ShopCurrency::create([
+                    'name' => $name,
+                    'code' => $code,
+                    'symbol' => $symbol,
+                    'symbol_code' => $symbol_code,
+                    'symbol_html' => $symbol_html,
+                ]);
+            }
+            catch (\Exception $e) {
+                $this->lastError = [
+                    'message' => $e->getMessage(),
+                    'exception' => [
+                        'code' => $e->getCode(),
+                        'message' => $e->getMessage(),
+                        'file' => $e->getFile(),
+                        'line' => $e->getLine(),
+                        'trace' => $e->getTraceAsString()
+                    ]
+                ];
+            }
+        }
+
+        return $result;
+    }
+
+    public function setPriceType(array|string|int $priceType, bool $create = true)
+    {
+        $result = null;
+        $code = null;
+        $name = null;
+        $tax = null;
+        if (is_array($priceType)) {
+            if (!empty($priceType['id'])) {
+                $result = ShopPriceType::find($priceType['id']);
+            }
+            if (!empty($priceType['code'])) {
+                $code = $priceType['code'];
+                if (empty($result)) {
+                    $result = ShopPriceType::where('code', $priceType['code'])->first();
+                }
+            }
+            if (!empty($priceType['name'])) {
+                $name = $priceType['name'];
+                if (empty($result)) {
+                    $result = ShopPriceType::where('name', $priceType['name'])->first();
+                }
+            }
+        } elseif (is_numeric($priceType)) {
+                $result = ShopPriceType::find($priceType);
+        } elseif (is_string($priceType)) {
+            $name = $priceType;
+            $result = ShopPriceType::where('code', $priceType)->orWhere('name', $priceType)->first();
+        }
+
+        if ($create && empty($result) && !empty($name)) {
+            if (empty($code)) {
+                $code = Str::slug($name);
+            }
+
+            if (!empty($priceType['tax'])) {
+                $tax = $this->setTax($priceType['tax']);
+            }
+
+            try {
+                $result = ShopPriceType::create([
+                    'name' => $name,
+                    'code' => $code,
+                    'tax_id' => $tax->id ?? null
+                ]);
+            }
+            catch (\Exception $e) {
+                $this->lastError = [
+                    'message' => $e->getMessage(),
+                    'exception' => [
+                        'code' => $e->getCode(),
+                        'message' => $e->getMessage(),
+                        'file' => $e->getFile(),
+                        'line' => $e->getLine(),
+                        'trace' => $e->getTraceAsString()
+                    ]
+                ];
+            }
+
+        }
+    }
+
+    public function setTax(array|string|int $tax, bool $create = true, $byValue = false)
+    {
+        $result = null;
+        $name = null;
+        $value = null;
+        $title = null;
+        $description = null;
+        if (is_array($tax)) {
+            if (!empty($tax['id'])) {
+                $result = ShopTax::find($tax['id']);
+            }
+            if (!empty($tax['name'])) {
+                $name = $tax['name'];
+                if (empty($result)) {
+                    $result = ShopTax::where('name', $tax['name'])->first();
+                }
+            }
+            if (!empty($tax['value'])) {
+                $value = $tax['value'];
+                if (empty($result)) {
+                    $result = ShopTax::where('value', $tax['value'])->first();
+                }
+            }
+            if (!empty($tax['title'])) {
+                $title = $tax['title'];
+            }
+            if (!empty($tax['description'])) {
+                $description = $tax['description'];
+            }
+        }
+        elseif (is_numeric($tax)) {
+            if ($byValue) {
+                $result = ShopTax::where('value', $tax)->first();
+            }
+            else {
+                $result = ShopTax::find($tax);
+            }
+        } elseif (is_string($tax)) {
+            $name = $tax;
+            $result = ShopTax::where('name', $tax)->first();
+        }
+
+        if ($create && empty($result) && !empty($name) && !empty($value)) {
+            try {
+                $result = ShopTax::create([
+                    'name' => $name,
+                    'value' => $value,
+                    'title' => $title,
+                    'description' => $description
+                ]);
+            }
+            catch (\Exception $e) {
+                $this->lastError = [
+                    'message' => $e->getMessage(),
+                    'exception' => [
+                        'code' => $e->getCode(),
+                        'message' => $e->getMessage(),
+                        'file' => $e->getFile(),
+                        'line' => $e->getLine(),
+                        'trace' => $e->getTraceAsString()
+                    ]
+                ];
+            }
+        }
+
+        return $result;
+    }
+
+    public function setProperty(array|string|int $property, bool $create = true)
     {
         $result = null;
         $data_type = null;
@@ -116,7 +387,7 @@ class ShopController extends Controller
         return $result;
     }
 
-    public function setParameter(array|string $parameter, bool $create = true)
+    public function setParameter(array|string|int $parameter, bool $create = true)
     {
         $result = null;
         $data_type = null;
