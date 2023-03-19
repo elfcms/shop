@@ -191,26 +191,7 @@ class ItemsController extends ApiController
                         //get price type
                         $priceType = null;
                         if (!empty($price['priceType'])) {
-                            if (is_array($price['priceType'])) {
-                                if (!empty($price['priceType']['id'])) {
-                                    $priceType = ShopPriceType::find($price['priceType']['id']);
-                                }
-                                if (empty($priceType) && !empty($price['priceType']['code'])) {
-                                    $priceType = ShopPriceType::where('code', $price['priceType']['code'])->first();
-                                }
-                                if (empty($priceType) && !empty($price['priceType']['name'])) {
-                                    $priceType = ShopPriceType::where('name', $price['priceType']['name'])->first();
-                                }
-                            } else {
-                                if (is_numeric($price['priceType'])) {
-                                    $priceType = ShopPriceType::find($price['priceType']['id']);
-                                } else {
-                                    $priceType = ShopPriceType::where('code', $price['priceType'])->first();
-                                }
-                                if (empty($priceType)) {
-                                    $priceType = ShopPriceType::where('name', $price['priceType'])->first();
-                                }
-                            }
+                            $priceType = $this->setPriceType($price['priceType'],false);
                         }
                         if (empty($priceType)) {
                             $priceType = $defaultPriceType;
@@ -218,26 +199,7 @@ class ItemsController extends ApiController
                         //get currency
                         $currency = null;
                         if (!empty($price['currency'])) {
-                            if (is_array($price['currency'])) {
-                                if (!empty($price['currency']['id'])) {
-                                    $currency = ShopCurrency::find($price['currency']['id']);
-                                }
-                                if (empty($currency) && !empty($price['currency']['code'])) {
-                                    $currency = ShopCurrency::where('code', $price['currency']['code'])->first();
-                                }
-                                if (empty($currency) && !empty($price['currency']['name'])) {
-                                    $currency = ShopCurrency::where('name', $price['currency']['name'])->first();
-                                }
-                            } else {
-                                if (is_numeric($price['currency'])) {
-                                    $currency = ShopCurrency::find($price['currency']);
-                                } else {
-                                    $currency = ShopCurrency::where('code', $price['currency'])->first();
-                                }
-                                if (empty($currency)) {
-                                    $currency = ShopCurrency::where('name', $price['currency'])->first();
-                                }
-                            }
+                            $currency = $this->setCurrency($price['currency'],false);
                         }
                         if (empty($currency)) {
                             $currency = $defaultCurrency;
