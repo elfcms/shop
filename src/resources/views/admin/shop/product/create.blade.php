@@ -66,6 +66,22 @@
                     </div>
                 </div>
                 <div class="input-box colored">
+                    <label for="image">{{ __('basic::elf.image') }}</label>
+                    <div class="input-wrapper">
+                        <input type="hidden" name="image_path" id="image_path">
+                        <div class="image-button">
+                            <div class="delete-image hidden">&#215;</div>
+                            <div class="image-button-img">
+                                <img src="{{ asset('/vendor/elfcms/shop/admin/images/icons/upload.png') }}" alt="Upload file">
+                            </div>
+                            <div class="image-button-text">
+                                {{ __('basic::elf.choose_file') }}
+                            </div>
+                            <input type="file" name="image" id="image">
+                        </div>
+                    </div>
+                </div>
+                <div class="input-box colored">
                     <label for="desctiption">{{ __('basic::elf.description') }}</label>
                     <div class="input-wrapper">
                         <textarea name="description" id="description" cols="30" rows="10"></textarea>

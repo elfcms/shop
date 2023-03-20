@@ -26,8 +26,9 @@ Route::group(['middleware'=>['api_json']],function() use ($apiPath) {
 
     Route::group(['middleware'=>['api_auth']],function() use ($apiPath) {
         Route::get($apiPath . '/products',[Elfcms\Shop\Http\Controllers\Api\V1\ProductsController::class, 'getProducts']);
+        Route::post($apiPath . '/products',[Elfcms\Shop\Http\Controllers\Api\V1\ProductsController::class, 'setProduct']);
         Route::get($apiPath . '/products/{id}',[Elfcms\Shop\Http\Controllers\Api\V1\ProductsController::class, 'getProduct']);
-        Route::post($apiPath . '/products/{id}',[Elfcms\Shop\Http\Controllers\Api\V1\ItemsController::class, 'setItem']);
+        Route::post($apiPath . '/products/{id}',[Elfcms\Shop\Http\Controllers\Api\V1\ItemsController::class, 'setNewItem']);
 
         Route::get($apiPath . '/items',[Elfcms\Shop\Http\Controllers\Api\V1\ItemsController::class, 'getItems']);
         Route::get($apiPath . '/items/{id}',[Elfcms\Shop\Http\Controllers\Api\V1\ItemsController::class, 'getItem']);

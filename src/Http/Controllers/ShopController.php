@@ -11,7 +11,9 @@ use Elfcms\Shop\Models\ShopColor;
 use Elfcms\Shop\Models\ShopCurrency;
 use Elfcms\Shop\Models\ShopItem;
 use Elfcms\Shop\Models\ShopItemParameter;
+use Elfcms\Shop\Models\ShopItemParameterValue;
 use Elfcms\Shop\Models\ShopItemProperty;
+use Elfcms\Shop\Models\ShopItemPropertyValue;
 use Elfcms\Shop\Models\ShopPriceType;
 use Elfcms\Shop\Models\ShopProduct;
 use Elfcms\Shop\Models\ShopTax;
@@ -19,6 +21,7 @@ use Elfcms\Shop\Models\ShopUnit;
 use Elfcms\Shop\Models\ShopVendor;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 
 class ShopController extends Controller
@@ -295,6 +298,228 @@ class ShopController extends Controller
         }
 
         return $result;
+    }
+
+    public function setItem(array $itemRequest, int|ShopProduct $product, bool|null $createParam = null)
+    {
+
+        if (is_numeric($product)) {
+            $product = ShopProduct::find($product);
+        }
+        elseif (is_string($product)) {
+            $product = ShopProduct::where('slug',$product)->orWhere('title',$product)->first();
+        }
+        if (!is_object($product) || !($product instanceof ShopProduct)) {
+            $product = null;
+        }
+
+        if (empty($product)) {
+            return $this->notFound('Product not found');
+        }
+
+        //return $itemRequest;
+
+        if (empty($itemRequest)) {
+            return $this->error(400, 'Item data not found');
+        }
+
+        $validated = Validator::make($itemRequest, [
+            'item_number' => 'required|unique:Elfcms\Shop\Models\ShopItem,item_number',
+            //'product_id' => 'required',
+            'image' => 'nullable|max:1024',
+        ]);
+
+        if ($validated->fails()) {
+            $errorsData = $validated->errors()->messages();
+            $errorsMessages = [];
+            foreach ($errorsData as $message) {
+                $errorsMessages[] = $message[0];
+            }
+            $errors = implode('. ', $errorsMessages);
+
+            return $this->error(400, $errors);
+        }
+
+        $itemData = $itemRequest;
+
+        $itemData['image'] = !empty($itemRequest['image']) ? $this->setFileByLink($itemRequest['image'], Setting::value('shop_image_path') ?? '/shop/item/images') : null;
+
+        $item =  $product->items()->create($itemData);
+
+        if ($item) {
+
+
+            /* Prices */
+            $defaultPriceType = ShopPriceType::defaultOrFirst();
+
+            $defaultCurrency = ShopCurrency::defaultOrFirst();
+
+            if (!empty($itemRequest['prices'])) {
+                $prices = [];
+                if (!empty($itemRequest['prices']['value'])) {
+                    $prices[] = $itemRequest['prices'];
+                } elseif (!empty($itemRequest['prices'][0])) {
+                    $prices = $itemRequest['prices'];
+                }
+
+                $isOld = false;
+                $isCurrent = false;
+                foreach ($prices as $price) {
+
+                    try {
+                        if (empty($price['value'])) {
+                            continue;
+                        }
+                        //get price type
+                        $priceType = null;
+                        if (!empty($price['priceType'])) {
+                            $priceType = $this->setPriceType($price['priceType'],false);
+                        }
+                        if (empty($priceType)) {
+                            $priceType = $defaultPriceType;
+                        }
+                        //get currency
+                        $currency = null;
+                        if (!empty($price['currency'])) {
+                            $currency = $this->setCurrency($price['currency'],false);
+                        }
+                        if (empty($currency)) {
+                            $currency = $defaultCurrency;
+                        }
+                        if (empty($currency) || empty($currency->id) || empty($priceType) || empty($priceType->id)) {
+                            continue;
+                        }
+                        $priceData = [
+                            'value' => intval(floatval(str_replace(',', '.', $price['value'])) * 100),
+                            'price_type_id' => $priceType->id,
+                            'currency_id' => $currency->id,
+                            'current' => !empty($price['current']) && !$isCurrent ? 1 : 0,
+                            'old' => !empty($price['old']) && !$isOld ? 1 : 0,
+                        ];
+
+                        if (!empty($price['current'])) {
+                            $isCurrent = true;
+                        }
+                        if (!empty($price['old'])) {
+                            $isOld = true;
+                        }
+
+                        $item->prices()->create($priceData);
+
+                    } catch (\Exception $e) {
+                        $this->lastError = [
+                            'code' => $e->getCode(),
+                            'message' => $e->getMessage(),
+                            'file' => $e->getFile(),
+                            'line' => $e->getLine(),
+                            'trace' => $e->getTraceAsString()
+                        ];
+                    }
+                }
+            }
+            /* /Prices */
+
+            /* if ($createParam === null && !empty($request->createParam)) {
+                if ($request->createParam == 'true') {
+                    $createParam = true;
+                }
+                elseif ($request->createParam == 'false') {
+                    $createParam = false;
+                }
+            } */
+
+            /* Parameters */
+            if (!empty($itemRequest['parameters'])) {
+                foreach ($itemRequest['parameters'] as $parameterItem) {
+
+                    if (empty($parameterItem['value'])) {
+                        continue;
+                    }
+
+                    $parameter = $this->setParameter($parameterItem, $createParam);
+
+                    if (empty($parameter) || !is_object($parameter) || !($parameter instanceof ShopItemParameter)) {
+                        continue;
+                    }
+
+                    if ($parameter->data_type->code == 'list') {
+                        if (empty($parameterItem['value'])) {
+                            $parameterItem['value'] = [];
+                        }
+                        if (!is_array($parameterItem['value'])) {
+                            $parameterItem['value'] = [$parameterItem['value']];
+                        }
+                        $parameterItem['value']['value'] = json_encode($parameterItem['value']);
+                    }
+                    if ($parameter->data_type->code == 'color') {
+                        $parameterItem['value'] = null;
+                        if (!empty($parameterItem['value'])) {
+                            $color = $this->setColor($parameterItem['value']);
+                            if ($color) {
+                                $parameterItem['value'] = $color->id;
+                            }
+                        }
+                    }
+                    if ($parameter->data_type->code == 'file' || $parameter->data_type->code == 'image') {
+                        $parameterItem['value'] = $this->setFileByLink($parameterItem['value'], Setting::value('shop_parameter_path') ?? '/shop/item/parameters');
+                    }
+
+                    $parameterValue = ShopItemParameterValue::updateOrCreate(
+                        ['item_id' => $item->id, 'parameter_id' => $parameter->id],
+                        [$parameter->data_type->code . '_value' => $parameterItem['value']]
+                    );
+                }
+            }
+            /* /Parameters */
+
+            /* Properties */
+            if (!empty($itemRequest['properties'])) {
+                foreach ($itemRequest['properties'] as $propertyItem) {
+
+                    if (empty($propertyItem['value'])) {
+                        continue;
+                    }
+
+                    $property = $this->setProperty($propertyItem, $createParam);
+
+                    if (empty($property) || !is_object($property) || !($property instanceof ShopItemProperty)) {
+                        continue;
+                    }
+
+                    if ($property->data_type->code == 'list') {
+                        if (empty($propertyItem['value'])) {
+                            $propertyItem['value'] = [];
+                        }
+                        if (!is_array($propertyItem['value'])) {
+                            $propertyItem['value'] = [$propertyItem['value']];
+                        }
+                        $propertyItem['value']['value'] = json_encode($propertyItem['value']);
+                    }
+                    if ($property->data_type->code == 'color') {
+                        //continue;
+                        $propertyItem['value'] = null;
+                        if (!empty($propertyItem['value'])) {
+                            $color = $this->setColor($propertyItem['value']);
+                            if ($color) {
+                                $propertyItem['value'] = $color->id;
+                            }
+                        }
+                    }
+                    if ($property->data_type->code == 'file' || $property->data_type->code == 'image') {
+                        $propertyItem['value'] = $this->setFileByLink($propertyItem['value'], Setting::value('shop_property_path') ?? '/shop/item/properties');
+                    }
+
+                    $propertyValue = ShopItemPropertyValue::updateOrCreate(
+                        ['item_id' => $item->id, 'property_id' => $property->id],
+                        [$property->data_type->code . '_value' => $propertyItem['value']]
+                    );
+                }
+            }
+            /* /Properties */
+
+        }
+
+        return $item;
     }
 
     public function setProperty(array|string|int $property, bool $create = true)

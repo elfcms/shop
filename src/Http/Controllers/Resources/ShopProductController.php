@@ -231,7 +231,16 @@ class ShopProductController extends Controller
             'category_id' => 'required',
         ]);
 
+        $path = '/shop/product/images';
+
+        $image_path = '';
+        if (!empty($request->file()['image'])) {
+            $image = $request->file()['image']->store('public' . $path);
+            $image_path = str_ireplace('public/','/storage/',$image);
+        }
+
         //dd($request->unit_id);
+        $validated['image'] = $image_path;
         $validated['description'] = $request->description;
         $validated['active'] = empty($request->active) ? 0 : 1;
         //$validated['parent_id'] = $request->parent_id;
@@ -363,8 +372,18 @@ class ShopProductController extends Controller
                 ]);
             }
 
+            //$path = Setting::value('shop_image_path') ?? '/shop/item/image';
+            $path = '/shop/product/images';
+
+            $image_path = $request->image_path;
+            if (!empty($request->file()['image'])) {
+                $image = $request->file()['image']->store('public' . $path);
+                $image_path = str_ireplace('public/','/storage/',$image);
+            }
+
             $shopProduct->title = $validated['title'];
             $shopProduct->slug = $validated['slug'];
+            $shopProduct->image = $image_path;
             $shopProduct->unit_id = $request->unit_id;
             $shopProduct->brand_id = $request->brand_id;
             $shopProduct->vendor_id = $request->vendor_id;

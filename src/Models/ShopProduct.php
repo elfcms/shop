@@ -13,6 +13,7 @@ class ShopProduct extends Model
         'item_number',
         'title',
         'slug',
+        'image',
         'description',
         'vendor_id',
         'brand_id',

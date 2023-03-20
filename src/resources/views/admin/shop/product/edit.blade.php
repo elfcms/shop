@@ -74,6 +74,31 @@
                         </div>
                     </div>
                 </div>
+
+                <div class="input-box colored">
+                    <label for="image">{{ __('basic::elf.image') }}</label>
+                    <div class="input-wrapper">
+                        <input type="hidden" name="image_path" id="image_path" value="{{$product->image}}">
+                        <div class="image-button">
+                            <div class="delete-image @if (empty($product->image)) hidden @endif">&#215;</div>
+                            <div class="image-button-img">
+                            @if (!empty($product->image))
+                                <img src="{{ asset($product->image) }}" alt="Image">
+                            @else
+                                <img src="{{ asset('/vendor/elfcms/shop/admin/images/icons/upload.png') }}" alt="Upload file">
+                            @endif
+                            </div>
+                            <div class="image-button-text">
+                            @if (!empty($product->image))
+                                {{ __('basic::elf.change_file') }}
+                            @else
+                                {{ __('basic::elf.choose_file') }}
+                            @endif
+                            </div>
+                            <input type="file" name="image" id="image">
+                        </div>
+                    </div>
+                </div>
                 <div class="input-box colored">
                     <label for="desctiption">{{ __('basic::elf.description') }}</label>
                     <div class="input-wrapper wide-editor-wrapper">

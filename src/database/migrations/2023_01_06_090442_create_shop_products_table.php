@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('slug')->unique();
             $table->string('title');
+            $table->string('image')->nullable();
             $table->bigInteger('vendor_id')->unsigned()->nullable();
             $table->foreign('vendor_id')->references('id')->on('shop_vendors')->onDelete('set null');
             $table->bigInteger('brand_id')->unsigned()->nullable();
