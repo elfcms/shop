@@ -2,7 +2,12 @@
 @if (!empty($list))
 
 <div class="shop-color-picker-box" id="{{ $id }}">
-    <div class="shop-color-picker-button" onclick="openPickerColor(this)"></div>
+    <div class="shop-color-picker-button" onclick="openPickerColor(this)">
+        <div class="shop-color-picker-item" data-id="{{ $default->id ?? 0 }}">
+            <div class="shop-color-picker-image empty" style="color: {{ $default->code ?? 'transparent' }};"></div>
+            <label>{{ $default->name ?? __('shop::elf.none') }}</label>
+        </div>
+    </div>
     <div class="shop-color-picker-list closed">
         <div class="shop-color-picker-head">
             <div class="shop-color-picker-close" onclick="closePickerColor(this)">&#215;</div>
