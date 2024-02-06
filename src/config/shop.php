@@ -10,7 +10,7 @@ return [
     |
     */
 
-    'version' => '0.6',
+    'version' => '0.7',
 
     /*
     |--------------------------------------------------------------------------
@@ -21,7 +21,7 @@ return [
     |
     */
 
-    'basic_package' => '1.4.1',
+    'basic_package' => '1.5.4',
 
     /*
     |--------------------------------------------------------------------------
@@ -38,7 +38,7 @@ return [
             "lang_title" => "shop::default.shop",
             "route" => "admin.shop.index",
             "parent_route" => "admin.shop",
-            "icon" => "/vendor/elfcms/shop/admin/images/icons/shop.png",
+            "icon" => "/elfcms/admin/modules/shop/images/icons/shop.png",
             "position" => 110,
             "submenu" => [
                 [

@@ -1,27 +1,27 @@
 :root {
     /* Default */
-    --icon-turnon: url('/vendor/elfcms/shop/admin/images/icons/turnon.png');
-    --icon-edit: url('/vendor/elfcms/shop/admin/images/icons/edit.png');
-    --icon-delete: url('/vendor/elfcms/shop/admin/images/icons/delete.png');
-    --icon-copy: url('/vendor/elfcms/shop/admin/images/icons/copy.png');
-    --icon-search: url('/vendor/elfcms/shop/admin/images/icons/search.png');
-    --icon-add: url('/vendor/elfcms/shop/admin/images/icons/add.png');
+    --icon-turnon: url('/elfcms/admin/modules/shop/images/icons/turnon.png');
+    --icon-edit: url('/elfcms/admin/modules/shop/images/icons/edit.png');
+    --icon-delete: url('/elfcms/admin/modules/shop/images/icons/delete.png');
+    --icon-copy: url('/elfcms/admin/modules/shop/images/icons/copy.png');
+    --icon-search: url('/elfcms/admin/modules/shop/images/icons/search.png');
+    --icon-add: url('/elfcms/admin/modules/shop/images/icons/add.png');
 
     /* Dark */
-    --icon-turnon-dark: url('/vendor/elfcms/shop/admin/images/icons/turnon.png');
-    --icon-edit-dark: url('/vendor/elfcms/shop/admin/images/icons/edit.png');
-    --icon-delete-dark: url('/vendor/elfcms/shop/admin/images/icons/delete.png');
-    --icon-copy-dark: url('/vendor/elfcms/shop/admin/images/icons/copy.png');
-    --icon-search-dark: url('/vendor/elfcms/shop/admin/images/icons/search.png');
-    --icon-add-dark: url('/vendor/elfcms/shop/admin/images/icons/add.png');
+    --icon-turnon-dark: url('/elfcms/admin/modules/shop/images/icons/turnon.png');
+    --icon-edit-dark: url('/elfcms/admin/modules/shop/images/icons/edit.png');
+    --icon-delete-dark: url('/elfcms/admin/modules/shop/images/icons/delete.png');
+    --icon-copy-dark: url('/elfcms/admin/modules/shop/images/icons/copy.png');
+    --icon-search-dark: url('/elfcms/admin/modules/shop/images/icons/search.png');
+    --icon-add-dark: url('/elfcms/admin/modules/shop/images/icons/add.png');
 
     /* Light */
-    --icon-turnon-light: url('/vendor/elfcms/shop/admin/images/icons/turnon_light.png');
-    --icon-edit-light: url('/vendor/elfcms/shop/admin/images/icons/edit_light.png');
-    --icon-delete-light: url('/vendor/elfcms/shop/admin/images/icons/delete_light.png');
-    --icon-copy-light: url('/vendor/elfcms/shop/admin/images/icons/copy_light.png');
-    --icon-search-light: url('/vendor/elfcms/shop/admin/images/icons/search_light.png');
-    --icon-add-light: url('/vendor/elfcms/shop/admin/images/icons/add_light.png');
+    --icon-turnon-light: url('/elfcms/admin/modules/shop/images/icons/turnon_light.png');
+    --icon-edit-light: url('/elfcms/admin/modules/shop/images/icons/edit_light.png');
+    --icon-delete-light: url('/elfcms/admin/modules/shop/images/icons/delete_light.png');
+    --icon-copy-light: url('/elfcms/admin/modules/shop/images/icons/copy_light.png');
+    --icon-search-light: url('/elfcms/admin/modules/shop/images/icons/search_light.png');
+    --icon-add-light: url('/elfcms/admin/modules/shop/images/icons/add_light.png');
 }
 
 .grid-table.shop-category-table {
@@ -298,186 +298,7 @@ main:has(.shop-table-buttons) {
     z-index: 10;
 }
 
-/* .check-delete-wrapper {
-    position: relative;
-    width: 30px;
-    height: 30px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-.check-delete-wrapper > input[type="checkbox"] {
-    z-index: 2;
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    opacity: 0;
-    cursor: pointer;
-}
-.check-delete-wrapper > input[type="checkbox"] + i {
-    display: block;
-    width: 100%;
-    height: 100%;
-    background-color: #d3d3d3;
-    border: 1px solid #ffffff;
-    border-radius: 50%;
-    box-shadow: 0px 0px 3px 0px rgba(0, 0, 0, 0.3);
-    background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABEAAAASBAMAAABP1yhnAAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAAAZdEVYdENvbW1lbnQAQ3JlYXRlZCB3aXRoIEdJTVBXgQ4XAAAACXBIWXMAAC4jAAAuIwF4pT92AAAAElBMVEX///9HcEz///////////////84chYNAAAABXRSTlNAAHCUr50tx88AAABGSURBVAjXYxBUDQUBRQEGwSBBIGAOFGAQCACxmAIEGEKhIIBBEAqQxRDqBCGsQBBLIFAgkFyWUKAQlAU3L5gBCFRALJhLAfGFG2fBykJaAAAAAElFTkSuQmCC');
-    background-position: center;
-    background-repeat: no-repeat;
-}
-.check-delete-wrapper > input[type="checkbox"]:hover + i {
-    box-shadow: 0px 0px 8px 0px rgba(255, 99, 71, 0.5);
-}
-.check-delete-wrapper > input[type="checkbox"]:checked + i {
-    background-color: #ff6347; /* ffb2a4 *
-} */
 
-/* .checkbox-switch-wrapper {
-    display: flex;
-    align-items: center;
-    padding: 0px 10px;
-}
-.checkbox-switch {
-    position: relative;
-    width: 36px;
-    height: 24px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #6a6a6a;
-}
-
-.checkbox-switch.green {
-    color: #a8c176;
-}
-.checkbox-switch.blue {
-    color: #1e90ff;
-}
-.checkbox-switch.darkblue {
-    color: #074ca5;
-}
-.checkbox-switch.red {
-    color: #ff6347;
-}
-
-.checkbox-switch > input[type="checkbox"] {
-    z-index: 2;
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    opacity: 0;
-    cursor: pointer;
-}
-
-.checkbox-switch > input[type="checkbox"] + i {
-    display: block;
-    position: relative;
-    width: 100%;
-    height: 100%;
-    background-color: #d3d3d3;
-    border: 1px solid #ffffff;
-    border-radius: 12px;
-    box-shadow: inset 0px 0px 3px 0px rgba(0, 0, 0, 0.3);
-    box-sizing: border-box;
-}
-.checkbox-switch > input[type="checkbox"] + i::after {
-    content: '';
-    display: block;
-    width: 20px;
-    height: 20px;
-    border-radius: 10px;
-    position: absolute;
-    top: 1px;
-    left: 1px;
-    background-color: #ffffff;
-    box-shadow: 0px 0px 2px 0px rgb(0 0 0 / 30%), inset -3px -3px 3px 0px rgb(0 0 0 / 10%);
-    transition: .1s;
-}
-
-.checkbox-switch > input[type="checkbox"]:hover + i {
-
-}
-
-.checkbox-switch > input[type="checkbox"]:checked + i {
-    background-color: currentColor;
-}
-.checkbox-switch > input[type="checkbox"]:checked + i::after {
-    left: calc(100% - 21px);
-} */
-
-/* .color-pointer-wrapper {
-    display: flex;
-    height: 30px;
-}
-.color-pointer-wrapper input[type="text"] {
-    border-right: 0;
-    border-radius: 3px 0px 0px 3px;
-    padding: 0px 8px;
-    height: 100%;
-}
-.color-pointer-wrapper input[type="color"] {
-    border-radius: 0px 3px 3px 0px;
-    height: 100%;
-} */
-
-/* input[type="color"] {
-    padding: 0;
-    overflow: hidden;
-}
-input[type="color"]::-webkit-color-swatch-wrapper {
-    padding: 0;
-}
-input[type="color"]::-webkit-color-swatch {
-    border: 0;
-} */
-
-/* .color-picture-wrapper .image-button {
-    width: 40px;
-    height: 40px;
-}
-.color-picture-wrapper .image-button .image-button-img {
-    width: 40px;
-    height: 40px;
-}
-.color-picture-wrapper .image-button .image-button-img img {
-    height: initial;
-}
-.color-picture-wrapper .image-button .image-button-text {
-    height: 0;
-    padding: 0;
-    overflow: hidden;
-} */
-/*
-.align-center {
-    text-align: center;
-    justify-content: center;
-}
-
-.icon-checkbox-round {
-    display: block;
-    position: relative;
-    width: 1em;
-    height: 1em;
-    border-radius: 50%;
-    border: .15em solid currentColor;
-    color: #6a6a6a;
-}
-.icon-checkbox-round.checked {
-    color: #a8c176;
-}
-.icon-checkbox-round.checked::after {
-    content: '';
-    display: block;
-    position: absolute;
-    top: -10%;
-    left: 10%;
-    rotate: -45deg;
-    border-left: .15em solid currentColor;
-    border-bottom: .15em solid currentColor;
-    width: 1em;
-    height: 0.45em;
-} */
 
 .context-popup .context-popup-content .contextmenu-content-box .contextmenu-item.warning {
     color: #941b05;
