@@ -2,8 +2,8 @@
 
 namespace Elfcms\Shop\Http\Controllers\Api\V1;
 
-use Elfcms\Basic\Models\DataType;
-use Elfcms\Basic\Models\Setting;
+use Elfcms\Elfcms\Models\DataType;
+use Elfcms\Elfcms\Models\Setting;
 use Elfcms\Shop\Models\ShopCurrency;
 use Elfcms\Shop\Models\ShopItem;
 use Elfcms\Shop\Models\ShopItemParameter;

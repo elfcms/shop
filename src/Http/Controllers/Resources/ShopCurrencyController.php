@@ -16,9 +16,9 @@ class ShopCurrencyController extends Controller
     public function index()
     {
         $currencies = ShopCurrency::all();
-        return view('shop::admin.shop.currency.index',[
+        return view('elfcms::admin.shop.currency.index',[
             'page' => [
-                'title' => __('shop::elf.currencies'),
+                'title' => __('shop::default.currencies'),
                 'current' => url()->current(),
             ],
             'currencies' => $currencies,

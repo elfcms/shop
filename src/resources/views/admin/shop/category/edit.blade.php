@@ -1,4 +1,4 @@
-@extends('shop::admin.layouts.shop')
+@extends('elfcms::admin.layouts.shop')
 
 @section('shop-content')
 
@@ -16,12 +16,12 @@
     @endif
 
     <div class="item-form">
-        <h3>{{ __('basic::elf.edit_category') }}{{ $category->id }}</h3>
+        <h3>{{ __('elfcms::default.edit_category') }}{{ $category->id }}</h3>
         <div class="date-info create-info">
-            {{ __('basic::elf.created_at') }}: {{ $category->created }}
+            {{ __('elfcms::default.created_at') }}: {{ $category->created }}
         </div>
         <div class="date-info update-info">
-            {{ __('basic::elf.updated_at') }}: {{ $category->updated }}
+            {{ __('elfcms::default.updated_at') }}: {{ $category->updated }}
         </div>
         <form action="{{ route('admin.shop.category.update',$category) }}" method="POST" enctype="multipart/form-data">
             @csrf
@@ -29,7 +29,7 @@
             <div class="colored-rows-box">
                 <input type="hidden" name="id" id="id" value="{{ $category->id }}">
                 <div class="input-box colored">
-                    <div class="checkbox-switch-wrapper">
+                    {{-- <div class="checkbox-switch-wrapper">
                         <div class="checkbox-switch blue">
                             <input
                                 type="checkbox"
@@ -42,31 +42,32 @@
                             <i></i>
                         </div>
                         <label for="active">
-                            {{ __('basic::elf.active') }}
+                            {{ __('elfcms::default.active') }}
                         </label>
-                    </div>
+                    </div> --}}
+                    <x-elfcms-input-checkbox code="active" label="{{ __('elfcms::default.active') }}" style="blue" :checked="$category->active" />
                 </div>
                 <div class="input-box colored">
-                    <label for="parent_id">{{ __('basic::elf.parent') }}</label>
+                    <label for="parent_id">{{ __('elfcms::default.parent') }}</label>
                     <div class="input-wrapper">
                         <select name="parent_id" id="parent_id">
-                            <option value="">{{ __('basic::elf.none') }}</option>
+                            <option value="">{{ __('elfcms::default.none') }}</option>
                         @foreach ($categories as $item)
                             @if ($item->id != $category->id)
-                                <option value="{{ $item->id }}" @if ($item->active != 1) class="inactive" @endif @if ($item->id == $category->parent_id) selected @endif>{{ $item->title }}@if ($item->active != 1) [{{ __('basic::elf.inactive') }}] @endif</option>
+                                <option value="{{ $item->id }}" @if ($item->active != 1) class="inactive" @endif @if ($item->id == $category->parent_id) selected @endif>{{ $item->title }}@if ($item->active != 1) [{{ __('elfcms::default.inactive') }}] @endif</option>
                             @endif
                         @endforeach
                         </select>
                     </div>
                 </div>
                 <div class="input-box colored">
-                    <label for="title">{{ __('basic::elf.title') }}</label>
+                    <label for="title">{{ __('elfcms::default.title') }}</label>
                     <div class="input-wrapper">
                         <input type="text" name="title" id="title" value="{{ $category->title }}">
                     </div>
                 </div>
                 <div class="input-box colored">
-                    <label for="slug">{{ __('basic::elf.slug') }}</label>
+                    <label for="slug">{{ __('elfcms::default.slug') }}</label>
                     <div class="input-wrapper">
                         <input type="text" name="slug" id="slug" value="{{ $category->slug }}">
                     </div>
@@ -78,50 +79,32 @@
                     </div>
                 </div>
                 <div class="input-box colored">
-                    <label for="desctiption">{{ __('basic::elf.description') }}</label>
+                    <label for="desctiption">{{ __('elfcms::default.description') }}</label>
                     <div class="input-wrapper">
                         <textarea name="description" id="description" cols="30" rows="10">{{ $category->description }}</textarea>
                     </div>
                 </div>
                 <div class="input-box colored">
-                    <label for="image">{{ __('basic::elf.image') }}</label>
+                    <label for="image">{{ __('elfcms::default.image') }}</label>
                     <div class="input-wrapper">
-                        <input type="hidden" name="image_path" id="image_path" value="{{$category->image}}">
-                        <div class="image-button">
-                            <div class="delete-image @if (empty($category->image)) hidden @endif">&#215;</div>
-                            <div class="image-button-img">
-                            @if (!empty($category->image))
-                                <img src="{{ asset($category->image) }}" alt="Image">
-                            @else
-                                <img src="{{ asset('/vendor/elfcms/shop/admin/images/icons/upload.png') }}" alt="Upload file">
-                            @endif
-                            </div>
-                            <div class="image-button-text">
-                            @if (!empty($category->image))
-                                {{ __('basic::elf.change_file') }}
-                            @else
-                                {{ __('basic::elf.choose_file') }}
-                            @endif
-                            </div>
-                            <input type="file" name="image" id="image">
-                        </div>
+                        <x-elfcms-input-image code="image" :value="$category->image"/>
                     </div>
                 </div>
                 <div class="input-box colored">
-                    <label for="meta_keywords">{{ __('basic::elf.meta_keywords') }}</label>
+                    <label for="meta_keywords">{{ __('elfcms::default.meta_keywords') }}</label>
                     <div class="input-wrapper">
                         <textarea name="meta_keywords" id="meta_keywords" cols="30" rows="3">{{ $category->meta_keywords }}</textarea>
                     </div>
                 </div>
                 <div class="input-box colored">
-                    <label for="meta_description">{{ __('basic::elf.meta_description') }}</label>
+                    <label for="meta_description">{{ __('elfcms::default.meta_description') }}</label>
                     <div class="input-wrapper">
                         <textarea name="meta_description" id="meta_description" cols="30" rows="3">{{ $category->meta_description }}</textarea>
                     </div>
                 </div>
             </div>
             <div class="button-box single-box">
-                <button type="submit" class="default-btn submit-button">{{ __('basic::elf.submit') }}</button>
+                <button type="submit" class="default-btn submit-button">{{ __('elfcms::default.submit') }}</button>
             </div>
         </form>
     </div>

@@ -36,7 +36,7 @@ class ShopCurrencyController extends Controller
         }
         else {
             return view(
-                'shop::admin.shop.currency.content.list',
+                'elfcms::admin.shop.currency.content.list',
                 [
                     'currencies' => $currencies,
                 ]
@@ -64,7 +64,7 @@ class ShopCurrencyController extends Controller
             'default' => 0
         ];
         return view(
-            'shop::admin.shop.currency.content.item',
+            'elfcms::admin.shop.currency.content.item',
             [
                 'currency' => (object)$emptyUnit,
             ]
@@ -84,7 +84,7 @@ class ShopCurrencyController extends Controller
             'data' => null
         ];
         if (!$request->isMethod('POST')) {
-            $result['message'] = __('shop::elf.method_must_be',['method'=>'POST']);
+            $result['message'] = __('shop::default.method_must_be',['method'=>'POST']);
             return $result;
         }
 
@@ -127,7 +127,7 @@ class ShopCurrencyController extends Controller
         if (!empty($currencyDelete)) {
             $deleted = ShopCurrency::destroy($currencyDelete);
             if (!$deleted) {
-                $result['message'] = __('shop::elf.error_of_deleting');
+                $result['message'] = __('shop::default.error_of_deleting');
 
                 return $result;
             }
@@ -145,7 +145,7 @@ class ShopCurrencyController extends Controller
                     $currencyItem->default = empty($currency['default']) ? 0 : 1;
                     $saved = $currencyItem->save();
                     if (!$saved) {
-                        $result['message'] =  __('shop::elf.error_of_saving_id',['id'=>$id]);
+                        $result['message'] =  __('shop::default.error_of_saving_id',['id'=>$id]);
 
                         return $result;
                     }
@@ -163,7 +163,7 @@ class ShopCurrencyController extends Controller
                 }
                 $created = ShopCurrency::create($newcurrency);
                 if (!$created) {
-                    $result['message'] = __('shop::elf.error_of_creating_element_with_name',['name'=>$newcurrency['name']]);
+                    $result['message'] = __('shop::default.error_of_creating_element_with_name',['name'=>$newcurrency['name']]);
 
                     return $result;
                 }
@@ -172,17 +172,17 @@ class ShopCurrencyController extends Controller
 
         $currencies = ShopCurrency::all();
         $view = view(
-            'shop::admin.shop.currency.content.list',
+            'elfcms::admin.shop.currency.content.list',
             [
                 'currencies' => $currencies,
             ]
         )->render();
         if (!$view) {
-            $result['message'] = __('shop::elf.view_not_found');
+            $result['message'] = __('shop::default.view_not_found');
             return $result;
         }
         $result['result'] = 'success';
-        $result['message'] = __('shop::elf.data_saved_successfully');
+        $result['message'] = __('shop::default.data_saved_successfully');
         $result['data'] = $view;
 
         return $result;

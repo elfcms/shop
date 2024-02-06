@@ -16,9 +16,9 @@ class ShopUnitController extends Controller
     public function index()
     {
         $units = ShopUnit::all();
-        return view('shop::admin.shop.unit.index',[
+        return view('elfcms::admin.shop.unit.index',[
             'page' => [
-                'title' => __('shop::elf.units_of_measurement'),
+                'title' => __('shop::default.units_of_measurement'),
                 'current' => url()->current(),
             ],
             'units' => $units,

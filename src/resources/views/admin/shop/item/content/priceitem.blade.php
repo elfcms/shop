@@ -53,7 +53,7 @@
                 id="price_{{!empty($exists) ? 'exists' : 'new'}}_{{$price->id}}_delete"
                 value="1"
                 data-id="{{ $price->id }}"
-                title="{{ __('basic::elf.delete') }}"
+                title="{{ __('elfcms::default.delete') }}"
                 data-inputname="delete"
                 data-inputrow="{{!empty($exists) ? 'exists' : 'new'}}_{{$price->id}}"
             >

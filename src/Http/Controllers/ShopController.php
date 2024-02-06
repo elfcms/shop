@@ -3,8 +3,8 @@
 namespace Elfcms\Shop\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use Elfcms\Basic\Models\DataType;
-use Elfcms\Basic\Models\Setting;
+use Elfcms\Elfcms\Models\DataType;
+use Elfcms\Elfcms\Models\Setting;
 use Elfcms\Shop\Models\ShopBrand;
 use Elfcms\Shop\Models\ShopCategory;
 use Elfcms\Shop\Models\ShopColor;

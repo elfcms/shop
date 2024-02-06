@@ -26,7 +26,7 @@
     </td>
     <td class="button-column non-text-buttons">
         <div class="check-delete-wrapper">
-            <input type="checkbox" name="currency[{{$currency->id}}][delete]" id="currency_{{$currency->id}}_delete" value="1" data-id="{{ $currency->id }}" title="{{ __('basic::elf.delete') }}" onclick="setUnitRowDelete(this)">
+            <input type="checkbox" name="currency[{{$currency->id}}][delete]" id="currency_{{$currency->id}}_delete" value="1" data-id="{{ $currency->id }}" title="{{ __('elfcms::default.delete') }}" onclick="setUnitRowDelete(this)">
             <i></i>
         </div>
     </td>

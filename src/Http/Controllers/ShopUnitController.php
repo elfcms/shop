@@ -37,7 +37,7 @@ class ShopUnitController extends Controller
         }
         else {
             return view(
-                'shop::admin.shop.unit.content.list',
+                'elfcms::admin.shop.unit.content.list',
                 [
                     'units' => $units
                 ]
@@ -68,7 +68,7 @@ class ShopUnitController extends Controller
             'lang_name_plural' => null,
         ];
         return view(
-            'shop::admin.shop.unit.content.item',
+            'elfcms::admin.shop.unit.content.item',
             [
                 'unit' => (object)$emptyUnit
             ]
@@ -89,7 +89,7 @@ class ShopUnitController extends Controller
             'data' => null
         ];
         if (!$request->isMethod('POST')) {
-            $result['message'] = __('shop::elf.method_must_be',['method'=>'POST']);
+            $result['message'] = __('shop::default.method_must_be',['method'=>'POST']);
             return $result;
         }
 
@@ -135,7 +135,7 @@ class ShopUnitController extends Controller
         if (!empty($unitDelete)) {
             $deleted = ShopUnit::destroy($unitDelete);
             if (!$deleted) {
-                $result['message'] = __('shop::elf.error_of_deleting');
+                $result['message'] = __('shop::default.error_of_deleting');
 
                 return $result;
             }
@@ -155,7 +155,7 @@ class ShopUnitController extends Controller
                     $unitItem->lang_name_plural = $unit['lang_name_plural'];
                     $saved = $unitItem->save();
                     if (!$saved) {
-                        $result['message'] =  __('shop::elf.error_of_saving_id',['id'=>$id]);
+                        $result['message'] =  __('shop::default.error_of_saving_id',['id'=>$id]);
 
                         return $result;
                     }
@@ -167,7 +167,7 @@ class ShopUnitController extends Controller
             foreach ($data['newunit'] as $newunit) {
                 $created = ShopUnit::create($newunit);
                 if (!$created) {
-                    $result['message'] = __('shop::elf.error_of_creating_element_with_name',['name'=>$newunit['name']]);
+                    $result['message'] = __('shop::default.error_of_creating_element_with_name',['name'=>$newunit['name']]);
 
                     return $result;
                 }
@@ -176,17 +176,17 @@ class ShopUnitController extends Controller
 
         $units = ShopUnit::all();
         $view = view(
-            'shop::admin.shop.unit.content.list',
+            'elfcms::admin.shop.unit.content.list',
             [
                 'units' => $units
             ]
         )->render();
         if (!$view) {
-            $result['message'] = __('shop::elf.view_not_found');
+            $result['message'] = __('shop::default.view_not_found');
             return $result;
         }
         $result['result'] = 'success';
-        $result['message'] = __('shop::elf.data_saved_successfully');
+        $result['message'] = __('shop::default.data_saved_successfully');
         $result['data'] = $view;
 
         return $result;

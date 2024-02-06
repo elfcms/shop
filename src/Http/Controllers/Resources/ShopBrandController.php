@@ -40,9 +40,9 @@ class ShopBrandController extends Controller
             $brands = ShopBrand::all();
         }
 
-        return view('shop::admin.shop.brand.index',[
+        return view('elfcms::admin.shop.brand.index',[
             'page' => [
-                'title' => __('shop::elf.brands'),
+                'title' => __('shop::default.brands'),
                 'current' => url()->current(),
             ],
             'brands' => $brands,
@@ -57,9 +57,9 @@ class ShopBrandController extends Controller
      */
     public function create()
     {
-        return view('shop::admin.shop.brand.create',[
+        return view('elfcms::admin.shop.brand.create',[
             'page' => [
-                'title' => __('shop::elf.create_brand'),
+                'title' => __('shop::default.create_brand'),
                 'current' => url()->current(),
             ],
         ]);
@@ -103,7 +103,7 @@ class ShopBrandController extends Controller
 
         $brand = ShopBrand::create($validated);
 
-        return redirect(route('admin.shop.brand'))->with('action_result',__('shop::elf.brand_created_successfully'));
+        return redirect(route('admin.shop.brand'))->with('action_result',__('shop::default.brand_created_successfully'));
     }
 
     /**
@@ -139,9 +139,9 @@ class ShopBrandController extends Controller
         if (!empty($shopBrand->updated_at)) {
             $shopBrand->updated = date('d.m.Y H:i:s',strtotime($shopBrand->updated_at));
         }
-        return view('shop::admin.shop.brand.edit',[
+        return view('elfcms::admin.shop.brand.edit',[
             'page' => [
-                'title' => __('shop::elf.edit_brand'),
+                'title' => __('shop::default.edit_brand'),
                 'current' => url()->current(),
             ],
             'brand' => $shopBrand
@@ -191,7 +191,7 @@ class ShopBrandController extends Controller
 
         $shopBrand->save();
 
-        return redirect(route('admin.shop.brand.edit',$shopBrand))->with('action_result',__('shop::elf.brand_edited_successfully'));
+        return redirect(route('admin.shop.brand.edit',$shopBrand))->with('action_result',__('shop::default.brand_edited_successfully'));
     }
 
     /**
@@ -203,9 +203,9 @@ class ShopBrandController extends Controller
     public function destroy(ShopBrand $shopBrand)
     {
         if (!$shopBrand->delete()) {
-            return redirect(route('admin.shop.brand'))->withErrors(['branddelerror'=>__('shop::elf.error_of_brand_deleting')]);
+            return redirect(route('admin.shop.brand'))->withErrors(['branddelerror'=>__('shop::default.error_of_brand_deleting')]);
         }
 
-        return redirect(route('admin.shop.brand'))->with('action_result',__('shop::elf.brand16712_deleted_successfully'));
+        return redirect(route('admin.shop.brand'))->with('action_result',__('shop::default.brand16712_deleted_successfully'));
     }
 }

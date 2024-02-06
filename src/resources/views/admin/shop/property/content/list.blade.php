@@ -1,3 +1,3 @@
 @foreach ($properties as $property)
-    @include('shop::admin.shop.property.content.item')
+    @include('elfcms::admin.shop.property.content.item')
 @endforeach

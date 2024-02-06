@@ -18,9 +18,9 @@ class ShopPriceTypeController extends Controller
     {
         $price_types = ShopPriceType::all();
         $taxes = ShopTax::all();
-        return view('shop::admin.shop.price-type.index',[
+        return view('elfcms::admin.shop.price-type.index',[
             'page' => [
-                'title' => __('shop::elf.price_types'),
+                'title' => __('shop::default.price_types'),
                 'current' => url()->current(),
             ],
             'price_types' => $price_types,

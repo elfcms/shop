@@ -38,7 +38,7 @@ class ShopPriceTypeController extends Controller
         }
         else {
             return view(
-                'shop::admin.shop.price-type.content.list',
+                'elfcms::admin.shop.price-type.content.list',
                 [
                     'price_types' => $priceTypes,
                     'taxes' => $taxes,
@@ -64,7 +64,7 @@ class ShopPriceTypeController extends Controller
         ];
         $taxes = ShopTax::all();
         return view(
-            'shop::admin.shop.price-type.content.item',
+            'elfcms::admin.shop.price-type.content.item',
             [
                 'price_type' => (object)$emptyItem,
                 'taxes' => $taxes
@@ -85,7 +85,7 @@ class ShopPriceTypeController extends Controller
             'data' => null
         ];
         if (!$request->isMethod('POST')) {
-            $result['message'] = __('shop::elf.method_must_be',['method'=>'POST']);
+            $result['message'] = __('shop::default.method_must_be',['method'=>'POST']);
             return $result;
         }
 
@@ -127,7 +127,7 @@ class ShopPriceTypeController extends Controller
         if (!empty($priceTypeDelete)) {
             $deleted = ShopPriceType::destroy($priceTypeDelete);
             if (!$deleted) {
-                $result['message'] = __('shop::elf.error_of_deleting');
+                $result['message'] = __('shop::default.error_of_deleting');
 
                 return $result;
             }
@@ -141,7 +141,7 @@ class ShopPriceTypeController extends Controller
                     $priceTypeItem->tax_id = empty($priceType['tax_id']) ? null : $priceType['tax_id'];
                     $saved = $priceTypeItem->save();
                     if (!$saved) {
-                        $result['message'] =  __('shop::elf.error_of_saving_id',['id'=>$id]);
+                        $result['message'] =  __('shop::default.error_of_saving_id',['id'=>$id]);
 
                         return $result;
                     }
@@ -153,7 +153,7 @@ class ShopPriceTypeController extends Controller
             foreach ($data['newpricetype'] as $newpricetype) {
                 $created = ShopPriceType::create($newpricetype);
                 if (!$created) {
-                    $result['message'] = __('shop::elf.error_of_creating_element_with_name',['name'=>$newpricetype['name']]);
+                    $result['message'] = __('shop::default.error_of_creating_element_with_name',['name'=>$newpricetype['name']]);
 
                     return $result;
                 }
@@ -163,18 +163,18 @@ class ShopPriceTypeController extends Controller
         $priceTypes = ShopPriceType::all();
         $taxes = ShopTax::all();
         $view = view(
-            'shop::admin.shop.price-type.content.list',
+            'elfcms::admin.shop.price-type.content.list',
             [
                 'price_types' => $priceTypes,
                 'taxes' => $taxes,
             ]
         )->render();
         if (!$view) {
-            $result['message'] = __('shop::elf.view_not_found');
+            $result['message'] = __('shop::default.view_not_found');
             return $result;
         }
         $result['result'] = 'success';
-        $result['message'] = __('shop::elf.data_saved_successfully');
+        $result['message'] = __('shop::default.data_saved_successfully');
         $result['data'] = $view;
 
         return $result;

@@ -3,7 +3,7 @@
 namespace Elfcms\Shop\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use Elfcms\Basic\Models\DataType;
+use Elfcms\Elfcms\Models\DataType;
 use Elfcms\Shop\Models\ShopItemParameter;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -39,7 +39,7 @@ class ShopParameterController extends Controller
         }
         else {
             return view(
-                'shop::admin.shop.parameter.content.list',
+                'elfcms::admin.shop.parameter.content.list',
                 [
                     'parameters' => $parameters,
                     'data_types' => $dataTypes,
@@ -71,7 +71,7 @@ class ShopParameterController extends Controller
             'data_type' => (object)['code'=>null],
         ];
         return view(
-            'shop::admin.shop.parameter.content.item',
+            'elfcms::admin.shop.parameter.content.item',
             [
                 'parameter' => (object)$emptyUnit,
                 'data_types' => $dataTypes,
@@ -93,7 +93,7 @@ class ShopParameterController extends Controller
             'data' => null
         ];
         if (!$request->isMethod('POST')) {
-            $result['message'] = __('shop::elf.method_must_be',['method'=>'POST']);
+            $result['message'] = __('shop::default.method_must_be',['method'=>'POST']);
             return $result;
         }
 
@@ -138,7 +138,7 @@ class ShopParameterController extends Controller
         if (!empty($parameterDelete)) {
             $deleted = ShopItemParameter::destroy($parameterDelete);
             if (!$deleted) {
-                $result['message'] = __('shop::elf.error_of_deleting');
+                $result['message'] = __('shop::default.error_of_deleting');
 
                 return $result;
             }
@@ -166,7 +166,7 @@ class ShopParameterController extends Controller
                     $parameterItem->options = json_encode($options);
                     $saved = $parameterItem->save();
                     if (!$saved) {
-                        $result['message'] =  __('shop::elf.error_of_saving_id',['id'=>$id]);
+                        $result['message'] =  __('shop::default.error_of_saving_id',['id'=>$id]);
 
                         return $result;
                     }
@@ -200,7 +200,7 @@ class ShopParameterController extends Controller
                 }
                 $created = ShopItemParameter::create($newparameter);
                 if (!$created) {
-                    $result['message'] = __('shop::elf.error_of_creating_element_with_name',['name'=>$newparameter['name']]);
+                    $result['message'] = __('shop::default.error_of_creating_element_with_name',['name'=>$newparameter['name']]);
 
                     return $result;
                 }
@@ -210,18 +210,18 @@ class ShopParameterController extends Controller
         $parameters = ShopItemParameter::all();
         $dataTypes = DataType::all();
         $view = view(
-            'shop::admin.shop.parameter.content.list',
+            'elfcms::admin.shop.parameter.content.list',
             [
                 'parameters' => $parameters,
                 'data_types' => $dataTypes,
             ]
         )->render();
         if (!$view) {
-            $result['message'] = __('shop::elf.view_not_found');
+            $result['message'] = __('shop::default.view_not_found');
             return $result;
         }
         $result['result'] = 'success';
-        $result['message'] = __('shop::elf.data_saved_successfully');
+        $result['message'] = __('shop::default.data_saved_successfully');
         $result['data'] = $view;
 
         return $result;

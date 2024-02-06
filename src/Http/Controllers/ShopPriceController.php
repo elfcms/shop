@@ -35,7 +35,7 @@ class ShopPriceController extends Controller
         $currencies = ShopCurrency::all();
 
         return view(
-            'shop::admin.shop.item.content.priceitem',
+            'elfcms::admin.shop.item.content.priceitem',
             [
                 'price' => (object)$emptyItem,
                 'price_types' => $price_types,

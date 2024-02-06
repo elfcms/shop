@@ -1,4 +1,4 @@
-@extends('shop::admin.layouts.shop')
+@extends('elfcms::admin.layouts.shop')
 
 @section('shop-content')
     @if (Session::has('action_result'))
@@ -20,22 +20,22 @@
             <thead>
                 <tr>
                     <th>ID</th>
-                    <th>{{ __('basic::elf.name') }}</th>
-                    <th>{{ __('basic::elf.code') }}</th>
-                    <th>{{ __('shop::elf.image') }}</th>
-                    {{-- <th>{{ __('shop::elf.default') }}</th> --}}
+                    <th>{{ __('elfcms::default.name') }}</th>
+                    <th>{{ __('elfcms::default.code') }}</th>
+                    <th>{{ __('shop::default.image') }}</th>
+                    {{-- <th>{{ __('shop::default.default') }}</th> --}}
                     <th></th>
                 </tr>
             </thead>
             <tbody>
-                @include('shop::admin.shop.color.content.list')
+                @include('elfcms::admin.shop.color.content.list')
             </tbody>
         </table>
     </div>
     <div class="shop-table-buttons">
-        <button class="default-btn alternate-button" title="{{__('shop::elf.add_color')}}" data-action="additem">{{ __('shop::elf.add') }}</button>
-        {{-- <button class="default-btn" title="{{__('basic::elf.reset_button')}}" data-action="reset">{{ __('basic::elf.reset_button') }}</button> --}}
-        <button type="submit" class="default-btn submit-button" disabled="" data-action="save">{{ __('basic::elf.save') }}</button>
+        <button class="default-btn alternate-button" title="{{__('shop::default.add_color')}}" data-action="additem">{{ __('shop::default.add') }}</button>
+        {{-- <button class="default-btn" title="{{__('elfcms::default.reset_button')}}" data-action="reset">{{ __('elfcms::default.reset_button') }}</button> --}}
+        <button type="submit" class="default-btn submit-button" disabled="" data-action="save">{{ __('elfcms::default.save') }}</button>
     </div>
 </form>
     <script>
@@ -194,8 +194,8 @@
             saveButton.addEventListener('click',function(e){
                 e.preventDefault();
                 popup({
-                    title: '{{__("shop::elf.are_you_sure")}}',
-                    content: '{{__("shop::elf.do_you_want_to_save_your_changes")}}',
+                    title: '{{__("shop::default.are_you_sure")}}',
+                    content: '{{__("shop::default.do_you_want_to_save_your_changes")}}',
                     buttons:[
                         {
                             title:'OK',
@@ -206,7 +206,7 @@
                             ]
                         },
                         {
-                            title:'{{__("basic::elf.cancel")}}',
+                            title:'{{__("elfcms::default.cancel")}}',
                             class:'default-btn cancel-button',
                             callback:'close'
                         }
@@ -252,7 +252,7 @@
                                     });
                                 }
                                 popup({
-                                    title: '{{__("shop::elf.done")}}',
+                                    title: '{{__("shop::default.done")}}',
                                     content: data.message,
                                     buttons:[
                                         {
@@ -268,10 +268,10 @@
                             else {
                                 if ((data.error || (data.result && data.result == 'error'))) {
                                     if (!data.message) {
-                                        data.message = '{{ __("shop::elf.error") }}';
+                                        data.message = '{{ __("shop::default.error") }}';
                                     }
                                     popup({
-                                        title:'{{__("shop::elf.error")}}',
+                                        title:'{{__("shop::default.error")}}',
                                         content:data.message,
                                         buttons:[
                                             {

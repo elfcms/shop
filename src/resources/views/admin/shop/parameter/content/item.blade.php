@@ -35,7 +35,7 @@
     </td>
     <td class="button-column non-text-buttons">
         <div class="check-delete-wrapper">
-            <input type="checkbox" name="parameter[{{$parameter->id}}][delete]" id="parameter_{{$parameter->id}}_delete" value="1" data-id="{{ $parameter->id }}" title="{{ __('basic::elf.delete') }}" onclick="setUnitRowDelete(this)">
+            <input type="checkbox" name="parameter[{{$parameter->id}}][delete]" id="parameter_{{$parameter->id}}_delete" value="1" data-id="{{ $parameter->id }}" title="{{ __('elfcms::default.delete') }}" onclick="setUnitRowDelete(this)">
             <i></i>
         </div>
     </td>
@@ -46,21 +46,21 @@
                     <input type="checkbox" name="parameter[{{$parameter->id}}][multiple]" id="parameter_{{$parameter->id}}_multiple" value="1" data-name="multiple" @if($parameter->multiple) checked @endif>
                     <i></i>
                 </div>
-                <label for="parameter_{{$parameter->id}}_multiple">{{ __('shop::elf.multiple') }}</label>
+                <label for="parameter_{{$parameter->id}}_multiple">{{ __('shop::default.multiple') }}</label>
             </div>
             <div class="shop-option-box-label">
-                {{ __('shop::elf.options') }}
+                {{ __('shop::default.options') }}
             </div>
             <div class="shop-option-table">
                 <div class="shop-option-table-head">
                     <div class="shop-option-table-column">
-                        {{ __('shop::elf.key') }}
+                        {{ __('shop::default.key') }}
                     </div>
                     <div class="shop-option-table-column">
-                        {{ __('shop::elf.value') }}
+                        {{ __('shop::default.value') }}
                     </div>
                     <div class="shop-option-table-column">
-                        {{ __('basic::elf.delete') }}
+                        {{ __('elfcms::default.delete') }}
                     </div>
                 </div>
                 <div class="shop-option-table-body">
@@ -84,7 +84,7 @@
                 @endif
                 </div>
                 <div class="shop-option-table-add">
-                    <button class="default-btn" data-id="{{$parameter->id}}" onclick="addOption(this{{!$parameter->code ? '' : ',false' }})">{{ __('basic::elf.add_option') }}</button>
+                    <button class="default-btn" data-id="{{$parameter->id}}" onclick="addOption(this{{!$parameter->code ? '' : ',false' }})">{{ __('elfcms::default.add_option') }}</button>
                 </div>
             </div>
         </div>

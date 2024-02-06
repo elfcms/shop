@@ -17,7 +17,7 @@
     </td>
     <td class="button-column non-text-buttons">
         <div class="check-delete-wrapper">
-            <input type="checkbox" name="tax[{{$tax->id}}][delete]" id="tax_{{$tax->id}}_delete" value="1" data-id="{{ $tax->id }}" title="{{ __('basic::elf.delete') }}" onclick="setUnitRowDelete(this)">
+            <input type="checkbox" name="tax[{{$tax->id}}][delete]" id="tax_{{$tax->id}}_delete" value="1" data-id="{{ $tax->id }}" title="{{ __('elfcms::default.delete') }}" onclick="setUnitRowDelete(this)">
             <i></i>
         </div>
     </td>

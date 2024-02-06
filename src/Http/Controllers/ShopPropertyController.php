@@ -3,7 +3,7 @@
 namespace Elfcms\Shop\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use Elfcms\Basic\Models\DataType;
+use Elfcms\Elfcms\Models\DataType;
 use Elfcms\Shop\Models\ShopItemProperty;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -39,7 +39,7 @@ class ShopPropertyController extends Controller
         }
         else {
             return view(
-                'shop::admin.shop.property.content.list',
+                'elfcms::admin.shop.property.content.list',
                 [
                     'properties' => $properties,
                     'data_types' => $dataTypes,
@@ -71,7 +71,7 @@ class ShopPropertyController extends Controller
             'data_type' => (object)['code'=>null],
         ];
         return view(
-            'shop::admin.shop.property.content.item',
+            'elfcms::admin.shop.property.content.item',
             [
                 'property' => (object)$emptyUnit,
                 'data_types' => $dataTypes,
@@ -93,7 +93,7 @@ class ShopPropertyController extends Controller
             'data' => null
         ];
         if (!$request->isMethod('POST')) {
-            $result['message'] = __('shop::elf.method_must_be',['method'=>'POST']);
+            $result['message'] = __('shop::default.method_must_be',['method'=>'POST']);
             return $result;
         }
 
@@ -138,7 +138,7 @@ class ShopPropertyController extends Controller
         if (!empty($propertyDelete)) {
             $deleted = ShopItemProperty::destroy($propertyDelete);
             if (!$deleted) {
-                $result['message'] = __('shop::elf.error_of_deleting');
+                $result['message'] = __('shop::default.error_of_deleting');
 
                 return $result;
             }
@@ -166,7 +166,7 @@ class ShopPropertyController extends Controller
                     $propertyItem->options = json_encode($options);
                     $saved = $propertyItem->save();
                     if (!$saved) {
-                        $result['message'] =  __('shop::elf.error_of_saving_id',['id'=>$id]);
+                        $result['message'] =  __('shop::default.error_of_saving_id',['id'=>$id]);
 
                         return $result;
                     }
@@ -200,7 +200,7 @@ class ShopPropertyController extends Controller
                 }
                 $created = ShopItemProperty::create($newproperty);
                 if (!$created) {
-                    $result['message'] = __('shop::elf.error_of_creating_element_with_name',['name'=>$newproperty['name']]);
+                    $result['message'] = __('shop::default.error_of_creating_element_with_name',['name'=>$newproperty['name']]);
 
                     return $result;
                 }
@@ -210,18 +210,18 @@ class ShopPropertyController extends Controller
         $properties = ShopItemProperty::all();
         $dataTypes = DataType::all();
         $view = view(
-            'shop::admin.shop.property.content.list',
+            'elfcms::admin.shop.property.content.list',
             [
                 'properties' => $properties,
                 'data_types' => $dataTypes,
             ]
         )->render();
         if (!$view) {
-            $result['message'] = __('shop::elf.view_not_found');
+            $result['message'] = __('shop::default.view_not_found');
             return $result;
         }
         $result['result'] = 'success';
-        $result['message'] = __('shop::elf.data_saved_successfully');
+        $result['message'] = __('shop::default.data_saved_successfully');
         $result['data'] = $view;
 
         return $result;

@@ -35,7 +35,7 @@ return [
     "menu" => [
         [
             "title" => "Shop",
-            "lang_title" => "shop::elf.shop",
+            "lang_title" => "shop::default.shop",
             "route" => "admin.shop.index",
             "parent_route" => "admin.shop",
             "icon" => "/vendor/elfcms/shop/admin/images/icons/shop.png",
@@ -43,57 +43,57 @@ return [
             "submenu" => [
                 [
                     "title" => "Categories",
-                    "lang_title" => "basic::elf.categories",
+                    "lang_title" => "elfcms::default.categories",
                     "route" => "admin.shop.category"
                 ],
                 [
                     "title" => "Goods",
-                    "lang_title" => "shop::elf.products",
+                    "lang_title" => "shop::default.products",
                     "route" => "admin.shop.product"
                 ],
                 [
                     "title" => "Vendors",
-                    "lang_title" => "shop::elf.vendors",
+                    "lang_title" => "shop::default.vendors",
                     "route" => "admin.shop.vendor"
                 ],
                 [
                     "title" => "Brands",
-                    "lang_title" => "shop::elf.brands",
+                    "lang_title" => "shop::default.brands",
                     "route" => "admin.shop.brand"
                 ],
                 [
                     "title" => "Units of measurement",
-                    "lang_title" => "shop::elf.units_of_measurement",
+                    "lang_title" => "shop::default.units_of_measurement",
                     "route" => "admin.shop.unit"
                 ],
                 [
                     "title" => "Parameters",
-                    "lang_title" => "shop::elf.parameters",
+                    "lang_title" => "shop::default.parameters",
                     "route" => "admin.shop.parameter"
                 ],
                 [
                     "title" => "Properties",
-                    "lang_title" => "shop::elf.properties",
+                    "lang_title" => "shop::default.properties",
                     "route" => "admin.shop.property"
                 ],
                 [
                     "title" => "Colors",
-                    "lang_title" => "shop::elf.colors",
+                    "lang_title" => "shop::default.colors",
                     "route" => "admin.shop.color"
                 ],
                 [
                     "title" => "Currencies",
-                    "lang_title" => "shop::elf.currencies",
+                    "lang_title" => "shop::default.currencies",
                     "route" => "admin.shop.currency"
                 ],
                 [
                     "title" => "Taxes",
-                    "lang_title" => "shop::elf.taxes",
+                    "lang_title" => "shop::default.taxes",
                     "route" => "admin.shop.tax"
                 ],
                 [
                     "title" => "Price types",
-                    "lang_title" => "shop::elf.price_types",
+                    "lang_title" => "shop::default.price_types",
                     "route" => "admin.shop.price-type"
                 ],
             ]

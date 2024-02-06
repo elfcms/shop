@@ -30,8 +30,8 @@ class ShopUnit extends Model
     {
         $title = $this->name;
         if (!empty($this->lang_name)) {
-            $lang_title = __('shop::elf.' . $this->lang_name);
-            if ($lang_title != 'shop::elf.' . $this->lang_name) {
+            $lang_title = __('shop::default.' . $this->lang_name);
+            if ($lang_title != 'shop::default.' . $this->lang_name) {
                 $title = $lang_title;
             }
         }

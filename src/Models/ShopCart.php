@@ -2,8 +2,8 @@
 
 namespace Elfcms\Shop\Models;
 
-use Elfcms\Basic\Models\TmpUser;
-use Elfcms\Basic\Models\User;
+use Elfcms\Elfcms\Models\TmpUser;
+use Elfcms\Elfcms\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 

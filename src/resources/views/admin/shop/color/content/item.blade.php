@@ -26,9 +26,9 @@
                 </div>
                 <div class="image-button-text">
                 @if (!empty($color->picture))
-                    {{ __('basic::elf.change_file') }}
+                    {{ __('elfcms::default.change_file') }}
                 @else
-                    {{ __('basic::elf.choose_file') }}
+                    {{ __('elfcms::default.choose_file') }}
                 @endif
                 </div>
                 <input type="file" name="color[{{$color->id}}][picture]" id="color_{{$color->id}}_picture" data-name="picture">
@@ -43,7 +43,7 @@
     </td> --}}
     <td class="button-column non-text-buttons">
         <div class="check-delete-wrapper">
-            <input type="checkbox" name="color[{{$color->id}}][delete]" id="color_{{$color->id}}_delete" value="1" data-id="{{ $color->id }}" title="{{ __('basic::elf.delete') }}" onclick="setUnitRowDelete(this)">
+            <input type="checkbox" name="color[{{$color->id}}][delete]" id="color_{{$color->id}}_delete" value="1" data-id="{{ $color->id }}" title="{{ __('elfcms::default.delete') }}" onclick="setUnitRowDelete(this)">
             <i></i>
         </div>
     </td>

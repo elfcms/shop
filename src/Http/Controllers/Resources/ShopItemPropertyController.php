@@ -3,7 +3,7 @@
 namespace Elfcms\Shop\Http\Controllers\Resources;
 
 use App\Http\Controllers\Controller;
-use Elfcms\Basic\Models\DataType;
+use Elfcms\Elfcms\Models\DataType;
 use Elfcms\Shop\Models\ShopItemProperty;
 use Illuminate\Http\Request;
 
@@ -18,9 +18,9 @@ class ShopItemPropertyController extends Controller
     {
         $dataTypes = DataType::all();
         $properties = ShopItemProperty::all();
-        return view('shop::admin.shop.property.index',[
+        return view('elfcms::admin.shop.property.index',[
             'page' => [
-                'title' => __('shop::elf.properties'),
+                'title' => __('shop::default.properties'),
                 'current' => url()->current(),
             ],
             'properties' => $properties,

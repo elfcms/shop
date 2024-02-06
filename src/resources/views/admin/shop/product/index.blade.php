@@ -1,21 +1,21 @@
-@extends('shop::admin.layouts.shop')
+@extends('elfcms::admin.layouts.shop')
 
 @section('shop-content')
 <nav class="pagenav">
     <div class="abstract-nav-line">
-        <a href="{{ route('admin.shop.product.create') }}" class="default-btn submit-button create-button">{{ __('shop::elf.create_product') }}</a>
+        <a href="{{ route('admin.shop.product.create') }}" class="default-btn submit-button create-button">{{ __('shop::default.create_product') }}</a>
     </div>
 </nav>
     <div class="table-search-box">
         <div class="table-search-result-title">
             @if (!empty($search))
-                {{ __('basic::elf.search_result_for') }} "{{ $search }}" <a href="{{ route('admin.shop.product') }}" title="{{ __('basic::elf.reset_search') }}">&#215;</a>
+                {{ __('elfcms::default.search_result_for') }} "{{ $search }}" <a href="{{ route('admin.shop.product') }}" title="{{ __('elfcms::default.reset_search') }}">&#215;</a>
             @endif
         </div>
         <form action="{{ route('admin.shop.product') }}" method="get">
             <div class="input-box">
                 <label for="search">
-                    {{ __('basic::elf.search') }}
+                    {{ __('elfcms::default.search') }}
                 </label>
                 <div class="input-wrapper">
                     <input type="text" name="search" id="search" value="{{ $search ?? '' }}" placeholder="">
@@ -43,17 +43,17 @@
             <thead>
                 <tr>
                     <th>ID</th>
-                    <th>{{ __('basic::elf.title') }}</th>
-                    <th>{{ __('basic::elf.slug') }}</th>
-                    <th>{{ __('shop::elf.unit_of_measurement') }}</th>
-                    <th>{{ __('shop::elf.active') }}</th>
+                    <th>{{ __('elfcms::default.title') }}</th>
+                    <th>{{ __('elfcms::default.slug') }}</th>
+                    <th>{{ __('shop::default.unit_of_measurement') }}</th>
+                    <th>{{ __('shop::default.active') }}</th>
                 </tr>
                 <tr class="subtable-head">
                     <th>ID</th>
-                    <th>{{ __('shop::elf.alternate_name') }}</th>
-                    <th>{{ __('shop::elf.item_number') }}</th>
-                    <th class="align-center">{{ __('shop::elf.balance') }}</th>
-                    <th>{{ __('shop::elf.active') }}</th>
+                    <th>{{ __('shop::default.alternate_name') }}</th>
+                    <th>{{ __('shop::default.item_number') }}</th>
+                    <th class="align-center">{{ __('shop::default.balance') }}</th>
+                    <th>{{ __('shop::default.active') }}</th>
                 </tr>
             </thead>
             <tbody>
@@ -74,7 +74,7 @@
                     <td>
                         <i @class(['icon-checkbox-round', 'checked' => $product->active])></i>
                         <div class="contextmenu-content-box">
-                            <a href="{{ route('admin.shop.product.edit',$product) }}" class="contextmenu-item">{{ __('basic::elf.edit') }}</a>
+                            <a href="{{ route('admin.shop.product.edit',$product) }}" class="contextmenu-item">{{ __('elfcms::default.edit') }}</a>
                             <form action="{{ route('admin.shop.product.update',$product) }}" method="POST">
                                 @csrf
                                 @method('PATCH')
@@ -83,9 +83,9 @@
                                 <input type="hidden" name="notedit" value="1">
                                 <button type="submit" class="contextmenu-item">
                                 @if ($product->active == 1)
-                                    {{ __('basic::elf.deactivate') }}
+                                    {{ __('elfcms::default.deactivate') }}
                                 @else
-                                    {{ __('basic::elf.activate') }}
+                                    {{ __('elfcms::default.activate') }}
                                 @endif
                                 </button>
                             </form>
@@ -94,11 +94,11 @@
                                 @method('DELETE')
                                 <input type="hidden" name="id" value="{{ $product->id }}">
                                 <input type="hidden" name="name" value="{{ $product->title }}">
-                                <button type="submit" class="contextmenu-item warning">{{ __('basic::elf.delete') }}</button>
+                                <button type="submit" class="contextmenu-item warning">{{ __('elfcms::default.delete') }}</button>
                             </form>
                             <form action="{{ route('admin.shop.item.create') }}" method="GET">
                                 <input type="hidden" name="product_id" value="{{ $product->id }}">
-                                <button type="submit" class="contextmenu-item">{{ __('shop::elf.add_item') }}</button>
+                                <button type="submit" class="contextmenu-item">{{ __('shop::default.add_item') }}</button>
                             </form>
                         </div>
                     </td>
@@ -123,7 +123,7 @@
                                 <td>
                                     <i @class(['icon-checkbox-round', 'checked' => $item->active])></i>
                                     <div class="contextmenu-content-box">
-                                        <a href="{{ route('admin.shop.item.edit',$item) }}" class="contextmenu-item">{{ __('basic::elf.edit') }}</a>
+                                        <a href="{{ route('admin.shop.item.edit',$item) }}" class="contextmenu-item">{{ __('elfcms::default.edit') }}</a>
                                         <form action="{{ route('admin.shop.item.update',$item) }}" method="POST">
                                             @csrf
                                             @method('PATCH')
@@ -132,9 +132,9 @@
                                             <input type="hidden" name="notedit" value="1">
                                             <button type="submit" class="contextmenu-item">
                                             @if ($item->active == 1)
-                                                {{ __('basic::elf.deactivate') }}
+                                                {{ __('elfcms::default.deactivate') }}
                                             @else
-                                                {{ __('basic::elf.activate') }}
+                                                {{ __('elfcms::default.activate') }}
                                             @endif
                                             </button>
                                         </form>
@@ -144,7 +144,7 @@
                                             <input type="hidden" name="id" value="{{ $item->id }}">
                                             <input type="hidden" name="name" value="{{ $item->item_number }}">
                                             <input type="hidden" name="is_item" value="1">
-                                            <button type="submit" class="contextmenu-item warning">{{ __('basic::elf.delete') }}</button>
+                                            <button type="submit" class="contextmenu-item warning">{{ __('elfcms::default.delete') }}</button>
                                         </form>
                                     </div>
                                 </td>
@@ -152,10 +152,10 @@
                             @empty
                             <tr class="empty-row">
                                 <td>
-                                    {{-- {{ __('basic::elf.nothing_was_found') }} --}}
+                                    {{-- {{ __('elfcms::default.nothing_was_found') }} --}}
                                     <form action="{{ route('admin.shop.item.create') }}" method="GET">
                                         <input type="hidden" name="product_id" value="{{ $product->id }}">
-                                        <button type="submit" class="default-btn submit-button">{{ __('shop::elf.add_item') }}</button>
+                                        <button type="submit" class="default-btn submit-button">{{ __('shop::default.add_item') }}</button>
                                     </form>
                                 </td>
                             </tr>
@@ -168,7 +168,7 @@
         </table>
         @if (empty(count($products)))
             <div class="no-results-box">
-                {{ __('basic::elf.nothing_was_found') }}
+                {{ __('elfcms::default.nothing_was_found') }}
             </div>
         @endif
     </div>
@@ -184,24 +184,24 @@
                         productName = this.querySelector('[name="name"]').value,
                         isItem = this.querySelector('[name="is_item"]'),
                         self = this,
-                        text = "{{ __('shop::elf.are_you_sure_to_deleting_product') }}"
+                        text = "{{ __('shop::default.are_you_sure_to_deleting_product') }}"
 
                     if (isItem) {
-                        text = "{{ __('shop::elf.are_you_sure_to_deleting_item') }}";
+                        text = "{{ __('shop::default.are_you_sure_to_deleting_item') }}";
                     }
                     popup({
-                        title: '{{ __('basic::elf.deleting_of_element') }}' + productId,
+                        title: '{{ __('elfcms::default.deleting_of_element') }}' + productId,
                         content: text + '"' + productName + '" (ID ' + productId + ')?</p>',
                         buttons: [
                             {
-                                title:'{{ __('basic::elf.delete') }}',
+                                title:'{{ __('elfcms::default.delete') }}',
                                 class:'default-btn delete-button',
                                 callback: function(){
                                     self.submit()
                                 }
                             },
                             {
-                                title:'{{ __('basic::elf.cancel') }}',
+                                title:'{{ __('elfcms::default.cancel') }}',
                                 class:'default-btn cancel-button',
                                 callback:'close'
                             }
@@ -221,24 +221,24 @@
                             productName = this.querySelector('[name="name"]').value,
                             isItem = this.querySelector('[name="is_item"]'),
                             self = this,
-                            text = "{{ __('shop::elf.are_you_sure_to_deleting_product') }}"
+                            text = "{{ __('shop::default.are_you_sure_to_deleting_product') }}"
 
                         if (isItem) {
-                            text = "{{ __('shop::elf.are_you_sure_to_deleting_item') }}";
+                            text = "{{ __('shop::default.are_you_sure_to_deleting_item') }}";
                         }
                         popup({
-                            title: '{{ __('basic::elf.deleting_of_element') }}' + productId,
+                            title: '{{ __('elfcms::default.deleting_of_element') }}' + productId,
                             content: text,
                             buttons: [
                                 {
-                                    title:'{{ __('basic::elf.delete') }}',
+                                    title:'{{ __('elfcms::default.delete') }}',
                                     class:'default-btn delete-button',
                                     callback: function(){
                                         self.submit()
                                     }
                                 },
                                 {
-                                    title:'{{ __('basic::elf.cancel') }}',
+                                    title:'{{ __('elfcms::default.cancel') }}',
                                     class:'default-btn cancel-button',
                                     callback:'close'
                                 }

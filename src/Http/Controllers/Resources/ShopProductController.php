@@ -3,7 +3,7 @@
 namespace Elfcms\Shop\Http\Controllers\Resources;
 
 use App\Http\Controllers\Controller;
-use Elfcms\Basic\Models\FileCatalog;
+use Elfcms\Elfcms\Models\FileCatalog;
 use Elfcms\Shop\Models\ShopBrand;
 use Elfcms\Shop\Models\ShopCategory;
 use Elfcms\Shop\Models\ShopColor;
@@ -180,9 +180,9 @@ class ShopProductController extends Controller
 
 
         //$products = ShopProduct::all();
-        return view('shop::admin.shop.product.index',[
+        return view('elfcms::admin.shop.product.index',[
             'page' => [
-                'title' => __('shop::elf.products'),
+                'title' => __('shop::default.products'),
                 'current' => url()->current(),
             ],
             'products' => $products,
@@ -202,9 +202,9 @@ class ShopProductController extends Controller
         $brands = ShopBrand::all();
         $vendors = ShopVendor::all();
         //dd($vendors);
-        return view('shop::admin.shop.product.create',[
+        return view('elfcms::admin.shop.product.create',[
             'page' => [
-                'title' => __('shop::elf.create_product'),
+                'title' => __('shop::default.create_product'),
                 'current' => url()->current(),
             ],
             'categories' => $categories,
@@ -257,7 +257,7 @@ class ShopProductController extends Controller
             $product->categories()->attach($request->category_id);
         }
 
-        return redirect(route('admin.shop.product.edit',$product))->with('action_result',__('shop::elf.product_created_successfully'));
+        return redirect(route('admin.shop.product.edit',$product))->with('action_result',__('shop::default.product_created_successfully'));
     }
 
     /**
@@ -322,9 +322,9 @@ class ShopProductController extends Controller
             //if ($parameter->id == 9) dd($parameter->value);
         }
 
-        return view('shop::admin.shop.product.edit',[
+        return view('elfcms::admin.shop.product.edit',[
             'page' => [
-                'title' => __('shop::elf.edit_product'),
+                'title' => __('shop::default.edit_product'),
                 'current' => url()->current(),
             ],
             'categories' => $categories,
@@ -355,7 +355,7 @@ class ShopProductController extends Controller
 
             $shopProduct->save();
 
-            return redirect(route('admin.shop.product'))->with('action_result',__('shop::elf.product_edited_successfully'));
+            return redirect(route('admin.shop.product'))->with('action_result',__('shop::default.product_edited_successfully'));
         }
         else {
             $request->merge([
@@ -540,7 +540,7 @@ class ShopProductController extends Controller
             }
             /* /Properties */
 
-            return redirect(route('admin.shop.product.edit',$shopProduct))->with('action_result',__('shop::elf.product_edited_successfully'));
+            return redirect(route('admin.shop.product.edit',$shopProduct))->with('action_result',__('shop::default.product_edited_successfully'));
         }
     }
 
@@ -553,9 +553,9 @@ class ShopProductController extends Controller
     public function destroy(ShopProduct $shopProduct)
     {
         if (!$shopProduct->delete()) {
-            return redirect(route('admin.shop.product'))->withErrors(['action_result'=>__('shop::elf.error_of_product_deleting')]);
+            return redirect(route('admin.shop.product'))->withErrors(['action_result'=>__('shop::default.error_of_product_deleting')]);
         }
 
-        return redirect(route('admin.shop.product'))->with('action_result',__('shop::elf.product_deleted_successfully'));
+        return redirect(route('admin.shop.product'))->with('action_result',__('shop::default.product_deleted_successfully'));
     }
 }

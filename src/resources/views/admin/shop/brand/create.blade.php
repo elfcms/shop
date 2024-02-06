@@ -1,4 +1,4 @@
-@extends('shop::admin.layouts.shop')
+@extends('elfcms::admin.layouts.shop')
 
 @section('shop-content')
 
@@ -16,19 +16,19 @@
     @endif
 
     <div class="item-form">
-        <h3>{{ __('shop::elf.create_brand') }}</h3>
+        <h3>{{ __('shop::default.create_brand') }}</h3>
         <form action="{{ route('admin.shop.brand.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
             @method('POST')
             <div class="colored-rows-box">
                 <div class="input-box colored">
-                    <label for="name">{{ __('basic::elf.name') }}</label>
+                    <label for="name">{{ __('elfcms::default.name') }}</label>
                     <div class="input-wrapper">
                         <input type="text" name="name" id="name" autocomplete="off">
                     </div>
                 </div>
                 <div class="input-box colored">
-                    <label for="slug">{{ __('basic::elf.slug') }}</label>
+                    <label for="slug">{{ __('elfcms::default.slug') }}</label>
                     <div class="input-wrapper">
                         <input type="text" name="slug" id="slug" autocomplete="off">
                     </div>
@@ -40,52 +40,54 @@
                     </div>
                 </div>
                 <div class="input-box colored">
-                    <label for="desctiption">{{ __('basic::elf.description') }}</label>
+                    <label for="desctiption">{{ __('elfcms::default.description') }}</label>
                     <div class="input-wrapper">
                         <textarea name="description" id="description" cols="30" rows="10"></textarea>
                     </div>
                 </div>
                 <div class="input-box colored">
-                    <label for="logo">{{ __('shop::elf.logo') }}</label>
+                    <label for="logo">{{ __('shop::default.logo') }}</label>
                     <div class="input-wrapper">
-                        <input type="hidden" name="logo_path" id="logo_path">
+                        {{-- <input type="hidden" name="logo_path" id="logo_path">
                         <div class="image-button">
                             <div class="delete-image hidden">&#215;</div>
                             <div class="image-button-img">
                                 <img src="{{ asset('/vendor/elfcms/shop/admin/images/icons/upload.png') }}" alt="Upload file">
                             </div>
                             <div class="image-button-text">
-                                {{ __('basic::elf.choose_file') }}
+                                {{ __('elfcms::default.choose_file') }}
                             </div>
                             <input type="file" name="logo" id="logo">
-                        </div>
+                        </div> --}}
+                        <x-elfcms-input-image code="logo" />
                     </div>
                 </div>
                 <div class="input-box colored">
-                    <label for="image">{{ __('basic::elf.image') }}</label>
+                    <label for="image">{{ __('elfcms::default.image') }}</label>
                     <div class="input-wrapper">
-                        <input type="hidden" name="image_path" id="image_path">
+                        {{-- <input type="hidden" name="image_path" id="image_path">
                         <div class="image-button">
                             <div class="delete-image hidden">&#215;</div>
                             <div class="image-button-img">
                                 <img src="{{ asset('/vendor/elfcms/shop/admin/images/icons/upload.png') }}" alt="Upload file">
                             </div>
                             <div class="image-button-text">
-                                {{ __('basic::elf.choose_file') }}
+                                {{ __('elfcms::default.choose_file') }}
                             </div>
                             <input type="file" name="image" id="image">
-                        </div>
+                        </div> --}}
+                        <x-elfcms-input-image code="image" />
                     </div>
                 </div>
                 <div class="input-box colored">
-                    <label for="company">{{ __('shop::elf.company') }}</label>
+                    <label for="company">{{ __('shop::default.company') }}</label>
                     <div class="input-wrapper">
                         <textarea name="company" id="company" cols="30" rows="3"></textarea>
                     </div>
                 </div>
             </div>
             <div class="button-box single-box">
-                <button type="submit" class="default-btn submit-button">{{ __('basic::elf.submit') }}</button>
+                <button type="submit" class="default-btn submit-button">{{ __('elfcms::default.submit') }}</button>
             </div>
         </form>
     </div>

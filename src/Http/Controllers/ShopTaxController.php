@@ -36,7 +36,7 @@ class ShopTaxController extends Controller
         }
         else {
             return view(
-                'shop::admin.shop.tax.content.list',
+                'elfcms::admin.shop.tax.content.list',
                 [
                     'taxes' => $taxes,
                 ]
@@ -62,7 +62,7 @@ class ShopTaxController extends Controller
             'description' => null,
         ];
         return view(
-            'shop::admin.shop.tax.content.item',
+            'elfcms::admin.shop.tax.content.item',
             [
                 'tax' => (object)$emptyItem,
             ]
@@ -82,7 +82,7 @@ class ShopTaxController extends Controller
             'data' => null
         ];
         if (!$request->isMethod('POST')) {
-            $result['message'] = __('shop::elf.method_must_be',['method'=>'POST']);
+            $result['message'] = __('shop::default.method_must_be',['method'=>'POST']);
             return $result;
         }
 
@@ -125,7 +125,7 @@ class ShopTaxController extends Controller
         if (!empty($taxDelete)) {
             $deleted = ShopTax::destroy($taxDelete);
             if (!$deleted) {
-                $result['message'] = __('shop::elf.error_of_deleting');
+                $result['message'] = __('shop::default.error_of_deleting');
 
                 return $result;
             }
@@ -141,7 +141,7 @@ class ShopTaxController extends Controller
                     $taxItem->description = $tax['description'];
                     $saved = $taxItem->save();
                     if (!$saved) {
-                        $result['message'] =  __('shop::elf.error_of_saving_id',['id'=>$id]);
+                        $result['message'] =  __('shop::default.error_of_saving_id',['id'=>$id]);
 
                         return $result;
                     }
@@ -153,7 +153,7 @@ class ShopTaxController extends Controller
             foreach ($data['newtax'] as $newtax) {
                 $created = ShopTax::create($newtax);
                 if (!$created) {
-                    $result['message'] = __('shop::elf.error_of_creating_element_with_name',['name'=>$newtax['name']]);
+                    $result['message'] = __('shop::default.error_of_creating_element_with_name',['name'=>$newtax['name']]);
 
                     return $result;
                 }
@@ -162,17 +162,17 @@ class ShopTaxController extends Controller
 
         $taxes = ShopTax::all();
         $view = view(
-            'shop::admin.shop.tax.content.list',
+            'elfcms::admin.shop.tax.content.list',
             [
                 'taxes' => $taxes,
             ]
         )->render();
         if (!$view) {
-            $result['message'] = __('shop::elf.view_not_found');
+            $result['message'] = __('shop::default.view_not_found');
             return $result;
         }
         $result['result'] = 'success';
-        $result['message'] = __('shop::elf.data_saved_successfully');
+        $result['message'] = __('shop::default.data_saved_successfully');
         $result['data'] = $view;
 
         return $result;

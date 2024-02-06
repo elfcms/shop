@@ -17,9 +17,9 @@ class ShopColorController extends Controller
     public function index()
     {
         $colors = ShopColor::all();
-        return view('shop::admin.shop.color.index',[
+        return view('elfcms::admin.shop.color.index',[
             'page' => [
-                'title' => __('shop::elf.colors'),
+                'title' => __('shop::default.colors'),
                 'current' => url()->current(),
             ],
             'colors' => $colors,
@@ -52,7 +52,7 @@ class ShopColorController extends Controller
         }
         else {
             return view(
-                'shop::admin.shop.color.content.list',
+                'elfcms::admin.shop.color.content.list',
                 [
                     'colors' => $colors,
                 ]
@@ -78,7 +78,7 @@ class ShopColorController extends Controller
             'transparent' => 0
         ];
         return view(
-            'shop::admin.shop.color.content.item',
+            'elfcms::admin.shop.color.content.item',
             [
                 'color' => (object)$emptyColor,
             ]
@@ -98,7 +98,7 @@ class ShopColorController extends Controller
             'data' => null
         ];
         if (!$request->isMethod('POST')) {
-            $result['message'] = __('shop::elf.method_must_be',['method'=>'POST']);
+            $result['message'] = __('shop::default.method_must_be',['method'=>'POST']);
             return $result;
         }
 
@@ -142,7 +142,7 @@ class ShopColorController extends Controller
         if (!empty($colorDelete)) {
             $deleted = ShopColor::destroy($colorDelete);
             if (!$deleted) {
-                $result['message'] = __('shop::elf.error_of_deleting');
+                $result['message'] = __('shop::default.error_of_deleting');
 
                 return $result;
             }
@@ -169,7 +169,7 @@ class ShopColorController extends Controller
                     $colorItem->picture = $picture_path;
                     $saved = $colorItem->save();
                     if (!$saved) {
-                        $result['message'] =  __('shop::elf.error_of_saving_id',['id'=>$id]);
+                        $result['message'] =  __('shop::default.error_of_saving_id',['id'=>$id]);
 
                         return $result;
                     }
@@ -196,7 +196,7 @@ class ShopColorController extends Controller
                 }
                 $created = ShopColor::create($newcolor);
                 if (!$created) {
-                    $result['message'] = __('shop::elf.error_of_creating_element_with_name',['name'=>$newcolor['name']]);
+                    $result['message'] = __('shop::default.error_of_creating_element_with_name',['name'=>$newcolor['name']]);
 
                     return $result;
                 }
@@ -205,17 +205,17 @@ class ShopColorController extends Controller
 
         $colors = ShopColor::all();
         $view = view(
-            'shop::admin.shop.color.content.list',
+            'elfcms::admin.shop.color.content.list',
             [
                 'colors' => $colors,
             ]
         )->render();
         if (!$view) {
-            $result['message'] = __('shop::elf.view_not_found');
+            $result['message'] = __('shop::default.view_not_found');
             return $result;
         }
         $result['result'] = 'success';
-        $result['message'] = __('shop::elf.data_saved_successfully');
+        $result['message'] = __('shop::default.data_saved_successfully');
         $result['data'] = $view;
 
         return $result;

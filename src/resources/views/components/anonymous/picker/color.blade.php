@@ -5,7 +5,7 @@
     <div class="shop-color-picker-button" onclick="openPickerColor(this)">
         <div class="shop-color-picker-item" data-id="{{ $default->id ?? 0 }}">
             <div class="shop-color-picker-image empty" style="color: {{ $default->code ?? 'transparent' }};"></div>
-            <label>{{ $default->name ?? __('shop::elf.none') }}</label>
+            <label>{{ $default->name ?? __('shop::default.none') }}</label>
         </div>
     </div>
     <div class="shop-color-picker-list closed">
@@ -15,7 +15,7 @@
         <div class="shop-color-picker-item" data-id="0">
             <div class="shop-color-picker-image empty" style="color: transparent;"></div>
             <input type="radio" name="{{ $name }}" id="color_item_0"  @empty($default) checked @endempty value="0" data-id="0" onclick="setPickerColor(this)">
-            <label>{{ __('shop::elf.none') }}</label>
+            <label>{{ __('shop::default.none') }}</label>
         </div>
     @foreach ($list as $item)
         <div class="shop-color-picker-item" data-id="{{ $item->id }}">

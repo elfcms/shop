@@ -40,9 +40,9 @@ class ShopVendorController extends Controller
             $vendors = ShopVendor::all();
         }
 
-        return view('shop::admin.shop.vendor.index',[
+        return view('elfcms::admin.shop.vendor.index',[
             'page' => [
-                'title' => __('shop::elf.vendors'),
+                'title' => __('shop::default.vendors'),
                 'current' => url()->current(),
             ],
             'vendors' => $vendors,
@@ -57,9 +57,9 @@ class ShopVendorController extends Controller
      */
     public function create()
     {
-        return view('shop::admin.shop.vendor.create',[
+        return view('elfcms::admin.shop.vendor.create',[
             'page' => [
-                'title' => __('shop::elf.create_vendor'),
+                'title' => __('shop::default.create_vendor'),
                 'current' => url()->current(),
             ],
         ]);
@@ -79,7 +79,7 @@ class ShopVendorController extends Controller
 
         $vendor = ShopVendor::create($validated);
 
-        return redirect(route('admin.shop.vendor'))->with('action_result',__('shop::elf.vendor_created_successfully'));
+        return redirect(route('admin.shop.vendor'))->with('action_result',__('shop::default.vendor_created_successfully'));
     }
 
     /**
@@ -115,9 +115,9 @@ class ShopVendorController extends Controller
         if (!empty($shopVendor->updated_at)) {
             $shopVendor->updated = date('d.m.Y H:i:s',strtotime($shopVendor->updated_at));
         }
-        return view('shop::admin.shop.vendor.edit',[
+        return view('elfcms::admin.shop.vendor.edit',[
             'page' => [
-                'title' => __('shop::elf.edit_vendor'),
+                'title' => __('shop::default.edit_vendor'),
                 'current' => url()->current(),
             ],
             'vendor' => $shopVendor
@@ -141,7 +141,7 @@ class ShopVendorController extends Controller
 
         $shopVendor->save();
 
-        return redirect(route('admin.shop.vendor.edit',$shopVendor))->with('action_result',__('shop::elf.vendor_edited_successfully'));
+        return redirect(route('admin.shop.vendor.edit',$shopVendor))->with('action_result',__('shop::default.vendor_edited_successfully'));
     }
 
     /**
@@ -153,9 +153,9 @@ class ShopVendorController extends Controller
     public function destroy(ShopVendor $shopVendor)
     {
         if (!$shopVendor->delete()) {
-            return redirect(route('admin.shop.vendor'))->withErrors(['vendordelerror'=>__('shop::elf.error_of_vendor_deleting')]);
+            return redirect(route('admin.shop.vendor'))->withErrors(['vendordelerror'=>__('shop::default.error_of_vendor_deleting')]);
         }
 
-        return redirect(route('admin.shop.vendor'))->with('action_result',__('shop::elf.vendor16712_deleted_successfully'));
+        return redirect(route('admin.shop.vendor'))->with('action_result',__('shop::default.vendor16712_deleted_successfully'));
     }
 }

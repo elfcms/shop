@@ -1,4 +1,4 @@
-@extends('shop::admin.layouts.shop')
+@extends('elfcms::admin.layouts.shop')
 
 @section('shop-content')
 
@@ -18,18 +18,18 @@
 <div class="shop-products-container">
 
     <div class="item-form">
-        <h3>{{ __('shop::elf.edit_product') }}</h3>
+        <h3>{{ __('shop::default.edit_product') }}</h3>
         <form action="{{ route('admin.shop.product.update',$product) }}" method="POST" enctype="multipart/form-data">
             @csrf
             @method('PUT')
             <div class="tab-head">
-                <div class="tab-title selected" data-tab="general">{{ __('shop::elf.general') }}</div>
-                <div class="tab-title" data-tab="parameters">{{ __('shop::elf.parameters') }}</div>
-                <div class="tab-title" data-tab="properties">{{ __('shop::elf.properties') }}</div>
+                <div class="tab-title selected" data-tab="general">{{ __('shop::default.general') }}</div>
+                <div class="tab-title" data-tab="parameters">{{ __('shop::default.parameters') }}</div>
+                <div class="tab-title" data-tab="properties">{{ __('shop::default.properties') }}</div>
             </div>
             <div class="colored-rows-box tab-box showed" id="general">
                 <div class="input-box colored">
-                    <div class="checkbox-switch-wrapper">
+                    {{-- <div class="checkbox-switch-wrapper">
                         <div class="checkbox-switch blue">
                             <input
                                 type="checkbox"
@@ -42,12 +42,13 @@
                             <i></i>
                         </div>
                         <label for="active">
-                            {{ __('basic::elf.active') }}
+                            {{ __('elfcms::default.active') }}
                         </label>
-                    </div>
+                    </div> --}}
+                    <x-elfcms-input-checkbox code="active" label="{{ __('elfcms::default.active') }}" style="blue" :checked="$product->active" />
                 </div>
                 <div class="input-box colored">
-                    <label for="category_id">{{ __('shop::elf.categories') }}</label>
+                    <label for="category_id">{{ __('shop::default.categories') }}</label>
                     <div class="input-wrapper">
                         <select name="category_id[]" id="category_id" multiple required>
                         @foreach ($categories as $category)
@@ -57,13 +58,13 @@
                     </div>
                 </div>
                 <div class="input-box colored">
-                    <label for="title">{{ __('basic::elf.title') }}</label>
+                    <label for="title">{{ __('elfcms::default.title') }}</label>
                     <div class="input-wrapper">
                         <input type="text" name="title" id="title" required value="{{ $product->title }}">
                     </div>
                 </div>
                 <div class="input-box colored">
-                    <label for="slug">{{ __('basic::elf.slug') }}</label>
+                    <label for="slug">{{ __('elfcms::default.slug') }}</label>
                     <div class="input-wrapper">
                         <input type="text" name="slug" id="slug" required value="{{ $product->slug }}">
                     </div>
@@ -76,9 +77,9 @@
                 </div>
 
                 <div class="input-box colored">
-                    <label for="image">{{ __('basic::elf.image') }}</label>
+                    <label for="image">{{ __('elfcms::default.image') }}</label>
                     <div class="input-wrapper">
-                        <input type="hidden" name="image_path" id="image_path" value="{{$product->image}}">
+                        {{-- <input type="hidden" name="image_path" id="image_path" value="{{$product->image}}">
                         <div class="image-button">
                             <div class="delete-image @if (empty($product->image)) hidden @endif">&#215;</div>
                             <div class="image-button-img">
@@ -90,23 +91,24 @@
                             </div>
                             <div class="image-button-text">
                             @if (!empty($product->image))
-                                {{ __('basic::elf.change_file') }}
+                                {{ __('elfcms::default.change_file') }}
                             @else
-                                {{ __('basic::elf.choose_file') }}
+                                {{ __('elfcms::default.choose_file') }}
                             @endif
                             </div>
                             <input type="file" name="image" id="image">
-                        </div>
+                        </div> --}}
+                        <x-elfcms-input-image code="image" :value="$product->image"/>
                     </div>
                 </div>
                 <div class="input-box colored">
-                    <label for="desctiption">{{ __('basic::elf.description') }}</label>
+                    <label for="desctiption">{{ __('elfcms::default.description') }}</label>
                     <div class="input-wrapper wide-editor-wrapper">
                         <textarea name="description" id="description" cols="30" rows="10">{{ $product->description }}</textarea>
                     </div>
                 </div>
                 <div class="input-box colored">
-                    <label for="unit_id">{{ __('shop::elf.unit_of_measurement') }}</label>
+                    <label for="unit_id">{{ __('shop::default.unit_of_measurement') }}</label>
                     <div class="input-wrapper">
                         <select name="unit_id" id="unit_id">
                         @foreach ($units as $unit)
@@ -116,10 +118,10 @@
                     </div>
                 </div>
                 <div class="input-box colored">
-                    <label for="brand_id">{{ __('shop::elf.brand') }}</label>
+                    <label for="brand_id">{{ __('shop::default.brand') }}</label>
                     <div class="input-wrapper">
                         <select name="brand_id" id="brand_id">
-                            <option value="">{{ __('basic::elf.none') }}</option>
+                            <option value="">{{ __('elfcms::default.none') }}</option>
                         @foreach ($brands as $brand)
                             <option value="{{ $brand->id }}" @if(!empty($product->brand->id) && $brand->id == $product->brand->id) selected @endif>{{ $brand->name }}</option>
                         @endforeach
@@ -127,10 +129,10 @@
                     </div>
                 </div>
                 <div class="input-box colored">
-                    <label for="vendor_id">{{ __('shop::elf.vendor') }}</label>
+                    <label for="vendor_id">{{ __('shop::default.vendor') }}</label>
                     <div class="input-wrapper">
                         <select name="vendor_id" id="vendor_id">
-                            <option value="">{{ __('basic::elf.none') }}</option>
+                            <option value="">{{ __('elfcms::default.none') }}</option>
                         @foreach ($vendors as $vendor)
                             <option value="{{ $vendor->id }}" @if(!empty($product->vendor->id) && $vendor->id == $product->vendor->id) selected @endif>{{ $vendor->name }}</option>
                         @endforeach
@@ -138,13 +140,13 @@
                     </div>
                 </div>
                 <div class="input-box colored">
-                    <label for="meta_keywords">{{ __('basic::elf.meta_keywords') }}</label>
+                    <label for="meta_keywords">{{ __('elfcms::default.meta_keywords') }}</label>
                     <div class="input-wrapper">
                         <textarea name="meta_keywords" id="meta_keywords" cols="30" rows="3">{{ $product->meta_keywords }}</textarea>
                     </div>
                 </div>
                 <div class="input-box colored">
-                    <label for="meta_description">{{ __('basic::elf.meta_description') }}</label>
+                    <label for="meta_description">{{ __('elfcms::default.meta_description') }}</label>
                     <div class="input-wrapper">
                         <textarea name="meta_description" id="meta_description" cols="30" rows="3">{{ $product->meta_description }}</textarea>
                     </div>
@@ -160,7 +162,7 @@
                         <textarea name="parameter[{{$parameter->id}}]" id="parameter_{{$parameter->id}}">{{ $parameter->value }}</textarea>
                         @elseif ($parameter->data_type->code == 'list')
                         <select name="parameter[{{$parameter->id}}]" id="parameter_{{$parameter->id}}" @if($parameter->multiple) multiple @endif>
-                            <option value="">{{ __('shop::elf.none') }}</option>
+                            <option value="">{{ __('shop::default.none') }}</option>
                             @if (!empty($parameter->options))
                             @foreach ($parameter->options as $value => $text)
                             <option value="{{$value}}"
@@ -184,17 +186,17 @@
                             </div>
                             <div class="image-button-text">
                             @if (!empty($parameter->value))
-                                {{ __('basic::elf.change_file') }}
+                                {{ __('elfcms::default.change_file') }}
                             @else
-                                {{ __('basic::elf.choose_file') }}
+                                {{ __('elfcms::default.choose_file') }}
                             @endif
                             </div>
                             <input type="file" name="parameter[{{$parameter->id}}][image]" id="parameter_{{$parameter->id}}_image">
                         </div>
                         @elseif ($parameter->data_type->code == 'file')
-                        <x-basic::anonymous.button.file name="parameter[{{$parameter->id}}]" value="{{ $parameter->value }}" id="parameter_{{$parameter->id}}" />
+                        <x-elfcms::anonymous.button.file name="parameter[{{$parameter->id}}]" value="{{ $parameter->value }}" id="parameter_{{$parameter->id}}" />
                         @elseif ($parameter->data_type->code == 'color')
-                        <x-shop::anonymous.picker.color :list="$colors" name="parameter[{{$parameter->id}}]" :default="$parameter->colorData" id="parameter_{{$parameter->id}}" />
+                        <x-elfcms::anonymous.picker.color :list="$colors" name="parameter[{{$parameter->id}}]" :default="$parameter->colorData" id="parameter_{{$parameter->id}}" />
                         {{-- @elseif ($parameter->data_type->code == 'string')
                         <input type="text" name="parameter[{{$parameter->id}}]" id="parameter_{{$parameter->id}}" value="{{ $parameter->value }}">
                         @elseif ($parameter->data_type->code == 'int')
@@ -218,7 +220,7 @@
                         <textarea name="property[{{$property->id}}]" id="property_{{$property->id}}">{{ $property->value }}</textarea>
                         @elseif ($property->data_type->code == 'list')
                         <select name="property[{{$property->id}}]" id="property_{{$property->id}}" @if($property->multiple) multiple @endif>
-                            <option value="">{{ __('shop::elf.none') }}</option>
+                            <option value="">{{ __('shop::default.none') }}</option>
                             @if (!empty($property->options))
                             @foreach ($property->options as $value => $text)
                             <option value="{{$value}}"
@@ -241,17 +243,17 @@
                             </div>
                             <div class="image-button-text">
                             @if (!empty($property->value))
-                                {{ __('basic::elf.change_file') }}
+                                {{ __('elfcms::default.change_file') }}
                             @else
-                                {{ __('basic::elf.choose_file') }}
+                                {{ __('elfcms::default.choose_file') }}
                             @endif
                             </div>
                             <input type="file" name="property[{{$property->id}}][image]" id="property_{{$property->id}}_image">
                         </div>
                         @elseif ($property->data_type->code == 'file')
-                        <x-basic::anonymous.button.file name="property[{{$property->id}}]" value="{{ $property->value }}" id="property_{{$property->id}}" />
+                        <x-elfcms::anonymous.button.file name="property[{{$property->id}}]" value="{{ $property->value }}" id="property_{{$property->id}}" />
                         @elseif ($property->data_type->code == 'color')
-                        <x-shop::anonymous.picker.color :list="$colors" name="property[{{$property->id}}]" :default="$property->colorData" id="property_{{$property->id}}" />
+                        <x-elfcms::anonymous.picker.color :list="$colors" name="property[{{$property->id}}]" :default="$property->colorData" id="property_{{$property->id}}" />
 
                         {{-- @elseif ($property->data_type->code == 'string')
                         <input type="text" name="property[{{$property->id}}]" id="property_{{$property->id}}" value="{{ $property->product_values($product->id) }}">
@@ -267,17 +269,17 @@
                 @endforeach
             </div>
             <div class="button-box single-box">
-                <button type="submit" class="default-btn submit-button">{{ __('basic::elf.submit') }}</button>
+                <button type="submit" class="default-btn submit-button">{{ __('elfcms::default.submit') }}</button>
             </div>
         </form>
     </div>
 
     <div class="item-form">
-        <h3>{{ __('shop::elf.items') }}</h3>
+        <h3>{{ __('shop::default.items') }}</h3>
         <div class="top-button-box">
             <form action="{{ route('admin.shop.item.create') }}" method="GET">
                 <input type="hidden" name="product_id" value="{{$product->id}}">
-                <button type="submit" class="default-btn submit-button">{{ __('shop::elf.add_item') }}</button>
+                <button type="submit" class="default-btn submit-button">{{ __('shop::default.add_item') }}</button>
             </form>
         </div>
         <div class="colored-rows-box shop-item-table">
@@ -286,10 +288,10 @@
                     ID
                 </div>
                 <div class="shop-item-column shop-item-column-number">
-                    {{ __('shop::elf.item_number') }}
+                    {{ __('shop::default.item_number') }}
                 </div>
                 <div class="shop-item-column shop-item-column-note">
-                    {{ __('shop::elf.note') }}/{{ __('shop::elf.additional_name') }}
+                    {{ __('shop::default.note') }}/{{ __('shop::default.additional_name') }}
                 </div>
                 <div class="shop-item-column shop-item-column-buttons"></div>
             </div>
@@ -306,12 +308,12 @@
                 </div>
                 <div class="shop-item-column shop-item-column-buttons">
                     <div class="shop-item-column-button">
-                        <a href="{{ route('admin.shop.item.edit',$item) }}" class="item-button item-button-edit" title="{{ __('shop::elf.edit_item') }}"></a>
+                        <a href="{{ route('admin.shop.item.edit',$item) }}" class="item-button item-button-edit" title="{{ __('shop::default.edit_item') }}"></a>
                     </div>
                     <div class="shop-item-column-button">
                         <form action="{{ route('admin.shop.item.create') }}" method="GET">
                             <input type="hidden" name="copy_id" value="{{$item->id}}">
-                            <button type="submit" class="item-button item-button-copy" title="{{ __('shop::elf.copy') }}"></button>
+                            <button type="submit" class="item-button item-button-copy" title="{{ __('shop::default.copy') }}"></button>
                         </form>
                     </div>
                     <div class="shop-item-column-button">
@@ -321,7 +323,7 @@
                             <input type="hidden" name="id" value="{{ $item->id }}">
                             <input type="hidden" name="name" value="{{ $item->item_number }}">
                             <input type="hidden" name="is_item" value="1">
-                            <button type="submit" class="item-button item-button-delete" title="{{ __('basic::elf.delete') }}"></button>
+                            <button type="submit" class="item-button item-button-delete" title="{{ __('elfcms::default.delete') }}"></button>
                         </form>
                     </div>
                 </div>
@@ -350,24 +352,24 @@
                         categoryName = this.querySelector('[name="name"]').value,
                         isItem = this.querySelector('[name="is_item"]'),
                         self = this,
-                            text = "{{ __('shop::elf.are_you_sure_to_deleting_product') }}"
+                            text = "{{ __('shop::default.are_you_sure_to_deleting_product') }}"
 
                         if (isItem) {
-                            text = "{{ __('shop::elf.are_you_sure_to_deleting_item') }}";
+                            text = "{{ __('shop::default.are_you_sure_to_deleting_item') }}";
                         }
                     popup({
-                        title:'{{ __('basic::elf.deleting_of_element') }}' + categoryId,
+                        title:'{{ __('elfcms::default.deleting_of_element') }}' + categoryId,
                         content: text,
                         buttons:[
                             {
-                                title:'{{ __('basic::elf.delete') }}',
+                                title:'{{ __('elfcms::default.delete') }}',
                                 class:'default-btn delete-button',
                                 callback: function(){
                                     self.submit()
                                 }
                             },
                             {
-                                title:'{{ __('basic::elf.cancel') }}',
+                                title:'{{ __('elfcms::default.cancel') }}',
                                 class:'default-btn cancel-button',
                                 callback:'close'
                             }

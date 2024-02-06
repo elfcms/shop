@@ -40,9 +40,9 @@ class ShopCategoryController extends Controller
             $categories = ShopCategory::flat(trend: $trend, order: $order, count: $count, search: $search);
         }
 
-        return view('shop::admin.shop.category.index',[
+        return view('elfcms::admin.shop.category.index',[
             'page' => [
-                'title' => __('shop::elf.categories'),
+                'title' => __('shop::default.categories'),
                 'current' => url()->current(),
             ],
             'categories' => $categories,
@@ -58,9 +58,9 @@ class ShopCategoryController extends Controller
     public function create()
     {
         $categories = ShopCategory::all();
-        return view('shop::admin.shop.category.create',[
+        return view('elfcms::admin.shop.category.create',[
             'page' => [
-                'title' => __('shop::elf.create_category'),
+                'title' => __('shop::default.create_category'),
                 'current' => url()->current(),
             ],
             'categories' => $categories,
@@ -99,7 +99,7 @@ class ShopCategoryController extends Controller
 
         $category = ShopCategory::create($validated);
 
-        return redirect(route('admin.shop.category'))->with('action_result',__('shop::elf.category_created_successfully'));
+        return redirect(route('admin.shop.category'))->with('action_result',__('shop::default.category_created_successfully'));
     }
 
     /**
@@ -138,9 +138,9 @@ class ShopCategoryController extends Controller
         $exclude = ShopCategory::childrenid($shopCategory->id,true);
         $categories = ShopCategory::whereNotIn('id',$exclude)->get();
 
-        return view('shop::admin.shop.category.edit',[
+        return view('elfcms::admin.shop.category.edit',[
             'page' => [
-                'title' => __('shop::elf.edit_category') . ' #' . $shopCategory->id,
+                'title' => __('shop::default.edit_category') . ' #' . $shopCategory->id,
                 'current' => url()->current(),
             ],
             'category' => $shopCategory,
@@ -162,7 +162,7 @@ class ShopCategoryController extends Controller
 
             $shopCategory->save();
 
-            return redirect(route('admin.shop.category'))->with('action_result',__('shop::elf.category_edited_successfully'));
+            return redirect(route('admin.shop.category'))->with('action_result',__('shop::default.category_edited_successfully'));
         }
         else {
             $request->merge([
@@ -195,7 +195,7 @@ class ShopCategoryController extends Controller
 
             $shopCategory->save();
 
-            return redirect(route('admin.shop.category.edit',$shopCategory))->with('action_result',__('shop::elf.category_edited_successfully'));
+            return redirect(route('admin.shop.category.edit',$shopCategory))->with('action_result',__('shop::default.category_edited_successfully'));
         }
     }
 
@@ -208,9 +208,9 @@ class ShopCategoryController extends Controller
     public function destroy(ShopCategory $shopCategory)
     {
         if (!$shopCategory->delete()) {
-            return redirect(route('admin.shop.category'))->withErrors(['categorydelerror'=>__('shop::elf.error_of_category_deleting')]);
+            return redirect(route('admin.shop.category'))->withErrors(['categorydelerror'=>__('shop::default.error_of_category_deleting')]);
         }
 
-        return redirect(route('admin.shop.category'))->with('action_result',__('shop::elf.category_deleted_successfully'));
+        return redirect(route('admin.shop.category'))->with('action_result',__('shop::default.category_deleted_successfully'));
     }
 }

@@ -1,22 +1,22 @@
-@extends('shop::admin.layouts.shop')
+@extends('elfcms::admin.layouts.shop')
 
 @section('shop-content')
 <nav class="pagenav">
     <div class="abstract-nav-line">
-        <a href="{{ route('admin.shop.brand.create') }}" class="default-btn submit-button create-button">{{ __('shop::elf.create_brand') }}</a>
+        <a href="{{ route('admin.shop.brand.create') }}" class="default-btn submit-button create-button">{{ __('shop::default.create_brand') }}</a>
     </div>
 </nav>
 
     <div class="table-search-box">
         <div class="table-search-result-title">
             @if (!empty($search))
-                {{ __('basic::elf.search_result_for') }} "{{ $search }}" <a href="{{ route('admin.shop.brand') }}" title="{{ __('basic::elf.reset_search') }}">&#215;</a>
+                {{ __('elfcms::default.search_result_for') }} "{{ $search }}" <a href="{{ route('admin.shop.brand') }}" title="{{ __('elfcms::default.reset_search') }}">&#215;</a>
             @endif
         </div>
         <form action="{{ route('admin.shop.brand') }}" method="get">
             <div class="input-box">
                 <label for="search">
-                    {{ __('basic::elf.search') }}
+                    {{ __('elfcms::default.search') }}
                 </label>
                 <div class="input-wrapper">
                     <input type="text" name="search" id="search" value="{{ $search ?? '' }}" placeholder="">
@@ -48,19 +48,19 @@
                         <a href="{{ route('admin.shop.brand',UrlParams::addArr(['order'=>'id','trend'=>['desc','asc']])) }}" class="ordering @if (UrlParams::case('order',['id'=>true])) {{UrlParams::case('trend',['desc'=>'desc'],'asc')}} @endif"></a>
                     </th>
                     <th>
-                        {{ __('basic::elf.name') }}
+                        {{ __('elfcms::default.name') }}
                         <a href="{{ route('admin.shop.brand',UrlParams::addArr(['order'=>'name','trend'=>['desc','asc']])) }}" class="ordering @if (UrlParams::case('order',['name'=>true])) {{UrlParams::case('trend',['desc'=>'desc'],'asc')}} @endif"></a>
                     </th>
                     <th>
-                        {{ __('basic::elf.slug') }}
+                        {{ __('elfcms::default.slug') }}
                         <a href="{{ route('admin.shop.brand',UrlParams::addArr(['order'=>'slug','trend'=>['desc','asc']])) }}" class="ordering @if (UrlParams::case('order',['slug'=>true])) {{UrlParams::case('trend',['desc'=>'desc'],'asc')}} @endif"></a>
                     </th>
                     <th>
-                        {{ __('basic::elf.created') }}
+                        {{ __('elfcms::default.created') }}
                         <a href="{{ route('admin.shop.brand',UrlParams::addArr(['order'=>'created_at','trend'=>['desc','asc']])) }}" class="ordering @if (UrlParams::case('order',['created_at'=>true])) {{UrlParams::case('trend',['desc'=>'desc'],'asc')}} @endif"></a>
                     </th>
                     <th>
-                        {{ __('basic::elf.updated') }}
+                        {{ __('elfcms::default.updated') }}
                         <a href="{{ route('admin.shop.brand',UrlParams::addArr(['order'=>'updated_at','trend'=>['desc','asc']])) }}" class="ordering @if (UrlParams::case('order',['updated_at'=>true])) {{UrlParams::case('trend',['desc'=>'desc'],'asc')}} @endif"></a>
                     </th>
                     <th></th>
@@ -79,22 +79,22 @@
                     <td>{{ $brand->created_at }}</td>
                     <td>{{ $brand->updated_at }}</td>
                     <td class="button-column non-text-buttons">
-                        <a href="{{ route('admin.shop.brand.edit',$brand) }}" class="default-btn edit-button" title="{{ __('basic::elf.edit') }}"></a>
+                        <a href="{{ route('admin.shop.brand.edit',$brand) }}" class="default-btn edit-button" title="{{ __('elfcms::default.edit') }}"></a>
                         <form action="{{ route('admin.shop.brand.destroy',$brand) }}" method="POST" data-submit="check">
                             @csrf
                             @method('DELETE')
                             <input type="hidden" name="id" value="{{ $brand->id }}">
                             <input type="hidden" name="name" value="{{ $brand->name }}">
-                            <button type="submit" class="default-btn delete-button" title="{{ __('basic::elf.delete') }}"></button>
+                            <button type="submit" class="default-btn delete-button" title="{{ __('elfcms::default.delete') }}"></button>
                         </form>
                         <div class="contextmenu-content-box">
-                            <a href="{{ route('admin.shop.brand.edit',$brand) }}" class="contextmenu-item">{{ __('basic::elf.edit') }}</a>
+                            <a href="{{ route('admin.shop.brand.edit',$brand) }}" class="contextmenu-item">{{ __('elfcms::default.edit') }}</a>
                             <form action="{{ route('admin.shop.brand.destroy',$brand) }}" method="POST" data-submit="check">
                                 @csrf
                                 @method('DELETE')
                                 <input type="hidden" name="id" value="{{ $brand->id }}">
                                 <input type="hidden" name="name" value="{{ $brand->name }}">
-                                <button type="submit" class="contextmenu-item">{{ __('basic::elf.delete') }}</button>
+                                <button type="submit" class="contextmenu-item">{{ __('elfcms::default.delete') }}</button>
                             </form>
                         </div>
                     </td>
@@ -104,7 +104,7 @@
         </table>
         @if (empty(count($brands)))
             <div class="no-results-box">
-                {{ __('basic::elf.nothing_was_found') }}
+                {{ __('elfcms::default.nothing_was_found') }}
             </div>
         @endif
     </div>
@@ -120,18 +120,18 @@
                             brandName = this.querySelector('[name="name"]').value,
                             self = this
                         popup({
-                            title:'{{ __('basic::elf.deleting_of_element') }}' + brandId,
-                            content:'<p>{{ __('basic::elf.are_you_sure_to_deleting_brand') }} "' + brandName + '" (ID ' + brandId + ')?</p>',
+                            title:'{{ __('elfcms::default.deleting_of_element') }}' + brandId,
+                            content:'<p>{{ __('elfcms::default.are_you_sure_to_deleting_brand') }} "' + brandName + '" (ID ' + brandId + ')?</p>',
                             buttons:[
                                 {
-                                    title:'{{ __('basic::elf.delete') }}',
+                                    title:'{{ __('elfcms::default.delete') }}',
                                     class:'default-btn delete-button',
                                     callback: function(){
                                         self.submit()
                                     }
                                 },
                                 {
-                                    title:'{{ __('basic::elf.cancel') }}',
+                                    title:'{{ __('elfcms::default.cancel') }}',
                                     class:'default-btn cancel-button',
                                     callback:'close'
                                 }

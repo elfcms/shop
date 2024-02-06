@@ -1,4 +1,4 @@
-@extends('shop::admin.layouts.shop')
+@extends('elfcms::admin.layouts.shop')
 
 @section('shop-content')
 
@@ -16,12 +16,12 @@
     @endif
 
     <div class="item-form">
-        <h3>{{ __('basic::elf.edit_brand') }}{{ $brand->id }}</h3>
+        <h3>{{ __('elfcms::default.edit_brand') }}{{ $brand->id }}</h3>
         <div class="date-info create-info">
-            {{ __('basic::elf.created_at') }}: {{ $brand->created }}
+            {{ __('elfcms::default.created_at') }}: {{ $brand->created }}
         </div>
         <div class="date-info update-info">
-            {{ __('basic::elf.updated_at') }}: {{ $brand->updated }}
+            {{ __('elfcms::default.updated_at') }}: {{ $brand->updated }}
         </div>
         <form action="{{ route('admin.shop.brand.update',$brand) }}" method="POST" enctype="multipart/form-data">
             @csrf
@@ -29,13 +29,13 @@
             <div class="colored-rows-box">
                 <input type="hidden" name="id" id="id" value="{{ $brand->id }}">
                 <div class="input-box colored">
-                    <label for="name">{{ __('basic::elf.name') }}</label>
+                    <label for="name">{{ __('elfcms::default.name') }}</label>
                     <div class="input-wrapper">
                         <input type="text" name="name" id="name" autocomplete="off" value="{{ $brand->name }}">
                     </div>
                 </div>
                 <div class="input-box colored">
-                    <label for="slug">{{ __('basic::elf.slug') }}</label>
+                    <label for="slug">{{ __('elfcms::default.slug') }}</label>
                     <div class="input-wrapper">
                         <input type="text" name="slug" id="slug" autocomplete="off" value="{{ $brand->slug }}">
                     </div>
@@ -47,68 +47,32 @@
                     </div>
                 </div>
                 <div class="input-box colored">
-                    <label for="desctiption">{{ __('basic::elf.description') }}</label>
+                    <label for="desctiption">{{ __('elfcms::default.description') }}</label>
                     <div class="input-wrapper">
                         <textarea name="description" id="description" cols="30" rows="10">{{ $brand->description }}</textarea>
                     </div>
                 </div>
                 <div class="input-box colored">
-                    <label for="logo">{{ __('shop::elf.logo') }}</label>
+                    <label for="logo">{{ __('shop::default.logo') }}</label>
                     <div class="input-wrapper">
-                        <input type="hidden" name="logo_path" id="logo_path" value="{{$brand->logo}}">
-                        <div class="image-button">
-                            <div class="delete-image @if (empty($brand->logo)) hidden @endif">&#215;</div>
-                            <div class="image-button-img">
-                            @if (!empty($brand->logo))
-                                <img src="{{ asset($brand->logo) }}" alt="logo">
-                            @else
-                                <img src="{{ asset('/vendor/elfcms/shop/admin/images/icons/upload.png') }}" alt="Upload file">
-                            @endif
-                            </div>
-                            <div class="image-button-text">
-                            @if (!empty($brand->image))
-                                {{ __('basic::elf.change_file') }}
-                            @else
-                                {{ __('basic::elf.choose_file') }}
-                            @endif
-                            </div>
-                            <input type="file" name="logo" id="logo">
-                        </div>
+                        <x-elfcms-input-image code="logo" value="{{$brand->logo}}" />
                     </div>
                 </div>
                 <div class="input-box colored">
-                    <label for="image">{{ __('basic::elf.image') }}</label>
+                    <label for="image">{{ __('elfcms::default.image') }}</label>
                     <div class="input-wrapper">
-                        <input type="hidden" name="image_path" id="image_path" value="{{$brand->image}}">
-                        <div class="image-button">
-                            <div class="delete-image @if (empty($brand->image)) hidden @endif">&#215;</div>
-                            <div class="image-button-img">
-                            @if (!empty($brand->image))
-                                <img src="{{ asset($brand->image) }}" alt="Image">
-                            @else
-                                <img src="{{ asset('/vendor/elfcms/shop/admin/images/icons/upload.png') }}" alt="Upload file">
-                            @endif
-                            </div>
-                            <div class="image-button-text">
-                            @if (!empty($brand->image))
-                                {{ __('basic::elf.change_file') }}
-                            @else
-                                {{ __('basic::elf.choose_file') }}
-                            @endif
-                            </div>
-                            <input type="file" name="image" id="image">
-                        </div>
+                        <x-elfcms-input-image code="image" value="{{$brand->image}}" />
                     </div>
                 </div>
                 <div class="input-box colored">
-                    <label for="company">{{ __('shop::elf.company') }}</label>
+                    <label for="company">{{ __('shop::default.company') }}</label>
                     <div class="input-wrapper">
                         <textarea name="company" id="company" cols="30" rows="3">{{ $brand->company }}</textarea>
                     </div>
                 </div>
             </div>
             <div class="button-box single-box">
-                <button type="submit" class="default-btn submit-button">{{ __('basic::elf.submit') }}</button>
+                <button type="submit" class="default-btn submit-button">{{ __('elfcms::default.submit') }}</button>
             </div>
         </form>
     </div>
