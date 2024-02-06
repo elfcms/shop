@@ -221,6 +221,23 @@ function addCurrencyItem() {
     }
 }
 
+function addVendorItem() {
+    if (!emptyItem) return false;
+    if (!newItemId && newItemId !== 0) return false;
+    const container = document.querySelector('table.vendor-table tbody');
+    if (container) {
+        let itemString = emptyItem.replaceAll('id="newcvendor"','id="new_'+newItemId+'"').replaceAll('vendor[newvendor]','newvendor['+newItemId+']').replaceAll('vendor_newvendor','newvendor_'+newItemId).replaceAll('<span>newvendor</span>','');
+        container.insertAdjacentHTML('beforeend',itemString);
+        const newRow = container.lastElementChild;
+        if (newRow) {
+            newRow.classList.add('edited');
+        }
+        newItemId++;
+        autoSlug(newRow.querySelectorAll('.autoslug'));
+        setSaveEnabled();
+    }
+}
+
 function addTaxItem() {
     if (!emptyItem) return false;
     if (!newItemId && newItemId !== 0) return false;
@@ -312,6 +329,11 @@ function openPickerColor(button, container = document)  {
         const list = box.querySelector('.shop-color-picker-list');
         if (list) {
             list.classList.remove('closed');
+            setTimeout(() => {
+                if (list.offsetHeight > 0) {
+                    box.style.minHeight = list.offsetHeight + 'px';
+                }
+            }, 100);
         }
     }
 }
@@ -326,6 +348,8 @@ function closePickerColor(button, container = document) {
     const list = button.closest('.shop-color-picker-list');
     if (list) {
         list.classList.add('closed');
+        const box = button.closest('.shop-color-picker-box');
+        box.style.minHeight = 'auto';
     }
 }
 
@@ -342,6 +366,7 @@ function setPickerColor(item, container = document) {
         const list = box.querySelector('.shop-color-picker-list');
         if (list) {
             list.classList.add('closed');
+            box.style.minHeight = 'auto';
         }
         if (box) {
             const button = box.querySelector('.shop-color-picker-button');

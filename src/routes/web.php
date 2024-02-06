@@ -126,6 +126,10 @@ Route::group(['middleware'=>['web','cookie']],function() use ($adminPath) {
             Route::get($adminPath . '/shop/ajax/currency/empty-currency', [\Elfcms\Shop\Http\Controllers\ShopCurrencyController::class, 'emptyItem'])->name('ajax.currency.empty-item');
             Route::post($adminPath . '/shop/ajax/currency/fullsave', [\Elfcms\Shop\Http\Controllers\ShopCurrencyController::class, 'save'])->name('ajax.currency.fullsave');
 
+            Route::get($adminPath . '/shop/ajax/vendor/list/{byId?}', [\Elfcms\Shop\Http\Controllers\ShopVendorController::class, 'list'])->name('ajax.vendor.list');
+            Route::get($adminPath . '/shop/ajax/vendor/empty-vendor', [\Elfcms\Shop\Http\Controllers\ShopVendorController::class, 'emptyItem'])->name('ajax.vendor.empty-item');
+            Route::post($adminPath . '/shop/ajax/vendor/fullsave', [\Elfcms\Shop\Http\Controllers\ShopVendorController::class, 'save'])->name('ajax.vendor.fullsave');
+
             Route::get($adminPath . '/shop/ajax/color/list/{byId?}', [\Elfcms\Shop\Http\Controllers\ShopColorController::class, 'list'])->name('ajax.color.list');
             Route::get($adminPath . '/shop/ajax/color/empty-color', [\Elfcms\Shop\Http\Controllers\ShopColorController::class, 'emptyItem'])->name('ajax.color.empty-item');
             Route::post($adminPath . '/shop/ajax/color/fullsave', [\Elfcms\Shop\Http\Controllers\ShopColorController::class, 'save'])->name('ajax.color.fullsave');

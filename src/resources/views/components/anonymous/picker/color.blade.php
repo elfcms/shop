@@ -4,7 +4,7 @@
 <div class="shop-color-picker-box" id="{{ $id }}">
     <div class="shop-color-picker-button" onclick="openPickerColor(this)">
         <div class="shop-color-picker-item" data-id="{{ $default->id ?? 0 }}">
-            <div class="shop-color-picker-image empty" style="color: {{ $default->code ?? 'transparent' }};"></div>
+            <div class="shop-color-picker-image empty" style="color: {{ $default->code ?? 'transparent' }};@if(!empty($default->picture)) background-image:url('{{$default->picture}}') @endif"></div>
             <label>{{ $default->name ?? __('shop::default.none') }}</label>
         </div>
     </div>

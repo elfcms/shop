@@ -11,6 +11,8 @@ class ShopVendor extends Model
 
     protected $fillable = [
         'name',
+        'code',
+        'number'
     ];
 
     public function products()

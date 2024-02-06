@@ -236,4 +236,5 @@ return [
     'data_type' => 'Тип данных',
     'is_filter' => 'Фильтр',
     'filter' => 'Фильтр',
+    '_number' => 'Номер',
 ];

@@ -86,7 +86,7 @@
                             @if (!empty($product->image))
                                 <img src="{{ asset($product->image) }}" alt="Image">
                             @else
-                                <img src="{{ asset('/vendor/elfcms/shop/admin/images/icons/upload.png') }}" alt="Upload file">
+                                <img src="{{ asset('/elfcms/admin/modules/shop//images/icons/upload.png') }}" alt="Upload file">
                             @endif
                             </div>
                             <div class="image-button-text">
@@ -181,7 +181,7 @@
                             @if (!empty($parameter->value))
                                 <img src="{{ asset($parameter->value) }}" alt="Image">
                             @else
-                                <img src="{{ asset('/vendor/elfcms/shop/admin/images/icons/upload.png') }}" alt="Upload file">
+                                <img src="{{ asset('/elfcms/admin/modules/shop//images/icons/upload.png') }}" alt="Upload file">
                             @endif
                             </div>
                             <div class="image-button-text">
@@ -238,7 +238,7 @@
                             @if (!empty($property->value))
                                 <img src="{{ asset($property->value) }}" alt="Image">
                             @else
-                                <img src="{{ asset('/vendor/elfcms/shop/admin/images/icons/upload.png') }}" alt="Upload file">
+                                <img src="{{ asset('/elfcms/admin/modules/shop//images/icons/upload.png') }}" alt="Upload file">
                             @endif
                             </div>
                             <div class="image-button-text">

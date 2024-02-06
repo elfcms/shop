@@ -359,14 +359,14 @@ class ShopItemController extends Controller
     public function update(Request $request, ShopItem $shopItem)
     {
         //dd($request->price['exists']);
-        /* if ($request->notedit && $request->notedit == 1) {
+        if ($request->notedit && $request->notedit == 1) {
             $shopItem->active = empty($request->active) ? 0 : 1;
 
             $shopItem->save();
 
             return redirect(route('admin.shop.product'))->with('action_result',__('shop::default.product_edited_successfully'));
-        } */
-        //else {
+        }
+        else {
             /* $request->merge([
                 'slug' => Str::slug($request->slug),
             ]); */
@@ -593,7 +593,7 @@ class ShopItemController extends Controller
 
                 return redirect(route('admin.shop.product.edit',$shopItem->product))->with('action_result',__('shop::default.item_edited_successfully'));
             }
-        //}
+        }
     }
 
     /**

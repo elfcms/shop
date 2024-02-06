@@ -50,7 +50,7 @@
                 </tr>
                 <tr class="subtable-head">
                     <th>ID</th>
-                    <th>{{ __('shop::default.alternate_name') }}</th>
+                    <th>{{ __('shop::default.alternate_name') }} /  {{ __('shop::default.additional_name') }}</th>
                     <th>{{ __('shop::default.item_number') }}</th>
                     <th class="align-center">{{ __('shop::default.balance') }}</th>
                     <th>{{ __('shop::default.active') }}</th>
@@ -112,7 +112,7 @@
                                     {{ $item->id }}
                                 </td>
                                 <td>
-                                    {{ $item->alternate_name }}
+                                    {{ $item->alternate_name ?? $item->additional_name }}
                                 </td>
                                 <td>
                                     {{ $item->item_number }}

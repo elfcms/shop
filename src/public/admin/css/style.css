@@ -392,13 +392,16 @@ main:has(.shop-table-buttons) {
     width: 60px;
     height: 60px;
     background-color: currentColor;
+    background-size: cover;
 }
 .shop-color-picker-image.empty  {
     box-sizing: border-box;
     border: 1px solid #425870;
 }
 .shop-color-picker-image img {
-
+    object-fit: cover;
+    width: 60px;
+    height: 60px;
 }
 /* /Color picker */
 
@@ -581,3 +584,37 @@ main:has(.shop-table-buttons) {
     translate: 0.15em -0.15em;
 }
 /* /icons */
+
+/* Tabs */
+
+.tab-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 2px;
+    padding: 0px 2px;
+    height: 32px;
+}
+
+.tab-title {
+    flex: 1 0 auto;
+    padding: 5px 10px;
+    text-align: center;
+    background-color: var(--main-header-light-color);
+    border: 0;
+    border-radius: 3px 3px 0px 0px;
+    cursor: pointer;
+}
+.tab-title.selected {
+    background-color: var(--main-select-bg-color);
+    padding-top: 7px;
+}
+
+.tab-box {
+    display: none;
+}
+.tab-box.showed {
+    display: block;
+}
+
+/* /Tabs */
