@@ -36,10 +36,10 @@ return [
         [
             "title" => "Shop",
             "lang_title" => "shop::default.shop",
-            "route" => "admin.shop.index",
+            "route" => "admin.shop.product",
             "parent_route" => "admin.shop",
             "icon" => "/elfcms/admin/modules/shop/images/icons/shop.png",
-            "position" => 110,
+            "position" => 500,
             "submenu" => [
                 [
                     "title" => "Categories",
@@ -95,6 +95,11 @@ return [
                     "title" => "Price types",
                     "lang_title" => "shop::default.price_types",
                     "route" => "admin.shop.price-type"
+                ],
+                [
+                    "title" => "Image settings",
+                    "lang_title" => "shop::default.image-settings",
+                    "route" => "admin.shop.image-settings.show"
                 ],
             ]
         ],

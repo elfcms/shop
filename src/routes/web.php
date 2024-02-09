@@ -12,6 +12,10 @@ Route::group(['middleware'=>['web','cookie']],function() use ($adminPath) {
         Route::name('shop.')->group(function() use ($adminPath) {
             Route::get($adminPath . '/shop', [\Elfcms\Shop\Http\Controllers\AdminController::class,'shop'])->name('index');
 
+
+            Route::get($adminPath . '/shop/image-settings', [\Elfcms\Shop\Http\Controllers\ShopImageSettingController::class,'show'])->name('image-settings.show');
+            Route::post($adminPath . '/shop/image-settings', [\Elfcms\Shop\Http\Controllers\ShopImageSettingController::class,'save'])->name('image-settings.save');
+
             Route::resource($adminPath . '/shop/category', \Elfcms\Shop\Http\Controllers\Resources\ShopCategoryController::class)
                 ->parameters(['category'=>'shopCategory'])
                 ->names(['index'=>'category']);

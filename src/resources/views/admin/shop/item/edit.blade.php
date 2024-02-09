@@ -251,6 +251,14 @@
                     </div>
                 </div>
                 <div class="input-box colored">
+                    <label for="image">{{ __('elfcms::default.image') }}</label>
+                    <div class="input-wrapper">
+                        <div class="shop-item-gallery-box">
+                            @include('elfcms::admin.shop.items.content.gallery')
+                        </div>
+                    </div>
+                </div>
+                <div class="input-box colored">
                     <label for="vendor_id">{{ __('shop::default.vendor') }}</label>
                     <div class="input-wrapper">
                         <select name="vendor_id" id="vendor_id">

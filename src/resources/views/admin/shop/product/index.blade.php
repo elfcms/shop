@@ -58,7 +58,7 @@
             </thead>
             <tbody>
             @foreach ($products as $product)
-                <tr data-id="{{ $product->id }}" @empty ($product->active) inactive @endempty">
+                <tr data-id="{{ $product->id }}" @empty ($product->active) inactive @endempty data-link="{{ route('admin.shop.product.edit',$product) }}">
                     <td>
                         {{ $product->id }}
                     </td>
@@ -107,7 +107,7 @@
                     <td colspan="5">
                         <table class="grid-table shop-products-table">
                             @forelse ($product->items as $item)
-                            <tr>
+                            <tr data-link="{{ route('admin.shop.item.edit',$item) }}">
                                 <td>
                                     {{ $item->id }}
                                 </td>
@@ -174,43 +174,20 @@
     </div>
 
     <script>
+        const linkRows = document.querySelectorAll('tr[data-link]');
+
+        if (linkRows) {
+            linkRows.forEach(row => {
+                let link = row.dataset.link;
+                if (link && link !== null && link !== undefined && link !== '') {
+                    row.addEventListener("dblclick", function () {
+                        window.location.href = link;
+                    });
+                }
+            });
+        }
+
         const checkForms = document.querySelectorAll('form[data-submit="check"]')
-
-        /* if (checkForms) {
-            checkForms.forEach(form => {
-                form.addEventListener('submit',function(e){
-                    e.preventDefault();
-                    let productId = this.querySelector('[name="id"]').value,
-                        productName = this.querySelector('[name="name"]').value,
-                        isItem = this.querySelector('[name="is_item"]'),
-                        self = this,
-                        text = "{{ __('shop::default.are_you_sure_to_deleting_product') }}"
-
-                    if (isItem) {
-                        text = "{{ __('shop::default.are_you_sure_to_deleting_item') }}";
-                    }
-                    popup({
-                        title: '{{ __('elfcms::default.deleting_of_element') }}' + productId,
-                        content: text + '"' + productName + '" (ID ' + productId + ')?</p>',
-                        buttons: [
-                            {
-                                title:'{{ __('elfcms::default.delete') }}',
-                                class:'default-btn delete-button',
-                                callback: function(){
-                                    self.submit()
-                                }
-                            },
-                            {
-                                title:'{{ __('elfcms::default.cancel') }}',
-                                class:'default-btn cancel-button',
-                                callback:'close'
-                            }
-                        ],
-                        class:'danger'
-                    })
-                })
-            })
-        } */
 
         function setConfirmDelete(forms) {
             if (forms) {
