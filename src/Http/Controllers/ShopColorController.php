@@ -163,8 +163,7 @@ class ShopColorController extends Controller
                     }
                     $picture_path = $color['picture_path'];
                     if (!empty($request->file()['color'][$id]['picture'])) {
-                        $picture = $request->file()['color'][$id]['picture']->store('public/shop/color/picture');
-                        $picture_path = str_ireplace('public/','/storage/',$picture);
+                        $picture_path = $request->file()['color'][$id]['picture']->store('shop/color/picture');
                     }
                     $colorItem->picture = $picture_path;
                     $saved = $colorItem->save();
@@ -187,8 +186,7 @@ class ShopColorController extends Controller
                 }
                 $picture_path = '';
                 if (!empty($request->file()['newcolor'][$id]['picture'])) {
-                    $picture = $request->file()['newcolor'][$id]['picture']->store('public/shop/color/picture');
-                    $picture_path = str_ireplace('public/','/storage/',$picture);
+                    $picture_path = $request->file()['newcolor'][$id]['picture']->store('shop/color/picture');
                 }
                 $newcolor['picture'] = $picture_path;
                 if ($newcolor['code_text'] == 'transparent') {

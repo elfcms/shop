@@ -85,14 +85,12 @@ class ShopBrandController extends Controller
 
         $image_path = '';
         if (!empty($request->file()['image'])) {
-            $image = $request->file()['image']->store('public/shop/brand/image');
-            $image_path = str_ireplace('public/','/storage/',$image);
+            $image_path = $request->file()['image']->store('shop/brand/image');
         }
 
         $logo_path = '';
         if (!empty($request->file()['logo'])) {
-            $logo = $request->file()['logo']->store('public/shop/brand/logo');
-            $logo_path = str_ireplace('public/','/storage/',$logo);
+            $logo_path = $request->file()['logo']->store('shop/brand/logo');
         }
 
         $validated['logo'] = $logo_path;
@@ -173,13 +171,11 @@ class ShopBrandController extends Controller
         }
         $logo_path = $request->logo_path;
         if (!empty($request->file()['logo'])) {
-            $logo = $request->file()['logo']->store('public/shop/brand/logo');
-            $logo_path = str_ireplace('public/','/storage/',$logo);
+            $logo_path = $request->file()['logo']->store('shop/brand/logo');
         }
         $image_path = $request->image_path;
         if (!empty($request->file()['image'])) {
-            $image = $request->file()['image']->store('public/shop/brand/image');
-            $image_path = str_ireplace('public/','/storage/',$image);
+            $image_path = $request->file()['image']->store('shop/brand/image');
         }
 
         $shopBrand->name = $validated['name'];

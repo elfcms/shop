@@ -79,25 +79,6 @@
                 <div class="input-box colored">
                     <label for="image">{{ __('elfcms::default.image') }}</label>
                     <div class="input-wrapper">
-                        {{-- <input type="hidden" name="image_path" id="image_path" value="{{$product->image}}">
-                        <div class="image-button">
-                            <div class="delete-image @if (empty($product->image)) hidden @endif">&#215;</div>
-                            <div class="image-button-img">
-                            @if (!empty($product->image))
-                                <img src="{{ asset($product->image) }}" alt="Image">
-                            @else
-                                <img src="{{ asset('/elfcms/admin/modules/shop//images/icons/upload.png') }}" alt="Upload file">
-                            @endif
-                            </div>
-                            <div class="image-button-text">
-                            @if (!empty($product->image))
-                                {{ __('elfcms::default.change_file') }}
-                            @else
-                                {{ __('elfcms::default.choose_file') }}
-                            @endif
-                            </div>
-                            <input type="file" name="image" id="image">
-                        </div> --}}
                         <x-elfcms-input-image code="image" :value="$product->image"/>
                     </div>
                 </div>
@@ -179,7 +160,7 @@
                             <div class="delete-image @if (empty($parameter->value)) hidden @endif">&#215;</div>
                             <div class="image-button-img">
                             @if (!empty($parameter->value))
-                                <img src="{{ asset($parameter->value) }}" alt="Image">
+                                <img src="{{ asset(file_path($parameter->value)) }}" alt="Image">
                             @else
                                 <img src="{{ asset('/elfcms/admin/modules/shop//images/icons/upload.png') }}" alt="Upload file">
                             @endif
@@ -236,7 +217,7 @@
                             <div class="delete-image @if (empty($property->value)) hidden @endif">&#215;</div>
                             <div class="image-button-img">
                             @if (!empty($property->value))
-                                <img src="{{ asset($property->value) }}" alt="Image">
+                                <img src="{{ asset(file_path($property->value)) }}" alt="Image">
                             @else
                                 <img src="{{ asset('/elfcms/admin/modules/shop//images/icons/upload.png') }}" alt="Upload file">
                             @endif

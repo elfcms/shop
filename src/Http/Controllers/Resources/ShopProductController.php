@@ -235,8 +235,7 @@ class ShopProductController extends Controller
 
         $image_path = '';
         if (!empty($request->file()['image'])) {
-            $image = $request->file()['image']->store('public' . $path);
-            $image_path = str_ireplace('public/','/storage/',$image);
+            $image_path = $request->file()['image']->store($path);
         }
 
         //dd($request->unit_id);
@@ -377,8 +376,7 @@ class ShopProductController extends Controller
 
             $image_path = $request->image_path;
             if (!empty($request->file()['image'])) {
-                $image = $request->file()['image']->store('public' . $path);
-                $image_path = str_ireplace('public/','/storage/',$image);
+                $image_path = $request->file()['image']->store($path);
             }
 
             $shopProduct->title = $validated['title'];
@@ -444,19 +442,6 @@ class ShopProductController extends Controller
                             $paramValue = null;
                         }
                     }
-                    //if ($parameter->data_type->code == 'file') {
-                        //dd($request->file()['parameter']);
-                        /* $image_path = $request->image_path;
-                        if (!empty($request->file()['image'])) {
-                            $image = $request->file()['image']->store('public/shop/categories/image');
-                            $image_path = str_ireplace('public/','/storage/',$image);
-                        } */
-                    //}
-                    /* $parameterValue = ShopProductParameterValue::where('product_id',$shopProduct->id)->where('parameter_id',$id)->first();
-                    if ($parameterValue) {
-                        $parameterValue[$parameter->data_type->code . '_value'] = $paramValue;
-                        $parameterValue->save();
-                    } */
                     $parameterValue = ShopProductParameterValue::updateOrCreate(
                         ['product_id' => $shopProduct->id, 'parameter_id' => $id],
                         [$parameter->data_type->code . '_value' => $paramValue]
@@ -473,8 +458,7 @@ class ShopProductController extends Controller
                     $originalName = $paramValue[$parameter->data_type->code]->getClientOriginalName();
                     //dd($paramValue[$parameter->data_type->code]);
                     $file_path = $request->parameter[$id]['path'];
-                    $file = $paramValue[$parameter->data_type->code]->store('public/shop/parameters/product/' . $parameter->data_type->code . 's');
-                    $file_path = str_ireplace('public/','/storage/',$file);
+                    $file_path = $paramValue[$parameter->data_type->code]->store('shop/parameters/product/' . $parameter->data_type->code . 's');
                     //$fileCatalog = new FileCatalog();
                     //dd($file_path);
                     FileCatalog::set($file_path,$originalName);
@@ -529,8 +513,7 @@ class ShopProductController extends Controller
                     }
                     $originalName = $paramValue[$property->data_type->code]->getClientOriginalName();
                     $file_path = $request->property[$id]['path'];
-                    $file = $paramValue[$property->data_type->code]->store('public/shop/properties/product/' . $property->data_type->code . 's');
-                    $file_path = str_ireplace('public/','/storage/',$file);
+                    $file_path = $paramValue[$property->data_type->code]->store('shop/properties/product/' . $property->data_type->code . 's');
                     FileCatalog::set($file_path,$originalName);
                     $propertyValue = ShopProductPropertyValue::updateOrCreate(
                         ['product_id' => $shopProduct->id, 'property_id' => $id],

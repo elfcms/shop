@@ -21,7 +21,7 @@
         <div class="shop-color-picker-item" data-id="{{ $item->id }}">
             <div class="shop-color-picker-image" style="color: {{ $item->code }};">
             @if (!empty($item->picture))
-                <img src="{{ asset($item->picture) }}" alt="{{ $item->name }}">
+                <img src="{{ asset(file_path($item->picture)) }}" alt="{{ $item->name }}">
             @endif
             </div>
             <input type="radio" name="{{ $name }}" id="color_item_{{ $id }}_{{ $item->id }}" @if($default && $default->id == $item->id) checked @endif value="{{ $item->id }}" data-id="{{ $item->id }}" onclick="setPickerColor(this)">

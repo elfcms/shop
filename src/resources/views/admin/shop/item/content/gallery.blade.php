@@ -1,4 +1,4 @@
-<form action="{{ route('admin.gallery.items.groupSave',$gallery) }}" method="POST" name="gallery-item-list" id="gallery-item-list">
+{{-- <form action="{{ route('admin.gallery.items.groupSave',$gallery) }}" method="POST" name="gallery-item-list" id="gallery-item-list">
     @method('POST')
     @csrf
     <div class="gallery-items-content dragndrop-wrapper" draggable="false" data-uploadtext="{{__('gallery::default.file_upload')}}">
@@ -227,7 +227,7 @@ function fileUpload (file, key = null) {
         slug: key,
         name: file.name,
         position: 1000,
-        image: '/vendor/elfcms/gallery/admin/images/empty.png',
+        image: '/elfcms/admin/modules/gallery/images/empty.png',
     },true);
 
     item.href = 'javascript:void(0)';
@@ -766,4 +766,4 @@ if (createButton) {
 
 dndInit(dragndropBox);
 
-</script>
+</script> --}}

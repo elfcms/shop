@@ -10,7 +10,7 @@ return [
     |
     */
 
-    'version' => '0.7',
+    'version' => '0.9',
 
     /*
     |--------------------------------------------------------------------------
@@ -21,7 +21,7 @@ return [
     |
     */
 
-    'basic_package' => '1.5.4',
+    'basic_package' => '2.0',
 
     /*
     |--------------------------------------------------------------------------
@@ -101,7 +101,12 @@ return [
                     "lang_title" => "shop::default.image-settings",
                     "route" => "admin.shop.image-settings.show"
                 ],
+                [
+                    "title" => "Receipts",
+                    "lang_title" => "elfcms::default.receipts",
+                    "route" => "admin.shop.receipts"
+                ],
             ]
-        ],
+        ]
     ],
 ];
