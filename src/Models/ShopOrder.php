@@ -11,7 +11,7 @@ class ShopOrder extends Model
     use HasFactory;
 
     protected $fillable = [
-        'user_id',
+        'customer_id',
         'payment_id',
         'delivery_id',
         'order_status_id',
@@ -30,9 +30,9 @@ class ShopOrder extends Model
         return $this->belongsToMany(ShopInvoice::class, 'shop_order_items', 'order_id', 'item_id')->withPivot('quantity','price','start_sum','discount_sum','result_sum');
     }
 
-    public function user()
+    public function customer()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(ShopCustomer::class, 'customer_id');
     }
 
     public function delivery()

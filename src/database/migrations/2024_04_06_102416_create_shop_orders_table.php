@@ -15,8 +15,8 @@ return new class extends Migration
     {
         Schema::create('shop_orders', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('user_id')->unsigned();
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('restrict');
+            $table->bigInteger('customer_id')->unsigned();
+            $table->foreign('customer_id')->references('id')->on('customers')->onDelete('restrict');
             $table->bigInteger('payment_id')->unsigned();
             $table->foreign('payment_id')->references('id')->on('shop_payments')->onDelete('restrict');
             $table->bigInteger('delivery_id')->unsigned();
