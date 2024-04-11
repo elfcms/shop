@@ -41,6 +41,7 @@ class ElfcmsModuleProvider extends ServiceProvider
 
         $this->publishes([
             $moduleDir . '/config/shop.php' => config_path('elfcms/shop.php'),
+            $moduleDir . '/config/selling.php' => config_path('elfcms/selling.php'),
         ], 'config');
 
         $this->publishes([

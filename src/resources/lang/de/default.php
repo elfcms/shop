@@ -262,4 +262,10 @@ return [
     'relative_size' => 'Größe (im Verhältnis zum Quellbild)',
     'filesize_attention' => 'Beachtung! Die maximale Größe hochgeladener Dateien beträgt :size. Um diesen Parameter zu ändern, ändern Sie die Einstellungen des Parameters upload_max_filesize in php.ini oder .htaccess',
     'image-settings' => 'Bildeinstellungen',
+
+    'selling' => 'Verkaufen',
+    'sale' => 'Angebot',
+    'buying' => 'Kauf',
+    'customer' => 'Kunde',
+    'customers' => 'Kunden',
 ];

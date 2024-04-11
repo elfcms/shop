@@ -223,7 +223,7 @@ return [
 
     'method_must_be' => 'Метод запроса должен быть :method',
     'error_of_deleting' => 'Ошибка удаления',
-    'error_of_saving_id' => 'Ощибка сохранения элемента с ID :id',
+    'error_of_saving_id' => 'Ошибка сохранения элемента с ID :id',
     'error_of_creating_element_with_name' => 'Ошибка создания элемента c именем ":name"',
     'view_not_found' => 'Представление не найдено',
     'data_saved_successfully' => 'Данные успешно сохранены',
@@ -262,4 +262,10 @@ return [
     'relative_size' => 'Размер (относительно исходного изображения)',
     'filesize_attention' => 'Внимание! Максимальный размер загружаемых файлов :size. Для изменения этого параметра измените настройки параметра upload_max_filesize в php.ini или в .htaccess',
     'image-settings' => 'Настроки загрузки изображений для артикулов',
+
+    'selling' => 'Продажа',
+    'sale' => 'Акция',
+    'buying' => 'Покупка',
+    'customer' => 'Клиент',
+    'customers' => 'Клиенты',
 ];

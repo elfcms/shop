@@ -10,7 +10,7 @@ return [
     |
     */
 
-    'version' => '0.9',
+    'version' => '0.10',
 
     /*
     |--------------------------------------------------------------------------
@@ -101,12 +101,96 @@ return [
                     "lang_title" => "shop::default.image-settings",
                     "route" => "admin.shop.image-settings.show"
                 ],
-                [
+                /* [
                     "title" => "Receipts",
                     "lang_title" => "elfcms::default.receipts",
                     "route" => "admin.shop.receipts"
-                ],
+                ], */
             ]
         ]
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Access control
+    |--------------------------------------------------------------------------
+    |
+    | Define access rules for admin panel pages.
+    |
+    */
+
+
+    "access_routes" => [
+        [
+            "title" => "Categories",
+            "lang_title" => "elfcms::default.categories",
+            "route" => "admin.shop.category",
+            "actions" => ["read", "write"],
+        ],
+        [
+            "title" => "Goods",
+            "lang_title" => "shop::default.products",
+            "route" => "admin.shop.product",
+            "actions" => ["read", "write"],
+        ],
+        [
+            "title" => "Vendors",
+            "lang_title" => "shop::default.vendors",
+            "route" => "admin.shop.vendor",
+            "actions" => ["read", "write"],
+        ],
+        [
+            "title" => "Brands",
+            "lang_title" => "shop::default.brands",
+            "route" => "admin.shop.brand",
+            "actions" => ["read", "write"],
+        ],
+        [
+            "title" => "Units of measurement",
+            "lang_title" => "shop::default.units_of_measurement",
+            "route" => "admin.shop.unit",
+            "actions" => ["read", "write"],
+        ],
+        [
+            "title" => "Parameters",
+            "lang_title" => "shop::default.parameters",
+            "route" => "admin.shop.parameter",
+            "actions" => ["read", "write"],
+        ],
+        [
+            "title" => "Properties",
+            "lang_title" => "shop::default.properties",
+            "route" => "admin.shop.property",
+            "actions" => ["read", "write"],
+        ],
+        [
+            "title" => "Colors",
+            "lang_title" => "shop::default.colors",
+            "route" => "admin.shop.color",
+            "actions" => ["read", "write"],
+        ],
+        [
+            "title" => "Currencies",
+            "lang_title" => "shop::default.currencies",
+            "route" => "admin.shop.currency"
+        ],
+        [
+            "title" => "Taxes",
+            "lang_title" => "shop::default.taxes",
+            "route" => "admin.shop.tax",
+            "actions" => ["read", "write"],
+        ],
+        [
+            "title" => "Price types",
+            "lang_title" => "shop::default.price_types",
+            "route" => "admin.shop.price-type",
+            "actions" => ["read", "write"],
+        ],
+        [
+            "title" => "Image settings",
+            "lang_title" => "shop::default.image-settings",
+            "route" => "admin.shop.image-settings.show",
+            "actions" => ["read", "write"],
+        ],
     ],
 ];

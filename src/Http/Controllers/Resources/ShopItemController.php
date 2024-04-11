@@ -72,6 +72,8 @@ class ShopItemController extends Controller
                         $property->colorData = ShopColor::find($property->value);
                     }
                 }
+                $price_types = ShopPriceType::all();
+                $currencies = ShopCurrency::all();
                 return view('elfcms::admin.shop.item.edit',[
                     'page' => [
                         'title' => __('shop::default.create_item'),
@@ -84,6 +86,8 @@ class ShopItemController extends Controller
                     'properties' => $properties,
                     'colors' => $colors,
                     'isCopy' => true,
+                    'price_types' => $price_types,
+                    'currencies' => $currencies,
                 ]);
             }
         }

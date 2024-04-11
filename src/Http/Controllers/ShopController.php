@@ -949,9 +949,9 @@ class ShopController extends Controller
                     } else {
                         $filename .= '.jpg';
                     }
-                    $file = Storage::put('/public' . $path . '/' . $filename, $context);
+                    $file = Storage::put($path . '/' . $filename, $context);
                     if ($file) {
-                        $file_path = '/storage' . $path . '/' . $filename;
+                        $file_path = $path . '/' . $filename;
                     }
                 }
             } catch (\Exception $e) {

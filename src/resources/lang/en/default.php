@@ -262,4 +262,10 @@ return [
     'relative_size' => 'Size (relative to source image)',
     'filesize_attention' => 'Attention! The maximum size of uploaded files is :size. To change this parameter, change the settings of the upload_max_filesize parameter in php.ini or .htaccess',
     'image-settings' => 'Image settings',
+
+    'selling' => 'Selling',
+    'sale' => 'Sale',
+    'buying' => 'Buying',
+    'customer' => 'Customer',
+    'customers' => 'Customers',
 ];
