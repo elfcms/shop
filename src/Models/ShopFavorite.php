@@ -12,6 +12,7 @@ class ShopFavorite extends Model
     protected $fillable = [
         'customer_id',
         'item_id',
+        'tmp_user_id',
         'title',
     ];
 }
