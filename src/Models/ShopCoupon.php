@@ -12,6 +12,8 @@ class ShopCoupon extends Model
 
     protected $fillable = [
         'code',
+        'name',
+        'description',
         'value',
         'is_percent',
         'min_price',
@@ -24,8 +26,8 @@ class ShopCoupon extends Model
         'currency_id',
         'valid_from',
         'valid_until',
-        'user_id',
-        'compatible',
+        'customer_id',
+        'combine',
     ];
 
     public function currency()

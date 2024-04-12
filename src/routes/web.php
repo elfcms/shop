@@ -86,6 +86,10 @@ Route::group(['middleware'=>['web','cookie']],function() use ($adminPath) {
 
             /* ---- */
 
+            Route::resource($adminPath . '/shop/coupon', \Elfcms\Shop\Http\Controllers\Resources\ShopCouponController::class)
+            ->parameters(['coupon'=>'shopCoupon'])
+            ->names(['index'=>'coupon']);
+
             Route::resource($adminPath . '/shop/unit', \Elfcms\Shop\Http\Controllers\Resources\ShopUnitController::class)
             ->parameters(['unit'=>'shopUnit'])
             ->names(['index'=>'unit']);
@@ -133,6 +137,10 @@ Route::group(['middleware'=>['web','cookie']],function() use ($adminPath) {
             Route::get($adminPath . '/shop/ajax/vendor/list/{byId?}', [\Elfcms\Shop\Http\Controllers\ShopVendorController::class, 'list'])->name('ajax.vendor.list');
             Route::get($adminPath . '/shop/ajax/vendor/empty-vendor', [\Elfcms\Shop\Http\Controllers\ShopVendorController::class, 'emptyItem'])->name('ajax.vendor.empty-item');
             Route::post($adminPath . '/shop/ajax/vendor/fullsave', [\Elfcms\Shop\Http\Controllers\ShopVendorController::class, 'save'])->name('ajax.vendor.fullsave');
+
+            /* Route::get($adminPath . '/shop/ajax/delivery/list/{byId?}', [\Elfcms\Shop\Http\Controllers\ShopDeliveryController::class, 'list'])->name('ajax.delivery.list');
+            Route::get($adminPath . '/shop/ajax/delivery/empty-delivery', [\Elfcms\Shop\Http\Controllers\ShopDeliveryController::class, 'emptyItem'])->name('ajax.delivery.empty-item');
+            Route::post($adminPath . '/shop/ajax/delivery/fullsave', [\Elfcms\Shop\Http\Controllers\ShopDeliveryController::class, 'save'])->name('ajax.delivery.fullsave'); */
 
             Route::get($adminPath . '/shop/ajax/color/list/{byId?}', [\Elfcms\Shop\Http\Controllers\ShopColorController::class, 'list'])->name('ajax.color.list');
             Route::get($adminPath . '/shop/ajax/color/empty-color', [\Elfcms\Shop\Http\Controllers\ShopColorController::class, 'emptyItem'])->name('ajax.color.empty-item');

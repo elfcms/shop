@@ -2,6 +2,7 @@
 
 namespace Elfcms\Shop\Models;
 
+use Elfcms\Elfcms\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -16,4 +17,9 @@ class ShopCustomer extends Model
         'birthday',
         'phone',
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
 }

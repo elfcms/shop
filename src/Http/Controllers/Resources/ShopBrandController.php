@@ -5,7 +5,7 @@ namespace Elfcms\Shop\Http\Controllers\Resources;
 use App\Http\Controllers\Controller;
 use Elfcms\Shop\Models\ShopBrand;
 use Illuminate\Http\Request;
-use Str;
+use Illuminate\Support\Str;
 
 class ShopBrandController extends Controller
 {

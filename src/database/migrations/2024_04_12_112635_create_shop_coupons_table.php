@@ -15,6 +15,8 @@ return new class extends Migration
     {
         Schema::create('shop_coupons', function (Blueprint $table) {
             $table->id();
+            $table->string('name');
+            $table->text('description')->nullable();
             $table->string('code')->unique();
             $table->unsignedInteger('value');
             $table->boolean('is_percent')->default(0);
@@ -30,8 +32,8 @@ return new class extends Migration
             $table->timestamp('valid_from')->nullable();
             $table->timestamp('valid_until')->nullable();
             $table->bigInteger('customer_id')->unsigned()->nullable();
-            $table->foreign('customer_id')->references('id')->on('customers')->onDelete('restrict');
-            $table->boolean('compatible')->default(0);
+            $table->foreign('customer_id')->references('id')->on('shop_customers')->onDelete('cascade');
+            $table->boolean('combine')->default(0);
             $table->timestamps();
         });
     }

@@ -62,6 +62,11 @@ return [
                     "route" => "admin.shop.brand"
                 ],
                 [
+                    "title" => "Delivery services",
+                    "lang_title" => "shop::default.delivery_services",
+                    "route" => "admin.shop.delivery"
+                ],
+                [
                     "title" => "Units of measurement",
                     "lang_title" => "shop::default.units_of_measurement",
                     "route" => "admin.shop.unit"

@@ -238,6 +238,23 @@ function addVendorItem() {
     }
 }
 
+function addDeliveryItem() {
+    if (!emptyItem) return false;
+    if (!newItemId && newItemId !== 0) return false;
+    const container = document.querySelector('table.delivery-table tbody');
+    if (container) {
+        let itemString = emptyItem.replaceAll('id="newcdelivery"','id="new_'+newItemId+'"').replaceAll('delivery[newdelivery]','newdelivery['+newItemId+']').replaceAll('delivery_newdelivery','newdelivery_'+newItemId).replaceAll('<span>newdelivery</span>','');
+        container.insertAdjacentHTML('beforeend',itemString);
+        const newRow = container.lastElementChild;
+        if (newRow) {
+            newRow.classList.add('edited');
+        }
+        newItemId++;
+        autoSlug(newRow.querySelectorAll('.autoslug'));
+        setSaveEnabled();
+    }
+}
+
 function addTaxItem() {
     if (!emptyItem) return false;
     if (!newItemId && newItemId !== 0) return false;
