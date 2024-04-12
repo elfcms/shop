@@ -7,6 +7,7 @@ use Elfcms\Elfcms\Models\TmpUser;
 use Elfcms\Shop\Models\ShopCart;
 use Elfcms\Shop\Models\ShopCoupon;
 use Elfcms\Shop\Models\ShopCustomer;
+use Elfcms\Shop\Models\ShopUsedCoupon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cookie;
 
@@ -47,7 +48,7 @@ class CouponController extends Controller
     static public function newCode($pattern = null, $length = null, $check = false)
     {
         $code = self::createCode($pattern, $length, $check);
-        while (!empty(ShopCoupon::where('code',$code)->first())) {
+        while (!empty(ShopCoupon::where('code', $code)->first())) {
             $code = self::createCode($pattern, $length, $check);
         }
 
@@ -67,35 +68,28 @@ class CouponController extends Controller
             }
         }
         $code = '';
-        if($pattern == null && $length > 0) {
+        if ($pattern == null && $length > 0) {
             if ($length > 30) {
                 $length = 30;
             }
             for ($i = 0; $i < $length; $i++) {
                 $code .= $symbols[rand(0, count($symbols) - 1)];
             }
-        }
-        else {
+        } else {
             $pattern = str_split($pattern);
             $sum = 0;
             foreach ($pattern as $key => $value) {
                 if (strtoupper($value) == 'S') {
                     $code .= $symbols[rand(0, count($symbols) - 1)];
-
-                }
-                elseif (strtoupper($value) == 'D') {
+                } elseif (strtoupper($value) == 'D') {
                     $code .= $numbers[rand(0, count($numbers) - 1)];
-                }
-                elseif (strtoupper($value) == 'A') {
+                } elseif (strtoupper($value) == 'A') {
                     $code .= $letters[rand(0, count($letters) - 1)];
-                }
-                elseif (strtoupper($value) == 'H') {
+                } elseif (strtoupper($value) == 'H') {
                     $code .= dechex(rand(0, 15));
-                }
-                elseif (strtoupper($value) == '/') {
+                } elseif (strtoupper($value) == '/') {
                     $code .= '/';
-                }
-                elseif (strtoupper($value) == '-') {
+                } elseif (strtoupper($value) == '-') {
                     $code .= '-';
                 }
             }
@@ -105,10 +99,8 @@ class CouponController extends Controller
                 $chk = self::checkSum($code);
                 if ($chk < 10) {
                     $chk = '00' . $chk;
-                }
-                elseif ($chk < 100) {
+                } elseif ($chk < 100) {
                     $chk = '0' . $chk;
-
                 }
                 $code .= $chk;
             }
@@ -118,15 +110,15 @@ class CouponController extends Controller
         return strtoupper($code);
     }
 
-    static public function checkSum($code) {
+    static public function checkSum($code)
+    {
         $sum = 0;
         $code = str_split(strtolower($code));
         if (!empty($code)) {
             foreach ($code as $c) {
                 if (is_numeric($c)) {
                     $sum += $c;
-                }
-                elseif (!empty(self::$letterValues[$c]))  {
+                } elseif (!empty(self::$letterValues[$c])) {
                     $sum += self::$letterValues[$c];
                 }
             }
@@ -134,15 +126,48 @@ class CouponController extends Controller
         return $sum;
     }
 
-    static public function checkCode ($code) {
+    static public function checkCode($code)
+    {
         $code = strtolower($code);
         $sum = (int)substr($code, -3);
         $code = substr($code, 0, -3);
         if ($sum == self::checkSum($code)) {
             return true;
-        }
-        else {
+        } else {
             return false;
         }
+    }
+
+    static public function checkCoupon($code, $check = false)
+    {
+        if (empty($code)) {
+            return false;
+        }
+        $checkResult = true;
+        if ($check) {
+            $checkResult = self::checkCode($code);
+        }
+        if (!$checkResult) {
+            return false;
+        }
+        $coupon = ShopCoupon::where('code', $code)->first();
+        if (empty($coupon)) {
+            return false;
+        }
+        if ($coupon->used->count() >= $coupon->uses_number) {
+            return false;
+        }
+        return $coupon;
+    }
+
+    static public function useCoupon($code, $customerId, $check = false)
+    {
+        $coupon = self::checkCoupon($code, $check);
+        if (empty($coupon)) {
+            return false;
+        }
+        $usedCoupon = ShopUsedCoupon::create(['coupon_id'=>$coupon->id,'customer_id'=>$customerId,'code'=>$code]);
+
+        return $usedCoupon;
     }
 }

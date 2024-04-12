@@ -90,4 +90,12 @@ class CustomerController extends SellingController
         $this->cart->cartItems()->delete();
         return true;
     }
+
+    public function useCoupon($code, $check = false)
+    {
+        if (!$this->customer || !$this->customer->id) {
+            return false;
+        }
+        return CouponController::useCoupon($code, $this->customer->id, $check);
+    }
 }

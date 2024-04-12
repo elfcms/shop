@@ -4,6 +4,7 @@ namespace Elfcms\Shop\Http\Controllers\Resources;
 
 use App\Http\Controllers\Controller;
 use Elfcms\Shop\Http\Controllers\Sellings\CouponController;
+use Elfcms\Shop\Http\Controllers\Sellings\CustomerController;
 use Elfcms\Shop\Models\ShopCoupon;
 use Elfcms\Shop\Models\ShopCurrency;
 use Elfcms\Shop\Models\ShopCustomer;
@@ -161,6 +162,7 @@ class ShopCouponController extends Controller
      */
     public function edit(ShopCoupon $shopCoupon)
     {
+        //dd($shopCoupon->used->count());
         $shopCoupon->created = '';
         $shopCoupon->updated = '';
         if (!empty($shopCoupon->created_at)) {
@@ -228,8 +230,8 @@ class ShopCouponController extends Controller
         $shopCoupon->min_is_percent = (int)boolval($request->min_is_percent);
 
         $shopCoupon->name = $validated['name'];
-        $shopCoupon->name = $validated['code'];
-        $shopCoupon->name = $validated['value'];
+        $shopCoupon->code = $validated['code'];
+        $shopCoupon->value = $validated['value'];
         $shopCoupon->description = $request->description;
         $shopCoupon->min_price = $request->min_price;
         $shopCoupon->max_price = $request->max_price;

@@ -58,10 +58,10 @@
                     </div>
                 </div>
                 <div class="input-box colored">
-                    <x-elfcms-input-checkbox code="combine" label="{{ __('shop::default.combine_coupon') }}" :cheked="$coupon->combine" style="blue" />
+                    <x-elfcms-input-checkbox code="combine" label="{{ __('shop::default.combine_coupon') }}" :checked="$coupon->combine" style="blue" />
                 </div>
                 <div class="input-box colored">
-                    <x-elfcms-input-checkbox code="is_percent" label="{{ __('shop::default.is_percent_coupon') }}" :cheked="$coupon->is_percent" style="blue" />
+                    <x-elfcms-input-checkbox code="is_percent" label="{{ __('shop::default.is_percent_coupon') }}" :checked="$coupon->is_percent" style="blue" />
                 </div>
                 <div class="input-box colored">
                     <label for="value">{{ __('elfcms::default.value') }}</label>

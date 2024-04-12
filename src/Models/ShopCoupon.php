@@ -39,4 +39,9 @@ class ShopCoupon extends Model
     {
         return $this->belongsTo(User::class, 'user_id');
     }
+
+    public function used()
+    {
+        return $this->hasMany(ShopUsedCoupon::class, 'coupon_id');
+    }
 }
