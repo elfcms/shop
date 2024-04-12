@@ -27,5 +27,9 @@ class PublicController extends Controller
         //dd($cl->setFavorite(ShopItem::find(3)));
         //dd($cl->unsetFavorite(ShopFavorite::find(3)));
         //dd($cl->unsetFavoriteItem(ShopItem::find(3)));
+        //dd($cl->addToCart(ShopItem::find(1),2));
+        //dd($cl->addToCart(ShopItem::find(3),2));
+        //dd($cl->removeFromCart(ShopItem::find(1)));
+        //dd($cl->clearCart());
     }
 }

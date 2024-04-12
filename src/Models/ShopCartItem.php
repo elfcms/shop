@@ -11,4 +11,10 @@ class ShopCartItem extends Model
 
     protected $table = 'shop_cart_items';
 
+    protected $fillable = [
+        'cart_id',
+        'item_id',
+        'quantity'
+    ];
+
 }
