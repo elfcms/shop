@@ -29,8 +29,8 @@ return new class extends Migration
             $table->foreign('currency_id')->references('id')->on('shop_currencies')->onDelete('set null');
             $table->timestamp('valid_from')->nullable();
             $table->timestamp('valid_until')->nullable();
-            $table->bigInteger('user_id')->unsigned()->nullable();
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('restrict');
+            $table->bigInteger('customer_id')->unsigned()->nullable();
+            $table->foreign('customer_id')->references('id')->on('customers')->onDelete('restrict');
             $table->boolean('compatible')->default(0);
             $table->timestamps();
         });

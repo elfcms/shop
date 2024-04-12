@@ -36,7 +36,7 @@ class ShopVendorController extends Controller
         }
         else {
             return view(
-                'elfcms::admin.shop.vendor.content.list',
+                'elfcms::admin.shop.vendors.content.list',
                 [
                     'vendors' => $vendors,
                 ]
@@ -61,7 +61,7 @@ class ShopVendorController extends Controller
             'number' => null,
         ];
         return view(
-            'elfcms::admin.shop.vendor.content.item',
+            'elfcms::admin.shop.vendors.content.item',
             [
                 'vendor' => (object)$emptyUnit,
             ]
@@ -165,7 +165,7 @@ class ShopVendorController extends Controller
 
         $vendors = ShopVendor::all();
         $view = view(
-            'elfcms::admin.shop.vendor.content.list',
+            'elfcms::admin.shop.vendors.content.list',
             [
                 'vendors' => $vendors,
             ]
