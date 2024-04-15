@@ -74,6 +74,18 @@ return [
     'vendor_deleted_successfully' => 'Vendor deleted successfully',
     'error_of_vendor_deleting' => 'Error of vendor deleting',
 
+    'discount' => 'Discount',
+    'discounts' => 'Discounts',
+    'create_discount' => 'Create discount',
+    'edit_discount' => 'Edit discount',
+    'discount_created_successfully' => 'Discount created successfully',
+    'error_of_discount_created' => 'Error of discount creating',
+    'discount_edited_successfully' => 'Discount edited successfully',
+    'error_of_discount_edited' => 'Error of discount editing',
+    'discount_deleted_successfully' => 'Discount deleted successfully',
+    'error_of_discount_deleting' => 'Error of discount deleting',
+    'set_discount_for_all_products_in_category' => 'Set a discount for all products in a category',
+
     'delivery' => 'Delivery',
     'deliveries' => 'Deliveries',
     'create_delivery' => 'Create delivery',

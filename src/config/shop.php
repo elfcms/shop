@@ -107,6 +107,11 @@ return [
                     "route" => "admin.shop.coupon"
                 ],
                 [
+                    "title" => "Discounts",
+                    "lang_title" => "shop::default.discounts",
+                    "route" => "admin.shop.discount"
+                ],
+                [
                     "title" => "Image settings",
                     "lang_title" => "shop::default.image-settings",
                     "route" => "admin.shop.image-settings.show"

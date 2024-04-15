@@ -38,13 +38,12 @@ class ShopCouponController extends Controller
         $search = $request->search ?? '';
 
         if (!empty($search)) {
-            $coupons = ShopCoupon::where('name','like',"%{$search}%")->orderBy($order, $trend)->paginate($count);
-        }
-        else {
+            $coupons = ShopCoupon::where('name', 'like', "%{$search}%")->orderBy($order, $trend)->paginate($count);
+        } else {
             $coupons = ShopCoupon::all();
         }
 
-        return view('elfcms::admin.shop.coupon.index',[
+        return view('elfcms::admin.shop.coupon.index', [
             'page' => [
                 'title' => __('shop::default.coupons'),
                 'current' => url()->current(),
@@ -65,14 +64,14 @@ class ShopCouponController extends Controller
         //dd(CouponController::checkCode('czv83-t4113'));
         //dd(ShopCoupon::where('code','asdasdasd')->first());
         //dd(CouponController::newCode(check:true));
-        $c = ShopCustomer::all();
+        //$c = ShopCustomer::all();
         //dd($c[0]->user?->id);
-        return view('elfcms::admin.shop.coupon.create',[
+        return view('elfcms::admin.shop.coupon.create', [
             'page' => [
                 'title' => __('shop::default.create_coupon'),
                 'current' => url()->current(),
             ],
-            'code' => CouponController::newCode(check:true),
+            'code' => CouponController::newCode(check: true),
             'currencies' => ShopCurrency::all(),
             'customers' => ShopCustomer::all(),
         ]);
@@ -110,18 +109,16 @@ class ShopCouponController extends Controller
 
         if (empty($request->valid_from[1]) && !empty($valid_from)) {
             $valid_from .= ' 00:00:00';
-        }
-        elseif (!empty($valid_from)) {
-            $valid_from .= ' '.$request->valid_from[1];
+        } elseif (!empty($valid_from)) {
+            $valid_from .= ' ' . $request->valid_from[1];
         }
 
         $valid_until = $request->valid_until[0];
 
         if (empty($request->valid_until[1]) && !empty($valid_until)) {
             $valid_until .= ' 00:00:00';
-        }
-        elseif (!empty($valid_until)) {
-            $valid_until .= ' '.$request->valid_until[1];
+        } elseif (!empty($valid_until)) {
+            $valid_until .= ' ' . $request->valid_until[1];
         }
 
         $validated['valid_from'] = $valid_from;
@@ -134,7 +131,7 @@ class ShopCouponController extends Controller
 
         $coupon = ShopCoupon::create($validated);
 
-        return redirect(route('admin.shop.coupon'))->with('action_result',__('shop::default.coupon_created_successfully'));
+        return redirect(route('admin.shop.coupon'))->with('action_result', __('shop::default.coupon_created_successfully'));
     }
 
     /**
@@ -144,12 +141,11 @@ class ShopCouponController extends Controller
      * @param  \App\Models\ShopCoupon  $shopCoupon
      * @return \Illuminate\Http\Response
      */
-    public function show(Request  $request, ShopCoupon $shopCoupon)
+    public function show(Request $request, ShopCoupon $shopCoupon)
     {
         if ($request->ajax()) {
             return $shopCoupon;
-        }
-        else {
+        } else {
             abort(404);
         }
     }
@@ -166,21 +162,21 @@ class ShopCouponController extends Controller
         $shopCoupon->created = '';
         $shopCoupon->updated = '';
         if (!empty($shopCoupon->created_at)) {
-            $shopCoupon->created = date('d.m.Y H:i:s',strtotime($shopCoupon->created_at));
+            $shopCoupon->created = date('d.m.Y H:i:s', strtotime($shopCoupon->created_at));
         }
         if (!empty($shopCoupon->updated_at)) {
-            $shopCoupon->updated = date('d.m.Y H:i:s',strtotime($shopCoupon->updated_at));
+            $shopCoupon->updated = date('d.m.Y H:i:s', strtotime($shopCoupon->updated_at));
         }
 
         if (!empty($shopCoupon->valid_until)) {
-            $shopCoupon->valid_until_time = date('H:i',strtotime($shopCoupon->valid_until));
-            $shopCoupon->valid_until = date('Y-m-d',strtotime($shopCoupon->valid_until));
+            $shopCoupon->valid_until_time = date('H:i', strtotime($shopCoupon->valid_until));
+            $shopCoupon->valid_until = date('Y-m-d', strtotime($shopCoupon->valid_until));
         }
         if (!empty($shopCoupon->valid_from)) {
-            $shopCoupon->valid_from_time = date('H:i',strtotime($shopCoupon->valid_from));
-            $shopCoupon->valid_from = date('Y-m-d',strtotime($shopCoupon->valid_from));
+            $shopCoupon->valid_from_time = date('H:i', strtotime($shopCoupon->valid_from));
+            $shopCoupon->valid_from = date('Y-m-d', strtotime($shopCoupon->valid_from));
         }
-        return view('elfcms::admin.shop.coupon.edit',[
+        return view('elfcms::admin.shop.coupon.edit', [
             'page' => [
                 'title' => __('shop::default.edit_coupon'),
                 'current' => url()->current(),
@@ -209,17 +205,15 @@ class ShopCouponController extends Controller
         $valid_from = $request->valid_from[0];
         if (empty($request->valid_from[1]) && !empty($valid_from)) {
             $valid_from .= ' 00:00:00';
-        }
-        elseif (!empty($valid_from)) {
-            $valid_from .= ' '.$request->valid_from[1];
+        } elseif (!empty($valid_from)) {
+            $valid_from .= ' ' . $request->valid_from[1];
         }
 
         $valid_until = $request->valid_until[0];
         if (empty($request->valid_until[1]) && !empty($valid_until)) {
             $valid_until .= ' 00:00:00';
-        }
-        elseif (!empty($valid_until)) {
-            $valid_until .= ' '.$request->valid_until[1];
+        } elseif (!empty($valid_until)) {
+            $valid_until .= ' ' . $request->valid_until[1];
         }
 
         $shopCoupon->valid_from = $valid_from;
@@ -243,7 +237,7 @@ class ShopCouponController extends Controller
 
         $shopCoupon->save();
 
-        return redirect(route('admin.shop.coupon.edit',$shopCoupon))->with('action_result',__('shop::default.coupon_edited_successfully'));
+        return redirect(route('admin.shop.coupon.edit', $shopCoupon))->with('action_result', __('shop::default.coupon_edited_successfully'));
     }
 
     /**
@@ -255,9 +249,9 @@ class ShopCouponController extends Controller
     public function destroy(ShopCoupon $shopCoupon)
     {
         if (!$shopCoupon->delete()) {
-            return redirect(route('admin.shop.coupon'))->withErrors(['coupondelerror'=>__('shop::default.error_of_coupon_deleting')]);
+            return redirect(route('admin.shop.coupon'))->withErrors(['coupondelerror' => __('shop::default.error_of_coupon_deleting')]);
         }
 
-        return redirect(route('admin.shop.coupon'))->with('action_result',__('shop::default.coupon16712_deleted_successfully'));
+        return redirect(route('admin.shop.coupon'))->with('action_result', __('shop::default.coupon16712_deleted_successfully'));
     }
 }

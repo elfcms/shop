@@ -74,6 +74,18 @@ return [
     'vendor_deleted_successfully' => 'Lieferant erfolgreich gelöscht',
     'error_of_vendor_deleting' => 'Fehler bei der Lieferant-Entfernung',
 
+    'discount' => 'Rabatt',
+    'discounts' => 'Rabatte',
+    'create_discount' => 'Rabatt erstellen',
+    'edit_discount' => 'Rabatt bearbeiten',
+    'discount_created_successfully' => 'Rabatt erfolgreich erstellt',
+    'error_of_discount_created' => 'Fehler beim Erstellen des Rabatts',
+    'discount_edited_successfully' => 'Rabatt erfolgreich bearbeitet',
+    'error_of_discount_edited' => 'Fehler bei der Rabatt-Bearbeitung',
+    'discount_deleted_successfully' => 'Rabatt erfolgreich gelöscht',
+    'error_of_discount_deleting' => 'Fehler bei der Rabatt-Entfernung',
+    'set_discount_for_all_products_in_category' => 'Den Rabatt für alle Produkte den Kategorien festlegen',
+
     'delivery' => 'Lieferung',
     'deliveries' => 'Lieferungen',
     'create_delivery' => 'Lieferung erstellen',

@@ -74,6 +74,18 @@ return [
     'vendor_deleted_successfully' => 'Поставщик успешно удален',
     'error_of_vendor_deleting' => 'Ошибка удаления поставщика',
 
+    'discount' => 'Скидка',
+    'discounts' => 'Скидки',
+    'create_discount' => 'Создать скидку',
+    'edit_discount' => 'Изменить скидку',
+    'discount_created_successfully' => 'Скидка успешно создана',
+    'error_of_discount_created' => 'Ошибка создания скидки',
+    'discount_edited_successfully' => 'Скидка успешно изменена',
+    'error_of_discount_edited' => 'Ошибка редактирования скидки',
+    'discount_deleted_successfully' => 'Скидка успешно удалена',
+    'error_of_discount_deleting' => 'Ошибка удаления скидки',
+    'set_discount_for_all_products_in_category' => 'Задать скидку для всех товаров категории',
+
     'delivery' => 'Доставка',
     'deliveries' => 'Доставки',
     'create_delivery' => 'Создать доставку',

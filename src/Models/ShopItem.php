@@ -106,4 +106,9 @@ class ShopItem extends Model
         return $this->belongsToMany(ShopTag::class, 'shop_item_tags', 'item_id', 'tag_id');
     }
 
+    public function discounts ()
+    {
+        return $this->belongsToMany(ShopItem::class, 'shop_item_discounts', 'item_id', 'discount_id');
+    }
+
 }

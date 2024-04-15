@@ -30,7 +30,7 @@
                 <div class="tab-title selected" data-tab="general">{{ __('shop::default.general') }}</div>
                 <div class="tab-title" data-tab="parameters">{{ __('shop::default.parameters') }}</div>
                 <div class="tab-title" data-tab="properties">{{ __('shop::default.properties') }}</div>
-                <div class="tab-title" data-tab="prices">{{ __('shop::default.prices') }}</div>
+                <div class="tab-title" data-tab="prices">{{ __('shop::default.prices') }} / {{ __('shop::default.discounts') }}</div>
             </div>
 
             <div class="colored-rows-box tab-box" id="prices">
@@ -154,6 +154,19 @@
                     setRowDelete(checkbox,checkbox.dataset.inputname != 'delete');
                 }
                 </script>
+                <div>
+                    <h4>{{ __('shop::default.discount') }}</h4>
+                    <div class="input-box colored">
+                        <div class="input-wrapper">
+                            <select name="discount" id="discount">
+                                <option value="">{{ __('shop::default.none') }}</option>
+                            @foreach ($discounts as $discount)
+                                <option value="{{ $discount->id }}" data-id="{{ $discount->id }}" @if($discount->id == $item->discount_id) selected @endif>{{ $discount->name }}</option>
+                            @endforeach
+                            </select>
+                        </div>
+                    </div>
+                </div>
             </div>
             <div class="colored-rows-box tab-box showed" id="general">
                 <div class="input-box colored">

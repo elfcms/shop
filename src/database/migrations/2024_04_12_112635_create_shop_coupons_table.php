@@ -15,6 +15,7 @@ return new class extends Migration
     {
         Schema::create('shop_coupons', function (Blueprint $table) {
             $table->id();
+            $table->boolean('active')->nullable()->default(1);
             $table->string('name');
             $table->text('description')->nullable();
             $table->string('code')->unique();

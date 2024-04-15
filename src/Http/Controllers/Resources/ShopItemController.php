@@ -7,6 +7,7 @@ use Elfcms\Elfcms\Models\FileCatalog;
 use Elfcms\Elfcms\Models\Setting;
 use Elfcms\Shop\Models\ShopColor;
 use Elfcms\Shop\Models\ShopCurrency;
+use Elfcms\Shop\Models\ShopDiscount;
 use Elfcms\Shop\Models\ShopProduct;
 use Elfcms\Shop\Models\ShopItem;
 use Elfcms\Shop\Models\ShopItemParameter;
@@ -334,6 +335,7 @@ class ShopItemController extends Controller
             'price_types' => $price_types,
             'currencies' => $currencies,
             'exists' => true,
+            'discounts' => ShopDiscount::all(),
         ]);
     }
 
@@ -386,6 +388,7 @@ class ShopItemController extends Controller
             $shopItem->note = $request->note;
             $shopItem->balance = $request->balance;
             $shopItem->image = $image_path;
+            $shopItem->discount_id = empty($request->discount) ? null : 1;
             $shopItem->active = empty($request->active) ? 0 : 1;
             $shopItem->meta_keywords = $request->meta_keywords;
             $shopItem->meta_description = $request->meta_description;
