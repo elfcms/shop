@@ -102,6 +102,11 @@ return [
                     "route" => "admin.shop.price-type"
                 ],
                 [
+                    "title" => "Payment methods",
+                    "lang_title" => "shop::default.payment_methods",
+                    "route" => "admin.shop.payment"
+                ],
+                [
                     "title" => "Coupons",
                     "lang_title" => "shop::default.coupons",
                     "route" => "admin.shop.coupon"

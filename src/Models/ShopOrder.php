@@ -12,12 +12,14 @@ class ShopOrder extends Model
 
     protected $fillable = [
         'customer_id',
-        'payment_id',
+        'payment_method_id',
         'delivery_id',
         'order_status_id',
         'start_sum',
         'discount_sum',
         'result_sum',
+        'item_quantity',
+        'total_quantity',
     ];
 
     public function invoces()
@@ -47,7 +49,7 @@ class ShopOrder extends Model
 
     public function payment()
     {
-        return $this->belongsTo(ShopPayment::class, 'payment_id');
+        return $this->belongsTo(ShopPayment::class, 'payment_method_id');
     }
 
 }

@@ -15,6 +15,8 @@ class SellingController extends Controller
     public $customer;
     public $tmp_user;
     public $cart;
+    public $message = null;
+    public $error = false;
 
     public function __construct()
     {
@@ -37,9 +39,19 @@ class SellingController extends Controller
         $this->setCart();
     }
 
+    private function startResult() {
+        $this->message = null;
+        $this->error = false;
+    }
+
     public function setCustomer()
     {
-        if (!$this->user) return false;
+        $this->startResult();
+        if (!$this->user) {
+            $this->message = 'User not found';
+            $this->error = true;
+            return false;
+        }
 
         if (!$this->customer) {
             $this->customer = ShopCustomer::firstOrCreate(
@@ -57,6 +69,7 @@ class SellingController extends Controller
     }
 
     public function setCart() {
+        $this->startResult();
         if ($this->tmp_user && $this->tmp_user->id) {
             $this->cart = ShopCart::firstOrCreate(
                 ['tmp_user_id' => $this->tmp_user->id],

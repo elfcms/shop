@@ -5,7 +5,7 @@ namespace Elfcms\Shop\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class ShopPayment extends Model
+class ShopPaymentMethod extends Model
 {
     use HasFactory;
 
@@ -17,7 +17,7 @@ class ShopPayment extends Model
 
     public function orders()
     {
-        return $this->hasMany(ShopOrder::class, 'payment_id');
+        return $this->hasMany(ShopOrder::class, 'payment_method_id');
     }
 
 }

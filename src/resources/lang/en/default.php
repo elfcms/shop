@@ -111,6 +111,18 @@ return [
     'are_you_sure_to_deleting_delivery_services' => 'Are you sure to deleting delivery services',
     'icon' => 'Icon',
 
+    'payment_method' => 'Payment method',
+    'payment_methods' => 'Payment methods',
+    'create_payment_method' => 'Create payment method',
+    'edit_payment_method' => 'Edit payment method',
+    'payment_method_created_successfully' => 'Payment method created successfully',
+    'error_of_payment_method_created' => 'Error of payment method creating',
+    'payment_method_edited_successfully' => 'Payment method edited successfully',
+    'error_of_payment_method_edited' => 'Error of payment method editing',
+    'payment_method_deleted_successfully' => 'Payment method deleted successfully',
+    'error_of_payment_method_deleting' => 'Error of payment method deleting',
+    'are_you_sure_to_deleting_payment_method' => 'Are you sure to deleting payment method',
+
     'unit_of_measurement' => 'Unit of measurement',
     'units_of_measurement' => 'Units of measurement',
     'create_unit_of_measurement' => 'Create unit of measurement',

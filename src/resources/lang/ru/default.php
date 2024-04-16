@@ -111,6 +111,18 @@ return [
     'are_you_sure_to_deleting_delivery_services' => 'Вы уверены, что хотите удалить службу доставки',
     'icon' => 'Значок',
 
+    'payment_method' => 'Форма оплаты',
+    'payment_methods' => 'Формы оплаты',
+    'create_payment_method' => 'Создать форму оплаты',
+    'edit_payment_method' => 'Изменить форму оплаты',
+    'payment_method_created_successfully' => 'Форма оплаты успешно создана',
+    'error_of_payment_method_created' => 'Ошибка создания формы оплаты',
+    'payment_method_edited_successfully' => 'Форма оплаты успешно изменена',
+    'error_of_payment_method_edited' => 'Ошибка редактирования формы оплаты',
+    'payment_method_deleted_successfully' => 'Форма оплаты успешно удалена',
+    'error_of_payment_method_deleting' => 'Ошибка удаления формы оплаты',
+    'are_you_sure_to_deleting_payment_method' => 'Вы уверены, что хотите удалить форму оплаты',
+
     'unit_of_measurement' => 'Единица измерения',
     'units_of_measurement' => 'Единицы измерения',
     'create_unit_of_measurement' => 'Создать единицу измерения',

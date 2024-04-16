@@ -17,8 +17,8 @@ return new class extends Migration
             $table->id();
             $table->bigInteger('customer_id')->unsigned();
             $table->foreign('customer_id')->references('id')->on('customers')->onDelete('restrict');
-            $table->bigInteger('payment_id')->unsigned();
-            $table->foreign('payment_id')->references('id')->on('shop_payments')->onDelete('restrict');
+            $table->bigInteger('payment_method_id')->unsigned();
+            $table->foreign('payment_method_id')->references('id')->on('shop_payment_methods')->onDelete('restrict');
             $table->bigInteger('delivery_id')->unsigned();
             $table->foreign('delivery_id')->references('id')->on('shop_deliveries')->onDelete('restrict');
             $table->bigInteger('order_status_id')->unsigned();
@@ -26,6 +26,8 @@ return new class extends Migration
             $table->unsignedInteger('start_sum');
             $table->unsignedInteger('discount_sum')->nullable()->default(0);
             $table->unsignedInteger('result_sum');
+            $table->unsignedInteger('item_quantity')->nullable();
+            $table->unsignedInteger('total_quantity')->nullable();
             $table->timestamps();
         });
     }

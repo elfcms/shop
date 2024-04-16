@@ -29,7 +29,7 @@ class ShopDiscountController extends Controller
             $count = intval($request->count);
         }
         if (empty($count)) {
-            $count = 30;
+            $count = 30;    
         }
         $search = $request->search ?? '';
 

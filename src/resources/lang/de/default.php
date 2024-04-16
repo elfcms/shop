@@ -111,6 +111,18 @@ return [
     'are_you_sure_to_deleting_delivery_services' => 'Möchten Sie den Lieferdienst wirklich löschen',
     'icon' => 'Symbol',
 
+    'payment_method' => 'Zahlungsart',
+    'payment_methods' => 'Zahlungsarten',
+    'create_payment_method' => 'Zahlungsart erstellen',
+    'edit_payment_method' => 'Zahlungsart bearbeiten',
+    'payment_method_created_successfully' => 'Zahlungsart erfolgreich erstellt',
+    'error_of_payment_method_created' => 'Fehler beim Erstellen der Zahlungsart',
+    'payment_method_edited_successfully' => 'Zahlungsart erfolgreich bearbeitet',
+    'error_of_payment_method_edited' => 'Fehler bei der Zahlungsart-Bearbeitung',
+    'payment_method_deleted_successfully' => 'Zahlungsart erfolgreich gelöscht',
+    'error_of_payment_method_deleting' => 'Fehler bei der Zahlungsart-Entfernung',
+    'are_you_sure_to_deleting_payment_method' => 'Möchten Sie die Zahlungsart wirklich löschen',
+
     'unit_of_measurement' => 'Maßenheit',
     'units_of_measurement' => 'Maßenheiten',
     'create_unit_of_measurement' => 'Maßenheit erstellen',

@@ -76,13 +76,16 @@ Route::group(['middleware'=>['web','cookie']],function() use ($adminPath) {
             ->parameters(['invoice'=>'shopInvoice'])
             ->names(['index'=>'invoice']);
 
-            Route::resource($adminPath . '/shop/payment', \Elfcms\Shop\Http\Controllers\Resources\ShopPaymentController::class)
-            ->parameters(['payment'=>'shopPayment'])
-            ->names(['index'=>'payment']);
+            /* Route::resource($adminPath . '/shop/payment-method', \Elfcms\Shop\Http\Controllers\Resources\ShopPaymentMethodController::class, ['parameters'=>['payment_method'=>'shopPaymentMethod']])
+            ->names(['index'=>'payment-method']); */
 
             Route::resource($adminPath . '/shop/delivery', \Elfcms\Shop\Http\Controllers\Resources\ShopDeliveryController::class)
             ->parameters(['delivery'=>'shopDelivery'])
             ->names(['index'=>'delivery']);
+
+            Route::resource($adminPath . '/shop/payment', \Elfcms\Shop\Http\Controllers\Resources\ShopPaymentMethodController::class)
+            ->parameters(['payment'=>'shopPaymentMethod'])
+            ->names(['index'=>'payment']);
 
             /* ---- */
 

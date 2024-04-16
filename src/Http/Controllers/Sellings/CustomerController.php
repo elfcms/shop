@@ -10,6 +10,7 @@ class CustomerController extends SellingController
 
     public function setFavorite(ShopItem $item)
     {
+        $this->startResult();
         return ShopFavorite::firstOrCreate(
             [
                 'customer_id' => $this->customer?->id,
@@ -22,9 +23,16 @@ class CustomerController extends SellingController
 
     public function unsetFavorite(null|ShopFavorite $favorite)
     {
-        if (!$favorite) return false;
+        $this->startResult();
+        if (!$favorite) {
+            $this->message = 'Product item not found';
+            $this->error = true;
+            return false;
+        }
 
         if ($favorite->customer_id != $this->customer?->id && $favorite->tmp_user_id != $this->tmp_user?->id) {
+            $this->message = 'User not found';
+            $this->error = true;
             return false;
         }
         return $favorite->delete();
@@ -32,7 +40,12 @@ class CustomerController extends SellingController
 
     public function unsetFavoriteItem(null|ShopItem $item)
     {
-        if (!$item) return false;
+        $this->startResult();
+        if (!$item) {
+            $this->message = 'Product item not found';
+            $this->error = true;
+            return false;
+        }
 
         if ($this->customer && $this->customer->id) {
             $favorite = ShopFavorite::where('customer_id', $this->customer->id)->where('item_id', $item->id)->first();
@@ -40,7 +53,11 @@ class CustomerController extends SellingController
             $favorite = ShopFavorite::where('tmp_user_id', $this->tmp_user->id)->where('item_id', $item->id)->first();
         }
 
-        if (!$favorite) return false;
+        if (!$favorite) {
+            $this->message = 'Product item not found';
+            $this->error = true;
+            return false;
+        }
 
         return $favorite->delete();
     }
@@ -55,7 +72,6 @@ class CustomerController extends SellingController
         if ($cartItem) {
             $cartItem->increment('quantity', $quantity);
         } else {
-            //$cartItem = $this->cart->items()->attach($item->id, ['quantity' => $quantity]);
             $cartItem = $this->cart->cartItems()->create([
                 'item_id' => $item->id,
                 'quantity' => $quantity
@@ -67,14 +83,20 @@ class CustomerController extends SellingController
     public function removeFromCart(ShopItem $item, $quantity = 0)
     {
         if (!$this->cart) {
+            $this->message = 'Cart not found';
+            $this->error = true;
             return false;
         }
         $cartItem = $this->cart->cartItems()->where('item_id', $item->id)->first();
         if (!$cartItem) {
+            $this->message = 'Product item not found in cart';
+            $this->error = true;
             return false;
         }
         if (empty($quantity) || $cartItem->quantity <= $quantity) {
             $cartItem->delete();
+            $this->message = 'Product item removed succesfully from cart';
+            $this->error = false;
             return true;
         }
         else {
@@ -85,17 +107,32 @@ class CustomerController extends SellingController
 
     public function clearCart() {
         if (!$this->cart) {
+            $this->message = 'Cart not found';
+            $this->error = true;
             return false;
         }
         $this->cart->cartItems()->delete();
+        $this->message = 'Cart cleared succesfully';
+        $this->error = false;
         return true;
     }
 
     public function useCoupon($code, $check = false)
     {
         if (!$this->customer || !$this->customer->id) {
+            $this->message = 'User not found';
+            $this->error = true;
             return false;
         }
         return CouponController::useCoupon($code, $this->customer->id, $check);
+    }
+
+    public function setOrder() {
+        if (!$this->cart) {
+            $this->message = 'Cart not found';
+            $this->error = true;
+            return false;
+        }
+
     }
 }
