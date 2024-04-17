@@ -15,6 +15,34 @@ class ShopCart extends Model
         'tmp_user_id'
     ];
 
+    public function getTotalAttribute() {
+        $netSum = 0;
+        $clearSum = 0;
+        $discountSum = 0;
+        $itemQuantity = 0;
+        $totalQuantity = 0;
+        foreach ($this->items as $item) {
+            $netSum += $item->netPrice * $item->pivot->quantity;
+            $clearSum += $item->price * $item->pivot->quantity;
+            /* if ($item->id == 1) {
+                dd($item->discountSum);
+            } */
+            $discountSum += ($item->discountSum ?? 0) * $item->pivot->quantity;
+        }
+
+        $itemQuantity = $this->items()->count();
+
+        $totalQuantity = (int)$this->items()->sum('quantity');
+
+        return (object)[
+            'netSum' => $netSum,
+            'discountSum' => $discountSum,
+            'clearSum' => $clearSum,
+            'itemQuantity' => $itemQuantity,
+            'totalQuantity' => $totalQuantity,
+        ];
+    }
+
     public function customer()
     {
         return $this->belongsTo(ShopCustomer::class, 'customer_id');
@@ -27,7 +55,7 @@ class ShopCart extends Model
 
     public function items()
     {
-        return $this->belongsToMany(ShopItem::class, 'shop_cart_items', 'item_id', 'cart_id');
+        return $this->belongsToMany(ShopItem::class, 'shop_cart_items', 'cart_id', 'item_id')->withPivot('quantity');
     }
 
     public function cartItems()

@@ -25,9 +25,13 @@ return new class extends Migration
             $table->foreign('order_status_id')->references('id')->on('shop_order_statuses')->onDelete('restrict');
             $table->unsignedInteger('start_sum');
             $table->unsignedInteger('discount_sum')->nullable()->default(0);
+            $table->unsignedInteger('clear_sum');
+            $table->unsignedInteger('delivery_sum')->default(0);
             $table->unsignedInteger('result_sum');
             $table->unsignedInteger('item_quantity')->nullable();
             $table->unsignedInteger('total_quantity')->nullable();
+            $table->string('tracking_code',500)->nullable();
+            $table->text('tracking_link')->nullable();
             $table->timestamps();
         });
     }

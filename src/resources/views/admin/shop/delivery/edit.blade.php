@@ -52,6 +52,12 @@
                         <x-elfcms-input-image code="icon" value="{{$delivery->icon}}" />
                     </div>
                 </div>
+                <div class="input-box colored">
+                    <label for="price">{{ __('shop::default.price') }}</label>
+                    <div class="input-wrapper">
+                        <input type="text" name="price" id="price" min="0" value="{{$delivery->price}}">
+                    </div>
+                </div>
             </div>
             <div class="button-box single-box">
                 <button type="submit" class="default-btn submit-button">{{ __('elfcms::default.submit') }}</button>
@@ -70,7 +76,13 @@
 
     autoSlug('.autoslug')
     //add editor
-    runEditor('#description')
+    //runEditor('#description')
+    const priceInput = document.querySelector('[name="price"]');
+    if (priceInput) {
+        priceInput.addEventListener('input', function () {
+            this.value = this.value.replace(',','.').replace(/^\.|[^\d\.]|\.(?=.*\.)|^0+(?=\d)/g, '');
+        });
+    }
     </script>
 
 @endsection

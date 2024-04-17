@@ -17,9 +17,13 @@ class ShopOrder extends Model
         'order_status_id',
         'start_sum',
         'discount_sum',
+        'clear_sum',
+        'delivery_sum',
         'result_sum',
         'item_quantity',
         'total_quantity',
+        'tracking_code',
+        'tracking_link',
     ];
 
     public function invoces()
@@ -29,7 +33,15 @@ class ShopOrder extends Model
 
     public function items()
     {
-        return $this->belongsToMany(ShopInvoice::class, 'shop_order_items', 'order_id', 'item_id')->withPivot('quantity','price','start_sum','discount_sum','result_sum');
+        return $this->belongsToMany(ShopOrderItem::class, 'shop_order_items', 'order_id', 'item_id')->withPivot(
+            'quantity',
+            'net_price',
+            'discount_price',
+            'price',
+            'start_sum',
+            'discount_sum',
+            'result_sum'
+        );
     }
 
     public function customer()
@@ -47,9 +59,9 @@ class ShopOrder extends Model
         return $this->belongsTo(ShopOrderStatus::class, 'order_status_id');
     }
 
-    public function payment()
+    public function payment_method()
     {
-        return $this->belongsTo(ShopPayment::class, 'payment_method_id');
+        return $this->belongsTo(ShopPaymentMethod::class, 'payment_method_id');
     }
 
 }

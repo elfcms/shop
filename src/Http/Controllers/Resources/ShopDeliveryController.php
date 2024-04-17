@@ -84,6 +84,7 @@ class ShopDeliveryController extends Controller
             $icon = $request->file()['icon']->store('elfcms/shop/delivery');
         }
         $validated['icon'] = $icon;
+        $validated['price'] = (float)$request->price * 100;
 
         $delivery = ShopDelivery::create($validated);
 
@@ -156,6 +157,7 @@ class ShopDeliveryController extends Controller
 
         $shopDelivery->icon = $icon;
         $shopDelivery->name = $validated['name'];
+        $shopDelivery->price = (float)$request->price * 100;
 
         if ($shopDelivery->save()) {
             return redirect(route('admin.shop.delivery.edit',$shopDelivery))->with('action_result',__('shop::default.delivery_service_edited_successfully'));

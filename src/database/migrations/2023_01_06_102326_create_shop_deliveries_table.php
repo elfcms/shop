@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('code')->unique();
             $table->string('name');
             $table->string('icon')->nullable();
+            $table->integer('price')->unsigned()->nullable()->default(0);
             $table->timestamps();
         });
     }

@@ -13,7 +13,13 @@ class ShopDelivery extends Model
         'code',
         'name',
         'icon',
+        'price',
     ];
+
+    public function getPriceAttribute()
+    {
+        return $this->attributes['price'] / 100;
+    }
 
     public function orders()
     {

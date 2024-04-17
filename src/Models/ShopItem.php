@@ -25,7 +25,10 @@ class ShopItem extends Model
     ];
 
     protected $appends = [
-        'publicPrices'
+        'publicPrices',
+        'price',
+        'netPrice',
+        'discountSum'
     ];
 
     public function scopeActive($query)
@@ -52,8 +55,32 @@ class ShopItem extends Model
             'default' => $default->value ?? null,
             'first' => $first,
             'second' => $second,
-            'isOld' => !empty($second)
+            'isOld' => !empty($second),
+            'discount' => $this->discount,
         ];
+    }
+
+    public function getNetPriceAttribute()
+    {
+        return $this->publicPrices->current ?? $this->publicPrices->default ?? $this->publicPrices->first->value ?? $this->publicPrices->second->value ?? null;
+    }
+
+    public function getDiscountSumAttribute()
+    {
+        $sum = 0;
+        if (!empty($this->publicPrices->discount) && !empty($this->publicPrices->discount->value) && !empty($this->netPrice)) {
+            $sum = round(($this->netPrice * $this->publicPrices->discount->value / 100), 2);
+        }
+        return $sum;
+    }
+
+    public function getPriceAttribute()
+    {
+        $price = $this->netPrice;
+        if (!empty($this->publicPrices->discount) && !empty($this->publicPrices->discount->value)) {
+            $price = $price - $this->discountSum;
+        }
+        return $price;
     }
 
     public function product()
@@ -106,9 +133,14 @@ class ShopItem extends Model
         return $this->belongsToMany(ShopTag::class, 'shop_item_tags', 'item_id', 'tag_id');
     }
 
-    public function discounts ()
+    /* public function discounts ()
     {
-        return $this->belongsToMany(ShopItem::class, 'shop_item_discounts', 'item_id', 'discount_id');
+        return $this->belongsToMany(ShopDiscount::class, 'shop_item_discounts', 'item_id', 'discount_id');
+    } */
+
+    public function discount ()
+    {
+        return $this->belongsTo(ShopDiscount::class, 'discount_id');
     }
 
 }

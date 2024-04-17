@@ -20,6 +20,8 @@ return new class extends Migration
             $table->bigInteger('item_id')->unsigned()->nullable();
             $table->foreign('item_id')->references('id')->on('shop_items')->onDelete('set null');
             $table->unsignedInteger('quantity');
+            $table->unsignedInteger('net_price');
+            $table->unsignedInteger('discount_price')->nullable()->default(0);
             $table->unsignedInteger('price');
             $table->unsignedInteger('start_sum');
             $table->unsignedInteger('discount_sum')->nullable()->default(0);

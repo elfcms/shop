@@ -11,4 +11,16 @@ class ShopOrderItem extends Model
 
     protected $table = 'shop_order_items';
 
+    protected $fillable = [
+        'order_id',
+        'item_id',
+        'quantity',
+        'net_price',
+        'discount_price',
+        'price',
+        'start_sum',
+        'discount_sum',
+        'result_sum'
+    ];
+
 }

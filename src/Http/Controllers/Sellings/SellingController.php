@@ -17,12 +17,15 @@ class SellingController extends Controller
     public $cart;
     public $message = null;
     public $error = false;
+    public $isAuth = false;
 
     public function __construct()
     {
+
         if (Auth::check()) {
             $this->user = Auth::user();
             $this->customer = $this->setCustomer();
+            $this->isAuth = true;
         }
         else {
             $tmpUserCookie = Cookie::get('tmp_user');

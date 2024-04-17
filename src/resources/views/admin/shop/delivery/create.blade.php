@@ -24,13 +24,13 @@
                 <div class="input-box colored">
                     <label for="name">{{ __('elfcms::default.name') }}</label>
                     <div class="input-wrapper">
-                        <input type="text" name="name" id="name" autocomplete="off">
+                        <input type="text" name="name" id="name">
                     </div>
                 </div>
                 <div class="input-box colored">
                     <label for="code">{{ __('elfcms::default.code') }}</label>
                     <div class="input-wrapper">
-                        <input type="text" name="code" id="code" autocomplete="off">
+                        <input type="text" name="code" id="code">
                     </div>
                     <div class="input-wrapper">
                         <div class="autoslug-wrapper">
@@ -43,6 +43,12 @@
                     <label for="icon">{{ __('shop::default.icon') }}</label>
                     <div class="input-wrapper">
                         <x-elfcms-input-image code="icon" />
+                    </div>
+                </div>
+                <div class="input-box colored">
+                    <label for="price">{{ __('shop::default.price') }}</label>
+                    <div class="input-wrapper">
+                        <input type="text" name="price" id="price" min="0">
                     </div>
                 </div>
             </div>
@@ -62,7 +68,13 @@
     }
     autoSlug('.autoslug')
     //add editor
-    runEditor('#description')
+    //runEditor('#description')
+    const priceInput = document.querySelector('[name="price"]');
+    if (priceInput) {
+        priceInput.addEventListener('input', function () {
+            this.value = this.value.replace(',','.').replace(/^\.|[^\d\.]|\.(?=.*\.)|^0+(?=\d)/g, '');
+        });
+    }
     </script>
 
 @endsection
