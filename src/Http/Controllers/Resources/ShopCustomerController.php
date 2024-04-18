@@ -1,6 +1,6 @@
 <?php
 
-namespace Elfcms\Shop\Http\Controllers;
+namespace Elfcms\Shop\Http\Controllers\Resources;
 
 use App\Http\Controllers\Controller;
 use Elfcms\Shop\Models\ShopCustomer;
@@ -13,7 +13,13 @@ class ShopCustomerController extends Controller
      */
     public function index()
     {
-        //
+        return view('elfcms::admin.shop.selling.customers.index',[
+            'page' => [
+                'title' => __('shop::default.customers'),
+                'current' => url()->current(),
+            ],
+            //'menuData' => $menuData,
+        ]);
     }
 
     /**

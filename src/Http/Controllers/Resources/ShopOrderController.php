@@ -15,7 +15,13 @@ class ShopOrderController extends Controller
      */
     public function index()
     {
-        //
+        return view('elfcms::admin.shop.selling.orders.index',[
+            'page' => [
+                'title' => __('shop::default.orders'),
+                'current' => url()->current(),
+            ],
+            //'menuData' => $menuData,
+        ]);
     }
 
     /**

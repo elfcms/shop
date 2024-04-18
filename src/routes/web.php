@@ -119,6 +119,25 @@ Route::group(['middleware'=>['web','cookie']],function() use ($adminPath) {
 
             Route::get($adminPath . '/shop/color', [\Elfcms\Shop\Http\Controllers\ShopColorController::class,'index'])->name('color');
 
+            /* Sellings */
+
+            Route::name('selling.')->group(function() use ($adminPath) {
+
+                Route::get($adminPath . '/shop/selling', [\Elfcms\Shop\Http\Controllers\SellingController::class,'index'])->name('index');
+
+                Route::resource($adminPath . '/shop/customers', \Elfcms\Shop\Http\Controllers\Resources\ShopCustomerController::class)
+                ->names(['index'=>'customers']);
+
+                Route::resource($adminPath . '/shop/orders', \Elfcms\Shop\Http\Controllers\Resources\ShopOrderController::class)
+                ->names(['index'=>'orders']);
+
+                Route::resource($adminPath . '/shop/carts', \Elfcms\Shop\Http\Controllers\Resources\ShopCartController::class)
+                ->names(['index'=>'carts']);
+
+            });
+
+            /* /Sellings */
+
             Route::get($adminPath . '/shop/ajax/csrf', [\Elfcms\Shop\Http\Controllers\AdminController::class, 'csrf'])->name('ajax.csrf');
 
             Route::get($adminPath . '/shop/ajax/unit/list/{byId?}', [\Elfcms\Shop\Http\Controllers\ShopUnitController::class, 'list'])->name('ajax.unit.list');
