@@ -21,4 +21,18 @@ class ShopOrderStatus extends Model
     {
         return $this->hasMany(ShopOrder::class, 'order_status_id');
     }
+
+    public static function byCode($code = null): object|array {
+        $result = [];
+        if (empty($code)) {
+            $data = self::all();
+            foreach ($data as $item) {
+                $result[$item->code] = $item;
+            }
+        }
+        else {
+            $result = self::where('code', $code)->first();
+        }
+        return $result;
+    }
 }

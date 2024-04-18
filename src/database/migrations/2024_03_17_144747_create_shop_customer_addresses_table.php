@@ -19,6 +19,30 @@ return new class extends Migration
                 ->on('shop_customers')
                 ->cascadeOnDelete()
                 ->nullable();
+            $table->string('plz',10);
+            $table->string('country',100)->nullable();
+            $table->string('region',100)->nullable();
+            $table->string('city',100);
+            $table->string('street',100)->nullable();
+            $table->string('house',10)->nullable();
+            $table->string('flat',10)->nullable();
+            $table->string('address',100)->nullable();
+            $table->string('additional',100)->nullable();
+            $table->bigInteger('geodata_zip_id')
+                ->unsigned()
+                ->nullable();
+            $table->bigInteger('geodata_country_id')
+                ->unsigned()
+                ->nullable();
+            $table->bigInteger('geodata_region_id')
+                ->unsigned()
+                ->nullable();
+            $table->bigInteger('geodata_city_id')
+                ->unsigned()
+                ->nullable();
+            $table->bigInteger('geodata_street_id')
+                ->unsigned()
+                ->nullable();
             $table->timestamps();
         });
     }

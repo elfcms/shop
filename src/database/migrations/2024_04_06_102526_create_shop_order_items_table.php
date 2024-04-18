@@ -18,7 +18,7 @@ return new class extends Migration
             $table->bigInteger('order_id')->unsigned();
             $table->foreign('order_id')->references('id')->on('shop_orders')->onDelete('restrict');
             $table->bigInteger('item_id')->unsigned()->nullable();
-            $table->foreign('item_id')->references('id')->on('shop_items')->onDelete('set null');
+            $table->foreign('item_id')->references('id')->on('shop_items')->onDelete('cascade');
             $table->unsignedInteger('quantity');
             $table->unsignedInteger('net_price');
             $table->unsignedInteger('discount_price')->nullable()->default(0);

@@ -4,7 +4,6 @@ namespace Elfcms\Shop\Providers;
 
 use Elfcms\Shop\Http\Middleware\ApiAuthenticate;
 use Elfcms\Shop\Http\Middleware\ApiJson;
-use Elfcms\Shop\Http\Middleware\IsAuth;
 use Illuminate\Routing\Router;
 use Illuminate\Support\ServiceProvider;
 
@@ -17,7 +16,7 @@ class ElfcmsModuleProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        $this->app->register(EventServiceProvider::class);
     }
 
     /**

@@ -14,6 +14,7 @@ class ShopOrder extends Model
         'customer_id',
         'payment_method_id',
         'delivery_id',
+        'customer_address_id',
         'order_status_id',
         'start_sum',
         'discount_sum',
@@ -44,6 +45,11 @@ class ShopOrder extends Model
         );
     }
 
+    public function address()
+    {
+        return $this->belongsTo(ShopCustomerAddress::class, 'customer_address_id');
+    }
+
     public function customer()
     {
         return $this->belongsTo(ShopCustomer::class, 'customer_id');
@@ -54,7 +60,7 @@ class ShopOrder extends Model
         return $this->belongsTo(ShopDelivery::class, 'delivery_id');
     }
 
-    public function order_status()
+    public function status()
     {
         return $this->belongsTo(ShopOrderStatus::class, 'order_status_id');
     }
