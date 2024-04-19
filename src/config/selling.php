@@ -16,7 +16,7 @@ return [
             "lang_title" => "shop::default.selling",
             "route" => "admin.shop.selling.index",
             "parent_route" => "admin.shop.selling",
-            "icon" => "/elfcms/admin/modules/shop/images/icons/shop.png",
+            "icon" => "/elfcms/admin/modules/shop/images/icons/bag.png",
             "position" => 600,
             "submenu" => [
                 [
