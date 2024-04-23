@@ -289,7 +289,7 @@ class CustomerController extends SellingController
             'discount_sum' => $this->cart->total->discountSum * 100,
             'clear_sum' => $this->cart->total->clearSum * 100,
             'delivery_sum' => $deliverySum * 100,
-            'result_sum' => ($this->cart->total->clearSum + (int)$deliverySum) * 100,
+            'result_sum' => ($this->cart->total->clearSum + (float)$deliverySum) * 100,
             'item_quantity' => $this->cart->total->itemQuantity,
             'total_quantity' => $this->cart->total->totalQuantity,
         ]);

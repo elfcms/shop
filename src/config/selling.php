@@ -14,26 +14,26 @@ return [
         [
             "title" => "Selling",
             "lang_title" => "shop::default.selling",
-            "route" => "admin.shop.selling.index",
-            "parent_route" => "admin.shop.selling",
+            "route" => "admin.selling.customers",
+            "parent_route" => "admin.selling",
             "icon" => "/elfcms/admin/modules/shop/images/icons/bag.png",
             "position" => 600,
             "submenu" => [
                 [
                     "title" => "Customers",
                     "lang_title" => "shop::default.customers",
-                    "route" => "admin.shop.selling.customers"
+                    "route" => "admin.selling.customers"
                 ],
                 [
                     "title" => "Orders",
                     "lang_title" => "shop::default.orders",
-                    "route" => "admin.shop.selling.orders"
+                    "route" => "admin.selling.orders"
                 ],
-                [
+                /* [
                     "title" => "Carts",
                     "lang_title" => "shop::default.carts",
-                    "route" => "admin.shop.selling.carts"
-                ],
+                    "route" => "admin.selling.carts"
+                ], */
             ]
         ]
     ],

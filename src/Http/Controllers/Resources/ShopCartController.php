@@ -15,7 +15,7 @@ class ShopCartController extends Controller
      */
     public function index()
     {
-        return view('elfcms::admin.shop.selling.carts.index',[
+        return view('elfcms::admin.selling.carts.index',[
             'page' => [
                 'title' => __('shop::default.carts'),
                 'current' => url()->current(),

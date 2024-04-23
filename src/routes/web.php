@@ -9,6 +9,25 @@ Route::group(['middleware'=>['web','cookie']],function() use ($adminPath) {
 
     Route::name('admin.')->middleware('admin')->group(function() use ($adminPath) {
 
+        /* Sellings */
+
+        Route::name('selling.')->group(function() use ($adminPath) {
+
+            //Route::get($adminPath . '/selling', [\Elfcms\Shop\Http\Controllers\SellingController::class,'index'])->name('index');
+
+            Route::resource($adminPath . '/selling/customers', \Elfcms\Shop\Http\Controllers\Resources\ShopCustomerController::class)
+            ->names(['index'=>'customers']);
+
+            Route::resource($adminPath . '/selling/orders', \Elfcms\Shop\Http\Controllers\Resources\ShopOrderController::class)
+            ->names(['index'=>'orders']);
+
+            /* Route::resource($adminPath . '/selling/carts', \Elfcms\Shop\Http\Controllers\Resources\ShopCartController::class)
+            ->names(['index'=>'carts']); */
+
+        });
+
+        /* /Sellings */
+
         Route::name('shop.')->group(function() use ($adminPath) {
             Route::get($adminPath . '/shop', [\Elfcms\Shop\Http\Controllers\AdminController::class,'shop'])->name('index');
 
@@ -119,24 +138,6 @@ Route::group(['middleware'=>['web','cookie']],function() use ($adminPath) {
 
             Route::get($adminPath . '/shop/color', [\Elfcms\Shop\Http\Controllers\ShopColorController::class,'index'])->name('color');
 
-            /* Sellings */
-
-            Route::name('selling.')->group(function() use ($adminPath) {
-
-                Route::get($adminPath . '/shop/selling', [\Elfcms\Shop\Http\Controllers\SellingController::class,'index'])->name('index');
-
-                Route::resource($adminPath . '/shop/customers', \Elfcms\Shop\Http\Controllers\Resources\ShopCustomerController::class)
-                ->names(['index'=>'customers']);
-
-                Route::resource($adminPath . '/shop/orders', \Elfcms\Shop\Http\Controllers\Resources\ShopOrderController::class)
-                ->names(['index'=>'orders']);
-
-                Route::resource($adminPath . '/shop/carts', \Elfcms\Shop\Http\Controllers\Resources\ShopCartController::class)
-                ->names(['index'=>'carts']);
-
-            });
-
-            /* /Sellings */
 
             Route::get($adminPath . '/shop/ajax/csrf', [\Elfcms\Shop\Http\Controllers\AdminController::class, 'csrf'])->name('ajax.csrf');
 

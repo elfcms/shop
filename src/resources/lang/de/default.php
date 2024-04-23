@@ -332,7 +332,7 @@ return [
     'filesize_attention' => 'Beachtung! Die maximale Größe hochgeladener Dateien beträgt :size. Um diesen Parameter zu ändern, ändern Sie die Einstellungen des Parameters upload_max_filesize in php.ini oder .htaccess',
     'image-settings' => 'Bildeinstellungen',
 
-    'selling' => 'Verkaufen',
+    'selling' => 'Vertrieb',
     'sale' => 'Angebot',
     'buying' => 'Kauf',
     'customer' => 'Kunde',
@@ -359,4 +359,19 @@ return [
     'error_of_cart_edited' => 'Fehler bei der Warenkorb-Bearbeitung',
     'cart_deleted_successfully' => 'Warenkorb erfolgreich gelöscht',
     'error_of_cart_deleting' => 'Fehler bei der Warenkorb-Entfernung',
+
+    'discount_price' => 'Rabatt',
+    'price_with_discont' => 'Preis mit Rabatt',
+    'start_sum' => 'Summe ohne Rabbat',
+    'discount_sum' => 'Rabattsumme',
+    'result_sum' => 'Ergebnissumme',
+    'in_total' => 'Insgesamt',
+    'total' => 'Gesamt',
+    'order_data' => 'Bestelldaten',
+    'order_status' => 'Bestellstatus',
+    'status' => 'Status',
+    'birthday' => 'Geburtsdatum',
+    'sum' => 'Summe',
+    'order_sum' => 'Bestellpreis',
+    'order_quantity' => 'Anzahl der Bestellungen'
 ];

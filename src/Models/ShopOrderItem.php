@@ -23,4 +23,34 @@ class ShopOrderItem extends Model
         'result_sum'
     ];
 
+    public function getNetPriceAttribute()
+    {
+        return $this->attributes['net_price'] / 100;
+    }
+
+    public function getDiscountPriceAttribute()
+    {
+        return $this->attributes['discount_price'] / 100;
+    }
+
+    public function getPriceAttribute()
+    {
+        return $this->attributes['price'] / 100;
+    }
+
+    public function getStartSumAttribute()
+    {
+        return $this->attributes['start_sum'] / 100;
+    }
+
+    public function getDiscountSumAttribute()
+    {
+        return $this->attributes['discount_sum'] / 100;
+    }
+
+    public function getResultSumAttribute()
+    {
+        return $this->attributes['result_sum'] / 100;
+    }
+
 }

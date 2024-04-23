@@ -27,6 +27,36 @@ class ShopOrder extends Model
         'tracking_link',
     ];
 
+    public function getResultSumAttribute()
+    {
+        return $this->attributes['result_sum'] / 100;
+    }
+
+    public function getStartSumAttribute()
+    {
+        return $this->attributes['start_sum'] / 100;
+    }
+
+    public function getDiscountSumAttribute()
+    {
+        return $this->attributes['discount_sum'] / 100;
+    }
+
+    public function getClearSumAttribute()
+    {
+        return $this->attributes['clear_sum'] / 100;
+    }
+
+    public function getDeliverySumAttribute()
+    {
+        return $this->attributes['delivery_sum'] / 100;
+    }
+
+    public function getNetPriceAttribute()
+    {
+        return $this->pivot->net_price / 100;
+    }
+
     public function invoces()
     {
         return $this->hasMany(ShopInvoice::class, 'order_id');
@@ -34,7 +64,7 @@ class ShopOrder extends Model
 
     public function items()
     {
-        return $this->belongsToMany(ShopOrderItem::class, 'shop_order_items', 'order_id', 'item_id')->withPivot(
+        return $this->belongsToMany(ShopItem::class, 'shop_order_items', 'order_id', 'item_id')->withPivot(
             'quantity',
             'net_price',
             'discount_price',
@@ -42,7 +72,7 @@ class ShopOrder extends Model
             'start_sum',
             'discount_sum',
             'result_sum'
-        );
+        )->as('prices');
     }
 
     public function address()

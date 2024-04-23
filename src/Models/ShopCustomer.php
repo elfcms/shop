@@ -22,4 +22,20 @@ class ShopCustomer extends Model
     {
         return $this->belongsTo(User::class, 'user_id');
     }
+
+    public function orders()
+    {
+        return $this->hasMany(ShopOrder::class, 'customer_id');
+    }
+
+    public function cart()
+    {
+        return $this->hasOne(ShopCart::class, 'customer_id')->withCount('items')->with('items');
+    }
+
+    public function addresses()
+    {
+        return $this->hasMany(ShopCustomerAddress::class, 'customer_id');
+    }
+
 }

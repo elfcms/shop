@@ -14,7 +14,7 @@ class SellingController extends Controller
 {
     public function index()
     {
-        return view('elfcms::admin.shop.selling.index',[
+        return view('elfcms::admin.selling.index',[
             'page' => [
                 'title' => __('shop::default.selling'),
                 'current' => url()->current(),

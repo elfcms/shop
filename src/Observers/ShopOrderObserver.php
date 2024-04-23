@@ -12,7 +12,10 @@ class ShopOrderObserver
      */
     public function created(ShopOrder $shopOrder): void
     {
-        //
+        $number = date('ym-d-') . str_repeat('0', (6 - strlen((string)$shopOrder->id))) . $shopOrder->id;
+        $shopOrder->update([
+            'number' => $number
+        ]);
     }
 
     /**
