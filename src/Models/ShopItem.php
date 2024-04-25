@@ -128,6 +128,11 @@ class ShopItem extends Model
         return $this->hasMany(ShopItemPropertyValue::class, 'item_id');
     }
 
+    public function pictures()
+    {
+        return $this->hasMany(ShopItemPicture::class, 'item_id');
+    }
+
     public function tags()
     {
         return $this->belongsToMany(ShopTag::class, 'shop_item_tags', 'item_id', 'tag_id');

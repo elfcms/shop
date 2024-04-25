@@ -7,6 +7,7 @@ use Elfcms\Shop\Models\ShopCategory;
 use Elfcms\Shop\Models\ShopProduct;
 use Elfcms\Shop\Models\ShopItem;
 use Elfcms\Shop\Models\ShopItemParameter;
+use Elfcms\Shop\Models\ShopItemPicture;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -44,8 +45,8 @@ class AdminController extends Controller
         //dd($cat->product);
         //$g = ShopProduct::find(1);
         //dd($g->category);
-        //$item = ShopItem::with('parameters')->find(1);
-        //dd($item->parameters[0]->typeCode);
+        //$picture = ShopItem::with('parameters')->find(1);
+        //dd($picture->parameters[0]->typeCode);
         /* $parentMenuData = config('elfcms.blog.menu');
         $menuData = [];
         foreach ($parentMenuData[0]['submenu'] as $key => $data) {
@@ -116,4 +117,32 @@ class AdminController extends Controller
         ]);
     }
 
+    public function itemPictureGroupSave(Request $request, ShopItem $item)
+    {
+        $result = [
+            'result' => 'success',
+            'message' => __('gallery::default.gallery_edited_successfully'),
+            'data' => null
+        ];
+        if (empty($request->picture)) {
+            $result['message'] = 'Error';
+            $result['result'] = 'error';
+
+            return $result;
+        }
+        $toUpdate = [];
+        $toDelete = [];
+        foreach ($request->item as $pictureId => $pictureData) {
+            if (!empty($pictureData['delete'])) {
+                $toDelete[] = $pictureId;
+            }
+            elseif (!empty($pictureData['position'])) {
+                ShopItemPicture::where('id',$pictureId)->where('item_id',$item->id)->update(['position'=>$pictureData['position']]);
+            }
+        }
+        if (!empty($toDelete)) {
+            ShopItemPicture::destroy($toDelete);
+        }
+        return $result;
+    }
 }

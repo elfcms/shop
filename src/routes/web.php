@@ -108,6 +108,23 @@ Route::group(['middleware'=>['web','cookie']],function() use ($adminPath) {
 
             /* ---- */
 
+            Route::resource($adminPath . '/shop/items/{item}/pictures', Elfcms\Shop\Http\Controllers\Resources\ShopItemPictureController::class)
+            //->parameters(['items'=>'shopItem'])
+            ->names([
+                'index' => 'items.pictures',
+                'create' => 'items.pictures.create',
+                'edit' => 'items.pictures.edit',
+                'store' => 'items.pictures.store',
+                'show' => 'items.pictures.show',
+                'edit' => 'items.pictures.edit',
+                'update' => 'items.pictures.update',
+                'destroy' => 'items.pictures.destroy',
+            ]);
+            Route::post($adminPath . '/shop/items/{shop}/pictures', [\Elfcms\Shop\Http\Controllers\AdminController::class,'shopItemGroupSave'])->name('items.pictures.groupSave');
+
+
+            /* ---- */
+
             Route::resource($adminPath . '/shop/coupon', \Elfcms\Shop\Http\Controllers\Resources\ShopCouponController::class)
             ->parameters(['coupon'=>'shopCoupon'])
             ->names(['index'=>'coupon']);
