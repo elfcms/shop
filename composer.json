@@ -11,8 +11,7 @@
     ],
     "require": {
         "php": "^8.0",
-        "elfcms/elfcms": "^2.0.5",
-        "elfcms/geodata": "0.1"
+        "elfcms/elfcms": "^2.0.5"
     },
     "autoload": {
         "psr-4": {
