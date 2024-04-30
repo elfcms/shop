@@ -373,5 +373,7 @@ return [
     'birthday' => 'Geburtsdatum',
     'sum' => 'Summe',
     'order_sum' => 'Bestellpreis',
-    'order_quantity' => 'Anzahl der Bestellungen'
+    'order_quantity' => 'Anzahl der Bestellungen',
+
+    'edit_pictures' => 'Bilder bearbeiten',
 ];

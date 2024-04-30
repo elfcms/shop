@@ -16,14 +16,15 @@
 </div>
 @endif
 
+    <a href="{{ route('admin.shop.item.edit',$item) }}" class="back-button">{{ __('elfcms::default.back') }}</a>
 <div class="gallery-info-box">
     {{-- <div class="gallery-preview-box">
         <img src="{{ file_path($gallery->preview) }}" alt="">
     </div> --}}
     <div class="gallery-data-box">
-        <h2>{{ $item->name  ?? '123'}}</h2>
+        <h2>{{ $item->product->title }} - {{ $item->additional_name ?? $item->alternate_name }}</h2>
         {{-- <div class="gallery-description">{{ $item->description }}</div> --}}
-        <div class="gallery-addtitional-text">{{ $item->addtitional_name }}</div>
+        {{-- <div class="gallery-addtitional-text">{{ $item->additional_name ?? $item->alternate_name }}</div> --}}
     </div>
     {{-- <div class="dallery-edit-button-box">
         <a href="{{ route('admin.shop.item.edit',$item) }}" class="default-btn big-square-button edit-button">

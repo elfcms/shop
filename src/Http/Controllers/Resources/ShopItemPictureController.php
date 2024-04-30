@@ -11,6 +11,7 @@ use Elfcms\Shop\Models\ShopItem;
 use Elfcms\Shop\Models\ShopItemPicture;
 use Elfcms\Shop\Models\ShopImageSetting;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class ShopItemPictureController extends Controller
@@ -100,16 +101,16 @@ class ShopItemPictureController extends Controller
         }
         $validated['position'] = $position;
 
-        $itemPicture = ShopItemPicture::create($validated);
+        $picture = ShopItemPicture::create($validated);
 
         if (!empty($request->tags)) {
             foreach ($request->tags as $tagId) {
-                $itemPicture->tags()->attach($tagId);
+                $picture->tags()->attach($tagId);
             }
         }
 
         if ($request->ajax()) {
-            $data = $itemPicture->toArray();
+            $data = $picture->toArray();
             if ($data['thumbnail']) $data['thumbnail'] = file_path($data['thumbnail']);
             if ($data['preview']) $data['preview'] = file_path($data['preview']);
             if ($data['image']) $data['image'] = file_path($data['image']);
@@ -129,27 +130,27 @@ class ShopItemPictureController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\ShopItemPicture  $itemPicture
+     * @param  \App\Models\ShopItemPicture  $picture
      * @return \Illuminate\Http\Response
      */
-    public function show(Request $request, ShopItem $item, ShopItemPicture $itemPicture)
+    public function show(Request $request, ShopItem $item, ShopItemPicture $picture)
     {
         if ($request->ajax()) {
             return view('elfcms::admin.shop.item_pictures.content.item',[
                 'item' => $item,
-                'itemPicture' => $itemPicture,
+                'picture' => $picture,
             ]);
         }
-        return redirect(route('admin.shop.item_pictures.edit',['item'=>$item,'galleryItem'=>$itemPicture]));
+        return redirect(route('admin.shop.item_pictures.edit',['item'=>$item,'galleryItem'=>$picture]));
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\ShopItemPicture  $itemPicture
+     * @param  \App\Models\ShopItemPicture  $picture
      * @return \Illuminate\Http\Response
      */
-    public function edit(Request $request, ShopItem $item, ShopItemPicture $itemPicture)
+    public function edit(Request $request, ShopItem $item, ShopItemPicture $picture)
     {
         $params = ShopImageSetting::getParams();
         if ($request->ajax()) {
@@ -159,7 +160,7 @@ class ShopItemPictureController extends Controller
                     'current' => url()->current(),
                 ],
                 'item' => $item,
-                'itemPicture' => $itemPicture,
+                'picture' => $picture,
                 'params' => $params,
             ]);
         }
@@ -169,7 +170,7 @@ class ShopItemPictureController extends Controller
                 'current' => url()->current(),
             ],
             'item' => $item,
-            'itemPicture' => $itemPicture,
+            'picture' => $picture,
             'params' => $params,
         ]);
     }
@@ -178,48 +179,47 @@ class ShopItemPictureController extends Controller
      * Update the specified resource in storage.
      *
      * @param  Elfcms\Shop\Http\Requests\Admin\ShopItemUpdateRequest  $request
-     * @param  \App\Models\ShopItemPicture  $itemPicture
+     * @param  \App\Models\ShopItemPicture  $picture
      * @return \Illuminate\Http\Response
      */
-    public function update(ShopItemUpdateRequest $request, ShopItem $item, ShopItemPicture $itemPicture)
+    public function update(ShopItemUpdateRequest $request, ShopItem $item, ShopItemPicture $picture)
     {
         if ($request->notedit && $request->notedit == 1) {
-            $itemPicture->active = empty($request->active) ? 0 : 1;
-
-            $itemPicture->save();
+            $picture->active = empty($request->active) ? 0 : 1;
+            $picture->save();
 
             if ($request->ajax()) {
                 return [
                     'result' => 'success',
                     'message' => __('shop::default.item_edited_successfully'),
                     'data' => [
-                        'id' => $itemPicture->id,
-                        'image' => $itemPicture->image,
-                        'position' => $itemPicture->position,
+                        'id' => $picture->id,
+                        'image' => file_path($picture->image),
+                        'position' => $picture->position,
                     ]
                 ];
             }
 
-            return redirect(route('admin.gallery.items'))->with('elementsuccess',__('shop::default.item_edited_successfully'));
+            return redirect(route('admin.shop.item.edit',$item))->with('elementsuccess',__('shop::default.item_edited_successfully'));
         }
         elseif ($request->posedit && $request->posedit == 1) {
-            $itemPicture->position = $request->position ?? 0;
+            $picture->position = $request->position ?? 0;
 
-            $itemPicture->save();
+            $picture->save();
 
             if ($request->ajax()) {
                 return [
                     'result' => 'success',
                     'message' => __('shop::default.item_edited_successfully'),
                     'data' => [
-                        'id' => $itemPicture->id,
-                        'image' => $itemPicture->image,
-                        'position' => $itemPicture->position,
+                        'id' => $picture->id,
+                        'image' => file_path($picture->image),
+                        'position' => $picture->position,
                     ],
                 ];
             }
 
-            return redirect(route('admin.gallery.items'))->with('elementsuccess',__('shop::default.gallery_edited_successfully'));
+            return redirect(route('admin.shop.item.edit',$item))->with('elementsuccess',__('shop::default.item_edited_successfully'));
         }
         else {
             $request->validated();
@@ -228,48 +228,31 @@ class ShopItemPictureController extends Controller
 
             $validated['position'] = intval($request->position);
 
-            $existTags = $itemPicture->tags->toArray();
+            $picture->update($validated);
 
-            $newTags = $request->tags ? $request->tags : [];
-
-            if (!empty($existTags)) {
-                foreach ($existTags as $existTag) {
-                    if (!in_array($existTag['id'],$newTags)) {
-                        $itemPicture->tags()->detach($existTag['id']);
-                    }
-                    else {
-                        $key = array_search($existTag['id'],$newTags);
-                        unset($newTags[$key]);
-                    }
-                }
-            }
-            if (!empty($newTags)) {
-                foreach ($newTags as $tagId) {
-                    $itemPicture->tags()->attach($tagId);
-                }
-            }
-
-            $itemPicture->update($validated);
+            $picture->image = file_path($picture->image);
+            $picture->thumbnail = file_path($picture->thumbnail);
+            $picture->preview = file_path($picture->preview);
 
             if ($request->ajax()) {
                 return [
                     'result' => 'success',
                     'message' => __('shop::default.item_edited_successfully'),
-                    'data' => $itemPicture->toArray(),
+                    'data' => $picture->toArray(),
                 ];
             }
 
-            return redirect(route('admin.gallery.items',$item))->with('elementsuccess',__('shop::default.gallery_edited_successfully'));
+            return redirect(route('admin.shop.item.edit',$item))->with('elementsuccess',__('shop::default.item_edited_successfully'));
         }
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\ShopItem  $itemPicture
+     * @param  \App\Models\ShopItem  $picture
      * @return \Illuminate\Http\Response
      */
-    public function destroy(ShopItemPicture $itemPicture)
+    public function destroy(ShopItemPicture $picture)
     {
         //
     }

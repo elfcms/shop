@@ -423,3 +423,78 @@ function changeMoney(input) {
     }
     input.value =  parseFloat(input.value).toFixed(2);
 }
+
+
+/* gallery */
+
+if (typeof shopAjax !== 'function') {
+    function shopAjax(url, params = {}) {
+        if (!params.method && typeof params.method !== 'sting')  {
+            params.method = 'GET';
+        }
+        params.method = params.method.toUpperCase();
+        if (params.method != 'GET' && params.method != 'POST') {
+            params.method = 'GET';
+        }
+        if (!params.resolve) {
+            params.resolve = (result) => {
+                return result;
+            };
+        }
+
+        let promise = new Promise(function(resolve, reject) {
+            let request = new XMLHttpRequest();
+            request.open(params.method, url);
+            if (params.headers && typeof params.headers === 'object') {
+                Object.entries(params.headers).forEach((entry) => {
+                    const [key, value] = entry;
+                    if (key && value) {
+                        request.setRequestHeader(key,value);
+                    }
+                });
+            }
+
+            if (params.progress && typeof params.progress === 'function') {
+                request.upload.onprogress = function(event) {
+                    params.progress(event);
+                }
+            }
+
+            if (params.uploadResolve && typeof params.uploadResolve === 'function') {
+                request.upload.onload = function() {
+                    params.uploadResolve(request);
+                }
+            }
+
+            if (params.progress && typeof params.progress === 'function') {
+                request.onprogress = function(event) {
+                    params.progress(event);
+                }
+            }
+
+            request.onload = function() {
+                if (request.status == 200) {
+                    resolve(request);
+                }
+                else {
+                    reject(Error(request.statusText));
+                }
+            };
+
+            request.onerror = function() {
+                reject(Error("Network Error"));
+            };
+
+            if (params.method == 'POST' && params.formData) {
+                request.send(params.formData);
+            }
+            else {
+                request.send();
+            }
+        });
+
+        if (params.resolve && typeof params.resolve === 'function') {
+            promise.then(params.resolve)
+        }
+    }
+}

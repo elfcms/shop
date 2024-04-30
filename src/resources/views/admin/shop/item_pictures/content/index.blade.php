@@ -1,26 +1,26 @@
-<form action="{{ route('admin.shop.items.pictures.groupSave',$item) }}" method="POST" name="gallery-item-list" id="gallery-item-list">
+<form action="{{ route('admin.shop.items.pictures.groupSave',$item) }}" method="POST" name="shop-item-picture-list" id="shop-item-picture-list">
     @method('POST')
     @csrf
-    <div class="gallery-items-content dragndrop-wrapper" draggable="false" data-uploadtext="{{__('gallery::default.file_upload')}}">
-        <a href="{{route('admin.shop.items.pictures.create',$item)}}" class="gallery-item-add gallery-item-tile" id="galleryitemcreate" title="{{__('gallery::default.create_item')}}"></a>
+    <div class="shop-item-pictures-content dragndrop-wrapper" draggable="false" data-uploadtext="{{__('shop::default.file_upload')}}">
+        <a href="{{route('admin.shop.items.pictures.create',$item)}}" class="shop-item-picture-add shop-item-picture-tile" id="shopitempicturecreate" title="{{__('shop::default.create_item')}}"></a>
         @if (!empty($item->pictures))
         @foreach ($item->pictures as $picture)
             @include('elfcms::admin.shop.item_pictures.content.item')
         @endforeach
         @endif
     </div>
-    <div class="gallery-items-buttons">
+    <div class="shop-item-pictures-buttons">
         <button class="default-btn submit-button" disabled>{{ __('elfcms::default.save') }}</button>
     </div>
 </form>
 
 
 <script>
-const submitItems = document.querySelector('.gallery-items-buttons .submit-button');
-const editItemElements = document.querySelectorAll('.gallery-item-element');
-const createButton = document.querySelector('#galleryitemcreate');
+const submitItems = document.querySelector('.shop-item-pictures-buttons .submit-button');
+const editItemElements = document.querySelectorAll('.shop-item-picture-element');
+const createButton = document.querySelector('#shopitempicturecreate');
 const dragndropBox = document.querySelector('.dragndrop-wrapper');
-const itemListForm = document.querySelector('#gallery-item-list');
+const itemListForm = document.querySelector('#shop-item-picture-list');
 
 if (itemListForm) {
     itemListForm.addEventListener('submit',function(e){
@@ -42,8 +42,8 @@ if (submitItems) {
         const itemsForDelete = document.querySelectorAll('.fordelete');
         if (itemsForDelete && itemsForDelete.length > 0) {
             popup({
-                title:'{{__("gallery::default.deleting_items")}}',
-                content:'{{__("gallery::default.marked_items_will_be_removed")}}',
+                title:'{{__("shop::default.deleting_items")}}',
+                content:'{{__("shop::default.marked_items_will_be_removed")}}',
                 buttons:[
                     {
                         title:'{{__("elfcms::default.delete")}}',
@@ -100,7 +100,7 @@ function itemListSave(form) {
         return false;
     }
     const formData = new FormData(form);
-    const itemsBox = document.querySelector('.gallery-items-content');
+    const itemsBox = document.querySelector('.shop-item-pictures-content');
     let preloader = preloadSet('.big-container');
     fetch(form.action,{
         method: 'POST',
@@ -115,7 +115,7 @@ function itemListSave(form) {
     ).then (
         (data) => {
             if (data.result && data.result == 'success') {
-                const forDeletes = document.querySelectorAll('.gallery-item-element.fordelete');
+                const forDeletes = document.querySelectorAll('.shop-item-picture-element.fordelete');
                 if (forDeletes) {
                     forDeletes.forEach(delElem => {
                         delElem.remove();
@@ -123,8 +123,8 @@ function itemListSave(form) {
                 }
                 submitItems.disabled = true;
                 popup({
-                    title:'{{__("gallery::default.edit_gallery")}}',
-                    content:'{{__("gallery::default.gallery_edited_successfully")}}',
+                    title:'{{__("shop::default.edit_item")}}',
+                    content:'{{__("shop::default.item_edited_successfully")}}',
                     buttons:[
                         {
                             title:'OK',
@@ -138,7 +138,7 @@ function itemListSave(form) {
             else {
                 if (data.errors && data.message) {
                     popup({
-                        title:'{{__("gallery::default.error")}}',
+                        title:'{{__("shop::default.error")}}',
                         content:data.message,
                         buttons:[
                             {
@@ -174,7 +174,7 @@ function filesUpload (files) {
     if (n > 0) {
         popup({
             title:'&nbsp;',
-            content:'{{__("gallery::default.following_files_will_be_downloaded")}}: <br><br>' + fileNames.join('<br>') + '<p>{{__("gallery::default.are_you_sure")}}</p>',
+            content:'{{__("shop::default.following_files_will_be_downloaded")}}: <br><br>' + fileNames.join('<br>') + '<p>{{__("shop::default.are_you_sure")}}</p>',
             buttons:[
                 {
                     title:'{{__("elfcms::default.cancel")}}',
@@ -226,10 +226,9 @@ function fileUpload (file, key = null) {
 
     const item = createItem({
         id: key,
-        slug: key,
         name: file.name,
         position: 1000,
-        image: '/elfcms/admin/modules/gallery/images/empty.png',
+        image: '/elfcms/admin/modules/shop/images/empty.png',
     },true);
 
     item.href = 'javascript:void(0)';
@@ -316,8 +315,7 @@ function setItemData (item, data, empty=false, callback=null) {
         return false;
     }
 
-    item.href = '/admin/gallery/{{$item->slug}}/items/'+data.slug+'/edit';
-    item.dataset.slug = data.slug;
+    item.href = '/admin/shop/items/{{$item->id}}/pictures/'+data.id+'/edit';
     item.dataset.id = data.id;
     item.style.order = data.position;
     item.title = '__("elfcms::default.edit") ' + data.name;
@@ -332,10 +330,6 @@ function setItemData (item, data, empty=false, callback=null) {
         else {
             img.src = data.image;
         }
-    }
-    const h5 = item.querySelector('h5');
-    if (h5) {
-        h5.innerHTML = data.name;
     }
     if (empty) {
         const deleteBox = document.createElement('div');
@@ -378,12 +372,11 @@ function setItemData (item, data, empty=false, callback=null) {
 
 function createItem (data, empty = false) {
     const newItem = document.createElement('a');
-    newItem.href = '/admin/gallery/{{$item->slug}}/items/'+data.slug+'/edit';
-    newItem.classList.add('gallery-item-tile','gallery-item-element');
-    newItem.dataset.slug = data.slug;
+    newItem.href = '/admin/shop/items/{{$item->id}}/pictures/'+data.id+'/edit';
+    newItem.classList.add('shop-item-picture-tile','shop-item-picture-element');
     newItem.dataset.id = data.id;
     newItem.style.order = data.position;
-    newItem.title = '__("elfcms::default.edit") ' + data.name;
+    //newItem.title = '__("elfcms::default.edit") ' + data.name;
     newItem.draggable = true;
     const img = document.createElement('img');
     if (img) {
@@ -398,11 +391,7 @@ function createItem (data, empty = false) {
         }
         newItem.append(img)
     }
-    const h5 = document.createElement('h5');
-    if (h5) {
-        h5.innerHTML = data.name;
-        newItem.append(h5)
-    }
+
     if (!empty) {
         const deleteBox = document.createElement('div');
         deleteBox.classList.add('delete-item-box');
@@ -464,7 +453,7 @@ function dndInit(element) {
         e.preventDefault();
         element.classList.remove('filedrag');
         e.target.classList.remove('dragged');
-        const items = element.querySelectorAll('.gallery-item-element');
+        const items = element.querySelectorAll('.shop-item-picture-element');
         if (items && isMoved) {
             submitItems.disabled = false;
             let i = 1;
@@ -508,7 +497,7 @@ function dndInit(element) {
 
         const currentElement = e.target;
         let isDraggable = activeElement !== currentElement &&
-        currentElement.classList.contains('gallery-item-element');
+        currentElement.classList.contains('shop-item-picture-element');
 
         if (!isDraggable) {
             return false;
@@ -555,12 +544,12 @@ function dndInit(element) {
 
 function editItem(action,currentItem,isEdit=true){
     const createBoxWrapper = document.createElement('div');
-    createBoxWrapper.classList.add('gallery-item-create-popup-wrapper');
+    createBoxWrapper.classList.add('shop-item-picture-create-popup-wrapper');
     const createBox = document.createElement('div');
-    createBox.classList.add('gallery-item-create-popup-box');
+    createBox.classList.add('shop-item-picture-create-popup-box');
     createBoxWrapper.append(createBox);
     const closeBox = document.createElement('a');
-    closeBox.classList.add('gallery-item-create-popup-close');
+    closeBox.classList.add('shop-item-picture-create-popup-close');
     closeBox.title = '{{__("elfcms::default.cancel")}}';
     closeBox.addEventListener('click',function(e){
         e.preventDefault();
@@ -598,11 +587,6 @@ function editItem(action,currentItem,isEdit=true){
                     if (thumbnailInput) {
                         inputFileImg(thumbnailInput)
                     }
-                    autoSlug('.autoslug')
-
-                    //add editor
-                    runEditor('#description')
-                    runEditor('#additional_text')
 
                     const submitButton = createForm.querySelector('[type="submit"]');
                     const newSubmitButton = submitButton.cloneNode(true);
@@ -631,15 +615,11 @@ function editItem(action,currentItem,isEdit=true){
                             (data) => {
                                 console.log(data);
                                 if (data.result && data.result == 'success' && data.data) {
-                                    const itemsBox = document.querySelector('.gallery-items-content');
+                                    const itemsBox = document.querySelector('.shop-item-pictures-content');
                                     if (isEdit) {
-                                        currentItem.dataset.slug = data.data.slug;
                                         currentItem.style.order = data.data.position;
                                         currentItem.title = '__("elfcms::default.edit") ' + data.data.name;
-                                        const h5 = currentItem.querySelector('h5');
-                                        if (h5) {
-                                            h5.innerHTML = data.data.name;
-                                        }
+
                                         const img = currentItem.querySelector('img');
                                         if (img) {
                                             if (data.data.thumbnail) {
@@ -652,13 +632,12 @@ function editItem(action,currentItem,isEdit=true){
                                                 img.src = data.data.image;
                                             }
                                         }
-                                        currentItem.href = '/admin/gallery/{{$item->slug}}/items/'+data.data.slug+'/edit';
+                                        currentItem.href = '/admin/shop/items/{{$item->id}}/pictures/'+data.data.id+'/edit';
                                     }
                                     else if (itemsBox) {
                                         const newItem = document.createElement('a');
-                                        newItem.href = '/admin/gallery/{{$item->slug}}/items/'+data.data.slug+'/edit';
-                                        newItem.classList.add('gallery-item-tile','gallery-item-element');
-                                        newItem.dataset.slug = data.data.slug;
+                                        newItem.href = '/admin/shop/items/{{$item->id}}/pictures/'+data.data.id+'/edit';
+                                        newItem.classList.add('shop-item-picture-tile','shop-item-picture-element');
                                         newItem.dataset.id = data.data.id;
                                         newItem.style.order = data.data.position;
                                         newItem.title = '__("elfcms::default.edit") ' + data.data.name;
@@ -667,11 +646,6 @@ function editItem(action,currentItem,isEdit=true){
                                         if (img) {
                                             img.src = data.data.image;
                                             newItem.append(img)
-                                        }
-                                        const h5 = document.createElement('h5');
-                                        if (h5) {
-                                            h5.innerHTML = data.data.name;
-                                            newItem.append(h5)
                                         }
                                         const deleteBox = document.createElement('div');
                                         deleteBox.classList.add('delete-item-box');
@@ -726,7 +700,7 @@ function editItem(action,currentItem,isEdit=true){
                                 formSubmit();
                             });
                         }
-                        galleryTagFormInit();
+                        //galleryTagFormInit();
                     },500)
                 }
             }

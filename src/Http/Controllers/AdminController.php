@@ -10,6 +10,7 @@ use Elfcms\Shop\Models\ShopItemParameter;
 use Elfcms\Shop\Models\ShopItemPicture;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class AdminController extends Controller
 {
@@ -124,7 +125,7 @@ class AdminController extends Controller
             'message' => __('gallery::default.gallery_edited_successfully'),
             'data' => null
         ];
-        if (empty($request->picture)) {
+        if (empty($request->item)) {
             $result['message'] = 'Error';
             $result['result'] = 'error';
 

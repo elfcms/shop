@@ -1,4 +1,4 @@
-<a href="{{ route('admin.shop.items.pictures.edit',['item'=>$item,'picture'=>$picture]) }}" class="gallery-item-tile gallery-item-element" title="{{ __('elfcms::default.edit') . ' ' . $picture->name }}" style="order:{{$picture->position}};" data-id="{{ $picture->id }}" data-slug="{{ $picture->slug }}">
+<a href="{{ route('admin.shop.items.pictures.edit',['item'=>$item,'picture'=>$picture]) }}" class="shop-item-picture-tile shop-item-picture-element" title="{{ __('elfcms::default.edit') . ' ' . $picture->name }}" style="order:{{$picture->position}};" data-id="{{ $picture->id }}" data-slug="{{ $picture->slug }}">
     <img src="
         @if (!empty($picture->thumbnail))
             {{asset(file_path($picture->thumbnail))}}
@@ -8,7 +8,7 @@
             {{asset(file_path($picture->image))}}
         @endif
     " alt="">
-    <h5>{{ $picture->name }}</h5>
+    {{-- <h5>{{ $picture->name }}</h5> --}}
     <div class="delete-item-box" title="{{ __('elfcms::default.delete') }}">
         <input type="checkbox" name="item[{{$picture->id}}][delete]" id="item_{{$picture->id}}_delete" data-field="delete" onclick="event.stopPropagation()">
         <i></i>

@@ -374,4 +374,6 @@ return [
     'sum' => 'Sum',
     'order_sum' => 'Order price',
     'order_quantity' => 'Number of orders',
+
+    'edit_pictures' => 'Edit pictures',
 ];

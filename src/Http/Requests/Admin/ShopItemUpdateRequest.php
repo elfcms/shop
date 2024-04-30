@@ -31,8 +31,7 @@ class ShopItemUpdateRequest extends FormRequest
             'image' => __('elfcms::default.image'),
             'preview' => __('elfcms::default.preview'),
             'thumbnail' => __('elfcms::default.thumbnail'),
-            'description' => __('elfcms::default.description'),
-            'additional_text' => __('shop::default.additional_text'),
+            'position' => __('elfcms::default.position'),
             'active' => __('elfcms::default.active'),
         ];
     }
@@ -48,8 +47,7 @@ class ShopItemUpdateRequest extends FormRequest
             'image' => 'nullable|file|max:' . ($this->imageConfig['image']['size'] ?? 1024),
             'preview' => 'nullable|file|max:' . ($this->imageConfig['preview']['size'] ?? 512),
             'thumbnail' => 'nullable|file|max:' . ($this->imageConfig['thumbnail']['size'] ?? 256),
-            'description' => 'nullable',
-            'additional_text' => 'nullable',
+            'position' => 'nullable',
             'active' => 'nullable',
         ];
     }
@@ -98,8 +96,7 @@ class ShopItemUpdateRequest extends FormRequest
             'image' => $image_path,
             'preview' => $preview_path,
             'thumbnail' => $thumbnail_path,
-            'description' => $this->description,
-            'additional_text' => $this->additional_text,
+            'position' => intval($this->position),
             'active' => $this->active,
         ]);
     }

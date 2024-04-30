@@ -120,7 +120,7 @@ Route::group(['middleware'=>['web','cookie']],function() use ($adminPath) {
                 'update' => 'items.pictures.update',
                 'destroy' => 'items.pictures.destroy',
             ]);
-            Route::post($adminPath . '/shop/items/{shop}/pictures', [\Elfcms\Shop\Http\Controllers\AdminController::class,'shopItemGroupSave'])->name('items.pictures.groupSave');
+            Route::post($adminPath . '/shop/items/{item}/pictures/group', [\Elfcms\Shop\Http\Controllers\AdminController::class,'itemPictureGroupSave'])->name('items.pictures.groupSave');
 
 
             /* ---- */

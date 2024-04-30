@@ -130,7 +130,7 @@ class ShopItem extends Model
 
     public function pictures()
     {
-        return $this->hasMany(ShopItemPicture::class, 'item_id');
+        return $this->hasMany(ShopItemPicture::class, 'item_id')->orderby('position');
     }
 
     public function tags()

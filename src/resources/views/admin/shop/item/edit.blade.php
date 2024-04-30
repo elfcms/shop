@@ -239,10 +239,23 @@
                     </div>
                 </div>
                 <div class="input-box colored">
-                    <label for="image">{{ __('elfcms::default.image') }}</label>
+                    <label for="image">{{ __('elfcms::default.images') }}</label>
                     <div class="input-wrapper">
-                        <x-elfcms-input-image code="image" :value="$item->image"/>
+                        {{-- <x-elfcms-input-image code="image" :value="$item->image"/> --}}
+                        <div class="shop-item-pictures-input-box">
+                            <div class="shop-item-pictures-preview-box">
+                            @if (!empty($item->pictures))
+                                @foreach ($item->pictures as $picture)
+                                <div class="shop-item-picture-preview">
+                                    <img src="{{ file_path($picture->thumbnail ?? $picture->preview ?? $picture->image) }}" alt="">
+                                </div>
+                                @endforeach
+                            @endif
+                            </div>
+                            <a href="{{ route('admin.shop.items.pictures',$item) }}" class="default-btn icon-text-button edit-button">{{ __('shop::default.edit_pictures') }}</a>
+                        </div>
                     </div>
+
                 </div>
                 {{-- <div class="input-box colored">
                     <label for="image">{{ __('elfcms::default.image') }}</label>
