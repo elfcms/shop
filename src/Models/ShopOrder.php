@@ -11,6 +11,7 @@ class ShopOrder extends Model
     use HasFactory;
 
     protected $fillable = [
+        'number',
         'customer_id',
         'payment_method_id',
         'delivery_id',
@@ -57,9 +58,14 @@ class ShopOrder extends Model
         return $this->pivot->net_price / 100;
     }
 
-    public function invoces()
+    public function invoices()
     {
         return $this->hasMany(ShopInvoice::class, 'order_id');
+    }
+
+    public function orderItems()
+    {
+        return $this->hasMany(ShopOrderItem::class, 'order_id');
     }
 
     public function items()
@@ -100,4 +106,8 @@ class ShopOrder extends Model
         return $this->belongsTo(ShopPaymentMethod::class, 'payment_method_id');
     }
 
+    public function bills()
+    {
+        return $this->hasMany(ShopBill::class, 'order_id');
+    }
 }

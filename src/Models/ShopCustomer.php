@@ -28,6 +28,11 @@ class ShopCustomer extends Model
         return $this->hasMany(ShopOrder::class, 'customer_id');
     }
 
+    public function invoices()
+    {
+        return $this->hasMany(ShopInvoice::class, 'customer_id');
+    }
+
     public function cart()
     {
         return $this->hasOne(ShopCart::class, 'customer_id')->withCount('items')->with('items');

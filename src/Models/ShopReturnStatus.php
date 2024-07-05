@@ -19,7 +19,7 @@ class ShopReturnStatus extends Model
 
     public function returns()
     {
-        return $this->hasMany(ShopOrder::class, 'return_status_id');
+        return $this->hasMany(ShopReturn::class, 'return_status_id');
     }
 
     public static function byCode($code = null): object|array {

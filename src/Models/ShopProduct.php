@@ -23,6 +23,10 @@ class ShopProduct extends Model
         'meta_description',
     ];
 
+    protected $appends = [
+        'rating',
+    ];
+
     /**
      * Get the route key for the model.
      *
@@ -36,6 +40,14 @@ class ShopProduct extends Model
     public function scopeActive($query)
     {
         return $query->where('active',1);
+    }
+
+    public function getRatingAttribute() {
+        $testimonials = $this->testimonials()->pluck('rating')->toArray() ?? [];
+        if(count($testimonials) > 0) {
+            return round(array_sum($testimonials) / count($testimonials), 1);
+        }
+        return null;
     }
 
     public function categories()
@@ -83,4 +95,8 @@ class ShopProduct extends Model
         return $this->belongsToMany(ShopTag::class, 'shop_product_tags', 'product_id', 'tag_id');
     }
 
+    public function testimonials()
+    {
+        return $this->hasMany(ShopTestimonial::class, 'product_id');
+    }
 }

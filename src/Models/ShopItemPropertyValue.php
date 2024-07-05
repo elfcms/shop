@@ -38,9 +38,23 @@ class ShopItemPropertyValue extends Model
         return $this->belongsTo(ShopItem::class, 'item_id');
     }
 
+    public function color()
+    {
+        return $this->belongsTo(ShopColor::class, 'color_value');
+    }
+
     public function getValueAttribute()
     {
         $field = $this->property->data_type->code . '_value';
+        if ($this->property->data_type->code == 'color') {
+            return [
+                'id' => $this->color->id ?? null,
+                'code' => $this->color->code ?? null,
+                'name' => $this->color->name ?? null,
+                'picture' => $this->color->picture ?? null,
+                'transparent' => $this->color->transparent ?? null
+            ];
+        }
         return $this->{$field};
     }
 

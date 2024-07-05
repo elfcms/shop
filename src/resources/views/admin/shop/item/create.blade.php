@@ -90,7 +90,7 @@
                         <textarea name="description" id="description" cols="30" rows="10"></textarea>
                     </div>
                 </div>
-                <div class="input-box colored">
+                {{-- <div class="input-box colored">
                     <label for="image">{{ __('elfcms::default.image') }}</label>
                     <div class="input-wrapper">
                         {{-- <input type="hidden" name="image_path" id="image_path">
@@ -103,10 +103,10 @@
                                 {{ __('elfcms::default.choose_file') }}
                             </div>
                             <input type="file" name="image" id="image">
-                        </div> --}}
+                        </div> --
                         <x-elfcms-input-image code="image" />
                     </div>
-                </div>
+                </div> --}}
                 <div class="input-box colored">
                     <label for="vendor_id">{{ __('shop::default.vendor') }}</label>
                     <div class="input-wrapper">

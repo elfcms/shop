@@ -3,7 +3,7 @@
 namespace Elfcms\Shop\Http\Controllers\Resources;
 
 use App\Http\Controllers\Controller;
-use App\Models\ShopReturn;
+use Elfcms\Shop\Models\ShopReturn;
 use Illuminate\Http\Request;
 
 class ShopReturnController extends Controller

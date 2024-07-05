@@ -12,7 +12,13 @@ class ShopOrderObserver
      */
     public function created(ShopOrder $shopOrder): void
     {
-        $number = date('ym-d-') . str_repeat('0', (6 - strlen((string)$shopOrder->id))) . $shopOrder->id;
+        $number = $shopOrder->id;
+        $date = $shopOrder->created_at->format('ymd') ?? date('ymd');
+        $control = array_sum(str_split($date . $number));
+        while ($control >= 10) {
+            $control = array_sum(str_split($control));
+        }
+        $number = $date . $control . str_repeat('0', (5 - strlen((string)$shopOrder->id))) . $number;
         $shopOrder->update([
             'number' => $number
         ]);

@@ -81,7 +81,7 @@ class ShopCategoryController extends Controller
         $validated = $request->validate([
             'title' => 'required',
             'slug' => 'required|unique:Elfcms\Shop\Models\ShopCategory,slug',
-            'image' => 'nullable|file|max:1024',
+            'image' => 'nullable|file|max:4096',
         ]);
 
         $image_path = '';
@@ -170,7 +170,7 @@ class ShopCategoryController extends Controller
             $validated = $request->validate([
                 'title' => 'required',
                 'slug' => 'required',
-                'image' => 'nullable|file|max:1024',
+                'image' => 'nullable|file|max:4096',
             ]);
             if (ShopCategory::where('slug',$request->slug)->where('id','<>',$shopCategory->id)->first()) {
                 return redirect(route('admin.shop.category.edit'))->withErrors([

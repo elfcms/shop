@@ -15,4 +15,9 @@ class ShopFavorite extends Model
         'tmp_user_id',
         'title',
     ];
+
+    public function item()
+    {
+        return $this->belongsTo(ShopItem::class, 'item_id');
+    }
 }

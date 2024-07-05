@@ -53,4 +53,9 @@ class ShopOrderItem extends Model
         return $this->attributes['result_sum'] / 100;
     }
 
+    public function item()
+    {
+        return $this->belongsTo(ShopItem::class, 'item_id')->with('product:id,title');
+    }
+
 }

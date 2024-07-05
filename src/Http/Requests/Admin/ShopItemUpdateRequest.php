@@ -44,9 +44,9 @@ class ShopItemUpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            'image' => 'nullable|file|max:' . ($this->imageConfig['image']['size'] ?? 1024),
-            'preview' => 'nullable|file|max:' . ($this->imageConfig['preview']['size'] ?? 512),
-            'thumbnail' => 'nullable|file|max:' . ($this->imageConfig['thumbnail']['size'] ?? 256),
+            'image' => 'nullable|file|max:' . ($this->imageConfig['image']['size'] ?? 10240),
+            'preview' => 'nullable|file|max:' . ($this->imageConfig['preview']['size'] ?? 5120),
+            'thumbnail' => 'nullable|file|max:' . ($this->imageConfig['thumbnail']['size'] ?? 2560),
             'position' => 'nullable',
             'active' => 'nullable',
         ];
@@ -55,11 +55,11 @@ class ShopItemUpdateRequest extends FormRequest
     protected function prepareForValidation()
     {
         $imageConfig = config('elfcms.shop.images');
-        $imageConfig['image']['size'] = $imageConfig['image']['size'] ?? 1024;
-        $imageConfig['preview']['size'] = $imageConfig['preview']['size'] ?? 512;
+        $imageConfig['image']['size'] = $imageConfig['image']['size'] ?? 10240;
+        $imageConfig['preview']['size'] = $imageConfig['preview']['size'] ?? 5120;
         $imageConfig['preview']['width'] = $imageConfig['preview']['width'] ?? 800;
         $imageConfig['preview']['height'] = $imageConfig['preview']['height'] ?? 800;
-        $imageConfig['thumbnail']['size'] = $imageConfig['thumbnail']['size'] ?? 256;
+        $imageConfig['thumbnail']['size'] = $imageConfig['thumbnail']['size'] ?? 2560;
         $imageConfig['thumbnail']['width'] = $imageConfig['thumbnail']['width'] ?? 400;
         $imageConfig['thumbnail']['height'] = $imageConfig['thumbnail']['height'] ?? 400;
 

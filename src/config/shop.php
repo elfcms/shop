@@ -107,6 +107,11 @@ return [
                     "route" => "admin.shop.payment"
                 ],
                 [
+                    "title" => "Return reasons",
+                    "lang_title" => "shop::default.reasons_for_return",
+                    "route" => "admin.shop.return-reason.index"
+                ],
+                [
                     "title" => "Coupons",
                     "lang_title" => "shop::default.coupons",
                     "route" => "admin.shop.coupon"

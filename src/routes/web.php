@@ -21,6 +21,13 @@ Route::group(['middleware'=>['web','cookie']],function() use ($adminPath) {
             Route::resource($adminPath . '/selling/orders', \Elfcms\Shop\Http\Controllers\Resources\ShopOrderController::class)
             ->names(['index'=>'orders']);
 
+            Route::post($adminPath . '/selling/orders/{order}/invoice', [\Elfcms\Shop\Http\Controllers\InvoiceController::class, 'set'])
+            ->name('set-invoice');
+            Route::post($adminPath . '/selling/invoice/{invoice}/cancel', [\Elfcms\Shop\Http\Controllers\InvoiceController::class, 'cancel'])
+            ->name('cancel-invoice');
+            Route::post($adminPath . '/selling/invoice/{invoice}/pay', [\Elfcms\Shop\Http\Controllers\InvoiceController::class, 'pay'])
+            ->name('pay-invoice');
+
             /* Route::resource($adminPath . '/selling/carts', \Elfcms\Shop\Http\Controllers\Resources\ShopCartController::class)
             ->names(['index'=>'carts']); */
 
@@ -87,13 +94,13 @@ Route::group(['middleware'=>['web','cookie']],function() use ($adminPath) {
             ->parameters(['order'=>'shopOrder'])
             ->names(['index'=>'order']);
 
-            Route::resource($adminPath . '/shop/invoice-status', \Elfcms\Shop\Http\Controllers\Resources\ShopInvoiceStatusController::class)
+            /* Route::resource($adminPath . '/shop/invoice-status', \Elfcms\Shop\Http\Controllers\Resources\ShopInvoiceStatusController::class)
             ->parameters(['invoice_status'=>'shopInvoiceStatus'])
             ->names(['index'=>'invoice_status']);
 
             Route::resource($adminPath . '/shop/invoice', \Elfcms\Shop\Http\Controllers\Resources\ShopInvoiceController::class)
             ->parameters(['invoice'=>'shopInvoice'])
-            ->names(['index'=>'invoice']);
+            ->names(['index'=>'invoice']); */
 
             /* Route::resource($adminPath . '/shop/payment-method', \Elfcms\Shop\Http\Controllers\Resources\ShopPaymentMethodController::class, ['parameters'=>['payment_method'=>'shopPaymentMethod']])
             ->names(['index'=>'payment-method']); */
@@ -124,6 +131,10 @@ Route::group(['middleware'=>['web','cookie']],function() use ($adminPath) {
 
 
             /* ---- */
+
+            Route::resource($adminPath . '/shop/return-reason', \Elfcms\Shop\Http\Controllers\Resources\ShopReturnReasonController::class);
+            //->parameters(['coupon'=>'shopCoupon'])
+            //->names(['index'=>'coupon']);
 
             Route::resource($adminPath . '/shop/coupon', \Elfcms\Shop\Http\Controllers\Resources\ShopCouponController::class)
             ->parameters(['coupon'=>'shopCoupon'])
@@ -173,6 +184,10 @@ Route::group(['middleware'=>['web','cookie']],function() use ($adminPath) {
             Route::get($adminPath . '/shop/ajax/currency/list/{byId?}', [\Elfcms\Shop\Http\Controllers\ShopCurrencyController::class, 'list'])->name('ajax.currency.list');
             Route::get($adminPath . '/shop/ajax/currency/empty-currency', [\Elfcms\Shop\Http\Controllers\ShopCurrencyController::class, 'emptyItem'])->name('ajax.currency.empty-item');
             Route::post($adminPath . '/shop/ajax/currency/fullsave', [\Elfcms\Shop\Http\Controllers\ShopCurrencyController::class, 'save'])->name('ajax.currency.fullsave');
+
+            Route::get($adminPath . '/shop/ajax/rreason/list/{byId?}', [\Elfcms\Shop\Http\Controllers\ShopReturnReasonController::class, 'list'])->name('ajax.rreason.list');
+            Route::get($adminPath . '/shop/ajax/rreason/empty-rreasons', [\Elfcms\Shop\Http\Controllers\ShopReturnReasonController::class, 'emptyItem'])->name('ajax.rreason.empty-item');
+            Route::post($adminPath . '/shop/ajax/rreason/fullsave', [\Elfcms\Shop\Http\Controllers\ShopReturnReasonController::class, 'save'])->name('ajax.rreason.fullsave');
 
             Route::get($adminPath . '/shop/ajax/vendor/list/{byId?}', [\Elfcms\Shop\Http\Controllers\ShopVendorController::class, 'list'])->name('ajax.vendor.list');
             Route::get($adminPath . '/shop/ajax/vendor/empty-vendor', [\Elfcms\Shop\Http\Controllers\ShopVendorController::class, 'emptyItem'])->name('ajax.vendor.empty-item');

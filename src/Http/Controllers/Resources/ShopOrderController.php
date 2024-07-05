@@ -3,6 +3,10 @@
 namespace Elfcms\Shop\Http\Controllers\Resources;
 
 use App\Http\Controllers\Controller;
+use Barryvdh\DomPDF\Facade\Pdf;
+use Elfcms\Elfcms\Events\SomeMailEvent;
+use Elfcms\Elfcms\Models\EmailEvent;
+use Elfcms\Shop\Models\ShopInvoiceStatus;
 use Elfcms\Shop\Models\ShopOrder;
 use Elfcms\Shop\Models\ShopOrderStatus;
 use Illuminate\Http\Request;
@@ -74,6 +78,8 @@ class ShopOrderController extends Controller
      */
     public function show(ShopOrder $order)
     {
+        //$pdf = Pdf::loadView('elfcms::admin.pdf.test');
+        //$pdf->save(storage_path('/app/public/elfcms/test.pdf'));
         $order->created = '';
         $order->updated = '';
         if (!empty($order->created_at)) {
@@ -109,6 +115,8 @@ class ShopOrderController extends Controller
             $result['quantity'] += $item->prices->quantity;
         }
         $statuses = ShopOrderStatus::all();
+        //dd(ShopInvoiceStatus::whereIn('code',['C','P'])->pluck('id')->toArray());
+        $can = !(bool)$order->invoices()->whereIn('invoice_status_id',ShopInvoiceStatus::whereIn('code',['N','P'])->pluck('id')->toArray())->get()->count();
         return view('elfcms::admin.selling.orders.show', [
             'page' => [
                 'title' => __('shop::default.order') .' '. $order->number,
@@ -118,6 +126,7 @@ class ShopOrderController extends Controller
             'items' => $items,
             'result' => (object)$result,
             'statuses' => $statuses,
+            'can' => $can,
         ]);
     }
 
@@ -141,9 +150,16 @@ class ShopOrderController extends Controller
      */
     public function update(Request $request, ShopOrder $order)
     {
-        if (!empty($request->change_status)) {
-            $order->order_status_id = $request->status_id;
-            $order->save();
+        $stausId = $order->order_status_id;
+        $changeStatus = $stausId != $request->status_id;
+        $order->order_status_id = $request->status_id;
+        //$order->save();
+        $order->tracking_code = $request->tracking_code ?? null;
+        $order->tracking_link = $request->tracking_link ?? null;
+        $order->save();
+        $event = EmailEvent::where('code','order-status-changed')->first();
+        if ($event && $changeStatus) {
+            event(new SomeMailEvent('order-status-changed', ['to' => $order->customer->user->email, 'subject' => $order->status->email_subject, 'params' => ['order' => $order]]));
         }
         return redirect(route('admin.selling.orders.show',$order))->with('action_result',__('shop::default.vendor_edited_successfully'));
     }

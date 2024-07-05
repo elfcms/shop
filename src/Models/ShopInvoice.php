@@ -10,17 +10,22 @@ class ShopInvoice extends Model
     use HasFactory;
 
     protected $fillable = [
+        'number',
         'order_id',
-        'user_id',
+        'customer_id',
         'invoice_status_id',
         'start_sum',
         'discount_sum',
+        'clear_sum',
+        'delivery_sum',
         'result_sum',
+        'deadline',
+        'file',
     ];
 
-    public function user()
+    public function customer()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(ShopCustomer::class);
     }
 
     public function status()

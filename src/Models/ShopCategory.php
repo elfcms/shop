@@ -38,7 +38,7 @@ class ShopCategory extends Model
 
     public function products ()
     {
-        return $this->belongsToMany(ShopProduct::class, 'shop_product_categories', 'product_id', 'category_id')->withPivot('is_main');
+        return $this->belongsToMany(ShopProduct::class, 'shop_product_categories', 'category_id', 'product_id')->withPivot('is_main');
     }
 
     public static function tree($parent = null)

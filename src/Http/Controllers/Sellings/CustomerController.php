@@ -10,11 +10,39 @@ use Elfcms\Shop\Models\ShopOrder;
 use Elfcms\Shop\Models\ShopOrderItem;
 use Elfcms\Shop\Models\ShopOrderStatus;
 use Elfcms\Shop\Models\ShopPaymentMethod;
+use Elfcms\Shop\Models\ShopProduct;
 use Elfcms\Shop\Models\ShopReturn;
 use Elfcms\Shop\Models\ShopReturnStatus;
+use Elfcms\Shop\Models\ShopTestimonial;
+use Elfcms\Shop\Models\ShopTestimonialLike;
 
 class CustomerController extends SellingController
 {
+    /* public $favorites;
+
+    public function __construct()
+    {
+        parent::__construct();
+        $this->favorites = ShopFavorite::where('customer_id', $this->customer->id)->get() ?? null;
+    } */
+
+    public function isFavorite(ShopItem $item)
+    {
+        $this->startResult();
+        $result = false;
+        if ($this->customer && !empty($this->customer->id)) {
+            $result = ShopFavorite::where('customer_id', $this->customer->id)->where('item_id', $item->id)->first() ?? false;
+        } elseif ($this->tmp_user  && !empty($this->tmp_user->id)) {
+            $result = ShopFavorite::where('tmp_user_id', $this->tmp_user->id)->where('item_id', $item->id)->first() ?? false;
+        }
+        return $result;
+    }
+
+    public function getFavorites()
+    {
+        $this->startResult();
+        return ShopFavorite::where('customer_id', $this->customer->id)->get() ?? null;
+    }
 
     public function setFavorite(ShopItem $item)
     {
@@ -33,13 +61,13 @@ class CustomerController extends SellingController
     {
         $this->startResult();
         if (!$favorite) {
-            $this->message = 'Product item not found';
+            $this->message = __('shop::default.product_item_not_found');
             $this->error = true;
             return false;
         }
 
         if ($favorite->customer_id != $this->customer?->id && $favorite->tmp_user_id != $this->tmp_user?->id) {
-            $this->message = 'User not found';
+            $this->message = __('elfcms::default.user_not_found');
             $this->error = true;
             return false;
         }
@@ -50,7 +78,7 @@ class CustomerController extends SellingController
     {
         $this->startResult();
         if (!$item) {
-            $this->message = 'Product item not found';
+            $this->message = __('shop::default.product_item_not_found');
             $this->error = true;
             return false;
         }
@@ -62,7 +90,7 @@ class CustomerController extends SellingController
         }
 
         if (!$favorite) {
-            $this->message = 'Product item not found';
+            $this->message = __('shop::default.product_item_not_found');
             $this->error = true;
             return false;
         }
@@ -77,16 +105,21 @@ class CustomerController extends SellingController
         }
         $cartItem = $this->cart->cartItems()->where('item_id', $item->id)->first();
 
+        if (empty($item->price)) {
+            $this->message = __('shop::default.not_enough_quantity');
+            $this->error = true;
+            return false;
+        }
         if ($cartItem) {
             if ($cartItem->quantity + $quantity > $item->balance) {
-                $this->message = 'Not enough quantity';
+                $this->message = __('shop::default.not_enough_quantity');
                 $this->error = true;
                 return false;
             }
             $cartItem->increment('quantity', $quantity);
         } else {
             if ($quantity > $item->balance) {
-                $this->message = 'Not enough quantity';
+                $this->message = __('shop::default.not_enough_quantity');
                 $this->error = true;
                 return false;
             }
@@ -101,19 +134,19 @@ class CustomerController extends SellingController
     public function removeFromCart(ShopItem $item, $quantity = 0)
     {
         if (!$this->cart) {
-            $this->message = 'Cart not found';
+            $this->message = __('shop::default.cart_not_found');
             $this->error = true;
             return false;
         }
         $cartItem = $this->cart->cartItems()->where('item_id', $item->id)->first();
         if (!$cartItem) {
-            $this->message = 'Product item not found in cart';
+            $this->message = __('shop::default.product_item_not_found_in_cart');
             $this->error = true;
             return false;
         }
         if (empty($quantity) || $cartItem->quantity <= $quantity) {
             $cartItem->delete();
-            $this->message = 'Product item removed succesfully from cart';
+            $this->message = __('shop::default.product_item_removed_successfully_from_cart');
             $this->error = false;
             return true;
         } else {
@@ -125,12 +158,12 @@ class CustomerController extends SellingController
     public function clearCart()
     {
         if (!$this->cart) {
-            $this->message = 'Cart not found';
+            $this->message = __('shop::default.cart_not_found');
             $this->error = true;
             return false;
         }
         $this->cart->cartItems()->delete();
-        $this->message = 'Cart cleared succesfully';
+        $this->message = __('shop::default.cart_cleared_succesfully');
         $this->error = false;
         return true;
     }
@@ -138,7 +171,7 @@ class CustomerController extends SellingController
     public function useCoupon($code, $check = false)
     {
         if (!$this->customer || !$this->customer->id) {
-            $this->message = 'User not found';
+            $this->message = __('elfcms::default.user_not_found');
             $this->error = true;
             return false;
         }
@@ -148,7 +181,7 @@ class CustomerController extends SellingController
     public function setAddress(array|object $address)
     {
         if (!$this->customer) {
-            $this->message = 'User not found';
+            $this->message = __('elfcms::default.user_not_found');
             $this->error = true;
             return false;
         }
@@ -159,84 +192,119 @@ class CustomerController extends SellingController
             (array)$address;
         }
         if (empty($address['plz'])) {
-            $this->message = 'PLZ must be not empty';
+            $this->message = __('shop::default.ZIP_must_be_not_empty');
             $this->error = true;
             return false;
         }
         if (empty($address['country'])) {
-            $this->message = 'Country must be not empty';
+            $this->message = __('shop::default.country_must_be_not_empty');
             $this->error = true;
             return false;
         }
         if (empty($address['city'])) {
-            $this->message = 'City must be not empty';
+            $this->message = __('shop::default.city_must_be_not_empty');
             $this->error = true;
             return false;
         }
         if ((empty($address['street']) || empty($address['house'])) && empty($address['address'])) {
-            $this->message = 'Address must be not empty';
+            $this->message = __('shop::default.address_must_be_not_empty');
             $this->error = true;
             return false;
         }
         $data = array_filter(
             $address,
             function ($key) {
-                return in_array($key, ['customer_id', 'plz', 'country', 'region', 'city', 'street', 'house', 'flat', 'address', 'additional', 'geodata_zip_id', 'geodata_country_id', 'geodata_region_id', 'geodata_city_id', 'geodata_street_id']);
+                return in_array($key, ['plz', 'country', 'region', 'city', 'street', 'house', 'flat', 'address', 'additional', 'geodata_zip_id', 'geodata_country_id', 'geodata_region_id', 'geodata_city_id', 'geodata_street_id']);
             },
             ARRAY_FILTER_USE_KEY
         );
 
-        $result = ShopCustomerAddress::firstOrCreate($data);
+        $cid = $this->customer->id;
+
+        $result = ShopCustomerAddress::updateOrCreate(['customer_id' => $cid], $data);
         if (!$result || empty($result->id)) {
-            $this->message = 'Address was not added';
+            $this->message = __('shop::default.address_was_not_added');
             $this->error = true;
             return false;
         }
         if ($result->wasRecentlyCreated) {
-            $this->message = 'Address was created';
+            $this->message = __('shop::default.address_was_created');
             $this->error = false;
         } else {
-            $this->message = 'Address was found';
+            $this->message = __('shop::default.address_was_found');
             $this->error = false;
         }
 
         return $result;
     }
 
+    /* public function orderNumber(int|ShopOrder $order) {
+        if (is_int($order)) {
+            $order = ShopOrder::find($order);
+        }
+        if (!empty($order->number)) {
+            return $order->number;
+        }
+        $number = $order->id;
+        if ($number < 10) {
+            $number = '000'.$number;
+        }
+        elseif ($number < 100) {
+            $number = '00'.$number;
+        }
+        elseif ($number < 1000) {
+            $number = '0'.$number;
+        }
+
+        $date = $order->created_at->format('Ym') ?? date('Ym');
+
+        $control = array_sum(str_split($date . $number));
+
+        while ($control >= 10) {
+            $control = array_sum(str_split($control));
+        }
+
+        $number = $date . $control . $number;
+        $order->number = $number;
+        $order->update();
+
+        return $number;
+    } */
+
     public function setOrder(int|ShopPaymentMethod $paymentMethod, int|array|ShopCustomerAddress $address, int|ShopDelivery $delivery, $deliverySum = 0)
     {
         if (!$this->cart) {
-            $this->message = 'Cart not found';
+            $this->message = __('shop::default.cart_not_found');
             $this->error = true;
             return false;
         }
         if (!$this->isAuth) {
-            $this->message = 'You are not authorized';
+            $this->message = __('shop::default.you_are_not_authorized');
             $this->error = true;
             return false;
         }
         if (!$this->customer) {
-            $this->message = 'User not found';
+            $this->message = __('elfcms::default.user_not_found');
             $this->error = true;
             return false;
         }
 
         $paymentMethodId = is_numeric($paymentMethod) ? $paymentMethod : ($paymentMethod->id ?? null);
         if (!$paymentMethodId) {
-            $this->message = 'Payment method is not defined';
+            $this->message = __('shop::default.payment_method_is_notdefined');
             $this->error = true;
             return false;
         }
 
         $deliveryId = is_numeric($delivery) ? $delivery : ($delivery->id ?? null);
         if (!$deliveryId) {
-            $this->message = 'Delivery service is not defined';
+            $this->message = __('shop::default.delivery_service_is_not_defined');
             $this->error = true;
             return false;
         }
 
         if (empty($this->cart->items->count()) || empty($this->cart->total->itemQuantity) || empty($this->cart->total->totalQuantity)) {
-            $this->message = 'There are no products to order';
+            $this->message = __('shop::default.there_are_no_products_to_order');
             $this->error = true;
             return false;
         }
@@ -249,13 +317,13 @@ class CustomerController extends SellingController
         }
         if (is_object($address) && $address instanceof ShopCustomerAddress) {
             if ($address->customer_id != $this->customer->id) {
-                $this->message = 'Address is not defined';
+                $this->message = __('shop::default.address_is_not_defined');
                 $this->error = true;
                 return false;
             }
         }
         if (!$address || empty($address->id)) {
-            $this->message = 'Address is not defined';
+            $this->message = __('shop::default.address_is_not_defined');
             $this->error = true;
             return false;
         }
@@ -270,7 +338,7 @@ class CustomerController extends SellingController
         if (!$startStatus) {
             $startStatus = ShopOrderStatus::create([
                 'code' => 'N',
-                'name' => 'New',
+                'name' => __('shop::default.orderregistered'),
                 'is_start' => 1
             ]);
         }
@@ -295,12 +363,17 @@ class CustomerController extends SellingController
         ]);
 
         if (!$order) {
-            $this->message = 'Order not created';
+            $this->message = __('shop::default.order_not_created');
             $this->error = true;
             return false;
         }
 
+        //$this->orderNumber($order);
+
         foreach ($this->cart->items as $item) {
+            if ($item->balance <=0) {
+                continue;
+            }
             $newItem = ShopOrderItem::create([
                 'order_id' => $order->id,
                 'item_id' => $item->id,
@@ -313,7 +386,7 @@ class CustomerController extends SellingController
                 'result_sum' => $item->price * $item->pivot->quantity * 100,
             ]);
             if (!$newItem) {
-                $this->message = 'Order item not created';
+                $this->message = __('shop::default.order_item_not_created');
                 $this->error = true;
                 $order->delete();
                 return false;
@@ -322,7 +395,7 @@ class CustomerController extends SellingController
         }
 
         $this->clearCart();
-        $this->message = 'Order created';
+        $this->message = __('shop::default.order_created');
         $this->error = false;
 
         return $order;
@@ -331,7 +404,7 @@ class CustomerController extends SellingController
     public function setOrderReturn(int|ShopOrder $order)
     {
         if (!$this->customer) {
-            $this->message = 'User not found';
+            $this->message = __('elfcms::default.user_not_found');
             $this->error = true;
             return false;
         }
@@ -339,19 +412,19 @@ class CustomerController extends SellingController
             $order = ShopOrder::find($order);
         }
         if (!$order || empty($order->id)) {
-            $this->message = 'Order not found';
+            $this->message = __('shop::default.order_not_found');
             $this->error = true;
             return false;
         }
 
         if ($order->customer_id != $this->customer->id) {
-            $this->message = 'Order of user not found';
+            $this->message = __('shop::default.order_of_user_not_found');
             $this->error = true;
             return false;
         }
 
         if ($order->status->code != 'D') {
-            $this->message = 'Order can not be returned';
+            $this->message = __('shop::default.order_can_not_be_returned');
             $this->error = true;
             return false;
         }
@@ -363,7 +436,7 @@ class CustomerController extends SellingController
         if (!$startStatus) {
             $startStatus = ShopReturnStatus::create([
                 'code' => 'N',
-                'name' => 'Registered',
+                'name' => __('shop::default.returnregistered'),
             ]);
         }
 
@@ -373,7 +446,7 @@ class CustomerController extends SellingController
         ]);
 
         if (!$return || empty($return->id)) {
-            $this->message = 'Return not created';
+            $this->message = __('shop::default.return_not_created');
             $this->error = true;
             return false;
         }
@@ -382,14 +455,14 @@ class CustomerController extends SellingController
         if (!$returnStatus) {
             $returnStatus = ShopOrderStatus::create([
                 'code' => 'R',
-                'name' => 'Return',
+                'name' => __('shop::default.return'),
             ]);
         }
 
         $order->order_status_id = $returnStatus->id;
         $order->save();
 
-        $this->message = 'Return created';
+        $this->message = __('shop::default.return_created');
         $this->error = false;
         return $return;
     }
@@ -397,7 +470,7 @@ class CustomerController extends SellingController
     public function setOrderCancel(int|ShopOrder $order)
     {
         if (!$this->customer) {
-            $this->message = 'User not found';
+            $this->message = __('elfcms::default.user_not_found');
             $this->error = true;
             return false;
         }
@@ -405,19 +478,19 @@ class CustomerController extends SellingController
             $order = ShopOrder::find($order);
         }
         if (!$order || empty($order->id)) {
-            $this->message = 'Order not found';
+            $this->message = __('shop::default.order_not_found');
             $this->error = true;
             return false;
         }
 
         if ($order->customer_id != $this->customer->id) {
-            $this->message = 'Order of user not found';
+            $this->message = __('shop::default.order_of_user_not_found');
             $this->error = true;
             return false;
         }
 
         if (!in_array($order->status->code, ['N', 'W'])) {
-            $this->message = 'Order can not be canceled';
+            $this->message = __('shop::default.order_can_not_be_canceled');
             $this->error = true;
             return false;
         }
@@ -426,16 +499,59 @@ class CustomerController extends SellingController
         if (!$cancelStatus) {
             $cancelStatus = ShopOrderStatus::create([
                 'code' => 'C',
-                'name' => 'Canceled',
+                'name' => __('shop::default.canceled'),
             ]);
         }
 
         $order->order_status_id = $cancelStatus->id;
         $order->save();
 
-        $this->message = 'Order canceled';
+        $this->message = __('shop::default.order_canceled');
         $this->error = false;
 
         return true;
+    }
+
+    public function testimonials(null|int|ShopProduct $product = null)
+    {
+        if (empty($this->customer) || empty($this->customer->id)) {
+            return [];
+        }
+        $testimonials = ShopTestimonial::where('customer_id', $this->customer->id);
+        if ($product) {
+            if ($product instanceof ShopProduct) {
+                $product = $product->id;
+            }
+            $testimonials->where('product_id', $product);
+        }
+        return $testimonials->pluck('id')->toArray() ?? [];
+    }
+
+    public function testimonialLikes(null|int|ShopProduct $product = null)
+    {
+        if (empty($this->customer) || empty($this->customer->id)) {
+            return [];
+        }
+        $testimonialLikes = ShopTestimonialLike::where('customer_id', $this->customer->id);
+        if ($product) {
+            if ($product instanceof ShopProduct) {
+                $product = $product->id;
+            }
+            $testimonialLikes->whereHas('testimonial', function ($query) use ($product) {
+                $query->where('product_id', $product);
+            });
+        }
+        $testimonialLikes = $testimonialLikes->get();
+        $result = [];
+        foreach ($testimonialLikes as $testimonialLike) {
+            $like = 0;
+            if ($testimonialLike->useful) {
+                $like = 1;
+            } elseif ($testimonialLike->useless) {
+                $like = -1;
+            }
+            $result[$testimonialLike->testimonial_id] = $like;
+        }
+        return $result;
     }
 }

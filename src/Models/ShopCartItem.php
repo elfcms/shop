@@ -17,4 +17,14 @@ class ShopCartItem extends Model
         'quantity'
     ];
 
+    public function item()
+    {
+        return $this->belongsTo(ShopItem::class, 'item_id');
+    }
+
+    public function cart()
+    {
+        return $this->belongsTo(ShopCart::class, 'cart_id');
+    }
+
 }

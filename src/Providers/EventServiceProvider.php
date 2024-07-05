@@ -7,8 +7,10 @@ use Elfcms\Elfcms\Listeners\SomeMailListener;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification; */
 
+use Elfcms\Shop\Models\ShopInvoice;
 use Elfcms\Shop\Observers\ShopOrderObserver;
 use Elfcms\Shop\Models\ShopOrder;
+use Elfcms\Shop\Observers\ShopInvoiceObserver;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 //use Illuminate\Support\Facades\Event;
 
@@ -35,6 +37,7 @@ class EventServiceProvider extends ServiceProvider
     public function boot()
     {
         ShopOrder::observe(ShopOrderObserver::class);
+        ShopInvoice::observe(ShopInvoiceObserver::class);
     }
 
     /**

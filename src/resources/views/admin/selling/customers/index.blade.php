@@ -80,7 +80,7 @@
                     <a href="{{ route('admin.selling.customers.show',$customer) }}" title="{{ implode(' ',[__('shop::default.customer'),$customer->firstname,$customer->lastname,'#'.$customer->id]) }}">{{ $customer->id }}</a>
                 </td>
                 <td>
-                    <a href="{{ route('admin.user.users.edit',$customer->user) }}" title="{{ __('elfcms::default.edit_user') . $customer->user->id }}">
+                    <a href="{{ route('admin.selling.customers.show',$customer) }}" title="{{ __('elfcms::default.edit_user') . $customer->user->id }}">
                         {{ $customer->user->email }}
                     </a>
                 </td>

@@ -221,6 +221,23 @@ function addCurrencyItem() {
     }
 }
 
+function addReasonItem() {
+    if (!emptyItem) return false;
+    if (!newItemId && newItemId !== 0) return false;
+    const container = document.querySelector('table.reason-table tbody');
+    if (container) {
+        let itemString = emptyItem.replaceAll('id="newreason"','id="new_'+newItemId+'"').replaceAll('reason[newreason]','newreason['+newItemId+']').replaceAll('reason_newreason','newreason_'+newItemId).replaceAll('<span>newreason</span>','');
+        container.insertAdjacentHTML('beforeend',itemString);
+        const newRow = container.lastElementChild;
+        if (newRow) {
+            newRow.classList.add('edited');
+        }
+        newItemId++;
+        autoSlug(newRow.querySelectorAll('.autoslug'));
+        setSaveEnabled();
+    }
+}
+
 function addVendorItem() {
     if (!emptyItem) return false;
     if (!newItemId && newItemId !== 0) return false;
