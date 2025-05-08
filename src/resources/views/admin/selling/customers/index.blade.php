@@ -1,6 +1,6 @@
-@extends('elfcms::admin.layouts.shop')
+@extends('elfcms::admin.layouts.main')
 
-@section('shop-content')
+@section('pagecontent')
 
 <div class="table-search-box">
     <div class="table-search-result-title">
@@ -38,7 +38,7 @@
 </div>
 @endif
 
-<div class="widetable-wrapper">
+<div class="grid-table-wrapper">
     <table class="grid-table table-cols-6" style="--first-col:65px; --minw:800px;">
         <thead>
             <tr>
@@ -140,7 +140,7 @@
                             },
                             {
                                 title:'{{ __('elfcms::default.cancel') }}',
-                                class:'default-btn cancel-button',
+                                class:'button color-text-button',
                                 callback:'close'
                             }
                         ],

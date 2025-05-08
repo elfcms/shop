@@ -20,14 +20,14 @@
     </td>
     <td>
         <div class="checkbox-switch green">
-            <input type="checkbox" name="currency[{{$currency->id}}][default]" id="currency_{{$currency->id}}_default" value="1" data-name="default" @if($currency->default) checked @endif>
-            <i></i>
+            <x-elfcms::ui.checkbox.switch name="currency[{{$currency->id}}][default]" id="currency_{{$currency->id}}_default" dataid="{{ $currency->id }}" title="{{ __('elfcms::default.delete') }}" click="setUnitRowDelete(this)" checked="{{ ($currency->default) }}" data-name="default" />
+            {{-- <input type="checkbox" name="currency[{{$currency->id}}][default]" id="currency_{{$currency->id}}_default" value="1" data-name="default" @if($currency->default) checked @endif>
+            <i></i> --}}
         </div>
     </td>
-    <td class="button-column non-text-buttons">
+    <td class="table-button-column">
         <div class="check-delete-wrapper">
-            <input type="checkbox" name="currency[{{$currency->id}}][delete]" id="currency_{{$currency->id}}_delete" value="1" data-id="{{ $currency->id }}" title="{{ __('elfcms::default.delete') }}" onclick="setUnitRowDelete(this)">
-            <i></i>
+            <x-elfcms::ui.checkbox.delete name="currency[{{$currency->id}}][delete]" id="currency_{{$currency->id}}_delete" dataid="{{ $currency->id }}" title="{{ __('elfcms::default.delete') }}" click="setUnitRowDelete(this)" />
         </div>
     </td>
 </tr>

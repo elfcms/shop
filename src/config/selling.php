@@ -17,6 +17,8 @@ return [
             "route" => "admin.selling.customers",
             "parent_route" => "admin.selling",
             "icon" => "/elfcms/admin/modules/shop/images/icons/bag.png",
+            "color" => "#0064ff",
+            "second_color" => "#008dfd",
             "position" => 600,
             "submenu" => [
                 [
@@ -49,9 +51,15 @@ return [
 
     "access_routes" => [
         [
+            "title" => "Orders",
+            "lang_title" => "shop::default.orders",
+            "route" => "admin.selling.orders",
+            "actions" => ["read", "write"],
+        ],
+        [
             "title" => "Customers",
             "lang_title" => "shop::default.customers",
-            "route" => "admin.shop.category",
+            "route" => "admin.selling.category",
             "actions" => ["read", "write"],
         ],
     ],

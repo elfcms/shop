@@ -73,6 +73,7 @@ return [
     'error_of_vendor_edited' => 'Fehler bei der Lieferant-Bearbeitung',
     'vendor_deleted_successfully' => 'Lieferant erfolgreich gelöscht',
     'error_of_vendor_deleting' => 'Fehler bei der Lieferant-Entfernung',
+    'add_vendor' => 'Lieferanten hinzufügen',
 
     'discount' => 'Rabatt',
     'discounts' => 'Rabatte',
@@ -380,7 +381,17 @@ return [
     'tracking_code' => 'Sendungsnummer',
     'tracking_link' => 'Verfolgungslink',
 
-    'reasons_for_return' => 'Rücksendung Gründe',
+    'reason_for_return' => 'Grund für die Rücksendung',
+    'reasons_for_return' => 'Gründe für die Rücksendung',
+    'create_reason_for_return' => 'Grund für die Rücksendung erstellen',
+    'add_reason_for_return' => 'Grund für die Rücksendung hinzufügen',
+    'edit_reason_for_return' => 'Grund für die Rücksendung bearbeiten',
+    'reason_for_return_created_successfully' => 'Grund für die Rücksendung erfolgreich erstellt',
+    'error_of_reason_for_return_created' => 'Fehler beim Erstellen der Grund für die Rücksendung',
+    'reason_for_return_edited_successfully' => 'Grund für die Rücksendung erfolgreich bearbeitet',
+    'error_of_reason_for_return_edited' => 'Fehler bei der Bearbeitung der Grund für die Rücksendung',
+    'reason_for_return_deleted_successfully' => 'Grund für die Rücksendung erfolgreich gelöscht',
+    'error_of_reason_for_return_deleting' => 'Fehler bei der Entfernung der Grund für die Rücksendung',
 
     'user_not_found' => 'Benutzer nicht gefunden',
     'ZIP_must_be_not_empty' => 'PLZ darf nicht leer sein',
@@ -436,4 +447,6 @@ return [
 
     'testimonial_added_successfully' => 'Bewertung erfolgreich hinzugefügt',
     'failed_to_add_testimonial' => 'Bewertung konnte nicht hinzugefügt werden',
+
+    'rows_with_empty_names_will_not_be_saved' => 'Zeilen mit leeren Namen werden nicht gespeichert.',
 ];

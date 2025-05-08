@@ -1,6 +1,6 @@
-@extends('elfcms::admin.layouts.shop')
+@extends('elfcms::admin.layouts.main')
 
-@section('shop-content')
+@section('pagecontent')
 
 
 <div class="table-search-box">
@@ -39,7 +39,7 @@
 </div>
 @endif
 
-<div class="widetable-wrapper">
+<div class="grid-table-wrapper">
     <table class="grid-table table-cols-9" style="--first-col:65px; --minw:800px;">
         <thead>
             <tr>

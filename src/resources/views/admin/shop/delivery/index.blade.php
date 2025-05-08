@@ -1,6 +1,6 @@
-@extends('elfcms::admin.layouts.shop')
+@extends('elfcms::admin.layouts.main')
 
-@section('shop-content')
+@section('pagecontent')
 <nav class="pagenav">
     <div class="abstract-nav-line">
         <a href="{{ route('admin.shop.delivery.create') }}" class="default-btn submit-button create-button">{{ __('shop::default.create_delivery_service') }}</a>
@@ -39,7 +39,7 @@
         </ul>
     </div>
     @endif
-    <div class="widetable-wrapper">
+    <div class="grid-table-wrapper">
         <table class="grid-table table-cols-6" style="--first-col:65px; --last-col:140px; --minw:800px">
             <thead>
                 <tr>
@@ -132,7 +132,7 @@
                                 },
                                 {
                                     title:'{{ __('elfcms::default.cancel') }}',
-                                    class:'default-btn cancel-button',
+                                    class:'button color-text-button',
                                     callback:'close'
                                 }
                             ],

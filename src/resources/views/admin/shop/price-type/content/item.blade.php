@@ -14,10 +14,9 @@
             @endforeach
         </select>
     </td>
-    <td class="button-column non-text-buttons">
+    <td class="table-button-column">
         <div class="check-delete-wrapper">
-            <input type="checkbox" name="price_type[{{$price_type->id}}][delete]" id="price_type_{{$price_type->id}}_delete" value="1" data-id="{{ $price_type->id }}" title="{{ __('elfcms::default.delete') }}" onclick="setUnitRowDelete(this)">
-            <i></i>
+            <x-elfcms::ui.checkbox.delete name="price_type[{{$price_type->id}}][delete]" id="price_type_{{$price_type->id}}_delete" dataid="{{ $price_type->id }}" title="{{ __('elfcms::default.delete') }}" click="setUnitRowDelete(this)" />
         </div>
     </td>
 </tr>

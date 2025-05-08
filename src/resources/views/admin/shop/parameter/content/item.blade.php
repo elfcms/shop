@@ -9,8 +9,7 @@
     <td>
         <div class="input-wrapper">
             <div class="autoslug-wrapper">
-                <input type="checkbox" data-text-id="parameter_{{$parameter->id}}_name" data-slug-id="parameter_{{$parameter->id}}_code" class="autoslug" checked>
-                <div class="autoslug-button"></div>
+                <x-elfcms::ui.checkbox.autoslug textid="parameter_{{$parameter->id}}_name" slugid="parameter_{{$parameter->id}}_code" checked="true" />
             </div>
         </div>
     </td>
@@ -28,24 +27,29 @@
         <input type="text" name="parameter[{{$parameter->id}}][description]" id="parameter_{{$parameter->id}}_description" value="{{ $parameter->description }}" data-name="description">
     </td>
     <td>
-        <div class="checkbox-switch green">
+        <x-elfcms::ui.checkbox.switch name="parameter[{{$parameter->id}}][is_filter]" id="parameter_{{$parameter->id}}_is_filter" checked="{{ $parameter->is_filter }}" data-name="is_filter" />
+        {{-- <div class="checkbox-switch green">
             <input type="checkbox" name="parameter[{{$parameter->id}}][is_filter]" id="parameter_{{$parameter->id}}_is_filter" value="1" data-name="is_filter" @if($parameter->is_filter) checked @endif>
             <i></i>
-        </div>
+        </div> --}}
     </td>
-    <td class="button-column non-text-buttons">
+    <td class="table-button-column">
         <div class="check-delete-wrapper">
-            <input type="checkbox" name="parameter[{{$parameter->id}}][delete]" id="parameter_{{$parameter->id}}_delete" value="1" data-id="{{ $parameter->id }}" title="{{ __('elfcms::default.delete') }}" onclick="setUnitRowDelete(this)">
-            <i></i>
+            <x-elfcms::ui.checkbox.delete name="parameter[{{$parameter->id}}][delete]" id="parameter_{{$parameter->id}}_delete" dataid="{{ $parameter->id }}" title="{{ __('elfcms::default.delete') }}" click="setUnitRowDelete(this)" />
         </div>
     </td>
     <td @class(['table-subrow','showed' => $parameter->data_type->code=='list'])>
         <div class="shop-option-box">
             <div class="shop-option-multiple-line">
+                <div class="small-checkbox" style="--switch-color:var(--default-color)">
+                    <input type="checkbox" name="parameter[{{$parameter->id}}][multiple]" id="parameter_{{$parameter->id}}_multiple" value="1" data-name="multiple" @checked($parameter->multiple)>
+                    <i></i>
+                </div>
+                {{-- 
                 <div class="checkbox-switch green" data-column="multiple">
                     <input type="checkbox" name="parameter[{{$parameter->id}}][multiple]" id="parameter_{{$parameter->id}}_multiple" value="1" data-name="multiple" @if($parameter->multiple) checked @endif>
                     <i></i>
-                </div>
+                </div> --}}
                 <label for="parameter_{{$parameter->id}}_multiple">{{ __('shop::default.multiple') }}</label>
             </div>
             <div class="shop-option-box-label">
@@ -74,17 +78,21 @@
                             <input type="text" name="parameter[{{$parameter->id}}][options][{{$loop->index}}][value]" value="{{ $value }}" oninput="checkOptionChange(this)" data-loop="{{$loop->index}}" data-name="value">
                         </div>
                         <div class="shop-option-table-column">
-                            <div class="checkbox-switch red">
+                            <div class="small-checkbox" style="--switch-color:var(--danger-color)">
                                 <input type="checkbox" name="parameter[{{$parameter->id}}][options][{{$loop->index}}][delete]" value="1" oninput="checkOptionChange(this)" data-loop="{{$loop->index}}" data-name="delete">
                                 <i></i>
                             </div>
+                            {{-- <div class="checkbox-switch red">
+                                <input type="checkbox" name="parameter[{{$parameter->id}}][options][{{$loop->index}}][delete]" value="1" oninput="checkOptionChange(this)" data-loop="{{$loop->index}}" data-name="delete">
+                                <i></i>
+                            </div> --}}
                         </div>
                     </div>
                     @endforeach
                 @endif
                 </div>
                 <div class="shop-option-table-add">
-                    <button class="default-btn" data-id="{{$parameter->id}}" onclick="addOption(this{{!$parameter->code ? '' : ',false' }})">{{ __('elfcms::default.add_option') }}</button>
+                    <button class="button color-text-button small-button" data-id="{{$parameter->id}}" onclick="addOption(this{{!$parameter->code ? '' : ',false' }})">{{ __('elfcms::default.add_option') }}</button>
                 </div>
             </div>
         </div>

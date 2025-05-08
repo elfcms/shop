@@ -12,9 +12,9 @@
     <td>
         <input type="text" name="vendor[{{$vendor->id}}][code]" id="vendor_{{$vendor->id}}_code" value="{{ $vendor->code }}" data-name="code">
     </td>
-    <td class="button-column non-text-buttons">
+    <td class="table-button-column">
         <div class="check-delete-wrapper">
-            <input type="checkbox" name="vendor[{{$vendor->id}}][delete]" id="vendor_{{$vendor->id}}_delete" value="1" data-id="{{ $vendor->id }}" title="{{ __('elfcms::default.delete') }}" onclick="setUnitRowDelete(this)">
+            <x-elfcms::ui.checkbox.delete name="vendor[{{$vendor->id}}][delete]" id="vendor_{{$vendor->id}}_delete" dataid="{{ $vendor->id }}" title="{{ __('elfcms::default.delete') }}" click="setUnitRowDelete(this)" />
             <i></i>
         </div>
     </td>

@@ -1,6 +1,6 @@
-@extends('elfcms::admin.layouts.shop')
+@extends('elfcms::admin.layouts.main')
 
-@section('shop-content')
+@section('pagecontent')
 
 <div class="item-form">
     <h3>
@@ -125,7 +125,7 @@
         @endif
         <hr>
         <h4>{{ __('shop::default.orders') }}</h4>
-        <div class="widetable-wrapper">
+        <div class="grid-table-wrapper">
             <table class="grid-table table-cols-8" style="--first-col:65px; --minw:800px;">
                 <thead>
                     <tr>

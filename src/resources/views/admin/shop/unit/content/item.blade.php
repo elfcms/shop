@@ -27,10 +27,9 @@
     <td>
         <input type="text" name="unit[{{$unit->id}}][lang_name_plural]" id="unit_{{$unit->id}}_lang_name_plural" value="{{ $unit->lang_name_plural }}" data-name="lang_name_plural">
     </td>
-    <td class="button-column non-text-buttons">
+    <td class="table-button-column">
         <div class="check-delete-wrapper">
-            <input type="checkbox" name="unit[{{$unit->id}}][delete]" id="unit_{{$unit->id}}_delete" value="1" data-id="{{ $unit->id }}" title="{{ __('elfcms::default.delete') }}" onclick="setUnitRowDelete(this)">
-            <i></i>
+            <x-elfcms::ui.checkbox.delete name="unit[{{$unit->id}}][delete]" id="unit_{{$unit->id}}_delete" dataid="{{ $unit->id }}" title="{{ __('elfcms::default.delete') }}" click="setUnitRowDelete(this)" />
         </div>
     </td>
 </tr>

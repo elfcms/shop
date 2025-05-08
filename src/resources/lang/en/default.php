@@ -73,6 +73,7 @@ return [
     'error_of_vendor_edited' => 'Error of vendor editing',
     'vendor_deleted_successfully' => 'Vendor deleted successfully',
     'error_of_vendor_deleting' => 'Error of vendor deleting',
+    'add_vendor' => 'Add vendor',
 
     'discount' => 'Discount',
     'discounts' => 'Discounts',
@@ -380,7 +381,17 @@ return [
     'tracking_code' => 'Tracking code',
     'tracking_link' => 'Tracking link',
 
+    'reason_for_return' => 'Reason for return',
     'reasons_for_return' => 'Reasons for return',
+    'create_reason_for_return' => 'Create reason for return',
+    'add_reason_for_return' => 'Add reason for return',
+    'edit_reason_for_return' => 'Edit reason for return',
+    'reason_for_return_created_successfully' => 'Reason for return created successfully',
+    'error_of_reason_for_return_created' => 'Error of reason for return creating',
+    'reason_for_return_edited_successfully' => 'Reason for return edited successfully',
+    'error_of_reason_for_return_edited' => 'Error of reason for return editing',
+    'reason_for_return_deleted_successfully' => 'Reason for return deleted successfully',
+    'error_of_reason_for_return_deleting' => 'Error of reason for return deleting',
 
     'user_not_found' => 'User not found',
     'ZIP_must_be_not_empty' => 'ZIP must be not empty',
@@ -436,4 +447,6 @@ return [
 
     'testimonial_added_successfully' => 'Testimonial added successfully',
     'failed_to_add_testimonial' => 'Failed to add testimonial',
+
+    'rows_with_empty_names_will_not_be_saved' => 'Rows with empty names will not be saved.',
 ];

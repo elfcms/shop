@@ -73,6 +73,7 @@ return [
     'error_of_vendor_edited' => 'Ошибка редактирования поставщика',
     'vendor_deleted_successfully' => 'Поставщик успешно удален',
     'error_of_vendor_deleting' => 'Ошибка удаления поставщика',
+    'add_vendor' => 'Добавить поставщика',
 
     'discount' => 'Скидка',
     'discounts' => 'Скидки',
@@ -380,7 +381,17 @@ return [
     'tracking_code' => 'Код отслеживания',
     'tracking_link' => 'Ссылка для отслеживания',
 
+    'reason_for_return' => 'Причина возврата',
     'reasons_for_return' => 'Причины возврата',
+    'create_reason_for_return' => 'Создать причину возврата',
+    'add_reason_for_return' => 'Добавить причину возврата',
+    'edit_reason_for_return' => 'Изменить причину возврата',
+    'unti_of_measurementcreated_successfully' => 'Причина возврата успешно создана',
+    'error_of_unti_of_measurementcreated' => 'Ошибка создания причины возврата',
+    'unti_of_measurementedited_successfully' => 'Причина возврата успешно изменена',
+    'error_of_unti_of_measurementedited' => 'Ошибка редактирования причины возврата',
+    'unti_of_measurementdeleted_successfully' => 'Причина возврата успешно удалена',
+    'error_of_unti_of_measurementdeleting' => 'Ошибка удаления причины возврата',
 
     'user_not_found' => 'Пользователь не найден',
     'ZIP_must_be_not_empty' => 'ZIP не должен быть пустым',
@@ -436,4 +447,6 @@ return [
 
     'testimonial_added_successfully' => 'Отзыв успешно добавлен',
     'failed_to_add_testimonial' => 'Не удалось добавить отзыв',
+
+    'rows_with_empty_names_will_not_be_saved' => 'Строки с пустыми наименованиями не будут сохранены',
 ];

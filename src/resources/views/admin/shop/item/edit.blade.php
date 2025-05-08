@@ -1,6 +1,6 @@
-@extends('elfcms::admin.layouts.shop')
+@extends('elfcms::admin.layouts.main')
 
-@section('shop-content')
+@section('pagecontent')
 
     @if (Session::has('action_result'))
         <div class="alert alert-success">{{ Session::get('action_result') }}</div>
@@ -17,7 +17,7 @@
 
     <nav class="pagenav">
         <div class="abstract-nav-line">
-            <a href="{{ route('admin.shop.product.edit', $isCopy->product ?? $item->product ) }}" class="default-btn alternate-button">{{ $isCopy->product->title ?? $item->product->title }}</a>
+            <a href="{{ route('admin.shop.product.edit', $isCopy->product ?? $item->product ) }}" class="button color-text-button info-button">{{ $isCopy->product->title ?? $item->product->title }}</a>
         </div>
     </nav>
 
@@ -63,7 +63,7 @@
                     @endforelse
                 </div>
                 <div class="button-box single-box">
-                    <button type="button" class="default-btn alternate-button" id="priceaddbutton">{{ __('shop::default.add_price') }}</button>
+                    <button type="button" class="button color-text-button info-button" id="priceaddbutton">{{ __('shop::default.add_price') }}</button>
                 </div>
                 <script>
                 const priceAddButton = document.querySelector('#priceaddbutton');

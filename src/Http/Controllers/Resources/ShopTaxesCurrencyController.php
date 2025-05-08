@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace Elfcms\Shop\Http\Controllers\Resources;
 
-use App\Models\ShopTaxesCurrency;
+use App\Http\Controllers\Controller;
+use Elfcms\Shop\Models\ShopTaxesCurrency;
 use Illuminate\Http\Request;
 
 class ShopTaxesCurrencyController extends Controller
@@ -41,7 +42,7 @@ class ShopTaxesCurrencyController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\ShopTaxesCurrency  $shopTaxesCurrency
+     * @param  \Elfcms\Shop\Models\ShopTaxesCurrency  $shopTaxesCurrency
      * @return \Illuminate\Http\Response
      */
     public function show(ShopTaxesCurrency $shopTaxesCurrency)
@@ -52,7 +53,7 @@ class ShopTaxesCurrencyController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\ShopTaxesCurrency  $shopTaxesCurrency
+     * @param  \Elfcms\Shop\Models\ShopTaxesCurrency  $shopTaxesCurrency
      * @return \Illuminate\Http\Response
      */
     public function edit(ShopTaxesCurrency $shopTaxesCurrency)
@@ -64,7 +65,7 @@ class ShopTaxesCurrencyController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\ShopTaxesCurrency  $shopTaxesCurrency
+     * @param  \Elfcms\Shop\Models\ShopTaxesCurrency  $shopTaxesCurrency
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, ShopTaxesCurrency $shopTaxesCurrency)
@@ -75,7 +76,7 @@ class ShopTaxesCurrencyController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\ShopTaxesCurrency  $shopTaxesCurrency
+     * @param  \Elfcms\Shop\Models\ShopTaxesCurrency  $shopTaxesCurrency
      * @return \Illuminate\Http\Response
      */
     public function destroy(ShopTaxesCurrency $shopTaxesCurrency)

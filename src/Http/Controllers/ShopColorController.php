@@ -17,7 +17,7 @@ class ShopColorController extends Controller
     public function index()
     {
         $colors = ShopColor::all();
-        return view('elfcms::admin.shop.color.index',[
+        return view('elfcms::admin.shop.color.index', [
             'page' => [
                 'title' => __('shop::default.colors'),
                 'current' => url()->current(),
@@ -50,7 +50,11 @@ class ShopColorController extends Controller
                 'data' => $colorData
             ];
         }
-        else {
+        if (!empty($colors)) {
+            foreach ($colors as $key => $color) {
+                $color->boxId = uniqid();
+            }
+        } else {
             return view(
                 'elfcms::admin.shop.color.content.list',
                 [
@@ -75,12 +79,13 @@ class ShopColorController extends Controller
             'code' => null,
             'name' => null,
             'picture' => null,
-            'transparent' => 0
+            'transparent' => 0,
+            'boxId' => uniqid(),
         ];
         return view(
             'elfcms::admin.shop.color.content.item',
             [
-                'color' => (object)$emptyColor,
+                'color' => (object)$emptyColor
             ]
         );
     }
@@ -98,7 +103,7 @@ class ShopColorController extends Controller
             'data' => null
         ];
         if (!$request->isMethod('POST')) {
-            $result['message'] = __('shop::default.method_must_be',['method'=>'POST']);
+            $result['message'] = __('shop::default.method_must_be', ['method' => 'POST']);
             return $result;
         }
 
@@ -106,18 +111,18 @@ class ShopColorController extends Controller
         $colorDelete = [];
 
         if (!empty($request->color)) {
-            foreach($request->color as $id => $color) {
+            foreach ($request->color as $id => $color) {
                 if (!empty($color['delete'])) {
                     $colorDelete[] = $id;
-                    $except[] = 'color.'.$id;
+                    $except[] = 'color.' . $id;
                 }
             }
         }
 
         if (!empty($request->newcolor)) {
-            foreach($request->newcolor as $id => $newcolor) {
+            foreach ($request->newcolor as $id => $newcolor) {
                 if (!empty($newcolor['delete']) || (empty($newcolor['name']) && empty($newcolor['abbr']))) {
-                    $except[] = 'newcolor.'.$id;
+                    $except[] = 'newcolor.' . $id;
                 }
             }
         }
@@ -157,8 +162,7 @@ class ShopColorController extends Controller
                     $colorItem->default = empty($color['default']) ? 0 : 1;
                     if ($colorItem->code_text == 'transparent') {
                         $colorItem->transparent = 1;
-                    }
-                    else {
+                    } else {
                         $colorItem->transparent = 0;
                     }
                     $picture_path = $color['picture_path'];
@@ -168,7 +172,7 @@ class ShopColorController extends Controller
                     $colorItem->picture = $picture_path;
                     $saved = $colorItem->save();
                     if (!$saved) {
-                        $result['message'] =  __('shop::default.error_of_saving_id',['id'=>$id]);
+                        $result['message'] =  __('shop::default.error_of_saving_id', ['id' => $id]);
 
                         return $result;
                     }
@@ -180,8 +184,7 @@ class ShopColorController extends Controller
             foreach ($data['newcolor'] as $id => $newcolor) {
                 if (empty($newcolor['default'])) {
                     $newcolor['default'] = 0;
-                }
-                else {
+                } else {
                     $newcolor['default'] = 1;
                 }
                 $picture_path = '';
@@ -194,7 +197,7 @@ class ShopColorController extends Controller
                 }
                 $created = ShopColor::create($newcolor);
                 if (!$created) {
-                    $result['message'] = __('shop::default.error_of_creating_element_with_name',['name'=>$newcolor['name']]);
+                    $result['message'] = __('shop::default.error_of_creating_element_with_name', ['name' => $newcolor['name']]);
 
                     return $result;
                 }

@@ -57,7 +57,7 @@ if (submitItems) {
                     },
                     {
                         title:'{{__("elfcms::default.cancel")}}',
-                        class:'default-btn cancel-button',
+                        class:'button color-text-button',
                         callback:'close'
                     }
                 ],
@@ -183,7 +183,7 @@ function filesUpload (files) {
                 },
                 {
                     title:'OK',
-                    class:'default-btn alternate-button',
+                    class:'button color-text-button info-button',
                     callback: [
                         function(){
                             for(key in files) {
@@ -272,7 +272,7 @@ function fileUpload (file, key = null) {
                 buttons:[
                     {
                         title:'OK',
-                        class:'default-btn cancel-button',
+                        class:'button color-text-button',
                         callback:[
                             function(){
                                 item.remove();

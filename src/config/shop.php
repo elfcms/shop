@@ -39,6 +39,8 @@ return [
             "route" => "admin.shop.product",
             "parent_route" => "admin.shop",
             "icon" => "/elfcms/admin/modules/shop/images/icons/shop.png",
+            "color" => "#0064ff",
+            "second_color" => "#008dfd",
             "position" => 500,
             "submenu" => [
                 [

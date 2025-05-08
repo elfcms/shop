@@ -1,7 +1,7 @@
-@extends('elfcms::admin.layouts.shop')
+@extends('elfcms::admin.layouts.main')
 @inject('image', 'Elfcms\Elfcms\Aux\Image')
 
-@section('shop-content')
+@section('pagecontent')
 
 @if (Session::has('elementsuccess'))
 <div class="alert alert-alternate">{{ Session::get('elementsuccess') }}</div>

@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace Elfcms\Shop\Http\Controllers\Resources;
 
-use App\Models\ShopPriceTypeCurrency;
+use App\Http\Controllers\Controller;
+use Elfcms\Shop\Models\ShopPriceTypeCurrency;
 use Illuminate\Http\Request;
 
 class ShopPriceTypeCurrencyController extends Controller
@@ -41,7 +42,7 @@ class ShopPriceTypeCurrencyController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\ShopPriceTypeCurrency  $shopPriceTypeCurrency
+     * @param  \Elfcms\Shop\Models\ShopPriceTypeCurrency  $shopPriceTypeCurrency
      * @return \Illuminate\Http\Response
      */
     public function show(ShopPriceTypeCurrency $shopPriceTypeCurrency)
@@ -52,7 +53,7 @@ class ShopPriceTypeCurrencyController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\ShopPriceTypeCurrency  $shopPriceTypeCurrency
+     * @param  \Elfcms\Shop\Models\ShopPriceTypeCurrency  $shopPriceTypeCurrency
      * @return \Illuminate\Http\Response
      */
     public function edit(ShopPriceTypeCurrency $shopPriceTypeCurrency)
@@ -64,7 +65,7 @@ class ShopPriceTypeCurrencyController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\ShopPriceTypeCurrency  $shopPriceTypeCurrency
+     * @param  \Elfcms\Shop\Models\ShopPriceTypeCurrency  $shopPriceTypeCurrency
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, ShopPriceTypeCurrency $shopPriceTypeCurrency)
@@ -75,7 +76,7 @@ class ShopPriceTypeCurrencyController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\ShopPriceTypeCurrency  $shopPriceTypeCurrency
+     * @param  \Elfcms\Shop\Models\ShopPriceTypeCurrency  $shopPriceTypeCurrency
      * @return \Illuminate\Http\Response
      */
     public function destroy(ShopPriceTypeCurrency $shopPriceTypeCurrency)

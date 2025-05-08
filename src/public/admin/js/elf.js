@@ -27,7 +27,6 @@ function setUnitRowDelete(th) {
 
 function checkUnitChange(th) {
     const row = th.closest('tr[data-id]');
-    console.log(row);
     if (row) {
         const id = row.dataset.id;
         const name = th.dataset.name;
@@ -135,9 +134,9 @@ function checkOptionChange(th) {
             options[element.key] = element.value;
         });
 
-        controlData[id]['options'] = options;
+        if(controlData && controlData[id]) controlData[id]['options'] = options;
 
-        if (!isDelete && objectCompare(controlData[id]['options'],unitListData.data[id]['options']) && objectCompare(controlData[id],unitListData.data[id])) {
+        if (!isDelete && controlData && controlData[id] && objectCompare(controlData[id]['options'],unitListData.data[id]['options']) && objectCompare(controlData[id],unitListData.data[id])) {
             row.classList.remove('edited');
             if (editInput) {
                 editInput.value="0";
@@ -174,7 +173,6 @@ function addParameterItem() {
     if (!newItemId && newItemId !== 0) return false;
     const container = document.querySelector('table.parameter-table tbody');
     if (container) {
-        console.log(emptyItem);
         let itemString = emptyItem.replaceAll('btn" data-id="newparameter"','btn" data-id="'+newItemId+'"').replaceAll('id="newparameter"','id="new_'+newItemId+'"').replaceAll('parameter[newparameter]','newparameter['+newItemId+']').replaceAll('parameter_newparameter','newparameter_'+newItemId).replaceAll('<span>newparameter</span>','');
         container.insertAdjacentHTML('beforeend',itemString);
         const newRow = container.lastElementChild;

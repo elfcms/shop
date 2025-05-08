@@ -1,22 +1,11 @@
-@extends('elfcms::admin.layouts.shop')
+@extends('elfcms::admin.layouts.main')
 
-@section('shop-content')
-    @if (Session::has('action_result'))
-    <div class="alert alert-alternate">{{ Session::get('action_result') }}</div>
-    @endif
-    @if ($errors->any())
-    <div class="alert alert-danger">
-        <ul>
-            @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-            @endforeach
-        </ul>
-    </div>
-    @endif
+@section('pagecontent')
 <form name="propertyform" class="data-table-box" method="post" action="{{ route('admin.shop.ajax.property.fullsave') }}">
     @csrf
-    <div class="widetable-wrapper">
-        <table class="grid-table property-table itemstable">
+    <div class="grid-table-wrapper">
+        <table class="grid-table property-table itemstable table-cols"
+                style="--first-col:4rem; --last-col:7.5rem; --minw:50rem; --cols-count:8;">
             <thead>
                 <tr>
                     <th>ID</th>
@@ -26,7 +15,7 @@
                     <th>{{ __('shop::default.data_type') }}</th>
                     <th>{{ __('elfcms::default.description') }}</th>
                     <th>{{ __('shop::default.is_filter') }}</th>
-                    <th></th>
+                    <th>{{ __('elfcms::default.to_removal') }}</th>
                 </tr>
             </thead>
             <tbody>
@@ -34,10 +23,14 @@
             </tbody>
         </table>
     </div>
-    <div class="shop-table-buttons">
-        <button class="default-btn alternate-button" title="{{__('shop::default.add_property')}}" data-action="additem">{{ __('shop::default.add') }}</button>
-        {{-- <button class="default-btn" title="{{__('elfcms::default.reset_button')}}" data-action="reset">{{ __('elfcms::default.reset_button') }}</button> --}}
-        <button type="submit" class="default-btn submit-button" disabled="" data-action="save">{{ __('elfcms::default.save') }}</button>
+    <div class="dynamic-table-buttons">
+        <button class="button round-button theme-button" title="{{ __('shop::default.add') }}"
+            data-action="additem">
+            {!! iconHtmlLocal('elfcms/admin/images/icons/plus.svg', svg: true) !!}
+            <span>{{ __('shop::default.add') }}</span>
+        </button>
+        <button type="submit" class="button color-text-button success-button" disabled=""
+            data-action="save">{{ __('elfcms::default.save') }}</button>
     </div>
 </form>
     <script>
@@ -117,7 +110,7 @@
                             <input type="text" name="${newprop}property[${button.dataset.id}][options][${i}][value]" value="" oninput="checkOptionChange(this)" data-loop="${i}" data-name="value">
                         </div>
                         <div class="shop-option-table-column">
-                            <div class="checkbox-switch red">
+                            <div class="small-checkbox" style="--switch-color:var(--danger-color)">
                                 <input type="checkbox" name="${newprop}property[${button.dataset.id}][options][${i}][delete]" value="1" oninput="checkOptionChange(this)" data-loop="${i}" data-name="delete">
                                 <i></i>
                             </div>
@@ -172,11 +165,11 @@
                 e.preventDefault();
                 popup({
                     title: '{{__("shop::default.are_you_sure")}}',
-                    content: '{{__("shop::default.do_you_want_to_save_your_changes")}}',
+                    content: '{{__("elfcms::default.are_you_sure_you_want_to_save_the_changes")}}',
                     buttons:[
                         {
                             title:'OK',
-                            class:'default-btn alternate-button',
+                            class:'button color-text-button info-button',
                             callback: [
                                 saveForm,
                                 'close'
@@ -184,7 +177,7 @@
                         },
                         {
                             title:'{{__("elfcms::default.cancel")}}',
-                            class:'default-btn cancel-button',
+                            class:'button color-text-button',
                             callback:'close'
                         }
                     ],
@@ -227,7 +220,7 @@
                                     buttons:[
                                         {
                                             title:'OK',
-                                            class:'default-btn alternate-button',
+                                            class:'button color-text-button info-button',
                                             callback:'close'
                                         }
                                     ],
