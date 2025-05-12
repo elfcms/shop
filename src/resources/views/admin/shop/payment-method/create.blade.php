@@ -1,22 +1,18 @@
 @extends('elfcms::admin.layouts.main')
 
 @section('pagecontent')
-
-    @if (Session::has('action_result'))
-        <div class="alert alert-success">{{ Session::get('action_result') }}</div>
-    @endif
-    @if ($errors->any())
-    <div class="alert alert-danger">
-        <ul class="errors-list">
-            @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-            @endforeach
-        </ul>
+    <div class="table-search-box">
+        <a href="{{ route('admin.shop.payment') }}" class="button round-button theme-button"
+            style="color:var(--default-color);">
+            {!! iconHtmlLocal('elfcms/admin/images/icons/buttons/arrow_back.svg', svg: true) !!}
+            <span class="button-collapsed-text">
+                {{ __('elfcms::default.back') }}
+            </span>
+        </a>
     </div>
-    @endif
 
     <div class="item-form">
-        <h3>{{ __('shop::default.create_payment_method') }}</h3>
+        <h2>{{ __('shop::default.create_payment_method') }}</h2>
         <form action="{{ route('admin.shop.payment.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
             @method('POST')
@@ -34,35 +30,30 @@
                     </div>
                     <div class="input-wrapper">
                         <div class="autoslug-wrapper">
-                            <input type="checkbox" data-text-id="name" data-slug-id="code" class="autoslug" checked>
-                            <div class="autoslug-button"></div>
+                            <x-elfcms::ui.checkbox.autoslug textid="name" slugid="code" checked="true" />
                         </div>
                     </div>
                 </div>
                 <div class="input-box colored">
                     <label for="icon">{{ __('shop::default.icon') }}</label>
                     <div class="input-wrapper">
-                        <x-elfcms-input-image code="icon" />
+                        <x-elf-input-file value="" :params="['name' => 'icon', 'code' => 'icon']" :download="true" />
                     </div>
                 </div>
             </div>
             <div class="button-box single-box">
-                <button type="submit" class="default-btn submit-button">{{ __('elfcms::default.submit') }}</button>
+                <button type="submit"
+                    class="button color-text-button success-button">{{ __('elfcms::default.save') }}</button>
+                <button type="submit" name="submit" value="save_and_close"
+                    class="button color-text-button info-button">{{ __('elfcms::default.save_and_close') }}</button>
+                <a href="{{ route('admin.shop.payment') }}"
+                    class="button color-text-button">{{ __('elfcms::default.cancel') }}</a>
             </div>
         </form>
     </div>
     <script>
-    const imageInput = document.querySelector('#image')
-    if (imageInput) {
-        inputFileImg(imageInput)
-    }
-    const logoInput = document.querySelector('#logo')
-    if (logoInput) {
-        inputFileImg(logoInput)
-    }
-    autoSlug('.autoslug')
-    //add editor
-    runEditor('#description')
+        autoSlug('.autoslug')
+        //add editor
+        runEditor('#description')
     </script>
-
 @endsection

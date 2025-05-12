@@ -1,42 +1,26 @@
 @extends('elfcms::admin.layouts.main')
 
 @section('pagecontent')
-
-    @if (Session::has('action_result'))
-        <div class="alert alert-success">{{ Session::get('action_result') }}</div>
-    @endif
-    @if ($errors->any())
-    <div class="alert alert-danger">
-        <ul class="errors-list">
-            @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-            @endforeach
-        </ul>
-    </div>
-    @endif
+<div class="table-search-box">
+    <a href="{{ !empty($product) ? route('admin.shop.product.edit',$product) : route('admin.shop.product') }}" class="button round-button theme-button" style="color:var(--default-color);">
+        {!! iconHtmlLocal('elfcms/admin/images/icons/buttons/arrow_back.svg', svg: true) !!}
+        <span class="button-collapsed-text">
+            {{ __('elfcms::default.back') }}
+        </span>
+    </a>
+</div>
 
     <div class="item-form">
-        <h3>{{ __('shop::default.create_item') }}</h3>
+        <h2>{{ __('shop::default.create_item') }}</h2>
         <form action="{{ route('admin.shop.item.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
             @method('POST')
             <div class="colored-rows-box">
                 <div class="input-box colored">
-                    {{-- <div class="checkbox-switch-wrapper">
-                        <div class="checkbox-switch blue">
-                            <input
-                                type="checkbox"
-                                name="active"
-                                id="active"
-                                checked
-                            >
-                            <i></i>
-                        </div>
-                        <label for="active">
-                            {{ __('elfcms::default.active') }}
-                        </label>
-                    </div> --}}
-                    <x-elfcms-input-checkbox code="active" label="{{ __('elfcms::default.active') }}" style="blue" :checked="1" />
+                    <label for="active">
+                        {{ __('elfcms::default.active') }}
+                    </label>
+                    <x-elfcms::ui.checkbox.switch name="active" id="active" checked="true" />
                 </div>
                 <div class="input-box colored">
                     <label for="product_id">{{ __('shop::default.product') }}</label>
@@ -132,7 +116,12 @@
                 </div>
             </div>
             <div class="button-box single-box">
-                <button type="submit" class="default-btn submit-button">{{ __('elfcms::default.submit') }}</button>
+                <button type="submit"
+                    class="button color-text-button success-button">{{ __('elfcms::default.save') }}</button>
+                <button type="submit" name="submit" value="save_and_close"
+                    class="button color-text-button info-button">{{ __('elfcms::default.save_and_close') }}</button>
+                <a href="{{ !empty($product) ? route('admin.shop.product.edit',$product) : route('admin.shop.product') }}"
+                    class="button color-text-button">{{ __('elfcms::default.cancel') }}</a>
             </div>
         </form>
     </div>

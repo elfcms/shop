@@ -131,7 +131,11 @@ class ShopCouponController extends Controller
 
         $coupon = ShopCoupon::create($validated);
 
-        return redirect(route('admin.shop.coupon'))->with('action_result', __('shop::default.coupon_created_successfully'));
+        if ($request->input('submit') == 'save_and_close') {
+            return redirect(route('admin.shop.coupon'))->with('action_result', __('shop::default.coupon_created_successfully'));
+        }
+
+        return redirect(route('admin.shop.coupon.edit',['shopCoupon'=>$coupon]))->with('success', __('shop::default.coupon_created_successfully'));
     }
 
     /**
@@ -237,7 +241,11 @@ class ShopCouponController extends Controller
 
         $shopCoupon->save();
 
-        return redirect(route('admin.shop.coupon.edit', $shopCoupon))->with('action_result', __('shop::default.coupon_edited_successfully'));
+        if ($request->input('submit') == 'save_and_close') {
+            return redirect(route('admin.shop.coupon'))->with('action_result', __('shop::default.coupon_edited_successfully'));
+        }
+
+        return redirect(route('admin.shop.coupon.edit', $shopCoupon))->with('success', __('shop::default.coupon_edited_successfully'));
     }
 
     /**
@@ -252,6 +260,6 @@ class ShopCouponController extends Controller
             return redirect(route('admin.shop.coupon'))->withErrors(['coupondelerror' => __('shop::default.error_of_coupon_deleting')]);
         }
 
-        return redirect(route('admin.shop.coupon'))->with('action_result', __('shop::default.coupon16712_deleted_successfully'));
+        return redirect(route('admin.shop.coupon'))->with('action_result', __('shop::default.coupon_deleted_successfully'));
     }
 }

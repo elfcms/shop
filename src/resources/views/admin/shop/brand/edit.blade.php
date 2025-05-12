@@ -1,29 +1,24 @@
 @extends('elfcms::admin.layouts.main')
 
 @section('pagecontent')
-
-    @if (Session::has('action_result'))
-        <div class="alert alert-success">{{ Session::get('action_result') }}</div>
-    @endif
-    @if ($errors->any())
-    <div class="alert alert-danger">
-        <ul class="errors-list">
-            @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-            @endforeach
-        </ul>
+    <div class="table-search-box">
+        <a href="{{ route('admin.shop.brand') }}" class="button round-button theme-button" style="color:var(--default-color);">
+            {!! iconHtmlLocal('elfcms/admin/images/icons/buttons/arrow_back.svg', svg: true) !!}
+            <span class="button-collapsed-text">
+                {{ __('elfcms::default.back') }}
+            </span>
+        </a>
     </div>
-    @endif
 
     <div class="item-form">
-        <h3>{{ __('elfcms::default.edit_brand') }}{{ $brand->id }}</h3>
+        <h2>{{ __('shop::default.edit_brand') }}{{ $brand->id }}</h2>
         <div class="date-info create-info">
             {{ __('elfcms::default.created_at') }}: {{ $brand->created }}
         </div>
         <div class="date-info update-info">
             {{ __('elfcms::default.updated_at') }}: {{ $brand->updated }}
         </div>
-        <form action="{{ route('admin.shop.brand.update',$brand) }}" method="POST" enctype="multipart/form-data">
+        <form action="{{ route('admin.shop.brand.update', $brand) }}" method="POST" enctype="multipart/form-data">
             @csrf
             @method('PUT')
             <div class="colored-rows-box">
@@ -41,8 +36,7 @@
                     </div>
                     <div class="input-wrapper">
                         <div class="autoslug-wrapper">
-                            <input type="checkbox" data-text-id="name" data-slug-id="slug" class="autoslug" checked>
-                            <div class="autoslug-button"></div>
+                            <x-elfcms::ui.checkbox.autoslug textid="name" slugid="slug" checked="true" />
                         </div>
                     </div>
                 </div>
@@ -55,13 +49,13 @@
                 <div class="input-box colored">
                     <label for="logo">{{ __('shop::default.logo') }}</label>
                     <div class="input-wrapper">
-                        <x-elfcms-input-image code="logo" value="{{$brand->logo}}" />
+                        <x-elf-input-file value="{{ $brand->logo }}" :params="['name' => 'logo', 'code' => 'logo']" :download="true" />
                     </div>
                 </div>
                 <div class="input-box colored">
                     <label for="image">{{ __('elfcms::default.image') }}</label>
                     <div class="input-wrapper">
-                        <x-elfcms-input-image code="image" value="{{$brand->image}}" />
+                        <x-elf-input-file value="{{ $brand->image }}" :params="['name' => 'image', 'code' => 'image']" :download="true" />
                     </div>
                 </div>
                 <div class="input-box colored">
@@ -72,23 +66,27 @@
                 </div>
             </div>
             <div class="button-box single-box">
-                <button type="submit" class="default-btn submit-button">{{ __('elfcms::default.submit') }}</button>
+                <button type="submit"
+                    class="button color-text-button success-button">{{ __('elfcms::default.save') }}</button>
+                <button type="submit" name="submit" value="save_and_close"
+                    class="button color-text-button info-button">{{ __('elfcms::default.save_and_close') }}</button>
+                <a href="{{ route('admin.shop.brand') }}"
+                    class="button color-text-button">{{ __('elfcms::default.cancel') }}</a>
             </div>
         </form>
     </div>
     <script>
-    const imageInput = document.querySelector('#image')
-    if (imageInput) {
-        inputFileImg(imageInput)
-    }
-    const logoInput = document.querySelector('#logo')
-    if (logoInput) {
-        inputFileImg(logoInput)
-    }
+        /* const imageInput = document.querySelector('#image')
+        if (imageInput) {
+            inputFileImg(imageInput)
+        }
+        const logoInput = document.querySelector('#logo')
+        if (logoInput) {
+            inputFileImg(logoInput)
+        } */
 
-    autoSlug('.autoslug')
-    //add editor
-    runEditor('#description')
+        autoSlug('.autoslug')
+        //add editor
+        runEditor('#description')
     </script>
-
 @endsection

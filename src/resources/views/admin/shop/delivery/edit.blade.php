@@ -1,29 +1,25 @@
 @extends('elfcms::admin.layouts.main')
 
 @section('pagecontent')
-
-    @if (Session::has('action_result'))
-        <div class="alert alert-success">{{ Session::get('action_result') }}</div>
-    @endif
-    @if ($errors->any())
-    <div class="alert alert-danger">
-        <ul class="errors-list">
-            @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-            @endforeach
-        </ul>
+    <div class="table-search-box">
+        <a href="{{ route('admin.shop.delivery') }}" class="button round-button theme-button"
+            style="color:var(--default-color);">
+            {!! iconHtmlLocal('elfcms/admin/images/icons/buttons/arrow_back.svg', svg: true) !!}
+            <span class="button-collapsed-text">
+                {{ __('elfcms::default.back') }}
+            </span>
+        </a>
     </div>
-    @endif
 
     <div class="item-form">
-        <h3>{{ __('shop::default.edit_delivery_service') }} "{{ $delivery->name }}"</h3>
+        <h2>{{ __('shop::default.edit_delivery_service') }} "{{ $delivery->name }}"</h2>
         <div class="date-info create-info">
             {{ __('elfcms::default.created_at') }}: {{ $delivery->created }}
         </div>
         <div class="date-info update-info">
             {{ __('elfcms::default.updated_at') }}: {{ $delivery->updated }}
         </div>
-        <form action="{{ route('admin.shop.delivery.update',$delivery) }}" method="POST" enctype="multipart/form-data">
+        <form action="{{ route('admin.shop.delivery.update', $delivery) }}" method="POST" enctype="multipart/form-data">
             @csrf
             @method('PUT')
             <div class="colored-rows-box">
@@ -31,58 +27,55 @@
                 <div class="input-box colored">
                     <label for="name">{{ __('elfcms::default.name') }}</label>
                     <div class="input-wrapper">
-                        <input type="text" name="name" id="name" autocomplete="off" value="{{ $delivery->name }}">
+                        <input type="text" name="name" id="name" autocomplete="off"
+                            value="{{ $delivery->name }}">
                     </div>
                 </div>
                 <div class="input-box colored">
                     <label for="code">{{ __('elfcms::default.code') }}</label>
                     <div class="input-wrapper">
-                        <input type="text" name="code" id="code" autocomplete="off" value="{{ $delivery->code }}">
+                        <input type="text" name="code" id="code" autocomplete="off"
+                            value="{{ $delivery->code }}">
                     </div>
                     <div class="input-wrapper">
                         <div class="autoslug-wrapper">
-                            <input type="checkbox" data-text-id="name" data-slug-id="code" class="autoslug" checked>
-                            <div class="autoslug-button"></div>
+                            <x-elfcms::ui.checkbox.autoslug textid="name" slugid="code" checked="true" />
                         </div>
                     </div>
                 </div>
                 <div class="input-box colored">
                     <label for="icon">{{ __('shop::default.icon') }}</label>
                     <div class="input-wrapper">
-                        <x-elfcms-input-image code="icon" value="{{$delivery->icon}}" />
+                        <x-elf-input-file value="{{ $delivery->icon }}" :params="['name' => 'icon', 'code' => 'icon']" :download="true" />
                     </div>
                 </div>
                 <div class="input-box colored">
                     <label for="price">{{ __('shop::default.price') }}</label>
                     <div class="input-wrapper">
-                        <input type="text" name="price" id="price" min="0" value="{{$delivery->price}}">
+                        <input type="text" name="price" id="price" min="0" value="{{ $delivery->price }}">
                     </div>
                 </div>
             </div>
             <div class="button-box single-box">
-                <button type="submit" class="default-btn submit-button">{{ __('elfcms::default.submit') }}</button>
+                <button type="submit"
+                    class="button color-text-button success-button">{{ __('elfcms::default.save') }}</button>
+                <button type="submit" name="submit" value="save_and_close"
+                    class="button color-text-button info-button">{{ __('elfcms::default.save_and_close') }}</button>
+                <a href="{{ route('admin.shop.delivery') }}"
+                    class="button color-text-button">{{ __('elfcms::default.cancel') }}</a>
             </div>
         </form>
     </div>
     <script>
-    const imageInput = document.querySelector('#image')
-    if (imageInput) {
-        inputFileImg(imageInput)
-    }
-    const logoInput = document.querySelector('#logo')
-    if (logoInput) {
-        inputFileImg(logoInput)
-    }
-
-    autoSlug('.autoslug')
-    //add editor
-    //runEditor('#description')
-    const priceInput = document.querySelector('[name="price"]');
-    if (priceInput) {
-        priceInput.addEventListener('input', function () {
-            this.value = this.value.replace(',','.').replace(/^\.|[^\d\.]|\.(?=.*\.)|^0+(?=\d)/g, '');
-        });
-    }
+        
+        autoSlug('.autoslug')
+        //add editor
+        //runEditor('#description')
+        const priceInput = document.querySelector('[name="price"]');
+        if (priceInput) {
+            priceInput.addEventListener('input', function() {
+                this.value = this.value.replace(',', '.').replace(/^\.|[^\d\.]|\.(?=.*\.)|^0+(?=\d)/g, '');
+            });
+        }
     </script>
-
 @endsection

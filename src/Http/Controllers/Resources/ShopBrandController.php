@@ -101,7 +101,11 @@ class ShopBrandController extends Controller
 
         $brand = ShopBrand::create($validated);
 
-        return redirect(route('admin.shop.brand'))->with('action_result',__('shop::default.brand_created_successfully'));
+        if ($request->input('submit') == 'save_and_close') {
+            return redirect(route('admin.shop.brand'))->with('action_result', __('shop::default.brand_created_successfully'));
+        }
+
+        return redirect(route('admin.shop.brand.edit',['shopBrand'=>$brand]))->with('success',__('shop::default.brand_created_successfully'));
     }
 
     /**
@@ -183,11 +187,15 @@ class ShopBrandController extends Controller
         $shopBrand->logo = $logo_path;
         $shopBrand->image = $image_path;
         $shopBrand->description = $request->description;
-        $shopBrand->active = empty($request->active) ? 0 : 1;
+        //$shopBrand->active = empty($request->active) ? 0 : 1;
 
         $shopBrand->save();
 
-        return redirect(route('admin.shop.brand.edit',$shopBrand))->with('action_result',__('shop::default.brand_edited_successfully'));
+        if ($request->input('submit') == 'save_and_close') {
+            return redirect(route('admin.shop.brand'))->with('action_result', __('shop::default.brand_edited_successfully'));
+        }
+
+        return redirect(route('admin.shop.brand.edit',$shopBrand))->with('success',__('shop::default.brand_edited_successfully'));
     }
 
     /**
@@ -202,6 +210,6 @@ class ShopBrandController extends Controller
             return redirect(route('admin.shop.brand'))->withErrors(['branddelerror'=>__('shop::default.error_of_brand_deleting')]);
         }
 
-        return redirect(route('admin.shop.brand'))->with('action_result',__('shop::default.brand16712_deleted_successfully'));
+        return redirect(route('admin.shop.brand'))->with('action_result',__('shop::default.brand_deleted_successfully'));
     }
 }

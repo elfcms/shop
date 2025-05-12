@@ -79,7 +79,11 @@ class ShopDiscountController extends Controller
 
         $discount = ShopDiscount::create($validated);
 
-        return redirect(route('admin.shop.discount'))->with('action_result', __('shop::default.discount_created_successfully'));
+        if ($request->input('submit') == 'save_and_close') {
+            return redirect(route('admin.shop.discount'))->with('action_result', __('shop::default.discount_created_successfully'));
+        }
+
+        return redirect(route('admin.shop.discount.edit',['shopDiscount'=>$discount]))->with('success', __('shop::default.discount_created_successfully'));
     }
 
     /**
@@ -143,7 +147,11 @@ class ShopDiscountController extends Controller
 
         $shopDiscount->save();
 
-        return redirect(route('admin.shop.discount.edit', $shopDiscount))->with('action_result', __('shop::default.discount_edited_successfully'));
+        if ($request->input('submit') == 'save_and_close') {
+            return redirect(route('admin.shop.discount'))->with('action_result', __('shop::default.discount_edited_successfully'));
+        }
+
+        return redirect(route('admin.shop.discount.edit', $shopDiscount))->with('success', __('shop::default.discount_edited_successfully'));
     }
 
     /**
@@ -158,6 +166,6 @@ class ShopDiscountController extends Controller
             return redirect(route('admin.shop.discount'))->withErrors(['discountdelerror' => __('shop::default.error_of_discount_deleting')]);
         }
 
-        return redirect(route('admin.shop.discount'))->with('action_result', __('shop::default.discount16712_deleted_successfully'));
+        return redirect(route('admin.shop.discount'))->with('action_result', __('shop::default.discount_deleted_successfully'));
     }
 }

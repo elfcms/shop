@@ -17,7 +17,7 @@ use Elfcms\Shop\Models\ShopUnit;
 use Elfcms\Shop\Models\ShopVendor;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
-use Str;
+use Illuminate\Support\Str;
 
 class ShopProductController extends Controller
 {
@@ -256,7 +256,10 @@ class ShopProductController extends Controller
             $product->categories()->attach($request->category_id);
         }
 
-        return redirect(route('admin.shop.product.edit',$product))->with('action_result',__('shop::default.product_created_successfully'));
+        if ($request->input('submit') == 'save_and_close') {
+            return redirect(route('admin.shop.product'))->with('action_result', __('shop::default.product_edited_successfully'));
+        }
+        return redirect(route('admin.shop.product.edit',$product))->with('success',__('shop::default.product_created_successfully'));
     }
 
     /**
@@ -523,7 +526,11 @@ class ShopProductController extends Controller
             }
             /* /Properties */
 
-            return redirect(route('admin.shop.product.edit',$shopProduct))->with('action_result',__('shop::default.product_edited_successfully'));
+            if ($request->input('submit') == 'save_and_close') {
+                return redirect(route('admin.shop.product'))->with('action_result', __('shop::default.product_edited_successfully'));
+            }
+
+            return redirect(route('admin.shop.product.edit',$shopProduct))->with('success',__('shop::default.product_edited_successfully'));
         }
     }
 

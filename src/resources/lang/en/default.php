@@ -53,6 +53,7 @@ return [
     'error_of_coupon_edited' => 'Error of coupon editing',
     'coupon_deleted_successfully' => 'Coupon deleted successfully',
     'error_of_coupon_deleting' => 'Error of coupon deleting',
+    'are_you_sure_to_deleting_coupon' => 'Are you sure to deleting coupon',
     'combine_coupon' => 'Coupon can be combined with other discounts',
     'is_percent_coupon' => 'Percentage discount',
     'min_price' => 'Minimum price',
@@ -86,6 +87,7 @@ return [
     'discount_deleted_successfully' => 'Discount deleted successfully',
     'error_of_discount_deleting' => 'Error of discount deleting',
     'set_discount_for_all_products_in_category' => 'Set a discount for all products in a category',
+    'are_you_sure_to_deleting_discount' => 'Are you sure to deleting discount',
 
     'delivery' => 'Delivery',
     'deliveries' => 'Deliveries',

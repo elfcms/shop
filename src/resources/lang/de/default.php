@@ -53,6 +53,7 @@ return [
     'error_of_coupon_edited' => 'Fehler bei der Gutschein-Bearbeitung',
     'coupon_deleted_successfully' => 'Gutschein erfolgreich gelöscht',
     'error_of_coupon_deleting' => 'Fehler bei der Gutschein-Entfernung',
+    'are_you_sure_to_deleting_coupon' => 'Möchten Sie den Gutschein wirklich löschen?',
     'combine_coupon' => 'Der Gutschein ist mit anderen Rabatten kombinierbar',
     'is_percent_coupon' => 'Prozentualer Rabatt',
     'min_price' => 'Minimaler Preis',
@@ -86,6 +87,7 @@ return [
     'discount_deleted_successfully' => 'Rabatt erfolgreich gelöscht',
     'error_of_discount_deleting' => 'Fehler bei der Rabatt-Entfernung',
     'set_discount_for_all_products_in_category' => 'Den Rabatt für alle Produkte den Kategorien festlegen',
+    'are_you_sure_to_deleting_discount' => 'Möchten Sie den Rabatt wirklich löschen',
 
     'delivery' => 'Lieferung',
     'deliveries' => 'Lieferungen',

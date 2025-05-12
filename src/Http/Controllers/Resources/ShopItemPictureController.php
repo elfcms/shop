@@ -67,6 +67,7 @@ class ShopItemPictureController extends Controller
                 'item' => $item,
                 'position' => $position,
                 'params' => $params,
+                'isAjax' => true,
             ]);
         }
         return view('elfcms::admin.shop.item_pictures.create',[
@@ -162,6 +163,7 @@ class ShopItemPictureController extends Controller
                 'item' => $item,
                 'picture' => $picture,
                 'params' => $params,
+                'isAjax' => true,
             ]);
         }
         return view('elfcms::admin.shop.item_pictures.edit',[
@@ -230,15 +232,19 @@ class ShopItemPictureController extends Controller
 
             $picture->update($validated);
 
-            $picture->image = file_path($picture->image);
+            /* $picture->image = file_path($picture->image);
             $picture->thumbnail = file_path($picture->thumbnail);
-            $picture->preview = file_path($picture->preview);
+            $picture->preview = file_path($picture->preview); */
+            /* $picture->defaultThumbnail = file_path($picture->defaultThumbnail);
+            $picture->defaultPreview = file_path($picture->defaultPreview); */
+            
 
             if ($request->ajax()) {
                 return [
                     'result' => 'success',
                     'message' => __('shop::default.item_edited_successfully'),
                     'data' => $picture->toArray(),
+                    'prefix' => file_path(''),
                 ];
             }
 

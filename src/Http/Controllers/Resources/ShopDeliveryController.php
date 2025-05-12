@@ -34,13 +34,12 @@ class ShopDeliveryController extends Controller
         $search = $request->search ?? '';
 
         if (!empty($search)) {
-            $deliveries = ShopDelivery::where('name','like',"%{$search}%")->orderBy($order, $trend)->paginate($count);
-        }
-        else {
+            $deliveries = ShopDelivery::where('name', 'like', "%{$search}%")->orderBy($order, $trend)->paginate($count);
+        } else {
             $deliveries = ShopDelivery::all();
         }
 
-        return view('elfcms::admin.shop.delivery.index',[
+        return view('elfcms::admin.shop.delivery.index', [
             'page' => [
                 'title' => __('shop::default.delivery_services'),
                 'current' => url()->current(),
@@ -57,7 +56,7 @@ class ShopDeliveryController extends Controller
      */
     public function create()
     {
-        return view('elfcms::admin.shop.delivery.create',[
+        return view('elfcms::admin.shop.delivery.create', [
             'page' => [
                 'title' => __('shop::default.create_delivery_service'),
                 'current' => url()->current(),
@@ -88,7 +87,11 @@ class ShopDeliveryController extends Controller
 
         $delivery = ShopDelivery::create($validated);
 
-        return redirect(route('admin.shop.delivery'))->with('action_result',__('shop::default.delivery_service_created_successfully'));
+        if ($request->input('submit') == 'save_and_close') {
+            return redirect(route('admin.shop.delivery'))->with('action_result', __('shop::default.delivery_service_created_successfully'));
+        }
+
+        return redirect(route('admin.shop.delivery.edit', ['shopDelivery' => $delivery]))->with('success', __('shop::default.delivery_service_created_successfully'));
     }
 
     /**
@@ -102,8 +105,7 @@ class ShopDeliveryController extends Controller
     {
         if ($request->ajax()) {
             return $shopDelivery;
-        }
-        else {
+        } else {
             abort(404);
         }
     }
@@ -119,12 +121,12 @@ class ShopDeliveryController extends Controller
         $shopDelivery->created = '';
         $shopDelivery->updated = '';
         if (!empty($shopDelivery->created_at)) {
-            $shopDelivery->created = date('d.m.Y H:i:s',strtotime($shopDelivery->created_at));
+            $shopDelivery->created = date('d.m.Y H:i:s', strtotime($shopDelivery->created_at));
         }
         if (!empty($shopDelivery->updated_at)) {
-            $shopDelivery->updated = date('d.m.Y H:i:s',strtotime($shopDelivery->updated_at));
+            $shopDelivery->updated = date('d.m.Y H:i:s', strtotime($shopDelivery->updated_at));
         }
-        return view('elfcms::admin.shop.delivery.edit',[
+        return view('elfcms::admin.shop.delivery.edit', [
             'page' => [
                 'title' => __('shop::default.edit_delivery_service'),
                 'current' => url()->current(),
@@ -147,7 +149,7 @@ class ShopDeliveryController extends Controller
         ]);
         $validated = $request->validate([
             'name' => 'required',
-            'code' => 'required',//|unique:Elfcms\Shop\Models\ShopDelivery,code',
+            'code' => 'required', //|unique:Elfcms\Shop\Models\ShopDelivery,code',
         ]);
 
         $icon = $request->icon_path;
@@ -160,9 +162,12 @@ class ShopDeliveryController extends Controller
         $shopDelivery->price = (float)$request->price * 100;
 
         if ($shopDelivery->save()) {
-            return redirect(route('admin.shop.delivery.edit',$shopDelivery))->with('action_result',__('shop::default.delivery_service_edited_successfully'));
+            if ($request->input('submit') == 'save_and_close') {
+                return redirect(route('admin.shop.delivery'))->with('action_result', __('shop::default.delivery_service_edited_successfully'));
+            }
+            return redirect(route('admin.shop.delivery.edit', $shopDelivery))->with('success', __('shop::default.delivery_service_edited_successfully'));
         }
-        return redirect(route('admin.shop.delivery.edit'))->with('action_result',__('shop::default.error_of_delivery_service_editing'));
+        return redirect(route('admin.shop.delivery.edit'))->withErrors(['error'=> __('shop::default.error_of_delivery_service_editing')]);
     }
 
     /**
@@ -174,9 +179,9 @@ class ShopDeliveryController extends Controller
     public function destroy(ShopDelivery $shopDelivery)
     {
         if (!$shopDelivery->delete()) {
-            return redirect(route('admin.shop.delivery'))->withErrors(['deliverydelerror'=>__('shop::default.delivery_service_deleted_successfully')]);
+            return redirect(route('admin.shop.delivery'))->withErrors(['deliverydelerror' => __('shop::default.delivery_service_deleted_successfully')]);
         }
 
-        return redirect(route('admin.shop.delivery'))->with('action_result',__('shop::default.error_of_delivery_service_deleting'));
+        return redirect(route('admin.shop.delivery'))->with('action_result', __('shop::default.error_of_delivery_service_deleting'));
     }
 }

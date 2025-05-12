@@ -2,6 +2,6 @@
 
 @section('pagecontent')
 
-321
+
 
 @endsection

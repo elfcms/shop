@@ -1,45 +1,25 @@
 @extends('elfcms::admin.layouts.main')
 
 @section('pagecontent')
-
 <div class="table-search-box">
-    <div class="table-search-result-title">
-        @if (!empty($search))
-            {{ __('elfcms::default.search_result_for') }} "{{ $search }}" <a href="{{ route('admin.selling.customers') }}" title="{{ __('elfcms::default.reset_search') }}">&#215;</a>
-        @endif
-    </div>
     <form action="{{ route('admin.selling.customers') }}" method="get">
-        <div class="input-box">
-            <label for="search">
-                {{ __('elfcms::default.search') }}
-            </label>
-            <div class="input-wrapper">
-                <input type="text" name="search" id="search" value="{{ $search ?? '' }}" placeholder="">
-            </div>
-            <div class="non-text-buttons">
-                <button type="submit" class="default-btn search-button"></button>
-            </div>
+        <div class="round-input-wrapper">
+            <button type="submit" class="button round-button theme-button inner-button default-highlight-button">
+                {!! iconHtmlLocal('elfcms/admin/images/icons/search.svg', width: 18, height: 18, svg: true) !!}
+            </button>
+            <input type="search" name="search" id="search" value="{{ $search ?? '' }}" placeholder="">
         </div>
     </form>
+    @if (!empty($search))
+        <div class="table-search-result-title">
+            {{ __('elfcms::default.search_result_for') }} "{{ $search }}" <a
+                href="{{ route('admin.selling.customers') }}" title="{{ __('elfcms::default.reset_search') }}">&#215;</a>
+        </div>
+    @endif
 </div>
-@if (Session::has('customerdeleted'))
-<div class="alert alert-alternate">{{ Session::get('customerdeleted') }}</div>
-@endif
-@if (Session::has('customeredited'))
-<div class="alert alert-alternate">{{ Session::get('customeredited') }}</div>
-@endif
-@if ($errors->any())
-<div class="alert alert-danger">
-    <ul>
-        @foreach ($errors->all() as $error)
-            <li>{{ $error }}</li>
-        @endforeach
-    </ul>
-</div>
-@endif
 
 <div class="grid-table-wrapper">
-    <table class="grid-table table-cols-6" style="--first-col:65px; --minw:800px;">
+    <table class="grid-table table-cols" style="--first-col:4rem; --minw:50rem; --cols-count:6;">
         <thead>
             <tr>
                 <th>
@@ -101,7 +81,7 @@
                     </a>
                 </td> --}}
                 <td>{{ $customer->created_at }}</td>
-                {{-- <td class="button-column non-text-buttons">
+                {{-- <td class="table-button-column">
                     <a href="{{ route('admin.selling.customers.show',$customer) }}" class="default-btn edit-button" title="{{ __('elfcms::default.show') }}"></a>
                 </td> --}}
             </tr>
@@ -133,7 +113,7 @@
                         buttons:[
                             {
                                 title:'{{ __('elfcms::default.delete') }}',
-                                class:'default-btn delete-button',
+                                class:'button color-text-button danger-button',
                                 callback: function(){
                                     self.submit()
                                 }

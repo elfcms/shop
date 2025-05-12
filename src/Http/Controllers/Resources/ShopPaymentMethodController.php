@@ -87,7 +87,11 @@ class ShopPaymentMethodController extends Controller
 
         $payment = ShopPaymentMethod::create($validated);
 
-        return redirect(route('admin.shop.payment'))->with('action_result',__('shop::default.payment_method_created_successfully'));
+        if ($request->input('submit') == 'save_and_close') {
+            return redirect(route('admin.shop.payment'))->with('action_result', __('shop::default.payment_method_created_successfully'));
+        }
+
+        return redirect(route('admin.shop.payment.edit',['shopPaymentMethod'=>$payment]))->with('success',__('shop::default.payment_method_created_successfully'));
     }
 
     /**
@@ -158,9 +162,12 @@ class ShopPaymentMethodController extends Controller
         $shopPaymentMethod->name = $validated['name'];
 
         if ($shopPaymentMethod->save()) {
-            return redirect(route('admin.shop.payment.edit',$shopPaymentMethod))->with('action_result',__('shop::default.payment_method_edited_successfully'));
+            if ($request->input('submit') == 'save_and_close') {
+                return redirect(route('admin.shop.payment'))->with('action_result', __('shop::default.payment_method_edited_successfully'));
+            }
+            return redirect(route('admin.shop.payment.edit',$shopPaymentMethod))->with('success',__('shop::default.payment_method_edited_successfully'));
         }
-        return redirect(route('admin.shop.payment.edit'))->with('action_result',__('shop::default.error_of_payment_method_editing'));
+        return redirect(route('admin.shop.payment.edit'))->withErrors(['error'=>__('shop::default.error_of_payment_method_edited')]);
     }
 
     /**
@@ -172,9 +179,9 @@ class ShopPaymentMethodController extends Controller
     public function destroy(ShopPaymentMethod $shopPaymentMethod)
     {
         if (!$shopPaymentMethod->delete()) {
-            return redirect(route('admin.shop.payment'))->withErrors(['paymentdelerror'=>__('shop::default.payment_method_deleted_successfully')]);
+            return redirect(route('admin.shop.payment'))->withErrors(['paymentdelerror'=>__('shop::default.error_of_payment_method_deleting')]);
         }
 
-        return redirect(route('admin.shop.payment'))->with('action_result',__('shop::default.error_of_payment_method_deleting'));
+        return redirect(route('admin.shop.payment'))->with('action_result',__('shop::default.payment_method_deleted_successfully'));
     }
 }

@@ -45,7 +45,7 @@ if (submitItems) {
                 buttons:[
                     {
                         title:'{{__("elfcms::default.delete")}}',
-                        class:'default-btn delete-button',
+                        class:'button color-text-button danger-button',
                         callback: [
                             function(){
                                 itemListSave (form);

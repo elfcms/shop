@@ -2,29 +2,23 @@
 @inject('image', 'Elfcms\Elfcms\Aux\Image')
 
 @section('pagecontent')
-
-@if (Session::has('elementsuccess'))
-<div class="alert alert-alternate">{{ Session::get('elementsuccess') }}</div>
-@endif
-@if ($errors->any())
-<div class="alert alert-danger">
-    <ul>
-        @foreach ($errors->all() as $error)
-            <li>{{ $error }}</li>
-        @endforeach
-    </ul>
+<div class="table-search-box">
+    <a href="{{ !empty($item) ? route('admin.shop.item.edit',$item) : route('admin.shop.product') }}" class="button round-button theme-button" style="color:var(--default-color);">
+        {!! iconHtmlLocal('elfcms/admin/images/icons/buttons/arrow_back.svg', svg: true) !!}
+        <span class="button-collapsed-text">
+            {{ __('elfcms::default.back') }}
+        </span>
+    </a>
 </div>
-@endif
 
-    <a href="{{ route('admin.shop.item.edit',$item) }}" class="back-button">{{ __('elfcms::default.back') }}</a>
-<div class="gallery-info-box">
-    {{-- <div class="gallery-preview-box">
+<div class="shop-pics-info-box">
+    {{-- <div class="shop-pics-preview-box">
         <img src="{{ file_path($gallery->preview) }}" alt="">
     </div> --}}
-    <div class="gallery-data-box">
+    <div class="shop-pics-data-box">
         <h2>{{ $item->product->title }} - {{ $item->additional_name ?? $item->alternate_name }}</h2>
-        {{-- <div class="gallery-description">{{ $item->description }}</div> --}}
-        {{-- <div class="gallery-addtitional-text">{{ $item->additional_name ?? $item->alternate_name }}</div> --}}
+        {{-- <div class="shop-pics-description">{{ $item->description }}</div> --}}
+        {{-- <div class="shop-pics-addtitional-text">{{ $item->additional_name ?? $item->alternate_name }}</div> --}}
     </div>
     {{-- <div class="dallery-edit-button-box">
         <a href="{{ route('admin.shop.item.edit',$item) }}" class="default-btn big-square-button edit-button">
@@ -32,7 +26,7 @@
         </a>
     </div> --}}
 </div>
-<div class="gallery-items-box">
+<div class="shop-pics-items-box">
     @include('elfcms::admin.shop.item_pictures.content.index')
 </div>
 

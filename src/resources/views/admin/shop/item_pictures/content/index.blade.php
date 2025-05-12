@@ -10,7 +10,7 @@
         @endif
     </div>
     <div class="shop-item-pictures-buttons">
-        <button class="default-btn submit-button" disabled>{{ __('elfcms::default.save') }}</button>
+        <button class="button color-text-button submit-button" disabled style="--button-color:var(--default-color,var(--success-color))">{{ __('elfcms::default.save') }}</button>
     </div>
 </form>
 
@@ -47,7 +47,7 @@ if (submitItems) {
                 buttons:[
                     {
                         title:'{{__("elfcms::default.delete")}}',
-                        class:'default-btn delete-button',
+                        class:'button color-text-button danger-button',
                         callback: [
                             function(){
                                 itemListSave (form);
@@ -128,7 +128,7 @@ function itemListSave(form) {
                     buttons:[
                         {
                             title:'OK',
-                            class:'default-btn submit-button',
+                            class:'button color-text-button',
                             callback:'close'
                         }
                     ],
@@ -143,7 +143,7 @@ function itemListSave(form) {
                         buttons:[
                             {
                                 title:'OK',
-                                class:'default-btn submit-button',
+                                class:'button color-text-button',
                                 callback:'close'
                             }
                         ],
@@ -178,12 +178,12 @@ function filesUpload (files) {
             buttons:[
                 {
                     title:'{{__("elfcms::default.cancel")}}',
-                    class:'default-btn',
+                    class:'button color-text-button',
                     callback:'close'
                 },
                 {
                     title:'OK',
-                    class:'button color-text-button info-button',
+                    class:'button color-text-button',
                     callback: [
                         function(){
                             for(key in files) {
@@ -575,17 +575,29 @@ function editItem(action,currentItem,isEdit=true){
                 createBox.insertAdjacentHTML('afterbegin',data);
                 const createForm = createBox.querySelector('form');
                 if (createForm) {
-                    const previewInput = document.querySelector('#preview')
+                    const previewInput = createForm.querySelector('input[type="file"][name="preview"]')
                     if (previewInput) {
-                        inputFileImg(previewInput)
+                        //inputFileImg(previewInput)
+                        previewBox = previewInput.closest('.inputfile');
+                        if (previewBox) {
+                            imageInit(previewBox);
+                        }
                     }
-                    const imageInput = document.querySelector('#image')
+                    const imageInput = createForm.querySelector('input[type="file"][name="image"]')
                     if (imageInput) {
-                        inputFileImg(imageInput)
+                        //inputFileImg(imageInput)
+                        imageBox = imageInput.closest('.inputfile');
+                        if (imageBox) {
+                            imageInit(imageBox);
+                        }
                     }
-                    const thumbnailInput = document.querySelector('#thumbnail')
+                    const thumbnailInput = createForm.querySelector('input[type="file"][name="thumbnail"]')
                     if (thumbnailInput) {
-                        inputFileImg(thumbnailInput)
+                        //inputFileImg(thumbnailInput)
+                        thumbnailBox = thumbnailInput.closest('.inputfile');
+                        if (thumbnailBox) {
+                            imageInit(thumbnailBox);
+                        }
                     }
 
                     const submitButton = createForm.querySelector('[type="submit"]');
@@ -613,7 +625,6 @@ function editItem(action,currentItem,isEdit=true){
                             (result) => result.json()
                         ).then (
                             (data) => {
-                                console.log(data);
                                 if (data.result && data.result == 'success' && data.data) {
                                     const itemsBox = document.querySelector('.shop-item-pictures-content');
                                     if (isEdit) {
@@ -622,14 +633,20 @@ function editItem(action,currentItem,isEdit=true){
 
                                         const img = currentItem.querySelector('img');
                                         if (img) {
-                                            if (data.data.thumbnail) {
-                                                img.src = data.data.thumbnail;
+                                            if (data.data.defaultThumbnail) {
+                                                img.src = (data.prefix ?? '') + '/' + data.data.defaultThumbnail;
+                                            }
+                                            else if (data.data.defaultPreview) {
+                                                img.src = (data.prefix ?? '') + '/' + data.data.defaultPreview;
+                                            }
+                                            else if (data.data.thumbnail) {
+                                                img.src = (data.prefix ?? '') + '/' + data.data.thumbnail;
                                             }
                                             else if (data.data.preview) {
-                                                img.src = data.data.preview;
+                                                img.src = (data.prefix ?? '') + '/' + data.data.preview;
                                             }
                                             else {
-                                                img.src = data.data.image;
+                                                img.src = (data.prefix ?? '') + '/' + data.data.image;
                                             }
                                         }
                                         currentItem.href = '/admin/shop/items/{{$item->id}}/pictures/'+data.data.id+'/edit';
@@ -700,7 +717,7 @@ function editItem(action,currentItem,isEdit=true){
                                 formSubmit();
                             });
                         }
-                        //galleryTagFormInit();
+                        //shopPicTagFormInit();
                     },500)
                 }
             }
@@ -741,5 +758,73 @@ if (createButton) {
 }
 
 dndInit(dragndropBox);
+
+function imageInit(inputfileBox) {
+            let box = null;
+            if (typeof inputfileBox == 'string') {
+                box = document.querySelector(inputfileBox);
+            } else {
+                box = inputfileBox;
+            }
+            if (!box || !(box instanceof HTMLElement)) {
+                return;
+            }
+            const inputfile = box.querySelector('input[type="file"]');
+            const inputfileDelete = box.querySelector('.inputfile-delete');
+            const inputfileIcon = box.querySelector('.inputfile-icon');
+            const inputfileTitle = box.querySelector('.inputfile-title');
+            const inputfileButtons = box.querySelector('.inputfile-buttons');
+            const inputfileHidden = box.querySelector('input[type="hidden"]');
+
+            inputfileDelete.addEventListener('click', () => {
+                inputfileHidden.value = null;
+                inputfileButtons.classList.add('hidden');
+                inputfileIcon.innerHTML = '';
+                inputfileIcon.insertAdjacentHTML('beforeend', `{!! iconHtmlLocal('/elfcms/admin/images/icons/upload.svg', svg: true) !!}`);
+                inputfileTitle.textContent = `{{ __('elfcms::default.choose_file') }}`;
+            });
+
+            inputfile.addEventListener('change', function(e) {
+                const files = e.target.files
+                if (files) {
+                    if (inputfileTitle) {
+                        inputfileTitle.textContent = files[0].name
+                    }
+                    if (FileReader && files && files.length) {
+                        var fReader = new FileReader();
+                        fReader.onload = function() {
+                            if (inputfileIcon) {
+                                let type = files[0].type.split('/')[1];
+                                if (['jpg', 'jpeg', 'png', 'gif', 'bmp', 'svg', 'svg+xml', 'webp', 'ico',
+                                        'vnd.microsoft.icon'
+                                    ].includes(
+                                        type)) {
+                                    const img = document.createElement('img')
+                                    img.src = fReader.result;
+                                    inputfileIcon.innerHTML = '';
+                                    inputfileIcon.appendChild(img);
+                                } else {
+                                    fetch(adminPath + '/helper/file-icon-data/' + (type ?? 'any'), {
+                                            headers: {
+                                                'X-Requested-With': 'XMLHttpRequest'
+                                            }
+                                        })
+                                        .then((response) => {
+                                            return response.text();
+                                        })
+                                        .then((data) => {
+                                            inputfileIcon.innerHTML = '';
+                                            inputfileIcon.insertAdjacentHTML('beforeend', data);
+                                        });
+                                }
+                                inputfileHidden.value = null;
+                                inputfileButtons.classList.remove('hidden');
+                            }
+                        };
+                        fReader.readAsDataURL(files[0]);
+                    }
+                }
+            })
+        }
 
 </script>

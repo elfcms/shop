@@ -172,7 +172,7 @@
                                         buttons:[
                                             {
                                                 title:'OK',
-                                                class:'default-btn delete-button',
+                                                class:'button color-text-button danger-button',
                                                 callback:'close'
                                             }
                                         ],

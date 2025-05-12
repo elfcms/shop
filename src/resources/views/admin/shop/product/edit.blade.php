@@ -1,24 +1,19 @@
 @extends('elfcms::admin.layouts.main')
 
 @section('pagecontent')
-
-@if (Session::has('action_result'))
-    <div class="alert alert-success">{{ Session::get('action_result') }}</div>
-@endif
-@if ($errors->any())
-<div class="alert alert-danger">
-    <ul class="errors-list">
-        @foreach ($errors->all() as $error)
-            <li>{{ $error }}</li>
-        @endforeach
-    </ul>
+<div class="table-search-box">
+    <a href="{{ route('admin.shop.product') }}" class="button round-button theme-button" style="color:var(--default-color);">
+        {!! iconHtmlLocal('elfcms/admin/images/icons/buttons/arrow_back.svg', svg: true) !!}
+        <span class="button-collapsed-text">
+            {{ __('elfcms::default.back') }}
+        </span>
+    </a>
 </div>
-@endif
 
 <div class="shop-products-container">
 
     <div class="item-form">
-        <h3>{{ __('shop::default.edit_product') }}</h3>
+        <h2>{{ __('shop::default.edit_product') }}</h2>
         <form action="{{ route('admin.shop.product.update',$product) }}" method="POST" enctype="multipart/form-data">
             @csrf
             @method('PUT')
@@ -29,32 +24,28 @@
             </div>
             <div class="colored-rows-box tab-box showed" id="general">
                 <div class="input-box colored">
-                    {{-- <div class="checkbox-switch-wrapper">
-                        <div class="checkbox-switch blue">
-                            <input
-                                type="checkbox"
-                                name="active"
-                                id="active"
-                                @if ($product->active == 1)
-                                checked
-                                @endif
-                            >
-                            <i></i>
-                        </div>
-                        <label for="active">
-                            {{ __('elfcms::default.active') }}
-                        </label>
-                    </div> --}}
-                    <x-elfcms-input-checkbox code="active" label="{{ __('elfcms::default.active') }}" style="blue" :checked="$product->active" />
+                    <label for="active">
+                        {{ __('elfcms::default.active') }}
+                    </label>
+                    <x-elfcms::ui.checkbox.switch name="active" id="active"  :checked="$product->active" />
                 </div>
                 <div class="input-box colored">
                     <label for="category_id">{{ __('shop::default.categories') }}</label>
                     <div class="input-wrapper">
-                        <select name="category_id[]" id="category_id" multiple required>
+                        {{-- <select name="category_id[]" id="category_id" multiple required>
                         @foreach ($categories as $category)
                             <option value="{{ $category->id }}" @if (in_array($category->id,$productCategories)) selected @endif>{{ $category->title }}</option>
                         @endforeach
-                        </select>
+                        </select> --}}
+                        <div class="choosing-box">
+                            @foreach ($categories as $category)
+                                <div class="choosing-line">
+                                    <x-elfcms::ui.checkbox.classic name="category_id[]" id="category_{{ $category->id }}"
+                                        value="{{ $category->id }}" color="var(--default-color)" :checked="in_array($category->id,$productCategories)" />
+                                    <label for="category_{{ $category->id }}">{{ $category->title }}</label>
+                                </div>
+                            @endforeach
+                        </div>
                     </div>
                 </div>
                 <div class="input-box colored">
@@ -70,8 +61,7 @@
                     </div>
                     <div class="input-wrapper">
                         <div class="autoslug-wrapper">
-                            <input type="checkbox" data-text-id="title" data-slug-id="slug" class="autoslug" checked>
-                            <div class="autoslug-button"></div>
+                            <x-elfcms::ui.checkbox.autoslug textid="title" slugid="slug" checked="true" />
                         </div>
                     </div>
                 </div>
@@ -79,7 +69,7 @@
                 <div class="input-box colored">
                     <label for="image">{{ __('elfcms::default.image') }}</label>
                     <div class="input-wrapper">
-                        <x-elfcms-input-image code="image" :value="$product->image"/>
+                        <x-elf-input-file value="{{ $product->image }}" :params="['name' => 'image']" :download="true" />
                     </div>
                 </div>
                 <div class="input-box colored">
@@ -250,17 +240,22 @@
                 @endforeach
             </div>
             <div class="button-box single-box">
-                <button type="submit" class="default-btn submit-button">{{ __('elfcms::default.submit') }}</button>
+                <button type="submit"
+                    class="button color-text-button success-button">{{ __('elfcms::default.save') }}</button>
+                <button type="submit" name="submit" value="save_and_close"
+                    class="button color-text-button info-button">{{ __('elfcms::default.save_and_close') }}</button>
+                <a href="{{ route('admin.shop.product') }}"
+                    class="button color-text-button">{{ __('elfcms::default.cancel') }}</a>
             </div>
         </form>
     </div>
 
     <div class="item-form">
-        <h3>{{ __('shop::default.items') }}</h3>
+        <h2>{{ __('shop::default.items') }}</h2>
         <div class="top-button-box">
             <form action="{{ route('admin.shop.item.create') }}" method="GET">
                 <input type="hidden" name="product_id" value="{{$product->id}}">
-                <button type="submit" class="default-btn submit-button">{{ __('shop::default.add_item') }}</button>
+                <button type="submit" class="button color-text-button small-button">{{ __('shop::default.add_item') }}</button>
             </form>
         </div>
         <div class="colored-rows-box shop-item-table">
@@ -289,12 +284,16 @@
                 </div>
                 <div class="shop-item-column shop-item-column-buttons">
                     <div class="shop-item-column-button">
-                        <a href="{{ route('admin.shop.item.edit',$item) }}" class="item-button item-button-edit" title="{{ __('shop::default.edit_item') }}"></a>
+                        <a href="{{ route('admin.shop.item.edit',$item) }}" class="button icon-button" title="{{ __('shop::default.edit_item') }}">
+                            {!! iconHtmlLocal('elfcms/admin/images/icons/buttons/edit.svg', svg: true) !!}
+                        </a>
                     </div>
                     <div class="shop-item-column-button">
                         <form action="{{ route('admin.shop.item.create') }}" method="GET">
                             <input type="hidden" name="copy_id" value="{{$item->id}}">
-                            <button type="submit" class="item-button item-button-copy" title="{{ __('shop::default.copy') }}"></button>
+                            <button type="submit" class="button icon-button" title="{{ __('shop::default.copy') }}">
+                                {!! iconHtmlLocal('elfcms/admin/images/icons/buttons/copy_all.svg', svg: true) !!}
+                            </button>
                         </form>
                     </div>
                     <div class="shop-item-column-button">
@@ -304,7 +303,9 @@
                             <input type="hidden" name="id" value="{{ $item->id }}">
                             <input type="hidden" name="name" value="{{ $item->item_number }}">
                             <input type="hidden" name="is_item" value="1">
-                            <button type="submit" class="item-button item-button-delete" title="{{ __('elfcms::default.delete') }}"></button>
+                            <button type="submit" class="button icon-button icon-alarm-button" title="{{ __('elfcms::default.delete') }}">
+                                {!! iconHtmlLocal('elfcms/admin/images/icons/buttons/delete.svg', svg: true) !!}
+                            </button>
                         </form>
                     </div>
                 </div>
@@ -344,7 +345,7 @@
                         buttons:[
                             {
                                 title:'{{ __('elfcms::default.delete') }}',
-                                class:'default-btn delete-button',
+                                class:'button color-text-button danger-button',
                                 callback: function(){
                                     self.submit()
                                 }

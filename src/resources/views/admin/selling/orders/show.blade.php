@@ -1,13 +1,6 @@
 @extends('elfcms::admin.layouts.main')
 
 @section('pagecontent')
-    @if (Session::has('action_result'))
-        <div class="alert alert-success">{{ Session::get('action_result') }}</div>
-    @endif
-    @if (Session::has('success'))
-        <div class="alert alert-success">{{ Session::get('success') }}</div>
-    @endif
-
     <div class="item-form">
         <div class="date-info create-info">
             {{ __('elfcms::default.created_at') }}: {{ $order->created }}
@@ -257,7 +250,7 @@
                 </tr>
             </tbody>
         </table>
-        <h4>{{ __('shop::default.invoices') }}</h4>
+        <h3>{{ __('shop::default.invoices') }}</h3>
         @if (empty($order->invoices))
             {{ __('elfcms::default.nothing_was_found') }}
         @else

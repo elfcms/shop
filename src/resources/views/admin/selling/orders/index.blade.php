@@ -1,46 +1,25 @@
 @extends('elfcms::admin.layouts.main')
 
 @section('pagecontent')
-
-
 <div class="table-search-box">
-    <div class="table-search-result-title">
-        @if (!empty($search))
-            {{ __('elfcms::default.search_result_for') }} "{{ $search }}" <a href="{{ route('admin.selling.orders') }}" title="{{ __('elfcms::default.reset_search') }}">&#215;</a>
-        @endif
-    </div>
     <form action="{{ route('admin.selling.orders') }}" method="get">
-        <div class="input-box">
-            <label for="search">
-                {{ __('elfcms::default.search') }}
-            </label>
-            <div class="input-wrapper">
-                <input type="text" name="search" id="search" value="{{ $search ?? '' }}" placeholder="">
-            </div>
-            <div class="non-text-buttons">
-                <button type="submit" class="default-btn search-button"></button>
-            </div>
+        <div class="round-input-wrapper">
+            <button type="submit" class="button round-button theme-button inner-button default-highlight-button">
+                {!! iconHtmlLocal('elfcms/admin/images/icons/search.svg', width: 18, height: 18, svg: true) !!}
+            </button>
+            <input type="search" name="search" id="search" value="{{ $search ?? '' }}" placeholder="">
         </div>
     </form>
+    @if (!empty($search))
+        <div class="table-search-result-title">
+            {{ __('elfcms::default.search_result_for') }} "{{ $search }}" <a
+                href="{{ route('admin.selling.orders') }}" title="{{ __('elfcms::default.reset_search') }}">&#215;</a>
+        </div>
+    @endif
 </div>
-@if (Session::has('orderdeleted'))
-<div class="alert alert-alternate">{{ Session::get('orderdeleted') }}</div>
-@endif
-@if (Session::has('orderedited'))
-<div class="alert alert-alternate">{{ Session::get('orderedited') }}</div>
-@endif
-@if ($errors->any())
-<div class="alert alert-danger">
-    <ul>
-        @foreach ($errors->all() as $error)
-            <li>{{ $error }}</li>
-        @endforeach
-    </ul>
-</div>
-@endif
 
 <div class="grid-table-wrapper">
-    <table class="grid-table table-cols-9" style="--first-col:65px; --minw:800px;">
+    <table class="grid-table table-cols" style="--first-col:4rem; --minw:50rem; --cols-count:9;">
         <thead>
             <tr>
                 <th>
@@ -113,7 +92,7 @@
                 <td>{{ $order->status->name }}</td>
                 <td>{{ $order->created_at }}</td>
                 <td>{{ $order->updated_at }}</td>
-                {{-- <td class="button-column non-text-buttons">
+                {{-- <td class="table-button-column">
                     <a href="{{ route('admin.selling.orders.show',$order) }}" class="default-btn edit-button" title="{{ __('elfcms::default.show') }}"></a>
                 </td> --}}
             </tr>

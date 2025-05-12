@@ -21,6 +21,30 @@ class ShopItemPicture extends Model
         'position',
     ];
 
+    protected $appends = [
+        'defaultThumbnail',
+        'defaultPreview'
+    ];
+
+    public function getDefaultThumbnailAttribute()
+    {
+        if (empty($this->thumbnail)) {
+            if (empty($this->preview)) {
+                return $this->image;
+            }
+            return $this->preview;
+        }
+        return $this->thumbnail;
+    }
+
+    public function getDefaultPreviewAttribute()
+    {
+        if (empty($this->preview)) {
+            return $this->image;
+        }
+        return $this->preview;
+    }
+
     public function scopeActive($query)
     {
         return $query->where('active',1);

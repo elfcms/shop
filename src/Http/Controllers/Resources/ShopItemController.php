@@ -48,6 +48,7 @@ class ShopItemController extends Controller
         if (!empty($request->product_id)) {
             $product_id = $request->product_id;
         }
+        $product = !empty($product_id) ? ShopProduct::find($product_id) : null;
         $copy_id = null;
         if (!empty($request->copy_id)) {
             $copy_id = $request->copy_id;
@@ -75,7 +76,7 @@ class ShopItemController extends Controller
                 }
                 $price_types = ShopPriceType::all();
                 $currencies = ShopCurrency::all();
-                return view('elfcms::admin.shop.item.edit',[
+                return view('elfcms::admin.shop.item.edit', [
                     'page' => [
                         'title' => __('shop::default.create_item'),
                         'current' => url()->current(),
@@ -89,11 +90,13 @@ class ShopItemController extends Controller
                     'isCopy' => true,
                     'price_types' => $price_types,
                     'currencies' => $currencies,
+                    'product' => $product,
+                    'isAjax' => $request->ajax(),
                 ]);
             }
         }
 
-        return view('elfcms::admin.shop.item.create',[
+        return view('elfcms::admin.shop.item.create', [
             'page' => [
                 'title' => __('shop::default.create_item'),
                 'current' => url()->current(),
@@ -102,6 +105,7 @@ class ShopItemController extends Controller
             'vendors' => $vendors,
             'product_id' => $product_id,
             'copy_id' => $copy_id,
+            'isAjax' => $request->ajax(),
         ]);
     }
 
@@ -151,7 +155,7 @@ class ShopItemController extends Controller
         if ($shopItem) {
             /* Parameters */
             if (!empty($request->parameter)) {
-                foreach($request->parameter as $id => $paramValue) {
+                foreach ($request->parameter as $id => $paramValue) {
                     $parameter = ShopItemParameter::find($id);
                     if (is_array($paramValue)) {
                         //dd($paramValue);
@@ -182,11 +186,10 @@ class ShopItemController extends Controller
                         ['item_id' => $shopItem->id, 'parameter_id' => $id],
                         [$parameter->data_type->code . '_value' => $paramValue]
                     );
-
                 }
             }
             if (!empty($request->file()['parameter'])) {
-                foreach($request->file()['parameter'] as $id => $paramValue) {
+                foreach ($request->file()['parameter'] as $id => $paramValue) {
                     $parameter = ShopItemParameter::find($id);
                     if ($parameter->data_type->code != 'file' && $parameter->data_type->code != 'image') {
                         continue;
@@ -197,7 +200,7 @@ class ShopItemController extends Controller
                     $file_path = $paramValue[$parameter->data_type->code]->store('shop/parameters/item/' . $parameter->data_type->code . 's');
                     //$fileCatalog = new FileCatalog();
                     //dd($file_path);
-                    FileCatalog::set($file_path,$originalName);
+                    FileCatalog::set($file_path, $originalName);
                     $parameterValue = ShopItemParameterValue::updateOrCreate(
                         ['item_id' => $shopItem->id, 'parameter_id' => $id],
                         [$parameter->data_type->code . '_value' => $file_path]
@@ -208,7 +211,7 @@ class ShopItemController extends Controller
 
             /* Properties */
             if (!empty($request->property)) {
-                foreach($request->property as $id => $paramValue) {
+                foreach ($request->property as $id => $paramValue) {
                     $property = ShopItemProperty::find($id);
                     if (is_array($paramValue)) {
                         if (!empty($request->file()['property'][$id]['file'])) {
@@ -238,11 +241,10 @@ class ShopItemController extends Controller
                         ['item_id' => $shopItem->id, 'property_id' => $id],
                         [$property->data_type->code . '_value' => $paramValue]
                     );
-
                 }
             }
             if (!empty($request->file()['property'])) {
-                foreach($request->file()['property'] as $id => $paramValue) {
+                foreach ($request->file()['property'] as $id => $paramValue) {
                     $property = ShopItemProperty::find($id);
                     if ($property->data_type->code != 'file' && $property->data_type->code != 'image') {
                         continue;
@@ -250,7 +252,7 @@ class ShopItemController extends Controller
                     $originalName = $paramValue[$property->data_type->code]->getClientOriginalName();
                     $file_path = $request->property[$id]['path'];
                     $file_path = $paramValue[$property->data_type->code]->store('shop/properties/item/' . $property->data_type->code . 's');
-                    FileCatalog::set($file_path,$originalName);
+                    FileCatalog::set($file_path, $originalName);
                     $propertyValue = ShopItemPropertyValue::updateOrCreate(
                         ['item_id' => $shopItem->id, 'property_id' => $id],
                         [$property->data_type->code . '_value' => $file_path]
@@ -260,7 +262,14 @@ class ShopItemController extends Controller
             /* /Properties */
         }
 
-        return redirect(route('admin.shop.product.edit',$shopItem->product))->with('action_result',__('shop::default.item_created_successfully'));
+        if (!$shopItem) {
+            return back()->withErrors(['rerror'=>__('shop::default.error_of_item_created')]);
+        }
+
+        if ($request->input('submit') == 'save_and_close') {
+            return redirect(route('admin.shop.product.edit', $shopItem->product))->with('action_result', __('shop::default.item_created_successfully'));
+        }
+        return redirect(route('admin.shop.item.edit', $shopItem))->with('success', __('shop::default.item_created_successfully'));
     }
 
     /**
@@ -274,8 +283,7 @@ class ShopItemController extends Controller
     {
         if ($request->ajax()) {
             return $shopItem;
-        }
-        else {
+        } else {
             abort(404);
         }
     }
@@ -286,7 +294,7 @@ class ShopItemController extends Controller
      * @param  \App\Models\ShopItem  $shopItem
      * @return \Illuminate\Http\Response
      */
-    public function edit(ShopItem $shopItem)
+    public function edit(ShopItem $shopItem, Request $request)
     {
         $products = ShopProduct::active()->get();
         $vendors = ShopVendor::all();
@@ -294,34 +302,23 @@ class ShopItemController extends Controller
         $properties = ShopItemProperty::all();
         $colors = ShopColor::all();
 
-        //dd($colors);
-        //dd($shopItem->publicPrices);
-        /* $p = ShopItemParameter::find(9);
-        dd($p->options); */
         foreach ($parameters as $parameter) {
-            //if ($parameter->id == 9) dd($parameter->product_values($shopItem->id));
             $parameter->value = $parameter->item_values($shopItem->id);
             if ($parameter->data_type->code == 'color') {
                 $parameter->colorData = ShopColor::find($parameter->value);
             }
-            //if ($parameter->id == 9) dd($parameter->value);
         }
         foreach ($properties as $property) {
-            //if ($parameter->id == 9) dd($parameter->product_values($shopItem->id));
             $property->value = $property->item_values($shopItem->id);
             if ($property->data_type->code == 'color') {
-                //dd($property->value);
                 $property->colorData = ShopColor::find($property->value);
             }
-            //if ($parameter->id == 9) dd($parameter->value);
         }
 
         $price_types = ShopPriceType::all();
         $currencies = ShopCurrency::all();
 
-        //dd($shopItem->prices);
-
-        return view('elfcms::admin.shop.item.edit',[
+        return view('elfcms::admin.shop.item.edit', [
             'page' => [
                 'title' => __('shop::default.edit_item'),
                 'current' => url()->current(),
@@ -336,6 +333,7 @@ class ShopItemController extends Controller
             'currencies' => $currencies,
             'exists' => true,
             'discounts' => ShopDiscount::all(),
+            'isAjax' => $request->ajax(),
         ]);
     }
 
@@ -348,24 +346,19 @@ class ShopItemController extends Controller
      */
     public function update(Request $request, ShopItem $shopItem)
     {
-        //dd($request->price['exists']);
         if ($request->notedit && $request->notedit == 1) {
             $shopItem->active = empty($request->active) ? 0 : 1;
 
             $shopItem->save();
 
-            return redirect(route('admin.shop.product'))->with('action_result',__('shop::default.product_edited_successfully'));
-        }
-        else {
-            /* $request->merge([
-                'slug' => Str::slug($request->slug),
-            ]); */
+            return redirect(route('admin.shop.product'))->with('action_result', __('shop::default.product_edited_successfully'));
+        } else {
             $validated = $request->validate([
                 'item_number' => 'required',
                 'product_id' => 'required',
                 'image' => 'nullable|file|max:1024',
             ]);
-            if (ShopItem::where('item_number',$request->item_number)->where('id','<>',$shopItem->id)->first()) {
+            if (ShopItem::where('item_number', $request->item_number)->where('id', '<>', $shopItem->id)->first()) {
                 return redirect()->back()->withErrors([
                     'item_number' => 'Goods already exists'
                 ]);
@@ -401,8 +394,8 @@ class ShopItemController extends Controller
 
                 if (!empty($request->price)) {
                     if (!empty($request->price['exists'])) {
-                        foreach($request->price['exists'] as $id => $price) {
-                            $priceItem = ShopPrice::where('id',$id)->where('item_id',$shopItem->id)->first();
+                        foreach ($request->price['exists'] as $id => $price) {
+                            $priceItem = ShopPrice::where('id', $id)->where('item_id', $shopItem->id)->first();
                             if ($priceItem) {
                                 if (!empty($price['delete'])) {
                                     $priceItem->delete();
@@ -410,14 +403,12 @@ class ShopItemController extends Controller
                                 }
                                 if (empty($price['current'])) {
                                     $priceItem->current = 0;
-                                }
-                                else {
+                                } else {
                                     $priceItem->current = 1;
                                 }
                                 if (empty($price['old'])) {
                                     $priceItem->old = 0;
-                                }
-                                else {
+                                } else {
                                     $priceItem->old = 1;
                                 }
                                 $priceItem->price_type_id = $price['price_type_id'];
@@ -430,20 +421,18 @@ class ShopItemController extends Controller
                     }
 
                     if (!empty($request->price['new'])) {
-                        foreach($request->price['new'] as $price) {
+                        foreach ($request->price['new'] as $price) {
                             if (!empty($price['delete'])) {
                                 continue;
                             }
                             if (empty($price['current'])) {
                                 $price['current'] = 0;
-                            }
-                            else {
+                            } else {
                                 $price['current'] = 1;
                             }
                             if (empty($price['old'])) {
                                 $price['old'] = 0;
-                            }
-                            else {
+                            } else {
                                 $price['old'] = 1;
                             }
                             $price['value'] = $price['value'] * 100;
@@ -458,7 +447,7 @@ class ShopItemController extends Controller
 
                 /* Parameters */
                 if (!empty($request->parameter)) {
-                    foreach($request->parameter as $id => $paramValue) {
+                    foreach ($request->parameter as $id => $paramValue) {
                         $parameter = ShopItemParameter::find($id);
                         if (is_array($paramValue)) {
                             //dd($paramValue);
@@ -489,11 +478,10 @@ class ShopItemController extends Controller
                             ['item_id' => $shopItem->id, 'parameter_id' => $id],
                             [$parameter->data_type->code . '_value' => $paramValue]
                         );
-
                     }
                 }
                 if (!empty($request->file()['parameter'])) {
-                    foreach($request->file()['parameter'] as $id => $paramValue) {
+                    foreach ($request->file()['parameter'] as $id => $paramValue) {
                         $parameter = ShopItemParameter::find($id);
                         if ($parameter->data_type->code != 'file' && $parameter->data_type->code != 'image') {
                             continue;
@@ -504,7 +492,7 @@ class ShopItemController extends Controller
                         $file_path = $paramValue[$parameter->data_type->code]->store('shop/parameters/item/' . $parameter->data_type->code . 's');
                         //$fileCatalog = new FileCatalog();
                         //dd($file_path);
-                        FileCatalog::set($file_path,$originalName);
+                        FileCatalog::set($file_path, $originalName);
                         $parameterValue = ShopItemParameterValue::updateOrCreate(
                             ['item_id' => $shopItem->id, 'parameter_id' => $id],
                             [$parameter->data_type->code . '_value' => $file_path]
@@ -515,7 +503,7 @@ class ShopItemController extends Controller
 
                 /* Properties */
                 if (!empty($request->property)) {
-                    foreach($request->property as $id => $paramValue) {
+                    foreach ($request->property as $id => $paramValue) {
                         $property = ShopItemProperty::find($id);
                         if (is_array($paramValue)) {
                             if (!empty($request->file()['property'][$id]['file'])) {
@@ -545,11 +533,10 @@ class ShopItemController extends Controller
                             ['item_id' => $shopItem->id, 'property_id' => $id],
                             [$property->data_type->code . '_value' => $paramValue]
                         );
-
                     }
                 }
                 if (!empty($request->file()['property'])) {
-                    foreach($request->file()['property'] as $id => $paramValue) {
+                    foreach ($request->file()['property'] as $id => $paramValue) {
                         $property = ShopItemProperty::find($id);
                         if ($property->data_type->code != 'file' && $property->data_type->code != 'image') {
                             continue;
@@ -557,7 +544,7 @@ class ShopItemController extends Controller
                         $originalName = $paramValue[$property->data_type->code]->getClientOriginalName();
                         $file_path = $request->property[$id]['path'];
                         $file_path = $paramValue[$property->data_type->code]->store('shop/properties/item/' . $property->data_type->code . 's');
-                        FileCatalog::set($file_path,$originalName);
+                        FileCatalog::set($file_path, $originalName);
                         $propertyValue = ShopItemPropertyValue::updateOrCreate(
                             ['item_id' => $shopItem->id, 'property_id' => $id],
                             [$property->data_type->code . '_value' => $file_path]
@@ -566,7 +553,10 @@ class ShopItemController extends Controller
                 }
                 /* /Properties */
 
-                return redirect(route('admin.shop.product.edit',$shopItem->product))->with('action_result',__('shop::default.item_edited_successfully'));
+                if ($request->input('submit') == 'save_and_close') {
+                    return redirect(route('admin.shop.product.edit', $shopItem->product))->with('action_result', __('shop::default.item_edited_successfully'));
+                }
+                return redirect(route('admin.shop.item.edit', $shopItem))->with('success', __('shop::default.item_edited_successfully'));
             }
         }
     }
@@ -580,9 +570,9 @@ class ShopItemController extends Controller
     public function destroy(ShopItem $shopItem)
     {
         if (!$shopItem->delete()) {
-            return redirect()->back()->withErrors(['action_result'=>__('shop::default.error_of_item_deleting')]);
+            return redirect()->back()->withErrors(['action_result' => __('shop::default.error_of_item_deleting')]);
         }
 
-        return redirect()->back()->with('action_result',__('shop::default.item_deleted_successfully'));
+        return redirect()->back()->with('action_result', __('shop::default.item_deleted_successfully'));
     }
 }

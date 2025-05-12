@@ -25,7 +25,7 @@
         @endif
     </div>
     <div class="grid-table-wrapper">
-        <table class="grid-table table-cols" style="--first-col:4rem; --last-col:11rem; --minw:50rem; --cols-count:5;">
+        <table class="grid-table shop-products-table table-cols" style="--first-col:4rem; --last-col:11rem; --minw:50rem; --cols-count:5;">
             <thead>
                 <tr>
                     <th>ID</th>
@@ -97,7 +97,7 @@
                     </tr>
                     <tr class="subtable-row">
                         <td colspan="5">
-                            <table class="grid-table table-cols" style="--first-col:4rem; --last-col:11rem; --minw:50rem; --cols-count:5;">
+                            <table class="grid-table shop-products-table table-cols" style="--first-col:4rem; --last-col:11rem; --minw:50rem; --cols-count:5;">
                                 @forelse ($product->items as $item)
                                     <tr data-link="{{ route('admin.shop.item.edit', $item) }}">
                                         <td>
@@ -153,7 +153,7 @@
                                             <form action="{{ route('admin.shop.item.create') }}" method="GET">
                                                 <input type="hidden" name="product_id" value="{{ $product->id }}">
                                                 <button type="submit"
-                                                    class="default-btn submit-button">{{ __('shop::default.add_item') }}</button>
+                                                    class="button color-text-button small-button">{{ __('shop::default.add_item') }}</button>
                                             </form>
                                         </td>
                                     </tr>
@@ -206,7 +206,7 @@
                             content: text,
                             buttons: [{
                                     title: '{{ __('elfcms::default.delete') }}',
-                                    class: 'default-btn delete-button',
+                                    class: 'button color-text-button danger-button',
                                     callback: function() {
                                         self.submit()
                                     }
@@ -228,6 +228,7 @@
 
         const tablerow = document.querySelectorAll(
             '.shop-products-table tbody tr:has(.contextmenu-content-box):not(.subtable-row)');
+            console.log(tablerow)
         if (tablerow) {
             tablerow.forEach(row => {
                 row.addEventListener('contextmenu', function(e) {

@@ -32,8 +32,8 @@ return [
 
     'brand' => 'Бренд',
     'brands' => 'Бренды',
-    'create_brand' => 'Создать тег',
-    'edit_brand' => 'Изменить тег',
+    'create_brand' => 'Создать бренд',
+    'edit_brand' => 'Изменить бренд',
     'brand_created_successfully' => 'Бренд успешно создан',
     'error_of_brand_created' => 'Ошибка создания бренда',
     'brand_edited_successfully' => 'Бренд успешно изменен',
@@ -53,6 +53,7 @@ return [
     'error_of_coupon_edited' => 'Ошибка редактирования купона',
     'coupon_deleted_successfully' => 'Купон успешно удален',
     'error_of_coupon_deleting' => 'Ошибка удаления купона',
+    'are_you_sure_to_deleting_coupon' => 'Вы уверены, что хотите удалить купон',
     'combine_coupon' => 'Купон может суммироваться с другими скидками',
     'is_percent_coupon' => 'Скидка в процентах',
     'min_price' => 'Минимальная цена',
@@ -86,6 +87,7 @@ return [
     'discount_deleted_successfully' => 'Скидка успешно удалена',
     'error_of_discount_deleting' => 'Ошибка удаления скидки',
     'set_discount_for_all_products_in_category' => 'Задать скидку для всех товаров категории',
+    'are_you_sure_to_deleting_discount' => 'Вы уверены, что хотите удалить скидку',
 
     'delivery' => 'Доставка',
     'deliveries' => 'Доставки',

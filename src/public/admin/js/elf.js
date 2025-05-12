@@ -513,3 +513,92 @@ if (typeof shopAjax !== 'function') {
         }
     }
 }
+
+
+
+function shopPicTagFormInit() {
+    const tagForm = document.querySelectorAll('.tag-form-wrapper')
+    let tagList = null;
+
+    async function getTagList () {
+        if (tagList !== null && typeof tagList == 'object') {
+            return tagList;
+        }
+        let response = await fetch('/admin/shop/tags',{headers: {'X-Requested-With': 'XMLHttpRequest'}});
+        tagList = await response.json();
+        return tagList;
+    }
+    getTagList();
+
+    function addTagToList (listBox,input,item) {
+        const check = document.querySelector('.tag-item-box[data-id="'+item.id+'"]')
+        if (!check) {
+            const elem = `<div class="tag-item-box" data-id="${item.id}">
+                <span class="tag-item-name">${item.name}</span>
+                <span class="tag-item-remove" onclick="removeTagFromList(this)">&#215;</span>
+                <input type="hidden" name="tags[]" value="${item.id}">
+            </div>`;
+            listBox.insertAdjacentHTML('beforeend',elem)
+        }
+    }
+
+
+    if (tagForm) {
+        tagForm.forEach(wrapBox => {
+            let listBox = wrapBox.querySelector('.tag-list-box')
+            let promptBox = wrapBox.querySelector('.tag-prompt-list')
+            let inputBox = wrapBox.querySelector('.tag-input-box')
+            let input = wrapBox.querySelector('input.tag-input')
+            let button = wrapBox.querySelector('button.tag-add-button')
+            input.addEventListener('input',function(){
+                const th = this
+                const list = tagList.filter((item) => {
+                    if (item.name.indexOf(th.value) > -1 && th.value != '') {
+                        return item
+                    }
+                })
+                promptBox.innerHTML = '';
+                list.forEach(item => {
+                    let prompt = document.createElement('div');
+                    prompt.classList.add('tag-prompt-item');
+                    prompt.dataset.id = item.id;
+                    prompt.innerHTML = item.name;
+                    prompt.addEventListener('click',function(){
+                        addTagToList (listBox,input,item)
+                    });
+                    promptBox.append(prompt);
+                })
+            })
+            button.addEventListener('click',function(){
+                const data = JSON.stringify({name:input.value});
+                const token = document.querySelector("input[name='_token']").value;
+                fetch('/admin/gallery/tags/addnotexist',{
+                    method: 'POST',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json',
+                        'X-Requested-With': 'XMLHttpRequest',
+                        'X-CSRF-TOKEN': token,
+                    },
+                    credentials: 'same-origin',
+                    body: data
+                }).then(
+                    (result) => result.json()
+                ).then (
+                    (data) => {
+                        if (data.result && data.data) {
+                            if (data.result == 'success' && data.data.id) {
+                                tagList.push(data.data)
+                            }
+                            if (data.data.id) {
+                                addTagToList (listBox,input,data.data)
+                            }
+                        }
+                    }
+                ).catch(error => {
+                    //
+                });
+            })
+        })
+    }
+}

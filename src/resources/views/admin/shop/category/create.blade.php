@@ -1,51 +1,40 @@
 @extends('elfcms::admin.layouts.main')
 
 @section('pagecontent')
-
-    @if (Session::has('action_result'))
-        <div class="alert alert-success">{{ Session::get('action_result') }}</div>
-    @endif
-    @if ($errors->any())
-    <div class="alert alert-danger">
-        <ul class="errors-list">
-            @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-            @endforeach
-        </ul>
+    <div class="table-search-box">
+        <a href="{{ route('admin.shop.category') }}" class="button round-button theme-button" style="color:var(--default-color);">
+            {!! iconHtmlLocal('elfcms/admin/images/icons/buttons/arrow_back.svg', svg: true) !!}
+            <span class="button-collapsed-text">
+                {{ __('elfcms::default.back') }}
+            </span>
+        </a>
     </div>
-    @endif
 
     <div class="item-form">
-        <h3>{{ __('elfcms::default.create_category') }}</h3>
+        <h2>{{ __('elfcms::default.create_category') }}</h2>
         <form action="{{ route('admin.shop.category.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
             @method('POST')
             <div class="colored-rows-box">
                 <div class="input-box colored">
-                    {{-- <div class="checkbox-switch-wrapper">
-                        <div class="checkbox-switch blue">
-                            <input
-                                type="checkbox"
-                                name="active"
-                                id="active"
-                                checked
-                            >
-                            <i></i>
-                        </div>
-                        <label for="active">
-                            {{ __('elfcms::default.active') }}
-                        </label>
-                    </div> --}}
-                    <x-elfcms-input-checkbox code="active" label="{{ __('elfcms::default.active') }}" style="blue" :checked="1" />
+                    <label for="active">
+                        {{ __('elfcms::default.active') }}
+                    </label>
+                    <x-elfcms::ui.checkbox.switch name="active" id="active" checked="true" />
                 </div>
                 <div class="input-box colored">
                     <label for="parent_id">{{ __('elfcms::default.parent') }}</label>
                     <div class="input-wrapper">
                         <select name="parent_id" id="parent_id">
                             <option value="">{{ __('elfcms::default.none') }}</option>
-                        @foreach ($categories as $item)
-                            <option value="{{ $item->id }}" @if ($item->active != 1) class="inactive" @endif>{{ $item->title }}@if ($item->active != 1) [{{ __('elfcms::default.inactive') }}] @endif</option>
-                        @endforeach
+                            @foreach ($categories as $item)
+                                <option value="{{ $item->id }}"
+                                    @if ($item->active != 1) class="inactive" @endif>{{ $item->title }}
+                                    @if ($item->active != 1)
+                                        [{{ __('elfcms::default.inactive') }}]
+                                    @endif
+                                </option>
+                            @endforeach
                         </select>
                     </div>
                 </div>
@@ -62,8 +51,7 @@
                     </div>
                     <div class="input-wrapper">
                         <div class="autoslug-wrapper">
-                            <input type="checkbox" data-text-id="title" data-slug-id="slug" class="autoslug" checked>
-                            <div class="autoslug-button"></div>
+                            <x-elfcms::ui.checkbox.autoslug textid="title" slugid="slug" checked="true" />
                         </div>
                     </div>
                 </div>
@@ -76,18 +64,7 @@
                 <div class="input-box colored">
                     <label for="image">{{ __('elfcms::default.image') }}</label>
                     <div class="input-wrapper">
-                        {{-- <input type="hidden" name="image_path" id="image_path">
-                        <div class="image-button">
-                            <div class="delete-image hidden">&#215;</div>
-                            <div class="image-button-img">
-                                <img src="{{ asset('/elfcms/admin/modules/shop//images/icons/upload.png') }}" alt="Upload file">
-                            </div>
-                            <div class="image-button-text">
-                                {{ __('elfcms::default.choose_file') }}
-                            </div>
-                            <input type="file" name="image" id="image">
-                        </div> --}}
-                        <x-elfcms-input-image code="image" />
+                        <x-elf-input-file value="" :params="['name' => 'image']" :download="true" />
                     </div>
                 </div>
                 <div class="input-box colored">
@@ -104,18 +81,22 @@
                 </div>
             </div>
             <div class="button-box single-box">
-                <button type="submit" class="default-btn submit-button">{{ __('elfcms::default.submit') }}</button>
+                <button type="submit"
+                    class="button color-text-button success-button">{{ __('elfcms::default.save') }}</button>
+                <button type="submit" name="submit" value="save_and_close"
+                    class="button color-text-button info-button">{{ __('elfcms::default.save_and_close') }}</button>
+                <a href="{{ route('admin.shop.category') }}"
+                    class="button color-text-button">{{ __('elfcms::default.cancel') }}</a>
             </div>
         </form>
     </div>
     <script>
-    const imageInput = document.querySelector('#image')
-    if (imageInput) {
-        inputFileImg(imageInput)
-    }
-    autoSlug('.autoslug')
-    //add editor
-    runEditor('#description')
+        const imageInput = document.querySelector('#image')
+        if (imageInput) {
+            inputFileImg(imageInput)
+        }
+        autoSlug('.autoslug')
+        //add editor
+        runEditor('#description')
     </script>
-
 @endsection

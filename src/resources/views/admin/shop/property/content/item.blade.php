@@ -33,7 +33,7 @@
             <i></i>
         </div> --}}
     </td>
-    <td class="button-column non-text-buttons">
+    <td class="table-button-column">
         <div class="check-delete-wrapper">
             <x-elfcms::ui.checkbox.delete name="property[{{$property->id}}][delete]" id="property_{{$property->id}}_delete" dataid="{{ $property->id }}" title="{{ __('elfcms::default.delete') }}" click="setUnitRowDelete(this)" />
         </div>

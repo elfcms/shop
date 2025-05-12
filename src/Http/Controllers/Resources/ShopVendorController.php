@@ -156,6 +156,6 @@ class ShopVendorController extends Controller
             return redirect(route('admin.shop.vendor'))->withErrors(['vendordelerror'=>__('shop::default.error_of_vendor_deleting')]);
         }
 
-        return redirect(route('admin.shop.vendor'))->with('action_result',__('shop::default.vendor16712_deleted_successfully'));
+        return redirect(route('admin.shop.vendor'))->with('action_result',__('shop::default.vendor_deleted_successfully'));
     }
 }

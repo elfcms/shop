@@ -33,14 +33,6 @@ class SellingController extends Controller
             $this->isAuth = true;
             $this->favorites = ShopFavorite::where('customer_id', $this->customer->id)->get() ?? [];
             $this->number();
-            /* if (!empty($this->user) && !empty($this->user->tmp)) {
-                $tmpUser = TmpUser::where('uuid',$this->user->tmp)->first();
-                if ($tmpUser) {
-                    $tmpFavorites = ShopFavorite::where('tmp_user_id', $tmpUser->id)->get() ?? [];
-                    dd($tmpFavorites);
-                }
-            } */
-            //$this->favoritesMerge();
         }
         else {
             $tmpUserCookie = Cookie::get('tmp_user');

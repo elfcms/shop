@@ -1,22 +1,18 @@
 @extends('elfcms::admin.layouts.main')
 
 @section('pagecontent')
-
-    @if (Session::has('action_result'))
-        <div class="alert alert-success">{{ Session::get('action_result') }}</div>
-    @endif
-    @if ($errors->any())
-    <div class="alert alert-danger">
-        <ul class="errors-list">
-            @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-            @endforeach
-        </ul>
+    <div class="table-search-box">
+        <a href="{{ route('admin.shop.coupon') }}" class="button round-button theme-button"
+            style="color:var(--default-color);">
+            {!! iconHtmlLocal('elfcms/admin/images/icons/buttons/arrow_back.svg', svg: true) !!}
+            <span class="button-collapsed-text">
+                {{ __('elfcms::default.back') }}
+            </span>
+        </a>
     </div>
-    @endif
 
     <div class="item-form">
-        <h3>{{ __('shop::default.create_coupon') }}</h3>
+        <h2>{{ __('shop::default.create_coupon') }}</h2>
         <form action="{{ route('admin.shop.coupon.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
             @method('POST')
@@ -36,7 +32,7 @@
                 <div class="input-box colored">
                     <label for="code">{{ __('elfcms::default.code') }}</label>
                     <div class="input-wrapper">
-                        <input type="text" name="code" id="code" readonly value="{{$code}}">
+                        <input type="text" name="code" id="code" readonly value="{{ $code }}">
                     </div>
                 </div>
                 <div class="input-box colored">
@@ -44,17 +40,25 @@
                     <div class="input-wrapper">
                         <select name="currency_id" id="currency_id">
                             <option value="">{{ __('elfcms::default.none') }}</option>
-                        @foreach ($currencies as $currency)
-                            <option value="{{ $currency->id }}">{{ $currency->name }}</option>
-                        @endforeach
+                            @foreach ($currencies as $currency)
+                                <option value="{{ $currency->id }}">{{ $currency->name }}</option>
+                            @endforeach
                         </select>
                     </div>
                 </div>
                 <div class="input-box colored">
-                    <x-elfcms-input-checkbox code="combine" label="{{ __('shop::default.combine_coupon') }}" style="blue" />
+                    <label for="combine">
+                        {{ __('shop::default.combine_coupon') }}
+                    </label>
+                    <x-elfcms::ui.checkbox.switch name="combine" id="combine" />
+                    {{-- <x-elfcms-input-checkbox code="combine" label="{{ __('shop::default.combine_coupon') }}" style="blue" /> --}}
                 </div>
                 <div class="input-box colored">
-                    <x-elfcms-input-checkbox code="is_percent" label="{{ __('shop::default.is_percent_coupon') }}" style="blue" />
+                    <label for="is_percent">
+                        {{ __('shop::default.is_percent_coupon') }}
+                    </label>
+                    <x-elfcms::ui.checkbox.switch name="is_percent" id="is_percent" />
+                    {{-- <x-elfcms-input-checkbox code="is_percent" label="{{ __('shop::default.is_percent_coupon') }}" style="blue" /> --}}
                 </div>
                 <div class="input-box colored">
                     <label for="value">{{ __('elfcms::default.value') }}</label>
@@ -113,30 +117,35 @@
                     <div class="input-wrapper">
                         <select name="customer_id" id="customer_id">
                             <option value="">{{ __('elfcms::default.none') }}</option>
-                        @foreach ($customers as $customer)
-                            <option value="{{ $customer->id }}">{{ $customer->firstname .' '. $customer->lastname }} [{{ $customer->user?->email }}]</option>
-                        @endforeach
+                            @foreach ($customers as $customer)
+                                <option value="{{ $customer->id }}">{{ $customer->firstname . ' ' . $customer->lastname }}
+                                    [{{ $customer->user?->email }}]</option>
+                            @endforeach
                         </select>
                     </div>
                 </div>
             </div>
             <div class="button-box single-box">
-                <button type="submit" class="default-btn submit-button">{{ __('elfcms::default.submit') }}</button>
+                <button type="submit"
+                    class="button color-text-button success-button">{{ __('elfcms::default.save') }}</button>
+                <button type="submit" name="submit" value="save_and_close"
+                    class="button color-text-button info-button">{{ __('elfcms::default.save_and_close') }}</button>
+                <a href="{{ route('admin.shop.coupon') }}"
+                    class="button color-text-button">{{ __('elfcms::default.cancel') }}</a>
             </div>
         </form>
     </div>
     <script>
-    const imageInput = document.querySelector('#image')
-    if (imageInput) {
-        inputFileImg(imageInput)
-    }
-    const logoInput = document.querySelector('#logo')
-    if (logoInput) {
-        inputFileImg(logoInput)
-    }
-    autoSlug('.autoslug')
-    //add editor
-    //runEditor('#description')
+        const imageInput = document.querySelector('#image')
+        if (imageInput) {
+            inputFileImg(imageInput)
+        }
+        const logoInput = document.querySelector('#logo')
+        if (logoInput) {
+            inputFileImg(logoInput)
+        }
+        autoSlug('.autoslug')
+        //add editor
+        //runEditor('#description')
     </script>
-
 @endsection

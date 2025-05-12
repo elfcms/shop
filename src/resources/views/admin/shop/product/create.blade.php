@@ -2,7 +2,7 @@
 
 @section('pagecontent')
     <div class="table-search-box">
-        <a href="{{ route('admin.shop.product') }}" class="button round-button theme-button" style="color:var(--);">
+        <a href="{{ route('admin.shop.product') }}" class="button round-button theme-button" style="color:var(--default-color);">
             {!! iconHtmlLocal('elfcms/admin/images/icons/buttons/arrow_back.svg', svg: true) !!}
             <span class="button-collapsed-text">
                 {{ __('elfcms::default.back') }}
@@ -25,11 +25,20 @@
                 <div class="input-box colored">
                     <label for="category_id">{{ __('shop::default.categories') }}</label>
                     <div class="input-wrapper">
-                        <select name="category_id[]" id="category_id" multiple required>
+                        {{-- <select name="category_id[]" id="category_id" multiple required>
                             @foreach ($categories as $category)
                                 <option value="{{ $category->id }}">{{ $category->title }}</option>
                             @endforeach
-                        </select>
+                        </select> --}}
+                        <div class="choosing-box">
+                            @foreach ($categories as $category)
+                                <div class="choosing-line">
+                                    <x-elfcms::ui.checkbox.classic name="category_id[]" id="category_{{ $category->id }}"
+                                        value="{{ $category->id }}" color="var(--default-color)" />
+                                    <label for="category_{{ $category->id }}">{{ $category->title }}</label>
+                                </div>
+                            @endforeach
+                        </div>
                     </div>
                 </div>
                 <div class="input-box colored">
@@ -107,10 +116,12 @@
                 </div>
             </div>
             <div class="button-box single-box">
-                <button type="submit" class="button color-text-button success-button">{{ __('elfcms::default.submit') }}</button>
+                <button type="submit"
+                    class="button color-text-button success-button">{{ __('elfcms::default.save') }}</button>
                 <button type="submit" name="submit" value="save_and_close"
                     class="button color-text-button info-button">{{ __('elfcms::default.save_and_close') }}</button>
-                <a href="{{ route('admin.shop.product') }}" class="button color-text-button">{{ __('elfcms::default.cancel') }}</a>
+                <a href="{{ route('admin.shop.product') }}"
+                    class="button color-text-button">{{ __('elfcms::default.cancel') }}</a>
             </div>
         </form>
     </div>

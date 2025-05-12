@@ -3,9 +3,9 @@
 @section('pagecontent')
 
 <div class="item-form">
-    <h3>
+    <h2>
         {{ $customer->firstname . ' ' . $customer->lastname }}
-    </h3>
+    </h2>
     <div class="date-info create-info">
         {{ __('elfcms::default.created_at') }}: {{ $customer->created }}
     </div>
