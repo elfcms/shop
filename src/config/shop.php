@@ -10,7 +10,16 @@ return [
     |
     */
 
-    'version' => '0.12.2',
+    'version' => '1.0.1',
+    'developer' => 'Maxim Klassen',
+    'license' => 'MIT',
+    'author' => 'Maxim Klassen',
+    'title' => 'Gallery',
+    'description' => '',
+    'url' => '',
+    'github' => 'https://github.com/elfcms/shop',
+    'release_status' => 'stable',
+    'release_date' => '2025',
 
     /*
     |--------------------------------------------------------------------------
@@ -21,7 +30,7 @@ return [
     |
     */
 
-    'basic_package' => '2.0.5',
+    'basic_package' => '3.0.11',
 
     /*
     |--------------------------------------------------------------------------
