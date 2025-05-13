@@ -10,7 +10,7 @@ return [
     |
     */
 
-    'version' => '1.0.1',
+    'version' => '1.0.2',
     'developer' => 'Maxim Klassen',
     'license' => 'MIT',
     'author' => 'Maxim Klassen',
@@ -47,7 +47,7 @@ return [
             "lang_title" => "shop::default.shop",
             "route" => "admin.shop.product",
             "parent_route" => "admin.shop",
-            "icon" => "/elfcms/admin/modules/shop/images/icons/shop.png",
+            "icon" => "/elfcms/admin/modules/shop/images/icons/shop.svg",
             "color" => "#0064ff",
             "second_color" => "#008dfd",
             "position" => 500,

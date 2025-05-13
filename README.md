@@ -1,31 +1,40 @@
-## Shop package for ELF CMS
+🇩🇪 [Deutsch](README.de.md) | 🇷🇺 [Русский](README.ru.md)
 
-You can install the package from scratch or into an existing project
+---
+# Shop (E-commerce Module)
 
-### Installation in an existing project
+The Shop module provides full e-commerce functionality for ELF CMS.
 
-Install the package ELF CMS Shop
-```sh
-composer require elfcms/shop
-```
+## 🚀 Features
 
-### Installation from scratch
+- Product and category management
+- Product attributes, variants (SKU), images, and descriptions
+- Shopping cart and checkout process
+- Shipping and payment methods
+- Order and customer management
+- Integration with other modules (Users, Notifications, Forms, etc.)
 
-Create a new Laravel project
-```sh
-composer create-project laravel/laravel your-project-name
-```
+## 📦 Installation
 
-Set up a database connection in a file .env
-```
-DB_DATABASE=dbname
-DB_USERNAME=dbuser
-DB_PASSWORD=dbpassword
-```
+This module is proprietary and not available in open access.
 
-Install the package ELF CMS Shop
-```sh
-composer require elfcms/shop
-```
+You can obtain it:
+- For free when ordering an online store project with ELF Digital
+- Or by purchasing a separate license via info@elfweb.de
 
-Go to the /admin page of your project to complete the initial setup
+## ⚙️ Usage
+
+After installation, the module will appear in the ELF CMS admin panel.  
+Requires core modules like Users, Roles, Forms, and E-Mail Events.
+
+## 🧩 Requirements
+
+- Laravel >= 10.0  
+- PHP >= 8.1  
+- ELF CMS >= 3.0.11
+
+## 🪪 License
+
+Proprietary (commercial). Unauthorized usage is prohibited.
+
+> ⚠️ **Note:** This module is commercial and **not covered** by the MIT License. Use is permitted only under a separate license agreement.

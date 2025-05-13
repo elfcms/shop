@@ -1,0 +1,15 @@
+ELF CMS Shop Modul – Kommerzielle Lizenz
+
+Urheberrecht (c) Maxim Klassen
+
+Dieses Modul ist proprietär und wird nicht unter einer Open-Source-Lizenz veröffentlicht.
+
+Sie dürfen dieses Modul nicht verwenden, kopieren, ändern oder weitergeben, ohne eine gültige kommerzielle Lizenz zu erwerben oder eine ausdrückliche Genehmigung des Autors zu erhalten.
+
+Dieses Modul kann wie folgt bezogen werden:
+- Kostenlos bei Beauftragung eines Onlineshops bei ELF Digital
+- Oder durch kostenpflichtige Lizenz via info@elfweb.de
+
+Jegliche unbefugte Nutzung, Weitergabe oder Modifikation ist untersagt und kann rechtliche Konsequenzen nach sich ziehen.
+
+Vielen Dank für die Wertschätzung der Arbeit des Autors.

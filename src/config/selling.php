@@ -16,7 +16,7 @@ return [
             "lang_title" => "shop::default.selling",
             "route" => "admin.selling.customers",
             "parent_route" => "admin.selling",
-            "icon" => "/elfcms/admin/modules/shop/images/icons/bag.png",
+            "icon" => "/elfcms/admin/modules/shop/images/icons/bag.svg",
             "color" => "#0064ff",
             "second_color" => "#008dfd",
             "position" => 600,

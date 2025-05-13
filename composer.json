@@ -1,8 +1,9 @@
 {
     "name": "elfcms/shop",
-    "description": "",
+    "description": "The Shop module provides full e-commerce functionality for ELF CMS.",
     "minimum-stability": "stable",
-    "license": "MIT",
+    "license": "proprietary",
+    "version": "1.0.2",
     "authors": [
         {
             "name": "Maxim Klassen",

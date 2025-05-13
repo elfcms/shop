@@ -81,8 +81,8 @@
                         enctype="multipart/form-data" name="trackingform" id="trackingform">
                         @csrf
                         @method('PUT') --}}
-                        <button type="submit" id="tracking_submit" class="default-btn submit-button"
-                            disabled form="orderform">{{ __('elfcms::default.submit') }}</button>
+                    <button type="submit" id="tracking_submit" class="button color-text-button success-button" disabled
+                        form="orderform">{{ __('elfcms::default.save') }}</button>
                     {{-- </form> --}}
                 </div>
             </div>
@@ -115,197 +115,202 @@
             <button type="submit" class="default-btn submit-button">{{ __('elfcms::default.submit') }}</button>
         </div> --}}
         {{-- </form> --}}
-        <table class="grid-table table-cols-10" style="--first-col:65px; --minw:800px;">
-            <thead>
-                <tr>
-                    <th>
-                        ID
-                    </th>
-                    <th>
-                        {{ __('shop::default.product') }}
-                    </th>
-                    <th>
-                        {{ __('shop::default.item') }}
-                    </th>
-                    <th>
-                        {{ __('shop::default.price') }}
-                    </th>
-                    <th>
-                        {{ __('shop::default.discount_price') }}
-                    </th>
-                    <th>
-                        {{ __('shop::default.price_with_discont') }}
-                    </th>
-                    <th>
-                        {{ __('shop::default.quantity') }}
-                    </th>
-                    <th>
-                        {{ __('shop::default.start_sum') }}
-                    </th>
-                    <th>
-                        {{ __('shop::default.discount_sum') }}
-                    </th>
-                    <th>
-                        {{ __('shop::default.result_sum') }}
-                    </th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach ($items as $item)
-                    <tr data-id="{{ $item->id }}">
-                        <td>
-                            {{ $item->id }}
-                        </td>
-                        <td>
-                            <a
-                                href="{{ route('admin.shop.product.edit', $item->product) }}">{{ $item->product->title }}</a>
-                        </td>
-                        <td>
-                            <a href="{{ route('admin.shop.item.edit', $item->id) }}">{{ $item->name }}</a>
-                        </td>
-                        <td class="right-text">
-                            {{ $item->net_price }}
-                        </td>
-                        <td class="right-text">
-                            {{ $item->discount_price }}
-                        </td>
-                        <td class="right-text">
-                            {{ $item->price }}
-                        </td>
-                        <td class="right-text">
-                            {{ $item->quantity }}
-                        </td>
-                        <td class="right-text">
-                            {{ $item->start_sum }}
-                        </td>
-                        <td class="right-text">
-                            {{ $item->discount_sum }}
-                        </td>
-                        <td class="right-text">
-                            {{ $item->result_sum }}
-                        </td>
-                    </tr>
-                @endforeach
-                <tr class="table-total-line">
-                    <td colspan="6">
-                        {{ __('shop::default.total') }}
-                    </td>
-                    <td class="right-text">
-                        {{ $result->quantity }}
-                    </td>
-                    <td class="right-text">
-                        {{ number_format($result->start_sum, 2, ',', '.') }}
-                    </td>
-                    <td class="right-text">
-                        {{ number_format($result->discount_sum, 2, ',', '.') }}
-                    </td>
-                    <td class="right-text">
-                        {{ number_format($result->result_sum, 2, ',', '.') }}
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="6">
-                        {{ __('shop::default.order_data') }}
-                    </td>
-                    <td @class([
-                        'right-text',
-                        'red-text' => $order->total_quantity != $result->quantity,
-                    ])>
-                        {{ $order->total_quantity }}
-                    </td>
-                    <td @class([
-                        'right-text',
-                        'red-text' => $order->start_sum != $result->start_sum,
-                    ])>
-                        {{ number_format($order->start_sum, 2, ',', '.') }}
-                    </td>
-                    <td @class([
-                        'right-text',
-                        'red-text' => $order->discount_sum != $result->discount_sum,
-                    ])>
-                        {{ number_format($order->discount_sum, 2, ',', '.') }}
-                    </td>
-                    <td @class([
-                        'right-text',
-                        'red-text' => $order->clear_sum != round($result->result_sum, 2),
-                    ])>
-                        {{ number_format($order->clear_sum, 2, ',', '.') }}
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="9">
-                        {{ __('shop::default.delivery') }}
-                    </td>
-                    <td class="right-text">
-                        {{ number_format($order->delivery_sum, 2, ',', '.') }}
-                    </td>
-                </tr>
-                <tr class="table-total-line">
-                    <td colspan="9">
-                        {{ __('shop::default.in_total') }}
-                    </td>
-                    <td class="right-text">
-                        {{ number_format($order->result_sum, 2, ',', '.') }}
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-        <h3>{{ __('shop::default.invoices') }}</h3>
-        @if (empty($order->invoices))
-            {{ __('elfcms::default.nothing_was_found') }}
-        @else
-            <table class="grid-table table-cols-5">
+        <div class="grid-table-wrapper">
+            <table class="grid-table table-cols" style="--first-col:65px; --minw:800px; --cols-count:10;">
                 <thead>
                     <tr>
                         <th>
-                            {{ __('shop::default._number') }}
+                            ID
                         </th>
                         <th>
-                            {{ __('elfcms::default.created_at') }}
+                            {{ __('shop::default.product') }}
                         </th>
                         <th>
-                            {{ __('shop::default.status') }}
+                            {{ __('shop::default.item') }}
                         </th>
-                        <th></th>
-                        <th></th>
+                        <th>
+                            {{ __('shop::default.price') }}
+                        </th>
+                        <th>
+                            {{ __('shop::default.discount_price') }}
+                        </th>
+                        <th>
+                            {{ __('shop::default.price_with_discont') }}
+                        </th>
+                        <th>
+                            {{ __('shop::default.quantity') }}
+                        </th>
+                        <th>
+                            {{ __('shop::default.start_sum') }}
+                        </th>
+                        <th>
+                            {{ __('shop::default.discount_sum') }}
+                        </th>
+                        <th>
+                            {{ __('shop::default.result_sum') }}
+                        </th>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($order->invoices as $invoice)
-                        <tr>
+                    @foreach ($items as $item)
+                        <tr data-id="{{ $item->id }}">
                             <td>
-                                {{ $invoice->number }}
+                                {{ $item->id }}
                             </td>
                             <td>
-                                {{ $invoice->created_at }}
+                                <a
+                                    href="{{ route('admin.shop.product.edit', $item->product) }}">{{ $item->product->title }}</a>
                             </td>
                             <td>
-                                {{ $invoice->status->name }}
+                                <a href="{{ route('admin.shop.item.edit', $item->id) }}">{{ $item->name }}</a>
                             </td>
-                            <td>
-                                @if ($invoice->status->code == 'N')
-                                    <form action="{{ route('admin.selling.pay-invoice', $invoice) }}" method="post">
-                                        @csrf
-                                        @method('POST')
-                                        <button type="submit"
-                                            class="default-btn success-button">{{ __('shop::default.invoice_paid') }}</button>
-                                    </form>
-                                @endif
+                            <td class="right-text">
+                                {{ $item->net_price }}
                             </td>
-                            <td>
-                                @if ($invoice->status->code == 'N')
-                                    <form action="{{ route('admin.selling.cancel-invoice', $invoice) }}" method="post">
-                                        @csrf
-                                        @method('POST')
-                                        <button type="submit"
-                                            class="default-btn warning-button">{{ __('shop::default.cancel_invoice') }}</button>
-                                    </form>
-                                @endif
+                            <td class="right-text">
+                                {{ $item->discount_price }}
+                            </td>
+                            <td class="right-text">
+                                {{ $item->price }}
+                            </td>
+                            <td class="right-text">
+                                {{ $item->quantity }}
+                            </td>
+                            <td class="right-text">
+                                {{ $item->start_sum }}
+                            </td>
+                            <td class="right-text">
+                                {{ $item->discount_sum }}
+                            </td>
+                            <td class="right-text">
+                                {{ $item->result_sum }}
                             </td>
                         </tr>
                     @endforeach
+                    <tr class="table-total-line">
+                        <td colspan="6">
+                            {{ __('shop::default.total') }}
+                        </td>
+                        <td class="right-text">
+                            {{ $result->quantity }}
+                        </td>
+                        <td class="right-text">
+                            {{ number_format($result->start_sum, 2, ',', '.') }}
+                        </td>
+                        <td class="right-text">
+                            {{ number_format($result->discount_sum, 2, ',', '.') }}
+                        </td>
+                        <td class="right-text">
+                            {{ number_format($result->result_sum, 2, ',', '.') }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="6">
+                            {{ __('shop::default.order_data') }}
+                        </td>
+                        <td @class([
+                            'right-text',
+                            'red-text' => $order->total_quantity != $result->quantity,
+                        ])>
+                            {{ $order->total_quantity }}
+                        </td>
+                        <td @class([
+                            'right-text',
+                            'red-text' => $order->start_sum != $result->start_sum,
+                        ])>
+                            {{ number_format($order->start_sum, 2, ',', '.') }}
+                        </td>
+                        <td @class([
+                            'right-text',
+                            'red-text' => $order->discount_sum != $result->discount_sum,
+                        ])>
+                            {{ number_format($order->discount_sum, 2, ',', '.') }}
+                        </td>
+                        <td @class([
+                            'right-text',
+                            'red-text' => $order->clear_sum != round($result->result_sum, 2),
+                        ])>
+                            {{ number_format($order->clear_sum, 2, ',', '.') }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="9">
+                            {{ __('shop::default.delivery') }}
+                        </td>
+                        <td class="right-text">
+                            {{ number_format($order->delivery_sum, 2, ',', '.') }}
+                        </td>
+                    </tr>
+                    <tr class="table-total-line">
+                        <td colspan="9">
+                            {{ __('shop::default.in_total') }}
+                        </td>
+                        <td class="right-text">
+                            {{ number_format($order->result_sum, 2, ',', '.') }}
+                        </td>
+                    </tr>
                 </tbody>
             </table>
+        </div>
+        <h4>{{ __('shop::default.invoices') }}</h4>
+        @if (empty($order->invoices))
+            {{ __('elfcms::default.nothing_was_found') }}
+        @else
+            <div class="grid-table-wrapper">
+                <table class="grid-table table-cols" style="--cols-count:5;">
+                    <thead>
+                        <tr>
+                            <th>
+                                {{ __('shop::default._number') }}
+                            </th>
+                            <th>
+                                {{ __('elfcms::default.created_at') }}
+                            </th>
+                            <th>
+                                {{ __('shop::default.status') }}
+                            </th>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($order->invoices as $invoice)
+                            <tr>
+                                <td>
+                                    {{ $invoice->number }}
+                                </td>
+                                <td>
+                                    {{ $invoice->created_at }}
+                                </td>
+                                <td>
+                                    {{ $invoice->status->name }}
+                                </td>
+                                <td>
+                                    @if ($invoice->status->code == 'N')
+                                        <form action="{{ route('admin.selling.pay-invoice', $invoice) }}" method="post">
+                                            @csrf
+                                            @method('POST')
+                                            <button type="submit"
+                                                class="button color-text-button success-button">{{ __('shop::default.invoice_paid') }}</button>
+                                        </form>
+                                    @endif
+                                </td>
+                                <td>
+                                    @if ($invoice->status->code == 'N')
+                                        <form action="{{ route('admin.selling.cancel-invoice', $invoice) }}"
+                                            method="post">
+                                            @csrf
+                                            @method('POST')
+                                            <button type="submit"
+                                                class="button color-text-button danger-button">{{ __('shop::default.cancel_invoice') }}</button>
+                                        </form>
+                                    @endif
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
         @endif
         @if ($can)
             <div class="button-box single-box">

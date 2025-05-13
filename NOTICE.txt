@@ -1,0 +1,15 @@
+ELF CMS Shop Module – Commercial License Notice
+
+Copyright (c) Maxim Klassen
+
+This module is proprietary and not distributed under an open-source license.
+
+You are not allowed to use, copy, modify, or distribute this module without purchasing a valid commercial license or receiving explicit permission from the author.
+
+This module can be obtained:
+- Free of charge when ordering an online store from ELF Digital
+- Or via a paid license by contacting: info@elfweb.de
+
+Any unauthorized use, distribution, or modification is strictly prohibited and may result in legal consequences.
+
+Thank you for respecting the author's work.
